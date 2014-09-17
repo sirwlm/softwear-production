@@ -32,6 +32,14 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -43,3 +51,12 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'inherited_resources'
+gem 'autoprefixer-rails'
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap_form'
+gem 'paperclip', '~> 4.2'
+gem 'figaro'
+gem 'activeresource'
+gem 'fullcalendar-rails'

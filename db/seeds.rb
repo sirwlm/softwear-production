@@ -3,5 +3,8 @@
 #
 # Examples:
 #
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+
+o = Order.create(softwear_crm_id: 1)
+j = Job.create(softwear_crm_id: 1, order_id: o.id)
+Imprint.create(softwear_crm_id: 1, job_id: j.id)
+Imprint.create(softwear_crm_id: 1, job_id: j.id)

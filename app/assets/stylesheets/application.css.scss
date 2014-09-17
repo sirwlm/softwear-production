@@ -10,4 +10,8 @@
  *
  *= require_self
  *= require_tree .
+ *= require fullcalendar
  */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
