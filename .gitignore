@@ -7,6 +7,7 @@ capybara-*.html
 /public/system
 /coverage/
 /spec/tmp
+**.yml
 **.orig
 rerun.txt
 pickle-email-*.html
@@ -29,3 +30,4 @@ config/secrets.yml
 /vendor/assets/bower_components
 *.bowerrc
 bower.json
+.idea
