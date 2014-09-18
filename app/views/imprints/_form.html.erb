@@ -1,3 +1,15 @@
+<% if imprint.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(imprint.errors.count, "error") %> prohibited this crap from being saved:</h2>
+
+      <ul>
+        <% imprint.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+
 <%= form_for(imprint, role: 'form') do |f| %>
     <div class="form-group">
       <%= f.label :machine_id, 'Machine' %>

@@ -9,7 +9,7 @@ class Imprint < ActiveRecord::Base
   belongs_to :machine
 
   # validation macros
-  validates :machine, presence: true, allow_blank: false, if: :scheduled?
+  validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
 
   # callbacks
 
