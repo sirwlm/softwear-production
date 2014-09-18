@@ -1,0 +1,27 @@
+<h1>Listing imprints</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Machine</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @imprints.each do |imprint| %>
+      <tr>
+        <td><%= imprint.id %></td>
+        <td><%= imprint.machine_name %></td>
+        <td><%= link_to 'Show', imprint %>
+        <%= link_to 'Edit', edit_imprint_path(imprint) %>
+        <%= link_to 'Destroy', imprint, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Imprint', new_imprint_path %>

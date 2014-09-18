@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917181742) do
+ActiveRecord::Schema.define(version: 20140917193352) do
 
   create_table "imprints", force: true do |t|
     t.integer  "softwear_crm_id"
@@ -20,11 +20,20 @@ ActiveRecord::Schema.define(version: 20140917181742) do
     t.decimal  "estimated_time",  precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "machine_id"
   end
+
+  add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
 
   create_table "jobs", force: true do |t|
     t.integer  "softwear_crm_id"
     t.integer  "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "machines", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

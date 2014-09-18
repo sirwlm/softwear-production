@@ -12,9 +12,29 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require jquery
+//= require js-routes
 //= require bootstrap-sprockets
 //= require fullcalendar
+//= require moment
+//= require bootstrap-datetimepicker
 
 //= require_tree .
+
+function getUTCDate() {
+    return moment($('#sdate').val()).utc().format('YYYY-MM-DDTHH:mm:ssZZ');
+}
+
+
+$( document ).ready(function() {
+    $('.datetimepicker-standard').datetimepicker();
+
+
+    $("form").submit(function(){
+        input = $(".datetimepicker-standard > input");
+        if(input.size() > 0 && input.val() != '') {
+           val = input.val();
+           input.val(getUTCDate(val));
+        }
+    });
+});

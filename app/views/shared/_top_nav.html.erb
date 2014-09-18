@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
+  <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -16,19 +16,22 @@
       <ul class="nav navbar-nav">
         <li><%= link_to 'Dashboard', root_path %></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Schedules <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Calendar <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Master</a></li>
+            <li><%= link_to 'Master', dashboard_calendar_path %></li>
             <li class="divider"></li>
-            <li><a href="#">Diamondback</a></li>
-            <li><a href="#">Challenger</a></li>
-            <li><a href="#">Chameleon</a></li>
-            <li class="divider"></li>
-            <li><a href="#">GT3</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Embroidery</a></li>
+            <% @machines.each do |machine| %>
+                <li><%= link_to machine.name, machine_path(machine) %></li>
+            <% end %>
           </ul>
         </li>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          <li><%= link_to 'Machines', machines_path %></li>
+        </ul>
+        </li>
+        <li><%= link_to 'Imprints', imprints_path %></li>
       </ul>
       <!--<form class="navbar-form navbar-left" role="search">
         <div class="form-group">
