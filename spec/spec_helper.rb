@@ -4,40 +4,58 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'shoulda/matchers'
 
-# Requires supporting ruby files with custom matchers and macros, etc, in
-# spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
-# run as spec files by default. This means that files in spec/support that end
-# in _spec.rb will both be required and run as specs, causing the specs to be
-# run twice. It is recommended that you do not name files matching this glob to
-# end with _spec.rb. You can configure this pattern with the --pattern
-# option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
-# Checks for pending migrations before tests are run.
-# If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.color = true
+  config.infer_spec_type_from_file_location!
+  config.mock_with :rspec
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
+  # examples within a transaction, comment the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
-  # RSpec Rails can automatically mix in different behaviours to your tests
-  # based on their file location, for example enabling you to call `get` and
-  # `post` in specs under `spec/controllers`.
-  #
-  # You can disable this behaviour by removing the line below, and instead
-  # explicitly tag your specs with their type, e.g.:
-  #
-  #     RSpec.describe UsersController, :type => :controller do
-  #       # ...
-  #     end
-  #
-  # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
+  # A workaround to deal with random failure caused by phantomjs. Turn it on
+  # by setting ENV['RSPEC_RETRY_COUNT']. Limit it to features tests where
+  # phantomjs is used.
+  config.before(:all, :type => :feature) do
+    if ENV['RSPEC_RETRY_COUNT']
+      config.verbose_retry       = true # show retry status in spec process
+      config.default_retry_count = ENV['RSPEC_RETRY_COUNT'].to_i
+    end
+  end
+
+  config.before :suite do
+    Capybara.match = :prefer_exact
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  config.before(:each) do
+    Rails.cache.clear
+    if RSpec.current_example.metadata[:js]
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+    end
+
+    if ActiveRecord::Base.connection.open_transactions < 0
+      ActiveRecord::Base.connection.increment_open_transactions
+    end
+
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    # Ensure js requests finish processing before advancing to the next test
+    wait_for_ajax if RSpec.current_example.metadata[:js]
+
+    DatabaseCleaner.clean
+  end
+
+
+  config.include FactoryGirl::Syntax::Methods
   config.infer_spec_type_from_file_location!
 end

@@ -17,7 +17,8 @@ ActiveRecord::Schema.define(version: 20140917193352) do
     t.integer  "softwear_crm_id"
     t.integer  "job_id"
     t.datetime "scheduled_at"
-    t.decimal  "estimated_time",  precision: 10, scale: 2
+    t.datetime "estimated_end_at"
+    t.decimal  "estimated_time",   precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "machine_id"

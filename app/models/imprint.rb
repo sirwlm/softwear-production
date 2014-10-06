@@ -1,5 +1,6 @@
 class Imprint < ActiveRecord::Base
   # Scopes
+  scope :scheduled, where.not( scheduled_at: :blank? )
 
   # Constants
 
@@ -10,14 +11,12 @@ class Imprint < ActiveRecord::Base
 
   # validation macros
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
+  validate :schedule_conflict?
 
   # callbacks
+  before_save :assign_estimated_end_at
 
   # other macros (like devise's)
-
-  def estimated_end_at
-    scheduled_at + estimated_time.hours rescue nil
-  end
 
   def scheduled?
     !scheduled_at.blank?
@@ -28,5 +27,13 @@ class Imprint < ActiveRecord::Base
   end
 
   private
+
+  def schedule_conflict?
+
+  end
+
+  def assign_estimated_end_at
+    self.estimated_end_at = (scheduled_at + estimated_time.hours rescue nil)
+  end
 
 end

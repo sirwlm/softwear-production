@@ -1,5 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe Machine, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Imprint, type: :model do
+  describe 'Relationships' do
+    it { is_expected.to belong_to(:machine) }
+  end
+
+
+
 end

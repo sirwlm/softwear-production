@@ -15,30 +15,50 @@ $(document).ready(function() {
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
-        allDay: false,
-        defaultDate: '2014-09-12',
-        selectable: true,
-        selectHelper: true,
-        select: function(start, end) {
-            var title = prompt('Event Title:');
-            var eventData;
-            if (title) {
-                eventData = {
-                    title: title,
-                    start: start,
-                    end: end,
-                };
-                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+        events: [
+            {
+                title: 'My Event',
+                start: '2014-09-19',
+                url: 'http://google.com/'
             }
-            $('#calendar').fullCalendar('unselect');
-        },
-        editable: true,
-        eventLimit: true, // allow "more" link when too many events
-        events: {
-            url: Routes.machine_scheduled_path( getMachineId(), { format: 'json' })
+            // other events here
+        ],
+        eventClick: function(event) {
+            if (event.url) {
+                $.ajax({
+                    url: '/imprints/1',
+                    dataType: 'script'
+                });
+                $('#contentModal').modal('show');
+                return false;
+            }
         }
-
     });
+//    $('#machine-calendar').fullCalendar({
+//
+//        selectable: true,
+//        selectHelper: true,
+//        select: function(start, end) {
+//            var title = prompt('Event Title:');
+//            var eventData;
+//            if (title) {
+//                eventData = {
+//                    title: title,
+//                    start: start,
+//                    end: end,
+//                    allDay: false
+//                };
+//                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+//            }
+//            $('#calendar').fullCalendar('unselect');
+//        },
+//        editable: true,
+//        eventLimit: true, // allow "more" link when too many events
+//        events: {
+//            url: Routes.machine_scheduled_path( getMachineId(), { format: 'json' })
+//        }
+//
+//    });
 
 });
 
