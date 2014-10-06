@@ -5,7 +5,8 @@ set :repo_url, 'git@github.com:annarbortees/softwear-production.git'
 set :rvm_ruby_version, '2.1.1'
 
 # Default branch is :master
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/home/ubuntu/RailsApps/production.softwearcrm.com'
@@ -23,7 +24,7 @@ set :deploy_to, '/home/ubuntu/RailsApps/production.softwearcrm.com'
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, %w{config/database.yml}
+set :linked_files, %w{config/database.yml}
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
