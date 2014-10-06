@@ -15,7 +15,7 @@ role :db,  %w{ubuntu@staging.production.softwearcrm.com}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'staging.production.softwearcrm.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
+server 'staging.production.softwearcrm.com', user: 'ubuntu', roles: %w{web app}, my_property: :my_value
 
 
 # Custom SSH Options
