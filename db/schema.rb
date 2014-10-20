@@ -11,14 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141020161250) do
+ActiveRecord::Schema.define(version: 20141020161948) do
 
   create_table "api_settings", force: true do |t|
-    t.string "endpoint"
-    t.string "site_name"
-    t.string "auth_token"
-    t.string "homepage"
+    t.string   "endpoint"
+    t.string   "auth_token"
+    t.string   "homepage"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "api_settings", ["slug"], name: "index_api_settings_on_slug", unique: true, using: :btree
 
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false

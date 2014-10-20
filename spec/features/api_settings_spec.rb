@@ -16,7 +16,7 @@ feature 'API Settings Management', api_spec: true, story_201: true do
         click_button 'Submit'
 
         expect(page).to have_selector 'Success'
-        crm_setting = ApiSetting.find_by(site_name: 'crm')
+        crm_setting = ApiSetting.find_by(slug: 'crm')
 
         expect(crm_setting).to_not be_nil
         expect(crm_setting.endpoint).to eq 'http://totally-a-real-endpoint.com/api'

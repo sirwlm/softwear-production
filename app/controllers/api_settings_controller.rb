@@ -7,6 +7,10 @@ class ApiSettingsController < InheritedResources::Base
     end
   end
 
+  def show
+    redirect_to action: :edit
+  end
+
   def edit
     @api_setting = ApiSetting.friendly.find(params[:id])
   end
@@ -15,7 +19,7 @@ class ApiSettingsController < InheritedResources::Base
 
   def permitted_params
     params.permit({
-      api_setting: [:endpoint, :auth_token, :homepage, :site_name]
+      api_setting: [:endpoint, :auth_token, :homepage, :slug]
     })
   end
 end
