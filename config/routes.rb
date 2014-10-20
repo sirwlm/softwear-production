@@ -12,4 +12,6 @@ SoftwearProduction::Application.routes.draw do
 
   end
 
+  resources :api_settings
+
 end

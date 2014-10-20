@@ -32,6 +32,7 @@ group :test do
   gem 'timecop'
   gem 'with_model'
   gem 'shoulda-matchers'
+  gem 'selenium-webdriver'
 end
 
 
