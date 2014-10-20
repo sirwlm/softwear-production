@@ -33,6 +33,7 @@ group :test do
   gem 'with_model'
   gem 'shoulda-matchers'
   gem 'selenium-webdriver'
+  gem 'endpoint_stub', github: 'AnnArborTees/endpoint_stub', branch: 'develop'
 end
 
 
