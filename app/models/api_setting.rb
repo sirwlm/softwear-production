@@ -4,7 +4,12 @@ class ApiSetting < ActiveRecord::Base
 
   VALID_NAMES = %w(crm)
 
-  validates :endpoint, presence: true
+  validates :endpoint, presence: true, format: { with: URI.regexp }
+  validates :homepage, format: { with: URI.regexp }
   validates :auth_token, presence: true
   validates :slug, uniqueness: true, inclusion: { in: VALID_NAMES, message: 'Not a valid site' }
+
+  def self.crm
+    find_by(slug: 'crm')
+  end
 end

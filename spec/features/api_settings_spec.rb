@@ -3,8 +3,8 @@ require 'spec_helper'
 feature 'API Settings Management', api_spec: true, story_201: true do
   context 'CRM Settings' do
     context 'when a crm settings record does not exist' do
-      scenario 'A user can change and save them', js: true do
-        visit '/'
+      scenario 'A user can create one', js: true do
+        visit root_path
         click_link 'Admin'
 
         click_link 'CRM Settings'
