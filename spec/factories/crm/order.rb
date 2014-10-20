@@ -4,7 +4,7 @@ FactoryGirl.define do
       'Crap Order', 'Expensive Order'][n%5]
   end
 
-  factory :order, class: Crm::Order do
+  factory :crm_order, class: Crm::Order do
     name { generate :name }
     sequence(:email) { |n| "order_email_#{n}@gmail.com" }
     company 'Test Company'
