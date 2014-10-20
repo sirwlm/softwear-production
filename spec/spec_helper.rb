@@ -18,10 +18,16 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
+  # Use chrome instead of firefox
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, :browser => :chrome)
+  end
+
   # A workaround to deal with random failure caused by phantomjs. Turn it on
   # by setting ENV['RSPEC_RETRY_COUNT']. Limit it to features tests where
   # phantomjs is used.
   config.before(:all, :type => :feature) do
+    WebMock.disable!
     if ENV['RSPEC_RETRY_COUNT']
       config.verbose_retry       = true # show retry status in spec process
       config.default_retry_count = ENV['RSPEC_RETRY_COUNT'].to_i

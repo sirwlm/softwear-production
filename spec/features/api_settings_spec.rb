@@ -7,15 +7,15 @@ feature 'API Settings Management', api_spec: true, story_201: true do
         visit root_path
         click_link 'Admin'
 
-        click_link 'CRM Settings'
+        click_link 'Crm Api Settings'
 
         fill_in 'Endpoint', with: 'http://totally-a-real-endpoint.com/api'
-        fill_in 'Authorization Token', with: 'awejiopjf3498fjqwa'
+        fill_in 'Auth token', with: 'awejiopjf3498fjqwa'
         fill_in 'Homepage', with: 'http://softwearcrm.com/'
 
-        click_button 'Submit'
+        click_button 'Create Api setting'
 
-        expect(page).to have_selector 'Success'
+        expect(page).to have_content 'Hooray!'
         crm_setting = ApiSetting.find_by(slug: 'crm')
 
         expect(crm_setting).to_not be_nil
