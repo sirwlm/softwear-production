@@ -92,6 +92,8 @@ GEM
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
+    friendly_id (5.0.4)
+      activerecord (>= 4.0.0)
     fullcalendar-rails (1.6.4.0)
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
@@ -258,6 +260,7 @@ DEPENDENCIES
   email_spec
   factory_girl_rails (~> 4.4)
   figaro
+  friendly_id (~> 5.0.0)
   fullcalendar-rails
   inherited_resources
   jbuilder (~> 1.2)
