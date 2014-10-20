@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141020161948) do
+ActiveRecord::Schema.define(version: 20141020191228) do
 
   create_table "api_settings", force: true do |t|
     t.string   "endpoint"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20141020161948) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "auth_email"
   end
 
   add_index "api_settings", ["slug"], name: "index_api_settings_on_slug", unique: true, using: :btree

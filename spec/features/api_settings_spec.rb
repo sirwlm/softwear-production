@@ -10,6 +10,7 @@ feature 'API Settings Management', api_spec: true, story_201: true do
         click_link 'Crm Api Settings'
 
         fill_in 'Endpoint', with: 'http://totally-a-real-endpoint.com/api'
+        fill_in 'Auth email', with: 'test@crm.com'
         fill_in 'Auth token', with: 'awejiopjf3498fjqwa'
         fill_in 'Homepage', with: 'http://softwearcrm.com/'
 
