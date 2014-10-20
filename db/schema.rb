@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917193352) do
+ActiveRecord::Schema.define(version: 20141020153316) do
+
+  create_table "api_settings", force: true do |t|
+    t.string "endpoint"
+    t.string "site_name"
+    t.string "auth_token"
+    t.string "homepage"
+  end
 
   create_table "imprints", force: true do |t|
     t.integer  "softwear_crm_id"
