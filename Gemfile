@@ -32,6 +32,8 @@ group :test do
   gem 'timecop'
   gem 'with_model'
   gem 'shoulda-matchers'
+  gem 'selenium-webdriver'
+  gem 'endpoint_stub', github: 'AnnArborTees/endpoint_stub', branch: 'develop'
 end
 
 
@@ -46,3 +48,4 @@ gem 'fullcalendar-rails'
 gem 'js-routes'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
+gem 'friendly_id', '~> 5.0.0'

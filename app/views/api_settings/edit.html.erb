@@ -1,0 +1,11 @@
+<div class='box-info full'>
+  <%= bootstrap_form_for @api_setting do |f| %>
+    <%= f.text_field :endpoint %>
+    <%= f.email_field :auth_email %>
+    <%= f.text_field :auth_token %>
+    <%= f.text_field :homepage %>
+    <%= f.hidden_field :slug, value: 'crm' %>
+
+    <%= f.submit %>
+  <% end %>
+</div>
