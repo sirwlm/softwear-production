@@ -1,10 +1,11 @@
 require 'spec_helper'
 
-describe Imprint, type: :model do
+describe Machine, machine_spec: true, story_113: true do
   describe 'Relationships' do
-    it { is_expected.to belong_to(:machine) }
+    it { is_expected.to have_many(:imprints) }
   end
 
-
-
+  describe 'Validations' do
+    it { is_expected.to validate_presence_of(:name)}
+  end
 end

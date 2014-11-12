@@ -1,14 +1,13 @@
 require 'spec_helper'
 
-RSpec.describe "machines/new", :type => :view do
+describe 'machines/new.html.erb', machine_spec: true, story_113: true do
+  let!(:machine) { create(:machine) }
+
   before(:each) do
-    assign(:machine, Machine.new())
-  end
-
-  it "renders new machine form" do
+    assign(:machine, machine)
     render
-
-    assert_select "form[action=?][method=?]", machines_path, "post" do
-    end
+  end
+  it 'renders _form.html.erb' do
+    expect(rendered).to render_template(partial: '_form')
   end
 end
