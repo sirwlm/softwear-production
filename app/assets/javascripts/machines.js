@@ -8,31 +8,39 @@ $(document).ready(function() {
         }
     }
 
+    $.getJSON('/imprints.json', function(json){
+        var filtered_json = $.grep( json, function( n, i ) {
+            return n.machine_id == getMachineId();
+        });
 
-    $('#machine-calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
-        },
-        events: [
-            {
-                title: 'My Event',
-                start: '2014-09-19',
-                url: 'http://google.com/'
+        console.log(filtered_json);
+        console.log(json);
+
+        $('#machine-calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+    //        events: [
+    //            {
+    //                title: 'My Event',
+    //                start: '2014-09-19',
+    //                url: 'http://google.com/'
+    //            }
+                // other events here
+            events: filtered_json,
+            eventClick: function(event) {
+                if (event.url) {
+                    $.ajax({
+                        url: '/imprints/1',
+                        dataType: 'script'
+                    });
+                    $('#contentModal').modal('show');
+                    return false;
+                }
             }
-            // other events here
-        ],
-        eventClick: function(event) {
-            if (event.url) {
-                $.ajax({
-                    url: '/imprints/1',
-                    dataType: 'script'
-                });
-                $('#contentModal').modal('show');
-                return false;
-            }
-        }
+        });
     });
 //    $('#machine-calendar').fullCalendar({
 //

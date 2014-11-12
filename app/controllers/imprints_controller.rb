@@ -1,4 +1,5 @@
 class ImprintsController < InheritedResources::Base
+  respond_to :json, :js, :html
 
   def show
     show! do |format|

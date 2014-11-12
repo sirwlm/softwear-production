@@ -1,4 +1,3 @@
-
 json.array!(@machine.imprints) do |imprint|
   json.title 'Imprint Name'
   json.url imprint_path(imprint)
