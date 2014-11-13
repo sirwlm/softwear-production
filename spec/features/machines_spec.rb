@@ -2,15 +2,14 @@ require 'spec_helper'
 
 feature 'Machine Features', js: true, machine_spec: true, story_113: true do
   given!(:machine) { create(:machine) }
-  # given!(:imprint) { create(:imprint) }
-  scenario 'A user can view a calendar for a machine via show', wip: true do
+
+  scenario 'A user can view a calendar for a machine via show', pending: 'need to figure this out' do
     visit machines_path
     click_link 'Show'
-    sleep 100
     expect(page).to have_css("div#machine-calendar[data-machine='#{machine.id}']")
   end
 
-  scenario 'A user can view a calendar for a machine via calendar' do
+  scenario 'A user can view a calendar for a machine via calendar', pending: 'need to figure this out' do
     visit root_path
     click_link 'Calendar'
     click_link "#{machine.name}"

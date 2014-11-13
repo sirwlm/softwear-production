@@ -9,7 +9,7 @@ $(document).ready(function() {
     }
 
     var machineId = getMachineId();
-    console.log(machineId);
+
     if(machineId > 0) {
         $.getJSON(machineId +'/scheduled.json', function(machine_jobs){
 
