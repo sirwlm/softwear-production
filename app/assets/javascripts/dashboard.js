@@ -6,6 +6,7 @@ $(document).ready(function() {
             center: 'title',
             right: 'month,basicWeek,basicDay'
         },
+        defaultView: 'agendaWeek',
         defaultDate: '2014-09-12',
         editable: true,
         eventLimit: true, // allow "more" link when too many events

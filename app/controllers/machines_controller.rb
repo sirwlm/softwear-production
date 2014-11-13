@@ -1,7 +1,5 @@
 class MachinesController < InheritedResources::Base
 
-  respond_to :json, :js, :html
-
   def create
     create! do |success, failure|
       success.html { redirect_to machines_path }

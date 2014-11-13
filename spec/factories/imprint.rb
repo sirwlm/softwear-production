@@ -1,10 +1,9 @@
 FactoryGirl.define do
-  factory :imprint do
-    scheduled_at Time.now
-    estimated_time 158
-
-    before(:create) do |imprint|
-      imprint.machine_id = create(:machine).id
+  factory :blank_imprint, class: Imprint do
+    factory :imprint do
+      scheduled_at Time.now
+      sequence(:estimated_time) { |n| n }
+      machine { |imprint| imprint.association(:machine) }
     end
   end
 end

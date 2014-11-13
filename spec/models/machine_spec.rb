@@ -6,6 +6,7 @@ describe Machine, machine_spec: true, story_113: true do
   end
 
   describe 'Validations' do
-    it { is_expected.to validate_presence_of(:name)}
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_uniqueness_of(:name) }
   end
 end
