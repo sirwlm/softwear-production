@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Imprint do
+describe Imprint, imprint_spec: true, story_110: true do
   describe 'Scopes' do
     describe 'scheduled' do
       let!(:imprint_1) { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine: create(:machine))}
-      let!(:imprint_2) {create(:imprint)}
+      let!(:imprint_2) { create(:imprint) }
       it 'only includes scheduled imprints' do
         expect(Imprint.scheduled).to eq [imprint_1]
       end
@@ -28,7 +28,7 @@ describe Imprint do
   end
 
   describe '#estimated_end_at' do
-    let(:subject) { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine: create(:machine))}
+    let(:subject) { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine_id: create(:machine).id)}
     it 'returns the time ' do
       expect(subject.estimated_end_at).to eq('2014-01-01 02:00:00')
     end
