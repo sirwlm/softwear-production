@@ -11,8 +11,8 @@ gem 'jbuilder', '~> 1.2'
 
 group :development, :test do
   gem 'capistrano'
-  gem 'capistrano-rails'
   gem 'capistrano-rvm'
+  gem 'capistrano-rails'
   gem 'capistrano-bundler'
 end
 
@@ -25,6 +25,7 @@ group :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
+  gem 'rspec-expectations'
   gem 'rspec-rails', '~> 3.0.2'
   gem 'simplecov'
   gem 'webmock', '1.8.11'

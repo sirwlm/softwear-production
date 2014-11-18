@@ -282,6 +282,7 @@ DEPENDENCIES
   rails (= 4.0.9)
   rspec-activemodel-mocks
   rspec-collection_matchers
+  rspec-expectations
   rspec-its
   rspec-rails (~> 3.0.2)
   sass-rails (~> 4.0.2)
