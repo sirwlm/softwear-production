@@ -7,13 +7,17 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
-
+gem 'state_machine'
 
 group :development, :test do
   gem 'capistrano'
   gem 'capistrano-rvm'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
+# used to graph state machines
+  gem 'ruby-graphviz', require: 'graphviz'
+# used to sexily print tables in rails console
+  gem 'hirb'
 end
 
 group :test do
