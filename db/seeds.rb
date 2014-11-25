@@ -6,10 +6,10 @@
 
 # seed default user
 pw = 'pw4Admin'
-exists = !User.where(email: 'admin@softwearcrm.com').empty?
-deleted_exists = !User.where(email: 'admin@softwearcrm.com').empty?
+exists = !User.where(email: 'admin@softwearproduction.com').empty?
+deleted_exists = !User.where(email: 'admin@softwearproduction.com').empty?
 unless deleted_exists || exists
-  default_user = User.new(email: 'admin@softwearcrm.com',
+  default_user = User.new(email: 'admin@softwearproduction.com',
                           first_name: 'Admin', last_name: 'User',
                           password: pw,
                           password_confirmation: pw)
