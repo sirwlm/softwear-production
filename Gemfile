@@ -8,6 +8,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
 gem 'state_machine'
+gem 'paranoia', '~> 2.0'
 
 group :development, :test do
   gem 'capistrano'
@@ -18,6 +19,7 @@ group :development, :test do
   gem 'ruby-graphviz', require: 'graphviz'
 # used to sexily print tables in rails console
   gem 'hirb'
+  gem 'mailcatcher'
 end
 
 group :test do
@@ -54,3 +56,4 @@ gem 'js-routes'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 gem 'friendly_id', '~> 5.0.0'
+gem 'devise'
