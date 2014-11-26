@@ -19,11 +19,4 @@ module ApplicationHelper
     # 09/18/2014 1:36 PM
     datetime.strftime('%Y-%m-%dT%H:%M:00') unless datetime.blank?
   end
-
-  def render_flash(flash)
-    flash.each do |key, val|
-      render 'shared/flash', key: key, val: val
-    end
-  end
-
 end

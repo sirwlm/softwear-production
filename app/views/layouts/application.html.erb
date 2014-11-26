@@ -12,7 +12,9 @@
 <% end %>
 
 <div class="container">
-    <% render_flash(flash) %>
+    <% flash.each do |key, val| %>
+      <%= render 'shared/flash', key: key, val: val %>
+    <% end %>
     <%= yield %>
 </div>
 

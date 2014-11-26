@@ -15,7 +15,7 @@ feature 'Users', user_spec: true, js: true, story_115: true do
     end
   end
 
-  context 'when logged in', new: true do
+  context 'when logged in' do
     background(:each) { login_as user }
 
     scenario 'a user can see his name on the dashboard' do
@@ -24,19 +24,13 @@ feature 'Users', user_spec: true, js: true, story_115: true do
     end
 
     scenario 'a user can change his password' do
-      # TODO: this is disgusting...
-      # I couldn't manage custom flash messages and the default ones weren't firing
-      # so I had to resort to using the user's encrypted password
       new_pw = 'NewPassword'
-      old_pw = user.encrypted_password
-
       visit edit_user_registration_path(user)
       fill_in 'Password',              with: new_pw
       fill_in 'Password confirmation', with: new_pw
       fill_in 'Current password',      with: user.password
       click_button 'Update'
-
-      expect(User.find(user.id).encrypted_password).to_not eq(old_pw)
+      expect(page).to have_content 'Hooray! Your account has been updated successfully.'
     end
 
     scenario 'a user can log out' do
