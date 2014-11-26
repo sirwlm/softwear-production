@@ -8,6 +8,9 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
 gem 'state_machine'
+gem 'paranoia', '~> 2.0'
+# use cancan for user roles
+gem 'cancan'
 
 group :development, :test do
   gem 'capistrano'
