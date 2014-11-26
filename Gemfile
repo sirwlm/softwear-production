@@ -21,6 +21,7 @@ group :development, :test do
   gem 'ruby-graphviz', require: 'graphviz'
 # used to sexily print tables in rails console
   gem 'hirb'
+  gem 'mailcatcher'
 end
 
 group :test do
@@ -57,3 +58,4 @@ gem 'js-routes'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 gem 'friendly_id', '~> 5.0.0'
+gem 'devise'

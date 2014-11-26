@@ -4,6 +4,21 @@
 # Examples:
 #
 
+# seed default user
+pw = 'pw4Admin'
+email = 'admin@softwearproduction.com'
+exists = !User.where(email: email).empty?
+deleted_exists = !User.where(email: email).empty?
+unless deleted_exists || exists
+  default_user = User.new(email: email,
+                          first_name: 'Admin', last_name: 'User',
+                          password: pw,
+                          password_confirmation: pw)
+  default_user.confirm!
+  puts 'Created default user' if default_user.save
+end
+
+
 m1 = Machine.create(name: 'Challenger')
 m2 = Machine.create(name: 'Diamondback')
 m3 = Machine.create(name: 'Chameleon')
