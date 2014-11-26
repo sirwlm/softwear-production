@@ -16,7 +16,7 @@ module CapybaraExt
     if RSpec.current_example.metadata[:js]
       within("table.index tbody tr:nth-child(#{num})", &block)
     else
-      within(:xpath, all("table.index tbody tr")[num-1].path, &block)
+      within(:xpath, all('table.index tbody tr')[num-1].path, &block)
     end
   end
 
@@ -24,7 +24,7 @@ module CapybaraExt
     if RSpec.current_example.metadata[:js]
       find("td:nth-child(#{num})").text
     else
-      all("td")[num-1].text
+      all('td')[num-1].text
     end
   end
 
@@ -34,8 +34,8 @@ module CapybaraExt
 
   def select2_search(value, options)
     label = find_label_by_text(options[:from])
-    within label.first(:xpath,".//..") do
-      options[:from] = "##{find(".select2-container")["id"]}"
+    within label.first(:xpath,'.//..') do
+      options[:from] = "##{find('.select2-container')['id']}"
     end
     targetted_select2_search(value, options)
   end
@@ -49,8 +49,8 @@ module CapybaraExt
   def select2(value, options)
     label = find_label_by_text(options[:from])
 
-    within label.first(:xpath,".//..") do
-      options[:from] = "##{find(".select2-container")["id"]}"
+    within label.first(:xpath,'.//..') do
+      options[:from] = "##{find('.select2-container')['id']}"
     end
     targetted_select2(value, options)
   end
@@ -59,7 +59,8 @@ module CapybaraExt
     raise "Must pass a hash containing 'from'" if not options.is_a?(Hash) or not options.has_key?(:from)
 
     placeholder = options[:from]
-    minlength = options[:minlength] || 4
+    # TODO: still need this?
+    # minlength = options[:minlength] || 4
 
     click_link placeholder
 
@@ -75,7 +76,7 @@ module CapybaraExt
   def select_select2_result(value)
     # results are in a div appended to the end of the document
     within(:xpath, '//body') do
-      page.find("div.select2-result-label", text: %r{#{Regexp.escape(value)}}i).click
+      page.find('div.select2-result-label', text: %r{#{Regexp.escape(value)}}i).click
     end
   end
 
@@ -106,7 +107,7 @@ module CapybaraExt
     while page.evaluate_script("typeof($) === 'undefined' || $.active > 0")
       counter += 1
       sleep(0.1)
-      raise "AJAX request took longer than 5 seconds." if counter >= 50
+      raise 'AJAX request took longer than 5 seconds.' if counter >= 50
     end
   end
 
@@ -129,7 +130,7 @@ Capybara.configure do |config|
 end
 
 RSpec::Matchers.define :have_meta do |name, expected|
-  match do |actual|
+  match do |_actual|
     has_css?("meta[name='#{name}'][content='#{expected}']", visible: false)
   end
 
@@ -144,12 +145,12 @@ RSpec::Matchers.define :have_meta do |name, expected|
 end
 
 RSpec::Matchers.define :have_title do |expected|
-  match do |actual|
+  match do |_actual|
     has_css?("title", :text => expected, visible: false)
   end
 
   failure_message do |actual|
-    actual = first("title")
+    actual = first('title')
     if actual
       "expected that title would have been '#{expected}' but was '#{actual.text}'"
     else
