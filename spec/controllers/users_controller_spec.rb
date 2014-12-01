@@ -1,11 +1,8 @@
 require 'spec_helper'
-include Devise::TestHelpers
 
 describe UsersController, user_spec: true, story_116: true do
-  let!(:admin) { create(:admin) }
+  include_context 'signed_in_as_admin'
   let!(:user) { create(:user) }
-
-  before(:each) { sign_in admin }
 
   describe 'POST #create' do
     context 'with valid input' do

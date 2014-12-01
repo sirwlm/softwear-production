@@ -35,7 +35,7 @@ describe ApplicationHelper, helper_spec: true do
 
     describe '#datetimepicker_format' do
       it 'returns a properly formatted datetime' do
-        expect(datetimepicker_format(time)).to eq('09/25/2014 08:37 PM')
+        expect(datetimepicker_format(time)).to eq('09/25/2014 08:37 AM')
       end
     end
 

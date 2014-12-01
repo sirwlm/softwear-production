@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'machines/edit.html.erb', machine_spec: true, story_113: true do
+  include_context 'devise_view_setup'
   let!(:machine) { create(:machine) }
 
   before(:each) do

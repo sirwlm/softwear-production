@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 feature 'Machine Features', js: true, machine_spec: true, story_113: true do
+  include_context 'logged_in_as_user'
   given!(:machine) { create(:machine) }
 
   scenario 'A user can view a calendar for a machine via show', pending: 'need to figure this out' do

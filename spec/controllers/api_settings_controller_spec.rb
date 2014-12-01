@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe ApiSettingsController, api_spec: true, story_201: true do
+  include_context 'signed_in_as_user'
+
   describe 'GET #new' do
     it 'renders edit' do
       expect(get :new).to render_template(:edit)

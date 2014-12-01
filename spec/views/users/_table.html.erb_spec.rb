@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'users/_table.html.erb', user_spec: true, story_116: true do
+  include_context 'devise_view_setup'
   let!(:user) { build_stubbed(:user) }
 
   before(:each) { render 'users/table.html.erb', users: [user]}

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'users/_form.html.erb', user_spec: true, story_116: true do
-  include_context 'devise_setup'
+  include_context 'devise_view_setup'
 
   let!(:user) { create(:user) }
 

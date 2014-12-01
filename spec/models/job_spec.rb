@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Job, job_spec: true do
 
   describe 'Relationships' do
-    it { is_expected.to.have_one :imprintable_train }
+    it { is_expected.to have_one :imprintable_train }
   end
 
   describe 'Validations' do
-    it { is_expected.to.validate_presence_of :imprintable_train }
+    it { is_expected.to validate_presence_of :imprintable_train }
   end
 
   describe 'Callbacks' do

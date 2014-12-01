@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'shared/_top_nav.html.erb' do
+  include_context 'devise_view_setup'
   let!(:admin) { create(:admin) }
   let!(:user) { create(:user) }
 

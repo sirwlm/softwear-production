@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'machines/scheduled.json.jbuilder', machine_spec: true, story_113: true do
+  include_context 'devise_view_setup'
   let!(:machine) { create(:machine) }
 
 

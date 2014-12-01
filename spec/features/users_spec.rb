@@ -1,6 +1,4 @@
 require 'spec_helper'
-include Warden::Test::Helpers
-Warden.test_mode!
 
 feature 'Users', user_spec: true, js: true, story_115: true do
   given!(:admin) { create(:admin) }
@@ -17,7 +15,7 @@ feature 'Users', user_spec: true, js: true, story_115: true do
   end
 
   context 'when logged in as regular user' do
-    background(:each) { login_as user }
+    include_context 'logged_in_as_user'
 
     scenario 'a user can see his name on the dashboard' do
       visit root_path
@@ -42,8 +40,8 @@ feature 'Users', user_spec: true, js: true, story_115: true do
     end
   end
 
-  context 'when loggin in as admin', story_116: true do
-    background(:each) { login_as admin }
+  context 'when logged in as admin', story_116: true do
+    include_context 'logged_in_as_admin'
 
     scenario 'an admin can view a list of users', story_116: true do
       visit root_path
