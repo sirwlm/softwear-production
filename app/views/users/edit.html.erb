@@ -1,0 +1,10 @@
+<div class="page-heading col-lg-12">
+  <h1>Edit User<small> <%= @user.full_name %></small></h1>
+</div>
+
+<div class="box-info row clear">
+  <%= render 'form',
+              user: @user,
+              current_user: current_user,
+              url: url_for(user_path(@user)) %>
+</div>

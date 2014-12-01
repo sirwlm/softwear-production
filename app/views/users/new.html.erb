@@ -1,0 +1,10 @@
+<div class="page-heading col-lg-12">
+  <h1>New User<small> form</small></h1>
+</div>
+
+<div class="box-info clear">
+  <%= render 'form',
+              user: @user,
+              current_user: current_user,
+              url: url_for(controller: 'users', action: 'create') %>
+</div>

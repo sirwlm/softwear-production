@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   before_action :configure_user_parameters, if: :devise_controller?
   add_flash_types :error
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, alert: exception.message
+  end
+
   def populate_machines
     @machines ||= Machine.all
   end

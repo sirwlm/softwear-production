@@ -3,6 +3,7 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 feature 'Users', user_spec: true, js: true, story_115: true do
+  given!(:admin) { create(:admin) }
   given!(:user) { create(:user) }
 
   context 'with valid credentials' do
@@ -15,7 +16,7 @@ feature 'Users', user_spec: true, js: true, story_115: true do
     end
   end
 
-  context 'when logged in' do
+  context 'when logged in as regular user' do
     background(:each) { login_as user }
 
     scenario 'a user can see his name on the dashboard' do
@@ -41,77 +42,35 @@ feature 'Users', user_spec: true, js: true, story_115: true do
     end
   end
 
-  scenario 'pending cases', pending: 'different story' do
-    scenario 'a user can view a list of users' do
+  context 'when loggin in as admin', story_116: true do
+    background(:each) { login_as admin }
+
+    scenario 'an admin can view a list of users', story_116: true do
       visit root_path
-      unhide_dashboard
-      click_link 'Administration'
-      wait_for_ajax
-      click_link 'Users'
-      wait_for_ajax
-      expect(page).to have_css "tr#user_#{valid_user.id} > td", text: valid_user.full_name
+      click_link admin.full_name
+      click_link 'Manage Users'
+      expect(page).to have_content 'View and Edit registered Users'
     end
 
-    scenario "a user can edit another's info" do
+    scenario "an admin can edit a user's info", story_116: true do
       visit users_path
-      first('a[title=Edit]').click
-      fill_in 'Last name', with: 'Newlast_name'
-      click_button 'Update'
-      wait_for_ajax
-      expect(page).to have_content 'success'
-      expect(User.where(last_name: 'Newlast_name')).to exist
+      first('a[title="Edit"]').click
+      fill_in 'Last name', with: 'Testing'
+      click_button 'Update User'
+      expect(page).to have_content 'Hooray!'
+      expect(User.where(last_name: 'Testing')).to exist
     end
 
     scenario 'a user can create a new user account' do
       visit users_path
-      click_link 'Create new user'
-      fill_in 'Email', with: 'newguy@example.com'
+      click_link 'Add a user'
       fill_in 'First name', with: 'New'
-      fill_in 'Last name', with: 'Last'
-      select valid_user.store.name, from: 'Store'
-      click_button 'Create'
-      expect(page).to have_content 'success'
-    end
-
-    scenario 'a user can update his freshdesk information' do
-      visit edit_user_path valid_user
-      fill_in 'Freshdesk Password', with: 'pw4freshdesk'
-      fill_in 'Freshdesk Email', with: 'capybara@annarbortees.com'
-      click_button 'Update'
-      expect(page).to have_content 'success'
-    end
-
-    scenario 'a user can lock himself' do
-      visit orders_path
-      find('a#account-menu').click
-      wait_for_ajax
-      click_link 'Lock me'
-      wait_for_ajax
-      expect(current_path).to eq '/users/sign_in'
-    end
-
-    scenario 'a user is locked out if he idles for too long' do
-      visit orders_path
-      wait_for_ajax
-      execute_script 'idleTimeoutMs = 1000; idleWarningSec = 5;'
-      sleep 0.1
-      find('th', text: 'Salesperson').click
-      sleep 1.5
-      expect(page).to have_css '.modal-body'
-      sleep 6
-      expect(current_path).to eq new_user_session_path
-    end
-
-    scenario 'If a user sees the lock-out warning, he can cancel it by clicking' do
-      visit orders_path
-      wait_for_ajax
-      execute_script 'idleTimeoutMs = 1000; idleWarningSec = 5;'
-      sleep 0.1
-      find('th', text: 'Salesperson').click
-      sleep 1.3
-      find('.modal-title').click
-      wait_for_ajax
-      expect(page).to_not have_css '.modal-body'
+      fill_in 'Last name', with: 'Test'
+      fill_in 'Email', with: 'newguy@example.com'
+      fill_in 'Password', with: '123789456'
+      fill_in 'Password confirmation', with: '123789456'
+      click_button 'Create User'
+      expect(page).to have_content 'Hooray!'
     end
   end
 end

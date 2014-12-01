@@ -8,6 +8,14 @@ FactoryGirl.define do
       password '123456789'
     end
 
+    factory :admin do
+      first_name 'Uber'
+      last_name 'Mensch'
+      sequence(:email) { |n| "idol_#{n}@god.com"}
+      password '2_1337_4_u'
+      admin true
+    end
+
     after(:create) { |u| u.confirm! }
   end
 end

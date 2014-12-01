@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20141126152239) do
     t.datetime "deleted_at"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "role"
+    t.boolean  "admin"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
