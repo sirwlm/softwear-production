@@ -24,10 +24,11 @@ $(document).ready(function() {
                 eventClick: function(event) {
                     if (event.url) {
                         $.ajax({
-                            url: '/imprints/1',
+                            type: 'GET',
+                            url: '/jobs/1',
                             dataType: 'script'
                         });
-                        $('#contentModal').modal('show');
+
                         return false;
                     }
                 }
