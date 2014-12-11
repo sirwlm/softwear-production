@@ -2,17 +2,18 @@
 <html>
 <head>
   <title>SoftWEAR Production Manager</title>
-  <%= stylesheet_link_tag    "application", media: "all" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= render 'shared/top_nav' %>
+<% unless current_user.nil? %>
+  <%= render 'shared/top_nav', current_user: current_user %>
+<% end %>
 
 <div class="container">
     <% flash.each do |key, val| %>
-        <%= render 'shared/flash', key: key, val: val %>
+      <%= render 'shared/flash', key: key, val: val %>
     <% end %>
     <%= yield %>
 </div>

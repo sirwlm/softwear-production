@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MachinesController, machine_spec: true, story_113: true do
+  include_context 'signed_in_as_user'
 
   let!(:machine) { create(:machine) }
 

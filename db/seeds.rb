@@ -4,6 +4,29 @@
 # Examples:
 #
 
+# seed default user
+pw = 'pw4Admin'
+email = 'admin@softwear.com'
+exists = !User.where(email: email).empty?
+deleted_exists = !User.where(email: email).empty?
+unless deleted_exists || exists
+  admin_user = User.new(email: email,
+                          first_name: 'Richard', last_name: 'Ross',
+                          password: pw,
+                          password_confirmation: pw,
+                          admin: true)
+  admin_user.confirm!
+  puts 'Created admin bawss HUGH!' if admin_user.save
+end
+
+peon = User.new(email: 'test@softwear.com',
+                first_name: 'Peasant', last_name: 'McPleb',
+                password: 'imahugenewbhelp',
+                password_confirmation: 'imahugenewbhelp')
+peon.confirm!
+puts 'Created a scrubload user, laugh at him' if peon.save
+
+
 m1 = Machine.create(name: 'Challenger')
 m2 = Machine.create(name: 'Diamondback')
 m3 = Machine.create(name: 'Chameleon')

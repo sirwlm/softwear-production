@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 feature 'API Settings Management', api_spec: true, story_201: true do
+  include_context 'logged_in_as_user'
+
   context 'CRM Settings' do
     context 'when a crm settings record does not exist' do
       scenario 'A user can create one', js: true do

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'api_settings/edit.html.erb', api_spec: true, story_201: true do
+  include_context 'devise_view_setup'
+
   let!(:crm_setting) { build_stubbed :crm_setting }
 
   it 'has fields for endpoint, auth_token and homepage' do

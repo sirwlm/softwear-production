@@ -1,0 +1,47 @@
+<div class="box-info full">
+  <div class="table-responsive">
+    <table class="table table-hover" id="colors_list">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Admin?</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% users.each do |user| %>
+        <tr id="<%= model_table_row_id user %>">
+          <td><%= user.full_name %></td>
+          <td><%= user.email %></td>
+          <!-- TODO: refactor this probably -->
+          <td><%= human_boolean(user.admin) %></td>
+          <td>
+            <div class="btn-group btn-group-xs">
+              <%= link_to edit_user_path(user),
+                          class: 'btn btn-default',
+                          data: {
+                            action: 'Edit',
+                            toggle: 'tooltip'
+                          }, 'title' => 'Edit' do %>
+                <i class="glyphicon glyphicon-pencil"></i>
+              <% end %>
+
+              <%= link_to destroy_user_path(user),
+                            class: 'btn btn-danger',
+                            data: {
+                              confirm: 'Are you sure you would like to delete this account?',
+                              action: 'destroy',
+                              toggle: 'tooltip'
+                            },
+                            method: :delete,
+                            'title' => 'Destroy' do %>
+                <i class="glyphicon glyphicon-remove"></i>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

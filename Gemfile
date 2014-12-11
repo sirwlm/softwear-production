@@ -7,13 +7,21 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
-
+gem 'state_machine'
+gem 'paranoia', '~> 2.0'
+# use cancan for user roles
+gem 'cancan'
 
 group :development, :test do
   gem 'capistrano'
-  gem 'capistrano-rails'
   gem 'capistrano-rvm'
+  gem 'capistrano-rails'
   gem 'capistrano-bundler'
+# used to graph state machines
+  gem 'ruby-graphviz', require: 'graphviz'
+# used to sexily print tables in rails console
+  gem 'hirb'
+  gem 'mailcatcher'
 end
 
 group :test do
@@ -25,6 +33,7 @@ group :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
+  gem 'rspec-expectations'
   gem 'rspec-rails', '~> 3.0.2'
   gem 'simplecov'
   gem 'webmock', '1.8.11'
@@ -49,3 +58,4 @@ gem 'js-routes'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 gem 'friendly_id', '~> 5.0.0'
+gem 'devise'
