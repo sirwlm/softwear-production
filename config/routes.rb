@@ -14,6 +14,7 @@ SoftwearProduction::Application.routes.draw do
   end
 
   resources :api_settings
+  resources :jobs
   resources :users, only: [:index, :new, :edit, :update, :destroy, :patch]
   post '/users/create_user', to: 'users#create', controller: 'users', as: :create_user
   delete '/users/delete_user/:id', to: 'users#destroy', controller: 'users', as: :destroy_user
