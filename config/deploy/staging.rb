@@ -16,6 +16,7 @@ role :db,  %w{50.17.187.22}
 # used to set extended properties on the server.
 
 set :branch, 'develop'
+set :linked_files, fetch(:linked_files) + %w{config/remote_database.yml}
 
 server '50.17.187.22', user: 'ubuntu', roles: %w{web app}, my_property: :my_value
 

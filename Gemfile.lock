@@ -5,6 +5,12 @@ GIT
   specs:
     endpoint_stub (1.4.5)
 
+GIT
+  remote: git@github.com:Resonious/dumpsync.git
+  revision: d973380c4c20a16396fe1434f5cea4d57151ec7e
+  specs:
+    dumpsync (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -312,6 +318,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner (~> 1.0)
   devise
+  dumpsync!
   email_spec
   endpoint_stub!
   factory_girl_rails (~> 4.4)
