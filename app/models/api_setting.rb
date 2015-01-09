@@ -12,4 +12,12 @@ class ApiSetting < ActiveRecord::Base
   def self.crm
     find_by(slug: 'crm')
   end
+
+  def self.find(id_or_slug)
+    if /^\d+$/ =~ id_or_slug
+      super
+    else
+      friendly.find(id_or_slug)
+    end
+  end
 end

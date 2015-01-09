@@ -7,6 +7,17 @@ class ImprintsController < InheritedResources::Base
     end
   end
 
+  def update
+    update! do |format|
+      format.json do
+        puts "**********************************"
+        puts @imprint.scheduled_at
+        puts params[:imprint][:scheduled_at]
+        render partial: 'imprints/for_calendar', locals: { imprint: @imprint }
+      end
+    end
+  end
+
   private
 
   def imprint_params

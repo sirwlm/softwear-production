@@ -41,7 +41,7 @@ describe ApplicationHelper, helper_spec: true do
 
     describe '#fullcalendar_format' do
       it 'returns a properly formatted datetime' do
-        expect(fullcalendar_format(time)).to eq('2014-09-25 08:37:00')
+        expect(fullcalendar_format(time)).to eq('2014-09-25T03:37:00-05:00')
       end
     end
   end

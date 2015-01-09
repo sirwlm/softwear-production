@@ -22,6 +22,7 @@ group :development, :test do
 # used to sexily print tables in rails console
   gem 'hirb'
   gem 'mailcatcher'
+  gem 'byebug'
 end
 
 group :test do
@@ -60,3 +61,4 @@ gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 gem 'friendly_id', '~> 5.0.0'
 gem 'devise'
 gem 'dumpsync', git: 'git@github.com:AnnArborTees/dumpsync.git'
+gem 'jquery-ui-rails'
