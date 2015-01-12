@@ -7,7 +7,7 @@
 
       <% Imprint.unscheduled.find_each do |imprint| %>
         <%= link_to job_path(1), remote: true, class: 'unscheduled-imprint-link' do %>
-          <div class="unscheduled-imprint" data-id="<%= imprint.id %>">
+          <div class="unscheduled-imprint ui-draggable ui-draggable-handle" data-id="<%= imprint.id %>">
             <% if imprint.estimated? %>
               (<%= sprintf('%0.02f', imprint.estimated_time) %> Hrs, Due
               [insert job deadline here])
@@ -19,8 +19,7 @@
     </div>
   </div>
 
-  <div class="col-lg-9">
-    <div id='machine-calendar' data-machine="<%= @machine.id %>"></div>
+  <div class="col-lg-9" id='machine-calendar' data-machine="<%= @machine.id %>">
   </div>
 </div>
 

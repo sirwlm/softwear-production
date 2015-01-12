@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  function getMachineId(){
+  function getMachineId() {
     if( $('#machine-calendar').length != 0) {
       return $('#machine-calendar').attr('data-machine');
     } else {
@@ -11,7 +11,7 @@ $(document).ready(function() {
   var machineId = getMachineId();
 
   if(machineId > 0) {
-    $.getJSON(machineId +'/scheduled.json', function(machineJobs){
+    $.getJSON(machineId +'/scheduled.json', function(machineJobs) {
       $('.unscheduled-imprint').each(function() {
         $(this).draggable({
           zIndex: 999,
@@ -19,6 +19,30 @@ $(document).ready(function() {
           // revertDuration: 0
         });
       });
+
+      function onChange(eventObject, delta, revert, jsEvent, ui, view) {
+        if (eventObject.allDay) { return; }
+
+        var imprintId = eventObject.id;
+
+        var duration = moment.duration(eventObject.end).subtract(eventObject.start);
+        var estimatedTime = duration.hours();
+
+        $.ajax({
+          type: 'PUT',
+          url: Routes.imprint_path(imprintId),
+          dataType: 'json',
+          data: { imprint: {
+            scheduled_at:   eventObject.start,
+            estimated_time: estimatedTime
+          } }
+        })
+        
+        .fail(function() {
+          alert("Network or server error.");
+          revert();
+        });
+      }
 
       $('#machine-calendar').fullCalendar({
         header: {
@@ -43,50 +67,10 @@ $(document).ready(function() {
           }
         },
 
-        eventDrop: function(eventObject, delta, revert, jsEvent, ui, view) {
-          var imprintId = eventObject.id;
+        eventDrop: onChange,
+        eventResize: onChange,
 
-          var duration = moment.duration(eventObject.end).subtract(eventObject.start);
-          var estimatedTime = duration.hours();
-
-          // TODO this doesn't work 100% yet!
-
-          $.ajax({
-            type: 'PUT',
-            url: Routes.imprint_path(imprintId),
-            dataType: 'json',
-            data: { imprint: {
-              scheduled_at:   eventObject.start,
-              estimated_time: estimatedTime
-            } }
-          })
-          
-          .fail(function() {
-            alert("Network or server error.");
-            revert();
-          });
-        },
-
-        eventResize: function(eventObject, delta, revert, jsEvent, ui, view) {
-          var imprintId = eventObject.id;
-
-          var duration = moment.duration(eventObject.end).subtract(eventObject.start);
-          var estimatedTime = duration.hours();
-
-          $.ajax({
-            type: 'PUT',
-            url: Routes.imprint_path(imprintId),
-            dataType: 'json',
-            data: { imprint: {
-              estimated_time: estimatedTime
-            } }
-          })
-          
-          .fail(function() {
-            alert("Network or server error.");
-            revert();
-          });
-        },
+        dropAccept: '.unscheduled-imprint',
 
         drop: function(date) {
           var droppedElement = $(this);
