@@ -43,6 +43,51 @@ $(document).ready(function() {
           }
         },
 
+        eventDrop: function(eventObject, delta, revert, jsEvent, ui, view) {
+          var imprintId = eventObject.id;
+
+          var duration = moment.duration(eventObject.end).subtract(eventObject.start);
+          var estimatedTime = duration.hours();
+
+          // TODO this doesn't work 100% yet!
+
+          $.ajax({
+            type: 'PUT',
+            url: Routes.imprint_path(imprintId),
+            dataType: 'json',
+            data: { imprint: {
+              scheduled_at:   eventObject.start,
+              estimated_time: estimatedTime
+            } }
+          })
+          
+          .fail(function() {
+            alert("Network or server error.");
+            revert();
+          });
+        },
+
+        eventResize: function(eventObject, delta, revert, jsEvent, ui, view) {
+          var imprintId = eventObject.id;
+
+          var duration = moment.duration(eventObject.end).subtract(eventObject.start);
+          var estimatedTime = duration.hours();
+
+          $.ajax({
+            type: 'PUT',
+            url: Routes.imprint_path(imprintId),
+            dataType: 'json',
+            data: { imprint: {
+              estimated_time: estimatedTime
+            } }
+          })
+          
+          .fail(function() {
+            alert("Network or server error.");
+            revert();
+          });
+        },
+
         drop: function(date) {
           var droppedElement = $(this);
           var imprintId = droppedElement.data('id');
