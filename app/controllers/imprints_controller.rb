@@ -10,7 +10,13 @@ class ImprintsController < InheritedResources::Base
   def update
     update! do |format|
       format.json do
-        render partial: 'imprints/for_calendar', locals: { imprint: @imprint }
+        if params[:machine_id].nil? && params[:scheduled_at].nil? &&
+           @imprint.machine_id.nil? && @imprint.scheduled_at.nil?
+          partial = 'imprints/unscheduled_entry'
+        else
+          partial = 'imprints/for_calendar'
+        end
+        render partial: partial, locals: { imprint: @imprint }
       end
     end
   end

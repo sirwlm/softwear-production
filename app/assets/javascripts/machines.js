@@ -12,28 +12,36 @@ $(document).ready(function() {
 
   if(machineId > 0) {
     $.getJSON(machineId +'/scheduled.json', function(machineJobs) {
-      $('.unscheduled-imprint').each(function() {
-        $(this).draggable({
+      function unscheduledDraggable(element) {
+        element.draggable({
           zIndex: 999,
-          revert: false,
-          // revertDuration: 0
+          revert: true,
+          revertDuration: 0
         });
+      }
+
+      $('.unscheduled-imprint-link').each(function() {
+        unscheduledDraggable($(this));
       });
+
+      function estimatedHoursFor(eventObject) {
+        var duration = moment.duration(eventObject.end)
+                             .subtract(eventObject.start);
+        return duration.hours();
+      }
 
       function onChange(eventObject, delta, revert, jsEvent, ui, view) {
         if (eventObject.allDay) { return; }
 
         var imprintId = eventObject.id;
-
-        var duration = moment.duration(eventObject.end).subtract(eventObject.start);
-        var estimatedTime = duration.hours();
+        var estimatedTime = estimatedHoursFor(eventObject);
 
         $.ajax({
           type: 'PUT',
           url: Routes.imprint_path(imprintId),
           dataType: 'json',
           data: { imprint: {
-            scheduled_at:   eventObject.start,
+            scheduled_at:   eventObject.start.format(),
             estimated_time: estimatedTime
           } }
         })
@@ -54,6 +62,7 @@ $(document).ready(function() {
         events: machineJobs,
         editable: true,
         droppable: true,
+        dragRevertDuration: 0,
 
         eventClick: function(event) {
           if (event.url) {
@@ -67,10 +76,57 @@ $(document).ready(function() {
           }
         },
 
+        eventDragStop: function(eventObject, jsEvent) {
+          var unscheduled = $('.unscheduled-imprints');
+          if (unscheduled.length <= 0) return;
+          var offset = unscheduled.offset();
+
+          var x1 = offset.left;
+          var x2 = offset.left + unscheduled.outerWidth(true);
+          var y1 = offset.top;
+          var y2 = offset.top + unscheduled.outerHeight(true);
+
+          if (jsEvent.pageX >= x1 && jsEvent.pageX <= x2 &&
+              jsEvent.pageY >= y1 && jsEvent.pageY <= y2)
+          {
+            $('#machine-calendar').fullCalendar(
+              'removeEvents', eventObject.id
+            );
+
+            $.ajax({
+              type: 'PUT',
+              url: Routes.imprint_path(eventObject.id),
+              dataType: 'json',
+              data: {
+                imprint: {
+                  machine_id: null,
+                  scheduled_at: null
+                }
+              }
+            })
+
+            .done(function(data) {
+              if (!data.content) {
+                alert('No!!!!!!1');
+                return;
+              }
+              var estimatedTime = estimatedHoursFor(eventObject);
+
+              var unscheduledEntry = $(data.content);
+              $('.unscheduled-imprints').append(unscheduledEntry);
+              unscheduledDraggable(unscheduledEntry);
+            })
+
+            .fail(function() {
+              alert('No!!!!!!');
+            });
+          }
+        },
+
         eventDrop: onChange,
         eventResize: onChange,
 
-        dropAccept: '.unscheduled-imprint',
+        dropAccept: '.unscheduled-imprint-link',
 
         drop: function(date) {
           var droppedElement = $(this);
@@ -82,11 +138,18 @@ $(document).ready(function() {
             type: 'PUT',
             url: Routes.imprint_path(imprintId),
             dataType: 'json',
-            data: { imprint: { scheduled_at: date, machine_id: machineId } }
+            data: {
+              imprint: {
+                scheduled_at: date.format(),
+                machine_id: machineId
+              }
+            }
           })
 
           .done(function(eventObject) {
-            $('#machine-calendar').fullCalendar('renderEvent', eventObject, true);
+            $('#machine-calendar').fullCalendar(
+              'renderEvent', eventObject, true
+            );
           })
 
           .fail(function() {

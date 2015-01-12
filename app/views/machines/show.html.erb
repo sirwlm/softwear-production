@@ -6,14 +6,7 @@
       <h4 align='center'>Unscheduled Imprints</h4>
 
       <% Imprint.unscheduled.find_each do |imprint| %>
-        <%= link_to job_path(1), remote: true, class: 'unscheduled-imprint-link' do %>
-          <div class="unscheduled-imprint ui-draggable ui-draggable-handle" data-id="<%= imprint.id %>">
-            <% if imprint.estimated? %>
-              (<%= sprintf('%0.02f', imprint.estimated_time) %> Hrs, Due
-              [insert job deadline here])
-            <% end %>
-          </div>
-        <% end %>
+        <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
       <% end %>
 
     </div>

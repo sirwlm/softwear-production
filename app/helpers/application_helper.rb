@@ -17,8 +17,7 @@ module ApplicationHelper
 
   def fullcalendar_format(datetime)
     # 09-18-2014 1:36
-    # datetime.strftime('%Y-%m-%d %T') unless datetime.blank?
-    datetime.in_time_zone('EST').iso8601 unless datetime.blank?
+    datetime.strftime('%Y-%m-%d %T') unless datetime.blank?
   end
 
   def model_table_row_id(object)

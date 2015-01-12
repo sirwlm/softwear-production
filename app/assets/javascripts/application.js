@@ -15,8 +15,8 @@
 //= require jquery-ui
 //= require js-routes
 //= require bootstrap-sprockets
-//= require fullcalendar
 //= require moment
+//= require fullcalendar
 //= require bootstrap-datetimepicker
 
 //= require_tree .
