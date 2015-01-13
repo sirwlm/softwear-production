@@ -45,7 +45,7 @@ $(document).ready(function() {
             estimated_time: estimatedTime
           } }
         })
-        
+
         .fail(function() {
           alert("Network or server error.");
           revert();
@@ -68,7 +68,7 @@ $(document).ready(function() {
           if (event.url) {
             $.ajax({
               type: 'GET',
-              url: '/jobs/1',
+              url: '/imprints/1',
               dataType: 'script'
             });
 

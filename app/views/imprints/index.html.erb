@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>Info</th>
       <th>Machine</th>
       <th>Actions</th>
     </tr>
@@ -13,6 +14,15 @@
     <% @imprints.each do |imprint| %>
       <tr>
         <td><%= imprint.id %></td>
+        <td>
+            <h4><%= imprint.name %></h4>
+            <p><%= imprint.description %></p>
+            <% if imprint.scheduled? %>
+                <p><%= imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= imprint.estimated_time %>hrs</p>
+            <% else %>
+              <p>Unscheduled</p>
+            <% end %>
+        </td>
         <td><%= imprint.machine_name %></td>
         <td><%= link_to 'Show', imprint %>
         <%= link_to 'Edit', edit_imprint_path(imprint) %>

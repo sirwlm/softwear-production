@@ -10,6 +10,7 @@ class Imprint < ActiveRecord::Base
 
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
   validate :schedule_conflict?
+  validates :name, :description, presence: true
 
   def scheduled?
     !scheduled_at.blank?
