@@ -1,5 +1,19 @@
 <h1 class="heading"><%= @machine.name %> Production Schedule</h1>
 <hr />
-<div id='machine-calendar' data-machine="<%= @machine.id %>"></div>
+<div class="row">
+  <div class="col-lg-3">
+    <div class="unscheduled-imprints">
+      <h4 align='center'>Unscheduled Imprints</h4>
+
+      <% Imprint.unscheduled.find_each do |imprint| %>
+        <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
+      <% end %>
+
+    </div>
+  </div>
+
+  <div class="col-lg-9" id='machine-calendar' data-machine="<%= @machine.id %>">
+  </div>
+</div>
 
 

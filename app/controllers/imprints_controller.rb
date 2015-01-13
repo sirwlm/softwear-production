@@ -7,6 +7,20 @@ class ImprintsController < InheritedResources::Base
     end
   end
 
+  def update
+    update! do |format|
+      format.json do
+        if params[:machine_id].nil? && params[:scheduled_at].nil? &&
+           @imprint.machine_id.nil? && @imprint.scheduled_at.nil?
+          partial = 'imprints/unscheduled_entry'
+        else
+          partial = 'imprints/for_calendar'
+        end
+        render partial: partial, locals: { imprint: @imprint }
+      end
+    end
+  end
+
   private
 
   def imprint_params

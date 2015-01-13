@@ -1,7 +1,10 @@
 class Imprint < ActiveRecord::Base
+  # include CrmCounterpart
+
   before_save :assign_estimated_end_at
 
-  scope :scheduled, -> { where.not( scheduled_at: :blank? ) }
+  scope :scheduled, -> { where.not(scheduled_at: :blank?) }
+  scope :unscheduled, -> { where(scheduled_at: nil) }
 
   belongs_to :machine
 
@@ -12,8 +15,17 @@ class Imprint < ActiveRecord::Base
     !scheduled_at.blank?
   end
 
+  def estimated?
+    estimated_time && estimated_time > 0
+  end
+
   def machine_name
     machine.name rescue 'Not Assigned'
+  end
+
+  def deadline
+    # TODO This should be crm_imprint.order.in_hand_by or something.
+    Time.now + (1..10).sample.days
   end
 
   private
