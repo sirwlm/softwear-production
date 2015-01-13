@@ -1,8 +1,7 @@
-<%= link_to job_path(1), remote: true, class: 'unscheduled-imprint-link', data: { id: imprint.id } do %>
+<%= link_to imprint_path(imprint.id), remote: true, class: 'unscheduled-imprint-link', data: { id: imprint.id } do %>
   <div class="unscheduled-imprint ui-draggable ui-draggable-handle">
     <% if imprint.estimated? %>
-      (<%= sprintf('%0.02f', imprint.estimated_time) %> Hrs, Due
-      [insert job deadline here])
+      <%= imprint.name %> <%= sprintf('%0.02f', imprint.estimated_time) %>hrs
     <% end %>
   </div>
 <% end %>

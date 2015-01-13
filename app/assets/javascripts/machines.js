@@ -64,11 +64,11 @@ $(document).ready(function() {
         droppable: true,
         dragRevertDuration: 0,
 
-        eventClick: function(event) {
-          if (event.url) {
+        eventClick: function(jsEvent) {
+          if (jsEvent.url) {
             $.ajax({
               type: 'GET',
-              url: '/imprints/1',
+              url: Routes.imprint_path(jsEvent.id),
               dataType: 'script'
             });
 

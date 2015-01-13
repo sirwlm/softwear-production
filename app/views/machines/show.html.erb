@@ -5,7 +5,7 @@
     <div class="unscheduled-imprints">
       <h4 align='center'>Unscheduled Imprints</h4>
 
-      <% @machine.imprints.unscheduled.find_each do |imprint| %>
+      <% Imprint.unscheduled.find_each do |imprint| %>
         <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
       <% end %>
 
