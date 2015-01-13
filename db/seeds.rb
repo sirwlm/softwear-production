@@ -5,7 +5,7 @@
 #
 
 # seed default user
-pw = 'pw4admin'
+pw = 'pw4Admin'
 email = 'admin@softwearcrm.com'
 exists = !User.where(email: email).empty?
 deleted_exists = !User.where(email: email).empty?
@@ -19,7 +19,7 @@ unless deleted_exists || exists
   puts 'Created admin bawss HUGH!' if admin_user.save
 end
 
-peon = User.new(email: 'test@softwear.com',
+peon = User.new(email: 'test@softwearcrm.com',
                 first_name: 'Peasant', last_name: 'McPleb',
                 password: 'imahugenewbhelp',
                 password_confirmation: 'imahugenewbhelp')
