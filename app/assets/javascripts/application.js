@@ -18,6 +18,7 @@
 //= require moment
 //= require fullcalendar
 //= require bootstrap-datetimepicker
+//= require bootstrap-colorpicker
 
 //= require_tree .
 
@@ -37,4 +38,7 @@ $( document ).ready(function() {
            input.val(getUTCDate(val));
         }
     });
+
+    $('.colorpicker').colorpicker()
 });
+

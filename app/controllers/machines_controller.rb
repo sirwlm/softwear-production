@@ -24,7 +24,7 @@ class MachinesController < InheritedResources::Base
   private
 
   def machine_params
-    params.require(:machine).permit(:name)
+    params.require(:machine).permit(:name, :color)
   end
 
 end

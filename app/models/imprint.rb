@@ -3,7 +3,7 @@ class Imprint < ActiveRecord::Base
 
   before_save :assign_estimated_end_at
 
-  scope :scheduled, -> { where.not(scheduled_at: :blank?) }
+  scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
   scope :unscheduled, -> { where(scheduled_at: nil) }
 
   belongs_to :machine
@@ -27,6 +27,10 @@ class Imprint < ActiveRecord::Base
   def deadline
     # TODO This should be crm_imprint.order.in_hand_by or something.
     Time.now + (1..10).sample.days
+  end
+
+  def calendar_color
+    machine.blank? ? 'rgb(58, 135, 173)' : machine.color
   end
 
   private

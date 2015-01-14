@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150113213832) do
+ActiveRecord::Schema.define(version: 20150114030413) do
 
   create_table "api_settings", force: true do |t|
     t.string   "endpoint"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20150113213832) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "color"
   end
 
   create_table "orders", force: true do |t|
