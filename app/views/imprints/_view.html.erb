@@ -1,0 +1,7 @@
+<p><%= @imprint.description %></p>
+<% if @imprint.scheduled? %>
+    <p><%= @imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @imprint.estimated_time %>hrs</p>
+<% else %>
+    <p>Unscheduled</p>
+<% end %>
+<p>Machine: <%= @imprint.machine_name %></p>

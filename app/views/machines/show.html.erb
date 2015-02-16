@@ -3,9 +3,9 @@
 <div class="row">
   <div class="col-lg-3">
     <div class="unscheduled-imprints">
-      <h4 align='center'>Unscheduled Imprints</h4>
+      <h4 align='center'>Ready to Schedule Imprints</h4>
 
-      <% Imprint.unscheduled.find_each do |imprint| %>
+      <% Imprint.ready_to_schedule.find_each do |imprint| %>
         <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
       <% end %>
 

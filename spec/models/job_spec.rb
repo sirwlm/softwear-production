@@ -7,7 +7,7 @@ describe Job, job_spec: true do
   end
 
   describe 'Validations' do
-    it { is_expected.to validate_presence_of :imprintable_train }
+    # it { is_expected.to validate_presence_of :imprintable_train }
   end
 
   describe 'Callbacks' do

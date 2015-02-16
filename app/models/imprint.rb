@@ -5,6 +5,7 @@ class Imprint < ActiveRecord::Base
 
   scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
   scope :unscheduled, -> { where(scheduled_at: nil) }
+  scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
 
   belongs_to :machine
 

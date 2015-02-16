@@ -30,7 +30,7 @@ describe Imprint, imprint_spec: true, story_110: true do
   describe '#estimated_end_at' do
     let(:subject) { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine_id: create(:machine).id)}
     it 'returns the time ' do
-      expect(subject.estimated_end_at).to eq('2014-01-01 02:00:00')
+      expect(subject.estimated_end_at.strftime('%H:%M %Z')).to eq('02:00 EST')
     end
   end
 
