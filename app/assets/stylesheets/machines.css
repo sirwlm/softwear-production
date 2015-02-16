@@ -1,0 +1,20 @@
+.unscheduled-imprints {
+  background-color: #EEEEEE;
+  border: 2px solid #B3B3B3;
+}
+.unscheduled-imprints h4 {
+  font-weight: bold;
+}
+
+.unscheduled-imprint {
+  background-color: #6AA4C1;
+  border: 1px solid #3A87AD;
+  color: white;
+  padding: 5px 10px;
+  margin: 10px 5px;
+  border-radius: 5px;
+}
+
+.unscheduled-imprint-link a:link,a:visited,a:hover,a:active {
+  text-decoration: none;
+}

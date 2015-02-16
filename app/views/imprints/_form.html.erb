@@ -11,6 +11,17 @@
 <% end %>
 
 <%= form_for(imprint, role: 'form') do |f| %>
+
+    <div class="form-group">
+      <%= f.label :name, 'Name' %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, 'description' %>
+      <%= f.text_area :description, class: 'form-control' %>
+    </div>
+
     <div class="form-group">
       <%= f.label :machine_id, 'Machine' %>
       <%= f.select :machine_id, @machines.collect{ |machine| [machine.name, machine.id] }, { include_blank: 'Select Machine' }, class: 'form-control' %>

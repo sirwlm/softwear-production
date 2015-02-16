@@ -12,6 +12,8 @@
  *= require_tree .
  *= require fullcalendar
  *= require rails_bootstrap_forms
+ *= require jquery-ui
+ *= require bootstrap-colorpicker
  */
 
 @import "bootstrap-sprockets";
