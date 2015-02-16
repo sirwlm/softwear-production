@@ -1,4 +1,11 @@
-<%= render 'view' %>
+<h1><%= @imprint.name %></h1>
+<%= render 'nav' %>
+<br clear="all" />
 
-<%= link_to 'Edit', edit_imprint_path(@imprint) %> |
-<%= link_to 'Back', imprints_path %>
+<p><%= @imprint.description %></p>
+<% if @imprint.scheduled? %>
+    <p><%= @imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @imprint.estimated_time %>hrs</p>
+<% else %>
+    <p>Unscheduled</p>
+<% end %>
+<p>Machine: <%= @imprint.machine_name %></p>

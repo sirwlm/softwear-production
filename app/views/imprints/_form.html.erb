@@ -28,17 +28,6 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :scheduled_at, 'Scheduled Date' %>
-      <div class='input-group date datetimepicker-standard'>
-        <%= f.text_field :scheduled_at, { value: datetimepicker_format(f.object.scheduled_at),
-                                          placeholder: 'Scheduled Date and Time',
-                                          class: 'form-control' } %>
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-        </span>
-      </div>
-    </div>
-
-    <div class="form-group">
       <%= f.label :estimated_time, 'Estimated Time in Hours' %>
       <%= f.number_field :estimated_time, step: 'any', class: 'form-control' %>
     </div>

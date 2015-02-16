@@ -1,5 +1,7 @@
 class MachinesController < InheritedResources::Base
 
+  before_filter :assign_fluid_container, only: [:show]
+
   def create
     create! do |success, failure|
       success.html { redirect_to machines_path }

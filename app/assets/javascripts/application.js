@@ -40,5 +40,6 @@ $( document ).ready(function() {
     });
 
     $('.colorpicker').colorpicker()
+    $('[data-toggle="tooltip"]').tooltip()
 });
 

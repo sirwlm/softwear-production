@@ -11,7 +11,7 @@
   <%= render 'shared/top_nav', current_user: current_user %>
 <% end %>
 
-<div class="container-fluid">
+<div class="<%= layout_container_type(@container_type) %>">
     <% flash.each do |key, val| %>
       <%= render 'shared/flash', key: key, val: val %>
     <% end %>

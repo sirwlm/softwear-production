@@ -1,6 +1,8 @@
-<h1>Listing imprints</h1>
+<h1 class="pull-left">Listing imprints</h1>
+<%= render 'nav' %>
+<br clear="all" />
 
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>ID</th>
@@ -24,9 +26,11 @@
             <% end %>
         </td>
         <td><%= imprint.machine_name %></td>
-        <td><%= link_to 'Show', imprint %>
-        <%= link_to 'Edit', edit_imprint_path(imprint) %>
-        <%= link_to 'Destroy', imprint, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+        <%= bootstrap_show_button(imprint) %>
+        <%= bootstrap_edit_button(imprint) %>
+        <%= bootstrap_destroy_button(imprint) %>
+        </td>
       </tr>
     <% end %>
   </tbody>
