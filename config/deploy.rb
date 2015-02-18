@@ -5,7 +5,7 @@ set :repo_url, 'git@github.com:annarbortees/softwear-production.git'
 set :rvm_ruby_version, '2.1.1'
 
 # Default branch is :master
-ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+ask :branch, 'master'
 
 
 # Default deploy_to directory is /var/www/my_app
