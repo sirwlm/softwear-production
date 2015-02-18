@@ -4,18 +4,9 @@ feature 'Machine Features', js: true, machine_spec: true, story_113: true do
   include_context 'logged_in_as_user'
   given!(:machine) { create(:machine) }
 
-  scenario 'A user can view a calendar for a machine via show', pending: 'need to figure this out' do
-    visit machines_path
-    click_link 'Show'
-    expect(page).to have_css("div#machine-calendar[data-machine='#{machine.id}']")
-  end
+  scenario 'A user can view a calendar for a machine via show'
 
-  scenario 'A user can view a calendar for a machine via calendar', pending: 'need to figure this out' do
-    visit root_path
-    click_link 'Calendar'
-    click_link "#{machine.name}"
-    expect(page).to have_css("div#machine-calendar[data-machine='#{machine.id}']")
-  end
+  scenario 'A user can view a calendar for a machine via calendar'
 
   scenario 'A user can view a list of machines' do
     visit root_path

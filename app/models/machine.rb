@@ -7,4 +7,6 @@ class Machine < ActiveRecord::Base
   def scheduled?
     imprints.map{|x| x.scheduled_at.blank? }.all? && !imprints.map(&:empty?).all?
   end
+
+
 end

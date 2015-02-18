@@ -15,7 +15,7 @@ role :db,  %w{50.17.187.22}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-set :branch, 'develop'
+ask :branch, 'develop'
 set :linked_files, fetch(:linked_files) + %w{config/remote_database.yml}
 
 server '50.17.187.22', user: 'ubuntu', roles: %w{web app}, my_property: :my_value

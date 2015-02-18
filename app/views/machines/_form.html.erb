@@ -1,5 +1,6 @@
 <%= bootstrap_form_for(machine) do |f| %>
     <%= f.text_field :name %>
+    <%= f.text_field :color, class: 'colorpicker' %>
     <%= f.submit %>
 <% end %>
 

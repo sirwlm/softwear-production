@@ -9,7 +9,7 @@ feature 'API Settings Management', api_spec: true, story_201: true do
         visit root_path
         click_link 'Admin'
 
-        click_link 'Crm Api Settings'
+        click_link 'CRM API Settings'
 
         fill_in 'Endpoint', with: 'http://totally-a-real-endpoint.com/api'
         fill_in 'Auth email', with: 'test@crm.com'

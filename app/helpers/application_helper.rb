@@ -31,4 +31,30 @@ module ApplicationHelper
   def create_or_edit_text(object)
     object.new_record? ? 'Create' : 'Update'
   end
+
+  def bootstrap_show_button(record)
+    link_to(record, data: { toggle: 'tooltip' }, class: 'btn btn-xs btn-success', title: 'Show') do
+      content_tag :i, '', class: 'glyphicon glyphicon-eye-open'
+    end
+  end
+
+  def bootstrap_edit_button(record)
+    link_to(send("edit_#{record.class.to_s.underscore}_path", record), data: { toggle: 'tooltip' }, class: 'btn btn-xs btn-warning', title: 'Edit') do
+      content_tag :i, '', class: 'glyphicon glyphicon-remove-circle'
+    end
+  end
+
+  def bootstrap_destroy_button(record)
+    link_to(record,  method: :delete, data: { confirm: 'Are you sure?', toggle: 'tooltip' }, class: 'btn btn-xs btn-danger', title: 'Destroy') do
+      content_tag :i, '', class: 'glyphicon glyphicon-remove-circle'
+    end
+  end
+
+  def layout_container_type(container_type)
+    if container_type == 'fluid'
+      'container-fluid'
+    else
+      'container'
+    end
+  end
 end

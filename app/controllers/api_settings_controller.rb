@@ -19,7 +19,7 @@ class ApiSettingsController < InheritedResources::Base
 
   def permitted_params
     params.permit({
-      api_setting: [:endpoint, :auth_token, :homepage, :slug]
+      api_setting: [:endpoint, :auth_email, :auth_token, :homepage, :slug]
     })
   end
 end

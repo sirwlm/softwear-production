@@ -6,7 +6,7 @@
 
 # seed default user
 pw = 'pw4Admin'
-email = 'admin@softwear.com'
+email = 'admin@softwearcrm.com'
 exists = !User.where(email: email).empty?
 deleted_exists = !User.where(email: email).empty?
 unless deleted_exists || exists
@@ -19,7 +19,7 @@ unless deleted_exists || exists
   puts 'Created admin bawss HUGH!' if admin_user.save
 end
 
-peon = User.new(email: 'test@softwear.com',
+peon = User.new(email: 'test@softwearcrm.com',
                 first_name: 'Peasant', last_name: 'McPleb',
                 password: 'imahugenewbhelp',
                 password_confirmation: 'imahugenewbhelp')
@@ -33,7 +33,7 @@ m3 = Machine.create(name: 'Chameleon')
 
 o = Order.create(softwear_crm_id: 1)
 j = Job.create(softwear_crm_id: 1, order_id: o.id)
-Imprint.create(softwear_crm_id: 1, job_id: j.id, machine_id: m1.id, scheduled_at: Time.now, estimated_time: 158)
-Imprint.create(softwear_crm_id: 1, job_id: j.id, machine_id: m2.id, scheduled_at: Time.now + 1.day, estimated_time: 76)
-Imprint.create(softwear_crm_id: 1, job_id: j.id, machine_id: m3.id, scheduled_at: Time.now + 2.days, estimated_time: 253)
+Imprint.create(name: 'Imprint Name Goes Here', description: 'This is a description of an imprint', softwear_crm_id: 1, job_id: j.id, machine_id: m1.id, scheduled_at: Time.now, estimated_time: 1.5)
+Imprint.create(name: 'Another Imprint Name Goes Here', description: 'This is the description of an imprint', softwear_crm_id: 1, job_id: j.id, machine_id: m2.id, scheduled_at: Time.now + 1.day, estimated_time: 2)
+Imprint.create(name: 'Imprint Name', description: 'This is another description of an imprint', softwear_crm_id: 1, job_id: j.id, machine_id: m3.id, scheduled_at: Time.now + 2.days, estimated_time: 4)
 

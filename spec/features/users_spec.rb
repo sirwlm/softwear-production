@@ -45,14 +45,14 @@ feature 'Users', user_spec: true, js: true, story_115: true do
 
     scenario 'an admin can view a list of users', story_116: true do
       visit root_path
-      click_link admin.full_name
+      click_link 'Admin'
       click_link 'Manage Users'
       expect(page).to have_content 'View and Edit registered Users'
     end
 
     scenario "an admin can edit a user's info", story_116: true do
       visit users_path
-      first('a[title="Edit"]').click
+      first('a[data-action="Edit"]').click
       fill_in 'Last name', with: 'Testing'
       click_button 'Update User'
       expect(page).to have_content 'Hooray!'

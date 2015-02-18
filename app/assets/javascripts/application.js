@@ -12,12 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery
+//= require jquery-ui
 //= require js-routes
 //= require bootstrap-sprockets
-//= require fullcalendar
 //= require moment
+//= require fullcalendar
 //= require bootstrap-datetimepicker
+//= require bootstrap-colorpicker
 
 //= require_tree .
 
@@ -37,4 +38,8 @@ $( document ).ready(function() {
            input.val(getUTCDate(val));
         }
     });
+
+    $('.colorpicker').colorpicker()
+    $('[data-toggle="tooltip"]').tooltip()
 });
+
