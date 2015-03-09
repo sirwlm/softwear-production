@@ -19,4 +19,19 @@ describe ImprintsController, imprint_spec: true, story_113: true do
       end
     end
   end
+
+  describe 'PUT #complete', story_465: true do
+    let(:user) { create(:user) }
+
+    context 'given an imprint id, and a user id' do
+      it 'marks completed_at to Time.now, and completed_by_id to the given user id' do
+        now = Time.now
+        allow(Time).to receive(:now).and_return now
+
+        put :complete, id: imprint.id, user_id: user.id
+        expect(imprint.reload.completed_at).to eq now
+        expect(imprint.reload.completed_by).to eq user
+      end
+    end
+  end
 end
