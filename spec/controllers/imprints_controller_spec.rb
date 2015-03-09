@@ -20,16 +20,17 @@ describe ImprintsController, imprint_spec: true, story_113: true do
     end
   end
 
-  describe 'PUT #complete', story_465: true do
-    let(:user) { create(:user) }
+  describe 'PATCH #complete', story_465: true do
+    context 'passed an imprint id through its route' do
+      let!(:user) { create :user }
 
-    context 'given an imprint id, and a user id' do
-      it 'marks completed_at to Time.now, and completed_by_id to the given user id' do
+      it 'marks completed_at to Time.now, and completed_by_id to the current_user' do
         now = Time.now
         allow(Time).to receive(:now).and_return now
+        allow(controller).to receive(:current_user).and_return user
 
-        put :complete, id: imprint.id, user_id: user.id
-        expect(imprint.reload.completed_at).to eq now
+        patch :complete, id: imprint.id
+        expect(imprint.reload.completed_at).to eq now.to_s(:db)
         expect(imprint.reload.completed_by).to eq user
       end
     end

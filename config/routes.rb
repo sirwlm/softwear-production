@@ -10,7 +10,9 @@ SoftwearProduction::Application.routes.draw do
   end
 
   resources :imprints do
-
+    member do
+      patch 'complete', to: 'imprints#complete'
+    end
   end
 
   resources :api_settings

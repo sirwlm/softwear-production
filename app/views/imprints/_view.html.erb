@@ -5,3 +5,15 @@
     <p>Unscheduled</p>
 <% end %>
 <p>Machine: <%= @imprint.machine_name %></p>
+<div>
+  <% if @imprint.completed? %>
+    <span class='imprint-completed'>
+      Completed by <%= current_user.full_name %>
+      on <%= @imprint.completed_at.strftime('%m/%d/%Y at %I:%M%p') %>
+    </span>
+  <% else %>
+    <%= bootstrap_form_for @imprint, url: complete_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as completed?' } do |f| %>
+      <%= f.submit 'Mark as Complete' %>
+    <% end %>
+  <% end %>
+</div>

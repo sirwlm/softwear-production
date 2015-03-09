@@ -8,6 +8,7 @@ class Imprint < ActiveRecord::Base
   scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
 
   belongs_to :machine
+  belongs_to :completed_by, class_name: 'User'
 
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
   validate :schedule_conflict?
@@ -19,6 +20,16 @@ class Imprint < ActiveRecord::Base
 
   def estimated?
     estimated_time && estimated_time > 0
+  end
+
+  def completed?
+    !completed_at.nil?
+  end
+
+  def complete!(user)
+    self.completed_at = Time.now
+    self.completed_by = user
+    save!
   end
 
   def machine_name

@@ -22,6 +22,22 @@ class ImprintsController < InheritedResources::Base
     end
   end
 
+  def complete
+    @imprint = Imprint.find(params[:id])
+    @imprint.completed_at = Time.now
+    @imprint.completed_by = current_user
+    @imprint.save!
+
+    respond_to do |format|
+      format.html do
+        redirect_to action: :show
+      end
+      format.js do
+        render :show
+      end
+    end
+  end
+
   private
 
   def prepare_calendar_entries
@@ -32,5 +48,9 @@ class ImprintsController < InheritedResources::Base
 
   def imprint_params
     params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id)
+  end
+
+  def complete_params
+    params.permit(:user_id)
   end
 end
