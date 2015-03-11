@@ -1,6 +1,7 @@
 .unscheduled-imprints {
   background-color: #EEEEEE;
   border: 2px solid #B3B3B3;
+  margin-bottom: 25px;
 }
 .unscheduled-imprints h4 {
   font-weight: bold;

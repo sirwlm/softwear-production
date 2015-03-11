@@ -1,1 +1,18 @@
-<div id='calendar'></div>
+<div class='row'>
+  <div class='col-lg-3'>
+    <% Machine.all.each do |machine| %>
+      <div class='unscheduled-imprints'>
+        <div class='row'>
+          <h4 align='center'><%= machine.name %></h4>
+
+          <% Imprint.scheduled.each do |imprint| %>
+            <%=  %>
+          <% end %>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class='col-lg-9' id='calendar'></div>
+</div>

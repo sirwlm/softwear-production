@@ -24,6 +24,57 @@ $(document).ready(function() {
         unscheduledDraggable($(this));
       });
 
+
+      /*
+      function dropOutside(eventObject, jsEvent) {
+        var unscheduled = $('.unscheduled-imprints');
+        if (unscheduled.length <= 0) return;
+        var offset = unscheduled.offset();
+
+        var x1 = offset.left;
+        var x2 = offset.left + unscheduled.outerWidth(true);
+        var y1 = offset.top;
+        var y2 = offset.top + unscheduled.outerHeight(true);
+
+        if (jsEvent.pageX >= x1 && jsEvent.pageX <= x2 &&
+            jsEvent.pageY >= y1 && jsEvent.pageY <= y2)
+        {
+          $('#machine-calendar').fullCalendar(
+            'removeEvents', eventObject.id
+          );
+
+          $.ajax({
+            type: 'PUT',
+            url: Routes.imprint_path(eventObject.id),
+            dataType: 'json',
+            data: {
+              imprint: {
+                machine_id: null,
+                scheduled_at: null
+              }
+            }
+          })
+
+          .done(function(data) {
+            if (!data.content) {
+              alert('No!!!!!!1');
+              return;
+            }
+            var estimatedTime = estimatedHoursFor(eventObject);
+
+            var unscheduledEntry = $(data.content);
+            $('.unscheduled-imprints').append(unscheduledEntry);
+            unscheduledDraggable(unscheduledEntry);
+          })
+
+          .fail(function() {
+            alert('No!!!!!!');
+          });
+        }
+      }
+      */
+
+
       function estimatedHoursFor(eventObject) {
         var duration = moment.duration(eventObject.end)
                              .subtract(eventObject.start);
@@ -76,53 +127,7 @@ $(document).ready(function() {
           }
         },
 
-        eventDragStop: function(eventObject, jsEvent) {
-          var unscheduled = $('.unscheduled-imprints');
-          if (unscheduled.length <= 0) return;
-          var offset = unscheduled.offset();
-
-          var x1 = offset.left;
-          var x2 = offset.left + unscheduled.outerWidth(true);
-          var y1 = offset.top;
-          var y2 = offset.top + unscheduled.outerHeight(true);
-
-          if (jsEvent.pageX >= x1 && jsEvent.pageX <= x2 &&
-              jsEvent.pageY >= y1 && jsEvent.pageY <= y2)
-          {
-            $('#machine-calendar').fullCalendar(
-              'removeEvents', eventObject.id
-            );
-
-            $.ajax({
-              type: 'PUT',
-              url: Routes.imprint_path(eventObject.id),
-              dataType: 'json',
-              data: {
-                imprint: {
-                  machine_id: null,
-                  scheduled_at: null
-                }
-              }
-            })
-
-            .done(function(data) {
-              if (!data.content) {
-                alert('No!!!!!!1');
-                return;
-              }
-              var estimatedTime = estimatedHoursFor(eventObject);
-
-              var unscheduledEntry = $(data.content);
-              $('.unscheduled-imprints').append(unscheduledEntry);
-              unscheduledDraggable(unscheduledEntry);
-            })
-
-            .fail(function() {
-              alert('No!!!!!!');
-            });
-          }
-        },
-
+        eventDragStop: dropOutside,
         eventDrop: onChange,
         eventResize: onChange,
 
@@ -159,33 +164,8 @@ $(document).ready(function() {
       });
 
     });
-  }
 
-//  $('#machine-calendar').fullCalendar({
-//
-//    selectable: true,
-//    selectHelper: true,
-//    select: function(start, end) {
-//      var title = prompt('Event Title:');
-//      var eventData;
-//      if (title) {
-//        eventData = {
-//          title: title,
-//          start: start,
-//          end: end,
-//          allDay: false
-//        };
-//        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-//      }
-//      $('#calendar').fullCalendar('unselect');
-//    },
-//    editable: true,
-//    eventLimit: true, // allow "more" link when too many events
-//    events: {
-//      url: Routes.machine_scheduled_path( getMachineId(), { format: 'json' })
-//    }
-//
-//  });
+  }
 
 });
 
