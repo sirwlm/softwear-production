@@ -117,10 +117,20 @@ function onChange(eventObject, delta, revert, jsEvent, ui, view) {
     type: 'PUT',
     url: Routes.imprint_path(imprintId),
     dataType: 'json',
-    data: { imprint: {
-      scheduled_at:   eventObject.start.format(),
-      estimated_time: estimatedTime
-    } }
+    data: {
+      imprint: {
+        scheduled_at:   eventObject.start.format(),
+        estimated_time: estimatedTime
+      }
+    }
+  })
+
+  .done(function(data) {
+    var hours = estimatedHoursFor(data);
+
+    $('.event-drop[data-id="'+data.id+'"]')
+      .find('.estimated-time')
+      .text(hours.toFixed(2));
   })
 
   .fail(function() {
