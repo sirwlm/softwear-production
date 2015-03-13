@@ -3,6 +3,7 @@
 <div class="row">
   <div class="col-lg-3">
     <div class="event-receiver unscheduled-imprints">
+
       <h4 align='center'>Ready to Schedule Imprints</h4>
 
       <% Imprint.ready_to_schedule.each do |imprint| %>
@@ -15,5 +16,3 @@
   <div class="col-lg-9" id='machine-calendar' data-machine="<%= @machine.id %>">
   </div>
 </div>
-
-
