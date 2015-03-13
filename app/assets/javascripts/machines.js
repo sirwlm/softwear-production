@@ -12,9 +12,12 @@ $(document).ready(function() {
 
   if(machineId > 0) {
     $.getJSON(machineId +'/scheduled.json', function(machineJobs) {
-      fullCalendarOn('#machine-calendar', machineJobs, {
-        machine_id: machineId
+
+      imprintCalendarOn('#machine-calendar', {
+        events: machineJobs,
+        dropData: { machine_id: machineId }
       });
+
     });
 
   }

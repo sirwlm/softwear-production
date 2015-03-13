@@ -1,4 +1,4 @@
-function fullCalendarOn(matcher, events, dropData) {
+function imprintCalendarOn(matcher, options) {
   $(matcher).fullCalendar({
     header: {
       left: 'prev,next today',
@@ -6,7 +6,7 @@ function fullCalendarOn(matcher, events, dropData) {
       right: 'month,agendaWeek,agendaDay'
     },
     defaultView: 'agendaWeek',
-    events: events,
+    events: options.events,
     editable: true,
     droppable: true,
     dragRevertDuration: 0,
@@ -31,21 +31,29 @@ function fullCalendarOn(matcher, events, dropData) {
 
     drop: function(date) {
       var droppedElement = $(this);
+      if (droppedElement.parent().data('machine-id') == null
+          &&
+          $(matcher).data('machine') == null)
+        return;
       var imprintId = droppedElement.data('id');
 
-      $(this).remove();
+      if (options.removeAfterDrop === undefined || options.removeAfterDrop($(this)))
+        $(this).remove();
 
       $.ajax({
         type: 'PUT',
         url: Routes.imprint_path(imprintId),
         dataType: 'json',
         data: {
-          imprint: $.extend({ scheduled_at: date.format() }, dropData)
+          imprint: $.extend({ scheduled_at: date.format() }, options.dropData || {})
         }
       })
 
       .done(function(eventObject) {
-        $('#machine-calendar').fullCalendar(
+        $(matcher).fullCalendar(
+          'removeEvents', eventObject.id
+        );
+        $(matcher).fullCalendar(
           'renderEvent', eventObject, true
         );
       })
@@ -58,12 +66,14 @@ function fullCalendarOn(matcher, events, dropData) {
   });
 }
 
+var imprintDraggableProperties = {
+  zIndex: 999,
+  revert: true,
+  revertDuration: 0
+}
+
 function imprintDraggable(element) {
-  element.draggable({
-    zIndex: 999,
-    revert: true,
-    revertDuration: 0
-  });
+  element.draggable(imprintDraggableProperties);
 }
 
 $(function() {
@@ -72,10 +82,29 @@ $(function() {
   });
 });
 
+function changeEventColor(calendar, eventId, color) {
+  var events = $(calendar).fullCalendar('clientEvents', eventId);
+
+  for (var i = 0; i < events.length; i++) {
+    var event = events[i];
+
+    if (event.id == eventId) {
+      event.color = color;
+      $(calendar).fullCalendar('updateEvent', event);
+      return true;
+    }
+    return false;
+  }
+}
+
 function estimatedHoursFor(eventObject) {
-  var duration = moment.duration(eventObject.end)
-                       .subtract(eventObject.start);
-  return duration.hours();
+  if (eventObject.estimatedHours)
+    return eventObject.estimatedHours;
+  else {
+    var duration = moment.duration(eventObject.end)
+                         .subtract(eventObject.start);
+    return duration.hours();
+  }
 }
 
 function onChange(eventObject, delta, revert, jsEvent, ui, view) {
@@ -100,23 +129,23 @@ function onChange(eventObject, delta, revert, jsEvent, ui, view) {
   });
 }
 
+function eventIsWithinElement(event, element) {
+  var offset = $(element).offset();
+  var x1 = offset.left;
+  var x2 = offset.left + element.outerWidth(true);
+  var y1 = offset.top;
+  var y2 = offset.top + element.outerHeight(true);
 
+  return (event.pageX >= x1 && event.pageX <= x2 &&
+          event.pageY >= y1 && event.pageY <= y2);
+}
 
-
-function dropOutside(matcher) {
+function dropOutside(matcher, options) {
   return function(eventObject, jsEvent) {
     $('.event-receiver').each(function() {
       var receiver = $(this);
-      var offset = receiver.offset();
 
-      var x1 = offset.left;
-      var x2 = offset.left + receiver.outerWidth(true);
-      var y1 = offset.top;
-      var y2 = offset.top + receiver.outerHeight(true);
-
-      if (jsEvent.pageX >= x1 && jsEvent.pageX <= x2 &&
-          jsEvent.pageY >= y1 && jsEvent.pageY <= y2)
-      {
+      if (eventIsWithinElement(jsEvent, receiver)) {
         imprintObject = {};
         if (receiver.data('machine-id')) {
           imprintObject.machine_id = receiver.data('machine-id');
@@ -125,15 +154,17 @@ function dropOutside(matcher) {
           imprintObject.scheduled_at = null;
         }
 
-        $(matcher).fullCalendar(
-          'removeEvents', eventObject.id
-        );
+        if (receiver.data('machine-id') == null)
+          $(matcher).fullCalendar('removeEvents', eventObject.id);
 
         $.ajax({
           type: 'PUT',
           url: Routes.imprint_path(eventObject.id),
           dataType: 'json',
-          data: { imprint: imprintObject }
+          data: {
+            imprint: imprintObject,
+            return_content: true
+          }
         })
 
         .done(function(data) {
@@ -141,6 +172,9 @@ function dropOutside(matcher) {
             alert('Something went wrong! Try refreshing the page.');
             return;
           }
+          $('.event-drop[data-id="'+data.id+'"]').remove();
+          changeEventColor(matcher, data.id, data.color);
+
           var estimatedTime = estimatedHoursFor(eventObject);
 
           var entry = $(data.content);

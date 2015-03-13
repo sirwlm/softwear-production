@@ -1,17 +1,29 @@
 <div class='row'>
   <div class='col-lg-3'>
     <% Machine.all.each do |machine| %>
-      <div class='unscheduled-imprints'>
+      <div class='event-receiver unscheduled-imprints' data-machine-id='<%= machine.id %>'>
         <div class='row'>
           <h4 align='center'><%= machine.name %></h4>
 
-          <% Imprint.scheduled.each do |imprint| %>
-            <%=  %>
+          <% machine.imprints.scheduled.each do |imprint| %>
+            <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
           <% end %>
 
         </div>
       </div>
     <% end %>
+
+      <div class='event-receiver unscheduled-imprints'>
+        <div class='row'>
+          <h4 align='center'>No Machine</h4>
+
+          <% Imprint.unscheduled.each do |imprint| %>
+            <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
+          <% end %>
+
+        </div>
+      </div>
+
   </div>
 
   <div class='col-lg-9' id='calendar'></div>
