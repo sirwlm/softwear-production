@@ -101,9 +101,11 @@ function estimatedHoursFor(eventObject) {
   if (eventObject.estimatedHours)
     return eventObject.estimatedHours;
   else {
-    var duration = moment.duration(eventObject.end)
-                         .subtract(eventObject.start);
-    return duration.hours();
+    var start = moment(eventObject.start);
+    var end = moment(eventObject.end);
+
+    var duration = moment.duration(end).subtract(start);
+    return duration.asHours();
   }
 }
 
@@ -130,7 +132,7 @@ function onChange(eventObject, delta, revert, jsEvent, ui, view) {
 
     $('.event-drop[data-id="'+data.id+'"]')
       .find('.estimated-time')
-      .text(hours.toFixed(2));
+      .text(hours.toFixed(1));
   })
 
   .fail(function() {
