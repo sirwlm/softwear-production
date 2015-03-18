@@ -292,6 +292,7 @@ GEM
     sunspot (2.1.1)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
+    sunspot_matchers (2.1.1.1)
     sunspot_rails (2.1.1)
       nokogiri
       rails (>= 3)
@@ -376,6 +377,7 @@ DEPENDENCIES
   shoulda-matchers
   simplecov
   state_machine
+  sunspot_matchers
   sunspot_rails
   sunspot_solr
   timecop

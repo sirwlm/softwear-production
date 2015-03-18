@@ -65,3 +65,5 @@ gem 'dumpsync', git: 'git@github.com:AnnArborTees/dumpsync.git'
 gem 'jquery-ui-rails'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
+gem 'sunspot_matchers'
+

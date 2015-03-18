@@ -9,7 +9,6 @@ class ImprintsController < InheritedResources::Base
         with(:scheduled_at).greater_than(params[:q][:scheduled_start_at_after]) unless params[:q][:scheduled_start_at_after].blank?
         with(:scheduled_at).less_than(params[:q][:scheduled_start_at_before]) unless params[:q][:scheduled_start_at_before].blank?
         with(:complete, params[:q][:complete] == 'true') unless params[:q][:complete].blank?
-        # paginate :page => 2, :per_page => 15
       end
       @imprints = search.results
     else

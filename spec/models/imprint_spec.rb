@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Imprint, imprint_spec: true, story_110: true do
+  describe 'searches', story_460: true do
+    it { should have_searchable_field(:name) }
+  end
+
   describe 'Scopes' do
     describe 'scheduled' do
       let!(:imprint_1) { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine: build_stubbed(:machine))}
