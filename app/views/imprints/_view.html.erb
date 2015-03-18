@@ -1,19 +1,53 @@
-<p><%= @imprint.description %></p>
-<% if @imprint.scheduled? %>
-    <p><%= @imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @imprint.estimated_time %>hrs</p>
-<% else %>
-    <p>Unscheduled</p>
-<% end %>
-<p>Machine: <%= @imprint.machine_name %></p>
-<div>
-  <% if @imprint.completed? %>
-    <span class='imprint-completed'>
-      Completed by <%= current_user.full_name %>
-      on <%= @imprint.completed_at.strftime('%m/%d/%Y at %I:%M%p') %>
-    </span>
-  <% else %>
-    <%= bootstrap_form_for @imprint, url: complete_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as completed?' } do |f| %>
-      <%= f.submit 'Mark as Complete' %>
+<div class="row">
+  <div class="col-xs-6">
+    <dl>
+      <dt>
+        Description
+      </dt>
+      <dd>
+        <%= @imprint.description %>
+      </dd>
+      <% if @imprint.scheduled? %>
+          <dt>
+            Scheduled At
+          </dt>
+          <dd>
+            <%= @imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @imprint.estimated_time %>hrs
+          </dd>
+      <% else %>
+          <dt>Unscheduled</dt>
+      <% end %>
+      <dt>
+        Machine
+      </dt>
+      <dd>
+        <%= @imprint.machine_name %>
+      </dd>
+    </dl>
+
+    <% unless @imprint.completed? %>
+        <%= bootstrap_form_for @imprint, url: complete_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as completed?' } do |f| %>
+            <%= f.button class: 'btn btn-warning'  do %>
+                <i class="glyphicon glyphicon-check"></i> Mark as Complete
+            <% end %>
+        <% end %>
     <% end %>
-  <% end %>
+  </div>
+
+  <div class="col-xs-6">
+    <% if @imprint.completed? %>
+    <span class='imprint-completed'>
+      <dl>
+        <dt>Completed by</dt>
+        <dd>
+          <%= current_user.full_name %>
+        </dd>
+        <dt>Completed At</dt>
+        <dd>
+          <%= @imprint.completed_at.strftime('%m/%d/%Y at %I:%M%p') %>
+        </dd>
+    </span>
+    <% end %>
+  </div>
+
 </div>

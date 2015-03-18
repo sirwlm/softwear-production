@@ -22,22 +22,14 @@
 
 //= require_tree .
 
-function getUTCDate() {
-    return moment($('#sdate').val()).utc().format('YYYY-MM-DDTHH:mm:ssZZ');
-}
 
 
 $( document ).ready(function() {
-    $('.datetimepicker-standard').datetimepicker();
-
-
-    $("form").submit(function(){
-        input = $(".datetimepicker-standard > input");
-        if(input.size() > 0 && input.val() != '') {
-           val = input.val();
-           input.val(getUTCDate(val));
+    $('.datetimepicker-standard').datetimepicker(
+        {
+            format: 'YYYY-MM-DD HH:mm:ss'
         }
-    });
+    );
 
     $('.colorpicker').colorpicker()
     $('[data-toggle="tooltip"]').tooltip()

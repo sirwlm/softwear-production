@@ -1,4 +1,4 @@
-$('#contentModal .modal-title').html("Imprint Info");
+$('#contentModal .modal-title').html("<%= @imprint.name %>");
 $('#contentModal .modal-body').html("<%= escape_javascript render('imprints/view', imprint: @imprint) %>");
 $('#contentModal').modal('show');
 $('#contentModalSaveChanges').hide();

@@ -14,6 +14,16 @@ class Imprint < ActiveRecord::Base
   validate :schedule_conflict?
   validates :name, :description, presence: true
 
+  searchable do
+    text :name, :description
+    integer :completed_by_id
+    boolean :complete  do
+      completed?
+    end
+    time :scheduled_at
+    time :completed_at
+  end
+
   def scheduled?
     !scheduled_at.blank?
   end

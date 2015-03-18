@@ -2,6 +2,22 @@ class ImprintsController < InheritedResources::Base
   respond_to :json, :js, :html
   before_filter :prepare_calendar_entries, only: [:index]
 
+  def index
+    if params[:q]
+      search = Imprint.search do
+        fulltext params[:q][:text]
+        with(:scheduled_at).greater_than(params[:q][:scheduled_start_at_after]) unless params[:q][:scheduled_start_at_after].blank?
+        with(:scheduled_at).less_than(params[:q][:scheduled_start_at_before]) unless params[:q][:scheduled_start_at_before].blank?
+        with(:complete, params[:q][:complete] == 'true') unless params[:q][:complete].blank?
+        # paginate :page => 2, :per_page => 15
+      end
+      @imprints = search.results
+    else
+      index!
+    end
+  end
+
+
   def show
     show! do |format|
       format.js { render layout: nil }
