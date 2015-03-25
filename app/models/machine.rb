@@ -5,7 +5,7 @@ class Machine < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def scheduled?
-    imprints.map{|x| x.scheduled_at.blank? }.all? && !imprints.map(&:empty?).all?
+    imprints.map{|x| x.scheduled_at.blank? }.all?
   end
 
 

@@ -6,7 +6,7 @@
 
       <h4 align='center'>Ready to Schedule Imprints</h4>
 
-      <% Imprint.ready_to_schedule.each do |imprint| %>
+      <% @machine.imprints.unscheduled.each do |imprint| %>
         <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
       <% end %>
 

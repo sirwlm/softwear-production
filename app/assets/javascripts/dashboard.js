@@ -8,19 +8,17 @@ $(document).ready(function() {
         id: $(this).data('id')
       };
 
-      dropOutside('#calendar', {
-        beforeDrop: function() { droppedElement.remove(); },
-      })(eventObject, event);
+      dropOutside('#calendar')(eventObject, event);
     }
 
     $('.event-drop').draggable(imprintDraggableProperties);
+
+    imprintCalendarOn('#calendar', {
+      events: Routes.imprints_path(),
+
+      // removeAfterDrop: function(element) {
+      //   return element.data('machine-id') != null;
+      // }
+    });
   }
-
-  imprintCalendarOn('#calendar', {
-    events: Routes.imprints_path(),
-
-    removeAfterDrop: function(element) {
-      return element.data('machine-id') != null;
-    }
-  });
 });

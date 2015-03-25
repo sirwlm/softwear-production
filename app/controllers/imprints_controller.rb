@@ -5,10 +5,17 @@ class ImprintsController < InheritedResources::Base
   def index
     if params[:q]
       search = Imprint.search do
-        fulltext params[:q][:text]
-        with(:scheduled_at).greater_than(params[:q][:scheduled_start_at_after]) unless params[:q][:scheduled_start_at_after].blank?
-        with(:scheduled_at).less_than(params[:q][:scheduled_start_at_before]) unless params[:q][:scheduled_start_at_before].blank?
-        with(:complete, params[:q][:complete] == 'true') unless params[:q][:complete].blank?
+        fulltext params[:q][:text] if params[:q][:text].blank?
+
+        unless params[:q][:scheduled_start_at_after].blank?
+          with(:scheduled_at).greater_than(params[:q][:scheduled_start_at_after])
+        end
+        unless params[:q][:scheduled_start_at_before].blank?
+          with(:scheduled_at).less_than(params[:q][:scheduled_start_at_before])
+        end
+        unless params[:q][:complete].blank?
+          with(:complete, params[:q][:complete] == 'true')
+        end
       end
       @imprints = search.results
     else

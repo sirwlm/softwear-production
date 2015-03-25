@@ -4,17 +4,17 @@
       <div class='event-receiver unscheduled-imprints' data-machine-id='<%= machine.id %>'>
         <h4 align='center'><%= machine.name %></h4>
 
-        <% machine.imprints.scheduled.each do |imprint| %>
+        <% machine.imprints.unscheduled.each do |imprint| %>
           <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
         <% end %>
 
       </div>
     <% end %>
 
-      <div class='event-receiver unscheduled-imprints'>
+      <div class='event-receiver unscheduled-imprints no-machine' data-no-machine='true'>
         <h4 align='center'>No Machine</h4>
 
-        <% Imprint.unscheduled.each do |imprint| %>
+        <% Imprint.unscheduled.machineless.each do |imprint| %>
           <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
         <% end %>
 
