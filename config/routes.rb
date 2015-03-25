@@ -4,6 +4,7 @@ SoftwearProduction::Application.routes.draw do
   root 'dashboard#index'
   get 'dashboard/index'
   get 'dashboard/calendar'
+  post 'dashboard/filter'
 
   resources :machines do
     get :scheduled

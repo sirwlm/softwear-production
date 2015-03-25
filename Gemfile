@@ -66,4 +66,4 @@ gem 'jquery-ui-rails'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'sunspot_matchers'
-
+gem 'select2-rails', git: 'git@github.com:argerim/select2-rails'

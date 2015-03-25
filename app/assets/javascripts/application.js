@@ -19,6 +19,7 @@
 //= require fullcalendar
 //= require bootstrap-datetimepicker
 //= require bootstrap-colorpicker
+//= require select2
 
 //= require_tree .
 
