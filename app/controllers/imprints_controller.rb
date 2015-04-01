@@ -54,7 +54,7 @@ class ImprintsController < InheritedResources::Base
         redirect_to action: :show
       end
       format.js do
-        render :show
+        render :show, locals: { refresh_imprint: true }
       end
     end
   end

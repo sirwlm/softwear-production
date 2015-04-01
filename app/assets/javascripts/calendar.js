@@ -1,4 +1,6 @@
 function imprintCalendarOn(matcher, options) {
+  window.calendarMatcher = matcher;
+
   $(matcher).fullCalendar({
     header: {
       left: 'prev,next today',

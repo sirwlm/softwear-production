@@ -25,6 +25,10 @@ class Imprint < ActiveRecord::Base
     time :completed_at
   end
 
+  def display
+    completed? ? "(COMPLETE) #{name}" : name
+  end
+
   def scheduled?
     !scheduled_at.blank?
   end
@@ -53,7 +57,11 @@ class Imprint < ActiveRecord::Base
   end
 
   def calendar_color
-    machine.blank? ? 'rgb(58, 135, 173)' : machine.color
+    if machine.blank?
+      'rgb(58, 135, 173)'
+    else
+      machine.color
+    end
   end
 
   private

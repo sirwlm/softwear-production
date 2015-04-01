@@ -1,4 +1,13 @@
 $('#contentModal .modal-title').html("<%= @imprint.name %>");
-$('#contentModal .modal-body').html("<%= escape_javascript render('imprints/view', imprint: @imprint) %>");
+$('#contentModal .modal-body').html("<%=j render('imprints/view', imprint: @imprint) %>");
 $('#contentModal').modal('show');
 $('#contentModalSaveChanges').hide();
+
+<% if local_assigns[:refresh_imprint] %>
+  $(window.calendarMatcher).fullCalendar(
+    'removeEvents', <%= @imprint.id %>
+  );
+  $(window.calendarMatcher).fullCalendar(
+    'renderEvent', JSON.parse("<%=j render(partial: 'imprints/for_calendar', locals: { imprint: @imprint }, formats: [:json]).html_safe %>")
+  );
+<% end %>
