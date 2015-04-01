@@ -1,5 +1,6 @@
 class Imprint < ActiveRecord::Base
   # include CrmCounterpart
+  include ColorUtils
 
   before_save :assign_estimated_end_at
 
@@ -15,6 +16,8 @@ class Imprint < ActiveRecord::Base
   validate :schedule_conflict?
   validates :name, :description, presence: true
 
+  before_create :set_approved_to_true
+
   searchable do
     text :name, :description
     integer :completed_by_id
@@ -26,7 +29,9 @@ class Imprint < ActiveRecord::Base
   end
 
   def display
-    completed? ? "(COMPLETE) #{name}" : name
+    return "(UNAPPROVED) #{name}" unless approved?
+    return "(COMPLETE) #{name}" if completed?
+    name
   end
 
   def scheduled?
@@ -57,11 +62,39 @@ class Imprint < ActiveRecord::Base
   end
 
   def calendar_color
-    if machine.blank?
-      'rgb(58, 135, 173)'
-    else
-      machine.color
+    return 'white' if !approved?
+    return 'rgb(58, 135, 173)' if machine.blank?
+    return 'rgb(204, 204, 204)' if completed?
+
+    machine.color
+  end
+
+  def text_color
+    unless machine.blank?
+      return machine.color if completed? || !approved?
     end
+
+    if intensity(calendar_color) > 300
+      'black'
+    else
+      'white'
+    end
+  end
+
+  def border_color
+    if !approved? || completed?
+      return 'black'
+    end
+
+    color = calendar_color
+
+    if intensity(color) > 382
+      factor = 0.2
+    else
+      factor = 0.75
+    end
+
+    "rgb(#{rgb(color).map { |c| [255, c * factor].min.floor }.join(', ')})"
   end
 
   private
@@ -72,6 +105,10 @@ class Imprint < ActiveRecord::Base
 
   def assign_estimated_end_at
     self.estimated_end_at = (scheduled_at + estimated_time.hours rescue nil)
+  end
+
+  def set_approved_to_true
+    self.approved = true
   end
 
 end

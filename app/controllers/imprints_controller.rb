@@ -49,6 +49,20 @@ class ImprintsController < InheritedResources::Base
     @imprint.completed_by = current_user
     @imprint.save!
 
+    show_result
+  end
+
+  def approve
+    @imprint = Imprint.find(params[:id])
+    @imprint.approved = true
+    @imprint.save!
+
+    show_result
+  end
+
+  private
+
+  def show_result
     respond_to do |format|
       format.html do
         redirect_to action: :show
@@ -59,8 +73,6 @@ class ImprintsController < InheritedResources::Base
     end
   end
 
-  private
-
   def prepare_calendar_entries
     if params[:start] && params[:end]
       @calendar_entries = Imprint.scheduled.where('scheduled_at > ? and scheduled_at < ?', params[:start], params[:end])
@@ -68,7 +80,7 @@ class ImprintsController < InheritedResources::Base
   end
 
   def imprint_params
-    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id)
+    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :approved)
   end
 
   def complete_params

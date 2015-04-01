@@ -25,13 +25,28 @@
       </dd>
     </dl>
 
-    <% unless @imprint.completed? %>
-        <%= bootstrap_form_for @imprint, url: complete_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as completed?' } do |f| %>
-            <%= f.button class: 'btn btn-warning'  do %>
-                <i class="glyphicon glyphicon-check"></i> Mark as Complete
+    <div class='row'>
+      <div class='col-sm-6'>
+        <% if @imprint.approved? && !@imprint.completed? %>
+            <%= bootstrap_form_for @imprint, url: complete_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as completed?' } do |f| %>
+                <%= f.button class: 'btn btn-warning'  do %>
+                    <i class="glyphicon glyphicon-check"></i> Mark as Complete
+                <% end %>
             <% end %>
         <% end %>
-    <% end %>
+      </div>
+
+      <div class='col-sm-6'>
+        <% unless @imprint.approved? %>
+            <%= bootstrap_form_for @imprint, url: approve_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as approved?' } do |f| %>
+                <%= f.button class: 'btn btn-success'  do %>
+                    <i class="glyphicon glyphicon-check"></i> Approve
+                <% end %>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
+
   </div>
 
   <div class="col-xs-6">

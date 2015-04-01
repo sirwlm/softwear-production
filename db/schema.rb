@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309200818) do
+ActiveRecord::Schema.define(version: 20150401162410) do
 
   create_table "api_settings", force: true do |t|
     t.string   "endpoint"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20150309200818) do
     t.text     "description"
     t.datetime "completed_at"
     t.integer  "completed_by_id"
+    t.boolean  "approved"
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree

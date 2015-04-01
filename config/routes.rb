@@ -13,6 +13,7 @@ SoftwearProduction::Application.routes.draw do
   resources :imprints do
     member do
       patch 'complete', to: 'imprints#complete'
+      patch 'approve', to: 'imprints#approve'
     end
   end
 
