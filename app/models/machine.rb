@@ -17,6 +17,8 @@ class Machine < ActiveRecord::Base
     case color.downcase
     when '#cccccc'
       errors[:color] << 'Cannot match completed imprint color.'
+    when '#ffffff'
+      errors[:color] << 'Cannot match unapproved imprint color.'
     end
   end
 
