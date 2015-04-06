@@ -37,3 +37,4 @@ bower.json
 
 # Vim swap files
 **.swp
+/solr
