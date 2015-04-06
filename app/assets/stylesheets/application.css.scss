@@ -14,8 +14,14 @@
  *= require rails_bootstrap_forms
  *= require jquery-ui
  *= require bootstrap-colorpicker
+ *= require select2
+ *= require select2-bootstrap
  */
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import 'bootstrap-datetimepicker';
+
+.search-fields {
+margin: 1em inherit;
+}

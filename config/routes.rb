@@ -4,6 +4,7 @@ SoftwearProduction::Application.routes.draw do
   root 'dashboard#index'
   get 'dashboard/index'
   get 'dashboard/calendar'
+  post 'dashboard/filter'
 
   resources :machines do
     get :scheduled
@@ -12,6 +13,7 @@ SoftwearProduction::Application.routes.draw do
   resources :imprints do
     member do
       patch 'complete', to: 'imprints#complete'
+      patch 'approve', to: 'imprints#approve'
     end
   end
 

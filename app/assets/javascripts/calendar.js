@@ -1,4 +1,6 @@
 function imprintCalendarOn(matcher, options) {
+  window.calendarMatcher = matcher;
+
   $(matcher).fullCalendar({
     header: {
       left: 'prev,next today',
@@ -27,14 +29,14 @@ function imprintCalendarOn(matcher, options) {
     eventDrop: onChange,
     eventResize: onChange,
 
-    dropAccept: '.event-drop',
+    dropAccept: '.event-drop-with-machine',
 
     drop: function(date) {
       var droppedElement = $(this);
-      if (droppedElement.parent().data('machine-id') == null
-          &&
-          $(matcher).data('machine') == null)
-        return;
+      // if (droppedElement.parent().data('machine-id') == null
+      //     &&
+      //     $(matcher).data('machine') == null)
+      //   return;
       var imprintId = droppedElement.data('id');
 
       if (options.removeAfterDrop === undefined || options.removeAfterDrop($(this)))
@@ -158,16 +160,15 @@ function dropOutside(matcher, options) {
       var receiver = $(this);
 
       if (eventIsWithinElement(jsEvent, receiver)) {
-        imprintObject = {};
-        if (receiver.data('machine-id')) {
+        imprintObject = {
+          scheduled_at: null
+        };
+        if (receiver.data('machine-id'))
           imprintObject.machine_id = receiver.data('machine-id');
-        } else {
+        if (receiver.data('no-machine'))
           imprintObject.machine_id = null;
-          imprintObject.scheduled_at = null;
-        }
 
-        if (receiver.data('machine-id') == null)
-          $(matcher).fullCalendar('removeEvents', eventObject.id);
+        $(matcher).fullCalendar('removeEvents', eventObject.id);
 
         $.ajax({
           type: 'PUT',

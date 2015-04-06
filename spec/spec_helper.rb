@@ -70,4 +70,10 @@ RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
   config.infer_spec_type_from_file_location!
+
+  config.before do
+    Sunspot.session = SunspotMatchers::SunspotSessionSpy.new(Sunspot.session)
+  end
+
+  config.include SunspotMatchers
 end
