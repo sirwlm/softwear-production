@@ -79,5 +79,13 @@ SoftwearProduction::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
   # default_url_options go here lulz
 
-  config.action_mailer.default_url_options = { :host => 'http://production.softwearcrm.com' }
+  config.action_mailer.default_url_options = { :host => 'production.softwearcrm.com' }
+  config.action_mailer.smtp_settings = {
+      address:              'smtp.gmail.com',
+      port:                 587,
+      domain:               'wolverinetshirtcompany.com',
+      user_name:            Figaro.env.smtp_user,
+      password:             Figaro.env.smtp_password,
+      authentication:       'plain',
+      enable_starttls_auto: true  }
 end
