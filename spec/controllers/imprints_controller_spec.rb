@@ -13,9 +13,9 @@ describe ImprintsController, imprint_spec: true, story_113: true do
 
   describe 'PUT #update' do
     context 'when machine_id and scheduled_at are set to nil' do
-      it 'renders imprint unscheduled_entry' do
+      it 'renders imprint for_calendar' do
         put :update, id: imprint.id, imprint: { scheduled_at: nil, machine_id: nil }, format: 'json'
-        expect(response).to render_template 'imprints/_unscheduled_entry'
+        expect(response).to render_template 'imprints/_for_calendar'
       end
     end
   end
