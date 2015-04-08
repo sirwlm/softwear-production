@@ -1,5 +1,5 @@
 $('#contentModal .modal-title').html("<%= @imprint.name %>");
-$('#contentModal .modal-body').html("<%=j render('imprints/view', imprint: @imprint) %>");
+$('#contentModal .modal-body').html("<%=j render('imprints/view', imprint: @imprint, edit_link: true) %>");
 $('#contentModal').modal('show');
 $('#contentModalSaveChanges').hide();
 
