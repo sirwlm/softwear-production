@@ -80,7 +80,7 @@ class ImprintsController < InheritedResources::Base
   end
 
   def imprint_params
-    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :approved)
+    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :approved, :completed_at)
   end
 
   def complete_params
