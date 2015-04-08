@@ -12,6 +12,9 @@ function imprintCalendarOn(matcher, options) {
     editable: true,
     droppable: true,
     dragRevertDuration: 0,
+    slotDuration: '00:15:00',
+    snapDuration: '00:05:00',
+    allDaySlot: false,
 
     eventClick: function(jsEvent) {
       if (jsEvent.url) {

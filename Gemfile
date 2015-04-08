@@ -22,7 +22,8 @@ group :development, :test do
 # used to sexily print tables in rails console
   gem 'hirb'
   gem 'mailcatcher'
-  gem 'byebug'
+  gem 'byebug', platforms: :mri
+  gem 'rubinius-debugger', platforms: :rbx
 end
 
 group :test do
@@ -46,7 +47,7 @@ group :test do
   gem 'endpoint_stub', github: 'AnnArborTees/endpoint_stub', branch: 'develop'
 end
 
-
+gem 'safe_yaml', '~> 1.0.4'
 gem 'inherited_resources'
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.2.0'

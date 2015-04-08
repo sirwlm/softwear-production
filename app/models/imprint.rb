@@ -16,7 +16,7 @@ class Imprint < ActiveRecord::Base
   validate :schedule_conflict?
   validates :name, :description, presence: true
 
-  before_create :set_approved_to_true
+  after_initialize :set_approved_to_true
 
   searchable do
     text :name, :description
@@ -108,7 +108,7 @@ class Imprint < ActiveRecord::Base
   end
 
   def set_approved_to_true
-    self.approved = true
+    self.approved = true if self.approved.nil?
   end
 
 end

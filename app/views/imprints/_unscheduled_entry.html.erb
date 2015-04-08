@@ -1,8 +1,6 @@
 <%= link_to imprint_path(imprint.id), remote: true, class: "event-drop unscheduled-imprint-link #{'event-drop-with-machine' unless imprint.machine_id.nil?}", data: { id: imprint.id } do %>
   <div class="unscheduled-imprint ui-draggable ui-draggable-handle"
        style="background-color: <%= imprint.calendar_color %>; color: <%= imprint.text_color %>; border-color: <%= imprint.border_color %>;">
-    <% if imprint.estimated? %>
-      <%= imprint.display %> <span class='estimated-time'><%= sprintf('%0.01f', imprint.estimated_time) %></span>hrs
-    <% end %>
+    <%= imprint.display %> <span class='estimated-time'><%= imprint.estimated_time ? sprintf('%0.01f', imprint.estimated_time) : '?' %></span>hrs
   </div>
 <% end %>
