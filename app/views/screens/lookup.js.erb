@@ -4,6 +4,7 @@
     $('#contentModal .modal-dialog').css('width', '90%');
     $('#contentModal').modal('show');
     $('#contentModalSaveChanges').hide();
+    prepare_failure_buttons();
 <% else %>
     $('#contentModal .modal-title').html("Screen #<%= params[:id] %>");
     $('#contentModal .modal-body').html("The Screen You Specified Does Not Exist");
