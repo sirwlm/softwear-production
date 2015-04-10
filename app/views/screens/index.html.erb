@@ -1,0 +1,35 @@
+<%= render 'nav' %>
+<h1 class="pull-left">Listing Screens</h1>
+<br clear="all" />
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Frame Type</th>
+    <th>Dimensions</th>
+    <th>Mesh Type</th>
+    <th>State</th>
+    <th>Last Updated</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @screens.each do |screen| %>
+      <tr>
+        <td><%= screen.id %></td>
+        <td><%= screen.frame_type %></td>
+        <td><%= screen.dimensions %></td>
+        <td><%= screen.mesh_type %></td>
+        <td><%= screen.human_state_name.titleize %></td>
+        <td><%= screen.updated_at.strftime('%D %r') %></td>
+        <td>
+          <%= bootstrap_show_button(screen) %>
+          <%= bootstrap_edit_button(screen) %>
+          <%= bootstrap_destroy_button(screen) %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

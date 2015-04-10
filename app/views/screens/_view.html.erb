@@ -1,0 +1,16 @@
+<div class="col-sm-2 col-xs-12">
+  <h2>Details</h2>
+  <dl>
+    <dt>Frame Type</dt>
+    <dd><%= @screen.frame_type %></dd>
+    <dt>Dimensions</dt>
+    <dd><%= @screen.dimensions %></dd>
+    <dt>Mesh Type</dt>
+    <dd><%= @screen.mesh_type %></dd>
+    <dt>Last Updated</dt>
+    <dd><%= @screen.updated_at.strftime('%D %r') %></dd>
+  </dl>
+</div>
+<div class="col-sm-10 col-xs-12" id="transition-state">
+  <%= render 'transition_state' %>
+</div>

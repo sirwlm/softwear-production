@@ -1,0 +1,13 @@
+<% if @screen %>
+    $('#contentModal .modal-title').html("Screen #<%= @screen.id %>");
+    $('#contentModal .modal-body').html("<%=j render('screens/view', screen: @screen) %>");
+    $('#contentModal .modal-dialog').css('width', '90%');
+    $('#contentModal').modal('show');
+    $('#contentModalSaveChanges').hide();
+<% else %>
+    $('#contentModal .modal-title').html("Screen #<%= params[:id] %>");
+    $('#contentModal .modal-body').html("The Screen You Specified Does Not Exist");
+    $('#contentModal .modal-dialog').css('width', '70%');
+    $('#contentModal').modal('show');
+    $('#contentModalSaveChanges').hide();
+<% end %>

@@ -1,0 +1,22 @@
+<div class="pull-right">
+  <%= link_to screens_path, class: 'btn btn-md btn-primary', data: { toggle: 'tooltip'}, title: "List Screens" do %>
+      <i class='glyphicon glyphicon-list'></i>
+  <% end %>
+  <% if @screen && controller.action_name == 'edit' %>
+      <%= link_to screen_path, class: 'btn btn-md btn-success', data: { toggle: 'tooltip'}, title: "Show Screen" do %>
+          <i class='glyphicon glyphicon-eye-open'></i>
+      <% end %>
+  <% elsif @screen && controller.action_name == 'show' %>
+      <%= link_to edit_screen_path, class: 'btn btn-md btn-warning', data: { toggle: 'tooltip'}, title: "Edit Screen" do %>
+          <i class='glyphicon glyphicon-pencil'></i>
+      <% end %>
+      <%= link_to @screen, method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?', toggle: 'tooltip'}, title: "Destroy Screen" do %>
+          <i class='glyphicon glyphicon-remove-circle'></i>
+      <% end %>
+  <% end %>
+  <% unless controller.action_name == 'new' %>
+      <%= link_to new_screen_path, class: 'btn btn-md btn-success', data: { toggle: 'tooltip'}, title: "New Screen" do %>
+          <i class='glyphicon glyphicon-plus'></i>
+      <% end %>
+  <% end %>
+</div>

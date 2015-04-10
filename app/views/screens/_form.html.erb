@@ -1,0 +1,9 @@
+<%= bootstrap_form_for screen do |f| %>
+    <%= f.select :frame_type, Screen::FRAME_TYPES %>
+    <%= f.select :dimensions, Screen::DIMENSIONS %>
+    <%= f.select :mesh_type, Screen::MESH_TYPES %>
+    <% if screen.new_record? %>
+        <%= f.select :state, Screen::INITIAL_STATES.map{|x|[x.humanize, x]} %>
+    <% end %>
+    <%= f.submit %>
+<% end %>

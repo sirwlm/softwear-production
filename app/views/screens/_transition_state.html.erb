@@ -1,0 +1,26 @@
+<h2>Transition State</h2>
+<p class="alert alert-info">Current State is <b><%= @screen.human_state_name.titleize %></b></p>
+<div class="col-sm-8 col-xs-12">
+  <h3>Failed</h3>
+
+  <% if @screen.state_events.include? :bad_prep %>
+      <%= link_to transition_screen_path(@screen, transition: :bad_prep), class: 'btn btn-lg  btn-warning', remote: true do %>
+          Bad Prep
+      <% end %>
+  <% end %>
+
+  <%= link_to transition_screen_path(@screen, transition: :broke), class: 'btn btn-lg  btn-danger', remote: true do %>
+      Broke
+  <% end %>
+
+</div>
+<div class="col-sm-4 col-xs-12">
+  <h3>Success</h3>
+  <% @screen.state_events.each do |e| %>
+      <% unless e == :broke || e == :bad_prep %>
+          <%= link_to transition_screen_path(@screen, transition: e), class: 'btn btn-lg  btn-success', remote: true do %>
+              <%= e.to_s.humanize %>
+          <% end %>
+      <% end %>
+  <% end %>
+</div>
