@@ -33,6 +33,6 @@ $( document ).ready(function() {
     );
 
     $('.colorpicker').colorpicker()
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 });
 

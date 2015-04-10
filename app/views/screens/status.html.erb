@@ -10,27 +10,7 @@
 
 <h2>Screen Status</h2>
 
-<table class="table table-striped" data-sortable="true">
-  <thead>
-  <tr>
-    <th>Frame Type</th>
-    <th>Dimensions</th>
-    <th>Mesh Type</th>
-    <th>State</th>
-    <th>Count</th>
-  </tr>
-  </thead>
-
-  <tbody>
-  <% @screens.each do |screen| %>
-      <tr>
-        <td><%= screen.frame_type %></td>
-        <td><%= screen.dimensions %></td>
-        <td><%= screen.mesh_type %></td>
-        <td><%= screen.human_state_name.titleize %></td>
-        <td><%= screen.count %></td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
+<div id="screen-status-table">
+  <%= render 'screens/status_table' %>
+</div>
 

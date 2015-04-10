@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :populate_machines
   before_filter :authenticate_user!
+  before_filter :assign_current_user
   before_action :configure_user_parameters, if: :devise_controller?
   add_flash_types :error
 
@@ -24,6 +25,10 @@ class ApplicationController < ActionController::Base
 
   def assign_fluid_container
     @container_type = 'fluid'
+  end
+
+  def assign_current_user
+    @current_user = current_user
   end
 
 end

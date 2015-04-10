@@ -1,0 +1,16 @@
+<div class="col-xs-12">
+  <div class="col-xs-3">
+    <%= activity.created_at.strftime('%F %T') %>
+  </div>
+  <div class="col-xs-3">
+    <%= activity.owner.email %>
+  </div>
+
+  <div class="col-xs-2">
+    <%= activity.parameters['event'].humanize.titleize %>
+  </div>
+
+  <div class="col-xs-4">
+    <%= activity.parameters['reason'] unless activity.parameters['reason'].nil? %>
+  </div>
+</div>
