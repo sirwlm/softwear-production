@@ -34,7 +34,7 @@ class ScreensController < InheritedResources::Base
 
   def owner
     current_user unless params[:user_id]
-    User.find(params[:user_id])
+    User.find(params[:user_id]) if params[:user_id]
   end
 
   def transition_parameters
