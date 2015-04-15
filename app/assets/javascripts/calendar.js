@@ -5,9 +5,9 @@ function imprintCalendarOn(matcher, options) {
     header: {
       left: 'prev,next today',
       center: 'title',
-      right: 'month,agendaWeek,agendaDay'
+      right: 'agendaDay,agendaThreeDay,agendaWeek'
     },
-    defaultView: 'agendaWeek',
+    defaultView: 'agendaThreeDay',
     events: options.events,
     editable: true,
     droppable: true,
@@ -66,7 +66,14 @@ function imprintCalendarOn(matcher, options) {
       .fail(function() {
         alert("Something went wrong :(");
       });
-    }
+    },
+      views: {
+          agendaThreeDay: {
+              type: 'agenda',
+              duration: { days: 3 },
+              buttonText: '3-day',
+          }
+      }
 
   });
 }

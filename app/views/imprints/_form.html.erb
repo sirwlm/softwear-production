@@ -20,7 +20,9 @@
         <%= f.radio_button :approved, true, label: "Yes", checked: imprint.approved? %>
         <%= f.radio_button :approved, false, label: "No", checked: !imprint.approved? %>
       <% end %>
-    <%= f.text_field :completed_at, class: 'datetimepicker-standard' %>
+    <% unless imprint.new_record? %>
+        <%= f.text_field :completed_at, class: 'datetimepicker-standard' %>
+    <% end %>
 
     <%= f.submit class: 'btn btn-primary'%>
 <% end %>
