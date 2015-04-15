@@ -1,0 +1,5 @@
+
+<% if @machine.imprints.maximum(:updated_at) > 30.seconds.ago %>
+    $('#machine-calendar').fullCalendar( 'removeEvents' );
+    $('#machine-calendar').fullCalendar( 'addEventSource', '<%= @machine.id %>/scheduled.json' );
+<% end %>

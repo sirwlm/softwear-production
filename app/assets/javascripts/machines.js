@@ -19,8 +19,19 @@ $(document).ready(function() {
       });
 
     });
-
   }
+
+  function refreshMachineEvents(){
+      $.ajax({
+        url: Routes.machine_path(machineId),
+        dataType: 'script'
+      });
+  }
+
+    if(machineId > 0) {
+        setInterval(refreshMachineEvents, 30000 )
+    }
+
 });
 
 
