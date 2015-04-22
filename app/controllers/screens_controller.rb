@@ -29,7 +29,7 @@ class ScreensController < InheritedResources::Base
   end
 
   def screen_params
-    params.require(:screen).permit(:frame_type, :dimensions, :state, :mesh_type)
+    params.require(:screen).permit(:frame_type, :dimensions, :state, :mesh_type, :serial_no, :id)
   end
 
   def owner

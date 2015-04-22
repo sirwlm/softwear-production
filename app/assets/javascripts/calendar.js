@@ -7,7 +7,7 @@ function imprintCalendarOn(matcher, options) {
       center: 'title',
       right: 'agendaDay,agendaThreeDay,agendaWeek'
     },
-    defaultView: 'agendaThreeDay',
+    defaultView: 'agendaDay',
     events: options.events,
     editable: true,
     droppable: true,

@@ -3,7 +3,7 @@ namespace :screens do
     intervals = {
         reclaimed_and_drying: 15.minutes,
         coated_and_drying: 30.minutes,
-        exposed_and_drying: 15.minutes
+        washed_out_and_drying: 20.minutes
     }
     intervals.each do |state, interval|
       screens = Screen.where(state: state)
