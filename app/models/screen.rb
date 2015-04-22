@@ -86,7 +86,7 @@ class Screen < ActiveRecord::Base
     event :dryed do
       transition :reclaimed_and_drying => :ready_to_coat
       transition :coated_and_drying => :ready_to_expose
-      transition :exposed_and_drying => :ready_to_tape
+      transition :washed_out_and_drying => :ready_to_tape
     end
 
     event :broke do
@@ -94,7 +94,7 @@ class Screen < ActiveRecord::Base
     end
 
     event :bad_prep do
-      transition [:reclaimed_and_drying, :ready_to_coat, :coated_and_drying, :ready_to_expose, :exposed_and_drying, :ready_to_tape, :in_production] => :ready_to_reclaim
+      transition [:reclaimed_and_drying, :ready_to_coat, :coated_and_drying, :ready_to_expose, :washed_out_and_drying, :ready_to_tape, :in_production] => :ready_to_reclaim
     end
   end
 
