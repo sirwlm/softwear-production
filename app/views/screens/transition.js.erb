@@ -1,6 +1,7 @@
 $('#transition-state').html("<%= escape_javascript(render('screens/transition_state')) %>");
 $('#screen-status-table').html("<%= escape_javascript(render('screens/status_table')) %>");
 $('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
+$('#mesh_type').html("<%= @screen.mesh_type %>");
 window.setTimeout(function() {
     $(".flash-notice").fadeTo(200, 0).slideUp(200, function(){
         $(this).remove();

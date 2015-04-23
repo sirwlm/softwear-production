@@ -13,8 +13,11 @@ class ScreensController < InheritedResources::Base
 
   def transition
     @screen = Screen.find(params[:id])
-    @screen.send(params[:transition])|
+    @screen.send(params[:transition])
     @screen.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+    if params[:mesh_type] && params[:transition] == 'meshed'
+      @screen.update_attribute(:mesh_type, params[:mesh_type])
+    end
     flash[:notice] = ' Updated Screen State'
     load_screens_grouped_by_type
     respond_to do |format|
@@ -40,6 +43,7 @@ class ScreensController < InheritedResources::Base
   def transition_parameters
     parameters = { event: params[:transition] }
     parameters[:reason] = params[:reason] unless params[:reason].nil?
+    parameters[:mesh_type] = params[:mesh_type] unless params[:mesh_type].nil?
     parameters
   end
 

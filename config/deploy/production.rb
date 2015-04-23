@@ -15,7 +15,7 @@ role :db,  %w{ubuntu@production.softwearcrm.com}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-set :branch, 'master'
+set :branch, 'release-2015-05-01'
 
 server 'production.softwearcrm.com', user: 'ubuntu', roles: %w{web app}, my_property: :my_value
 

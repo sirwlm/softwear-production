@@ -47,7 +47,13 @@
 <div class="col-sm-4 col-xs-12">
   <h3>Success</h3>
   <% @screen.state_events.each do |e| %>
-      <% unless e == :broke || e == :bad_prep %>
+      <% if e == :meshed %>
+          <%= form_tag transition_screen_path(@screen, transition: :meshed), method: :get, remote: true  do %>
+              <%= label_tag 'Mesh Type' %>
+              <%= select_tag :mesh_type, options_for_select(Screen::MESH_TYPES, @screen.mesh_type), class: 'form-control' %>
+              <%= submit_tag 'Mesh', class: 'btn btn-lg btn-primary' %>
+          <% end %>
+      <% elsif ( e != :broke && e != :bad_prep) %>
           <%= link_to transition_screen_path(@screen, transition: e), class: 'btn btn-lg  btn-success', remote: true do %>
               <%= e.to_s.humanize %>
           <% end %>
