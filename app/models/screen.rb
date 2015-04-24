@@ -98,6 +98,22 @@ class Screen < ActiveRecord::Base
     end
   end
 
+  def self.dry_screens
+    intervals = {
+        reclaimed_and_drying: 15.minutes,
+        coated_and_drying: 30.minutes,
+        washed_out_and_drying: 20.minutes
+    }
+    intervals.each do |state, interval|
+      screens = Screen.where(state: state)
+      screens.each do |screen|
+        if Time.now - screen.updated_at > interval
+          screen.dryed
+        end
+      end
+    end
+  end
+
   private
 
   def assign_id
