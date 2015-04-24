@@ -1,6 +1,6 @@
+DRY_EVERY = 1.minute
 
-  DRY_EVERY = 1.minute
-
+unless defined?(Rails::Console)
   Thread.new do
     require "#{Rails.root}/app/models/screen"
 
@@ -18,4 +18,6 @@
       end
     end
   end
+end
+
 
