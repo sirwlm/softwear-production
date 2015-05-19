@@ -1,11 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.9'
-gem 'mysql2'
-gem 'sass-rails', '~> 4.0.2'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
-gem 'jquery-rails'
+require 'softwear/lib'
+Softwear::Lib.common_gems(self)
+
 gem 'jbuilder', '~> 1.2'
 gem 'state_machine'
 gem 'paranoia', '~> 2.0'
@@ -13,60 +10,33 @@ gem 'paranoia', '~> 2.0'
 gem 'cancan'
 
 group :development, :test do
-  gem 'capistrano'
-  gem 'capistrano-rvm'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
 # used to graph state machines
   gem 'ruby-graphviz', require: 'graphviz'
 # used to sexily print tables in rails console
-  gem 'hirb'
   gem 'mailcatcher'
-  gem 'byebug', platforms: :mri
-  gem 'rubinius-debugger', platforms: :rbx
 end
 
 group :test do
-  gem 'capybara', '~> 2.4'
   gem 'database_cleaner', '~> 1.0'
-  gem 'email_spec'
-  gem 'factory_girl_rails', '~> 4.4'
   gem 'launchy'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-expectations'
-  gem 'rspec-rails', '~> 3.0.2'
   gem 'simplecov'
-  gem 'webmock', '1.8.11'
   gem 'poltergeist', '1.5.0'
   gem 'timecop'
   gem 'with_model'
-  gem 'shoulda-matchers'
-  gem 'selenium-webdriver'
   gem 'endpoint_stub', github: 'AnnArborTees/endpoint_stub', branch: 'develop'
 end
 
 gem 'safe_yaml', '~> 1.0.4'
-gem 'inherited_resources'
 gem 'autoprefixer-rails'
-gem 'bootstrap-sass', '~> 3.2.0'
 gem 'bootstrap-colorpicker-rails'
-gem 'bootstrap_form'
-gem 'paperclip', '~> 4.2'
-gem 'figaro'
-gem 'activeresource'
 gem 'fullcalendar-rails', '~> 2.2.5.0'
-gem 'js-routes'
-gem 'momentjs-rails', '>= 2.8.3'
-gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 gem 'friendly_id', '~> 5.0.0'
-gem 'devise'
-gem 'dumpsync', git: 'git@github.com:AnnArborTees/dumpsync.git'
-gem 'jquery-ui-rails'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'sunspot_matchers'
 gem 'select2-rails', git: 'git@github.com:argerim/select2-rails'
 gem 'public_activity', github: 'AnnArborTees/public_activity'
-gem 'whenever'

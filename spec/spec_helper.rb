@@ -46,7 +46,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    Rails.cache.clear
+    # Rails.cache.clear
     if RSpec.current_example.metadata[:js]
       DatabaseCleaner.strategy = :truncation
     else
