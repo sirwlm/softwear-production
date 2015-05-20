@@ -5,7 +5,6 @@ Softwear::Lib.common_gems(self)
 
 gem 'jbuilder', '~> 1.2'
 gem 'state_machine'
-gem 'paranoia', '~> 2.0'
 # use cancan for user roles
 gem 'cancan'
 
