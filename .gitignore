@@ -38,3 +38,5 @@ bower.json
 # Vim swap files
 **.swp
 /solr
+/**/.DS_Store
+/.DS_Store
