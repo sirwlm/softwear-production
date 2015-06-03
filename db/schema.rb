@@ -13,15 +13,15 @@
 
 ActiveRecord::Schema.define(version: 20150410163336) do
 
-  create_table "activities", force: true do |t|
-    t.integer  "trackable_id"
-    t.string   "trackable_type"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.string   "key"
-    t.text     "parameters"
-    t.integer  "recipient_id"
-    t.string   "recipient_type"
+  create_table "activities", force: :cascade do |t|
+    t.integer  "trackable_id",   limit: 4
+    t.string   "trackable_type", limit: 255
+    t.integer  "owner_id",       limit: 4
+    t.string   "owner_type",     limit: 255
+    t.string   "key",            limit: 255
+    t.text     "parameters",     limit: 65535
+    t.integer  "recipient_id",   limit: 4
+    t.string   "recipient_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,23 +30,23 @@ ActiveRecord::Schema.define(version: 20150410163336) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
 
-  create_table "api_settings", force: true do |t|
-    t.string   "endpoint"
-    t.string   "auth_token"
-    t.string   "homepage"
-    t.string   "slug"
+  create_table "api_settings", force: :cascade do |t|
+    t.string   "endpoint",   limit: 255
+    t.string   "auth_token", limit: 255
+    t.string   "homepage",   limit: 255
+    t.string   "slug",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "auth_email"
+    t.string   "auth_email", limit: 255
   end
 
   add_index "api_settings", ["slug"], name: "index_api_settings_on_slug", unique: true, using: :btree
 
-  create_table "friendly_id_slugs", force: true do |t|
-    t.string   "slug",                      null: false
-    t.integer  "sluggable_id",              null: false
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "slug",           limit: 255, null: false
+    t.integer  "sluggable_id",   limit: 4,   null: false
     t.string   "sluggable_type", limit: 50
-    t.string   "scope"
+    t.string   "scope",          limit: 255
     t.datetime "created_at"
   end
 
@@ -55,90 +55,96 @@ ActiveRecord::Schema.define(version: 20150410163336) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "imprintable_trains", force: true do |t|
-    t.integer  "job_id"
-    t.string   "state"
+  create_table "imprintable_trains", force: :cascade do |t|
+    t.integer  "job_id",     limit: 4
+    t.string   "state",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "imprints", force: true do |t|
-    t.integer  "softwear_crm_id"
-    t.integer  "job_id"
+  create_table "imprints", force: :cascade do |t|
+    t.integer  "softwear_crm_id",  limit: 4
+    t.integer  "job_id",           limit: 4
     t.datetime "scheduled_at"
     t.datetime "estimated_end_at"
-    t.decimal  "estimated_time",   precision: 10, scale: 2
+    t.decimal  "estimated_time",                 precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "machine_id"
-    t.string   "name"
-    t.text     "description"
+    t.integer  "machine_id",       limit: 4
+    t.string   "name",             limit: 255
+    t.text     "description",      limit: 65535
     t.datetime "completed_at"
-    t.integer  "completed_by_id"
-    t.boolean  "approved"
+    t.integer  "completed_by_id",  limit: 4
+    t.boolean  "approved",         limit: 1
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
 
-  create_table "jobs", force: true do |t|
-    t.integer  "softwear_crm_id"
-    t.integer  "order_id"
+  create_table "jobs", force: :cascade do |t|
+    t.integer  "softwear_crm_id", limit: 4
+    t.integer  "order_id",        limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "machines", force: true do |t|
-    t.string   "name"
+  create_table "machines", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "color"
+    t.string   "color",      limit: 255
   end
 
-  create_table "orders", force: true do |t|
-    t.integer  "softwear_crm_id"
+  create_table "orders", force: :cascade do |t|
+    t.integer  "softwear_crm_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "screens", force: true do |t|
-    t.string   "frame_type"
-    t.string   "dimensions"
-    t.string   "mesh_type"
-    t.string   "state"
+  create_table "screens", force: :cascade do |t|
+    t.string   "frame_type", limit: 255
+    t.string   "dimensions", limit: 255
+    t.string   "mesh_type",  limit: 255
+    t.string   "state",      limit: 255
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "trains", force: true do |t|
-    t.string   "kind"
-    t.integer  "trainable_id"
-    t.string   "trainable_type"
+  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
+  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
+  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
+  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
+  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
+
+  create_table "trains", force: :cascade do |t|
+    t.string   "kind",           limit: 255
+    t.integer  "trainable_id",   limit: 4
+    t.string   "trainable_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "confirmation_token",     limit: 255
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
+    t.string   "unconfirmed_email",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.boolean  "admin"
+    t.string   "first_name",             limit: 255
+    t.string   "last_name",              limit: 255
+    t.boolean  "admin",                  limit: 1
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
