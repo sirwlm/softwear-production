@@ -75,7 +75,7 @@ class Screen < ActiveRecord::Base
       transition :ready_to_tape => :in_production
     end
 
-    event :removed_tape_and_ink do
+    event :removed_from_production do
       transition :in_production => :ready_to_reclaim
     end
 
