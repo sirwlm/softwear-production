@@ -5,7 +5,7 @@ class Screen < ActiveRecord::Base
   INITIAL_STATES = %w(new broken ready_to_reclaim ready_to_coat ready_to_expose ready_to_tape in_production)
   MESH_TYPES = %w(24 80 110 110s 135s 140 150s 156 160 180s 196 200s 225s 230 270 305)
   FRAME_TYPES = %w(Roller Panel Static)
-  DIMENSIONS = %w(22x31 25x36)
+  DIMENSIONS = %w(23x31 25x36)
   SCREEN_BREAK_REASONS = [
     'Checking tension / dropped tension meter on it',
     'Overtensioning',
@@ -50,8 +50,12 @@ class Screen < ActiveRecord::Base
     'Bad Washout - stencil damaged'
     ]
 
-  validates_presence_of :dimensions, :frame_type, :state
-  validates_presence_of :mesh_type, unless: -> {"state == 'new'"}
+  validates :dimensions, :frame_type, :state, presence: true
+  validates :mesh_type, presence: true, unless: -> {"state == 'new'"}
+  validates :id, uniqueness: true
+
+
+  after_initialize :assign_id
 
   state_machine :state do
 
@@ -67,8 +71,8 @@ class Screen < ActiveRecord::Base
       transition :ready_to_coat => :coated_and_drying
     end
 
-    event :expose_and_rinse do
-      transition :ready_to_expose => :exposed_and_drying
+    event :exposed do
+      transition :ready_to_expose => :washed_out_and_drying
     end
 
     event :taped do
@@ -82,7 +86,7 @@ class Screen < ActiveRecord::Base
     event :dryed do
       transition :reclaimed_and_drying => :ready_to_coat
       transition :coated_and_drying => :ready_to_expose
-      transition :exposed_and_drying => :ready_to_tape
+      transition :washed_out_and_drying => :ready_to_tape
     end
 
     event :broke do
@@ -90,7 +94,30 @@ class Screen < ActiveRecord::Base
     end
 
     event :bad_prep do
-      transition [:reclaimed_and_drying, :ready_to_coat, :coated_and_drying, :ready_to_expose, :exposed_and_drying, :ready_to_tape, :in_production] => :ready_to_reclaim
+      transition [:reclaimed_and_drying, :ready_to_coat, :coated_and_drying, :ready_to_expose, :washed_out_and_drying, :ready_to_tape, :in_production] => :ready_to_reclaim
     end
   end
+
+  def self.dry_screens
+    intervals = {
+        reclaimed_and_drying: 15.minutes,
+        coated_and_drying: 30.minutes,
+        washed_out_and_drying: 20.minutes
+    }
+    intervals.each do |state, interval|
+      screens = Screen.where(state: state)
+      screens.each do |screen|
+        if Time.now - screen.updated_at > interval
+          screen.dryed
+        end
+      end
+    end
+  end
+
+  private
+
+  def assign_id
+    self.id = Screen.maximum(:id) + 1 unless (self.id? && Screen.count > 0)
+  end
+
 end

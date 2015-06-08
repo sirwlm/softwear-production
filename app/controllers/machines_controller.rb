@@ -1,6 +1,5 @@
 class MachinesController < InheritedResources::Base
-
-  respond_to :js, :html, only: [:show]
+  respond_to :json, :js, :html
   before_filter :assign_fluid_container, only: [:show]
 
   def create

@@ -22,7 +22,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
   def assign_fluid_container
     @container_type = 'fluid'
   end

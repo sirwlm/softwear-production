@@ -12,5 +12,6 @@
 
   <div class="col-xs-4">
     <%= activity.parameters['reason'] unless activity.parameters['reason'].nil? %>
+    <%= "Remeshed using #{activity.parameters['mesh_type']}" unless activity.parameters['mesh_type'].nil? %>
   </div>
 </div>

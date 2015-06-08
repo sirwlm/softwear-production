@@ -1,4 +1,5 @@
 <%= bootstrap_form_for screen do |f| %>
+    <%= f.text_field :id %>
     <%= f.select :frame_type, Screen::FRAME_TYPES %>
     <%= f.select :dimensions, Screen::DIMENSIONS %>
     <%= f.select :mesh_type, Screen::MESH_TYPES %>
