@@ -13,10 +13,14 @@
           <%= label_tag 'q[scheduled_start_at_before]', 'Scheduled Before' %>
           <%= text_field_tag 'q[scheduled_start_at_before]', params[:q] ? params[:q][:scheduled_start_at_before] : '', class: 'form-control datetimepicker-standard'  %>
         </div>
-          <div class="col-sm-2">
-            <%= label_tag 'q[complete]', 'Complete?' %>
-            <%= select_tag 'q[complete]', options_for_select([[], ["Yes", true], ["No", false]], params[:q] ? params[:q][:complete] : ''), class: 'form-control' %>
-          </div>
+        <div class="col-sm-2">
+          <%= label_tag 'q[complete]', 'Complete?' %>
+          <%= select_tag 'q[complete]', options_for_select([[], ["Yes", true], ["No", false]], params[:q] ? params[:q][:complete] : ''), class: 'form-control' %>
+        </div>
+        <div class="col-sm-2">
+          <%= label_tag 'q[scheduled]', 'Scheduled?' %>
+          <%= select_tag 'q[scheduled]', options_for_select([[], ["Yes", true], ["No", false]], params[:q] ? params[:q][:scheduled] : ''), class: 'form-control' %>
+        </div>
         <div class="col-sm-2 text-right">
           <br />
           <%= button_tag class: 'btn btn-success' do %>
