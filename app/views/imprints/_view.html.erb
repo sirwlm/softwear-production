@@ -26,7 +26,11 @@
         Machine
       </dt>
       <dd>
-        <%= @imprint.machine_name %>
+        <% if current_user.admin? %>
+          <%= editable @imprint, :machine_id, type: :select, data: { source: Machine.all.map { |m| { m.id => m.name } } } %>
+        <% else %>
+          <%= @imprint.machine_name %>
+        <% end %>
       </dd>
     </dl>
 
@@ -75,5 +79,12 @@
 </div>
 
 <script type='application/javascript'>
-$('.user-who-completed').select2({width: '150%'});
+  $('.user-who-completed').select2({width: '150%'});
+  <% if current_user.admin? %>
+    $('.editable').editable({
+      ajaxOptions: {
+        dataType: 'script'
+      }
+    });
+  <% end %>
 </script>

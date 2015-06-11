@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_user_parameters, if: :devise_controller?
   add_flash_types :error
 
+  helper_method :xeditable?
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
   end
@@ -28,6 +30,10 @@ class ApplicationController < ActionController::Base
 
   def assign_current_user
     @current_user = current_user
+  end
+
+  def xeditable?(*a)
+    true
   end
 
 end

@@ -20,6 +20,8 @@
 //= require bootstrap-datetimepicker
 //= require bootstrap-colorpicker
 //= require select2
+//= require editable/bootstrap-editable
+//= require editable/rails
 
 //= require_tree .
 
