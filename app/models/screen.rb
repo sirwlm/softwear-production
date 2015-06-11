@@ -3,7 +3,7 @@ class Screen < ActiveRecord::Base
   tracked only: [:transition]
 
   INITIAL_STATES = %w(new broken ready_to_reclaim ready_to_coat ready_to_expose ready_to_tape in_production)
-  MESH_TYPES = %w(24 80 110 110s 135s 140 150s 156 160 180s 196 200s 225s 230 270 305)
+  MESH_TYPES = %w(24 80 110 110s 135s 140 150s 156 160 180s 196 200s 225s 230 280 305)
   FRAME_TYPES = %w(Roller Panel Static)
   DIMENSIONS = %w(23x31 25x36)
   SCREEN_BREAK_REASONS = [
