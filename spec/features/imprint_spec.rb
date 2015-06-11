@@ -13,5 +13,4 @@ feature 'Imprints' do
     click_button 'Search'
     expect(Sunspot.session).to be_a_search_for(Imprint)
   end
-
 end

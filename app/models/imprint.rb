@@ -26,6 +26,9 @@ class Imprint < ActiveRecord::Base
     end
     time :scheduled_at
     time :completed_at
+    boolean :scheduled do
+      !scheduled_at.nil?
+    end
   end
 
   def display
