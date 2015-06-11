@@ -27,6 +27,14 @@ GIT
       mimemagic (= 0.3.0)
 
 GIT
+  remote: git@github.com:AnnArborTees/acts_as_warnable.git
+  revision: 2b3eee8447fae174398d6933513c766555338bb6
+  specs:
+    acts_as_warnable (0.0.1)
+      devise
+      rails (~> 4.2.1)
+
+GIT
   remote: git@github.com:AnnArborTees/dumpsync.git
   revision: 8244088c7f9c5647b941ae2268c1045ba5e03ac9
   specs:
@@ -390,6 +398,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeresource
+  acts_as_warnable!
   autoprefixer-rails
   better_errors (>= 0.3.2)
   binding_of_caller

@@ -69,6 +69,12 @@ class ImprintsController < InheritedResources::Base
   def prepare_calendar_entries
     if params[:start] && params[:end]
       @calendar_entries = Imprint.scheduled.where('scheduled_at > ? and scheduled_at < ?', params[:start], params[:end])
+      if params[:machine]
+        @calendar_entries = @calendar_entries.where(machine_id: params[:machine])
+
+      elsif session[:show_machines] && session[:show_machines].respond_to?(:keys)
+        @calendar_entries = @calendar_entries.where(machine_id: session[:show_machines].keys)
+      end
     end
   end
 

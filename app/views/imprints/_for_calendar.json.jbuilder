@@ -9,3 +9,4 @@ if imprint.completed? || !imprint.approved?
 end
 json.color imprint.calendar_color
 json.textColor imprint.text_color
+json.machine_id imprint.machine_id
