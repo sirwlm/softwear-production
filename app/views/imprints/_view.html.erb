@@ -33,11 +33,13 @@
     <div class='row'>
       <div class='col-sm-6'>
         <% if @imprint.approved? && !@imprint.completed? %>
-            <%= bootstrap_form_for @imprint, url: complete_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as completed?' } do |f| %>
-                <%= f.button class: 'btn btn-warning'  do %>
-                    <i class="glyphicon glyphicon-check"></i> Mark as Complete
-                <% end %>
+          <%= bootstrap_form_for @imprint, url: complete_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as completed?' } do |f| %>
+            <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id),  class: 'user-who-completed' %>
+
+            <%= f.button class: 'btn btn-warning'  do %>
+                <i class="glyphicon glyphicon-check"></i> Mark as Complete
             <% end %>
+          <% end %>
         <% end %>
       </div>
 
@@ -60,7 +62,7 @@
       <dl>
         <dt>Completed by</dt>
         <dd>
-          <%= current_user.full_name %>
+          <%= @imprint.completed_by.try(:full_name) || 'someone' %>
         </dd>
         <dt>Completed At</dt>
         <dd>
@@ -71,3 +73,7 @@
   </div>
 
 </div>
+
+<script type='application/javascript'>
+$('.user-who-completed').select2({width: '150%'});
+</script>

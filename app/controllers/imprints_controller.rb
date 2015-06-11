@@ -40,7 +40,11 @@ class ImprintsController < InheritedResources::Base
   def complete
     @imprint = Imprint.find(params[:id])
     @imprint.completed_at = Time.now
-    @imprint.completed_by = current_user
+    if params.key?(:user_id)
+      @imprint.completed_by_id = params[:user_id]
+    else
+      @imprint.completed_by = current_user
+    end
     @imprint.save!
 
     show_result
