@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Order do
+  describe 'Relationships' do
+    it { is_expected.to have_many :jobs }
+  end
+
   it { is_expected.to validate_presence_of :softwear_crm_id }
 
   describe '#crm_order' do

@@ -1,3 +1,4 @@
 class Order < ActiveRecord::Base
-  include CrmCounterpart
+  # include CrmCounterpart
+  has_many :jobs
 end

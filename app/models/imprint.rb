@@ -9,6 +9,7 @@ class Imprint < ActiveRecord::Base
   scope :machineless, -> { where(machine_id: nil) }
   scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
 
+  belongs_to :job
   belongs_to :machine
   belongs_to :completed_by, class_name: 'User'
 
