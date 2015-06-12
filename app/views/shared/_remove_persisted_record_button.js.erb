@@ -1,0 +1,5 @@
+$('<%= element_id %>').click(function() {
+  var fieldset = $(this).closest('fieldset');
+  fieldset.find("input[type='hidden'][name~='_destroy']").val('1');
+  fieldset.hide();
+});

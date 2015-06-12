@@ -1,0 +1,8 @@
+$('#<%= element_id %>').click(function(e) {
+  e.preventDefault();
+  var time        = new Date().getTime();
+  var fields      = "<%=j fields %>";
+  var formContent = fields.replace(/__index__/g, time);
+
+  $(this).before(formContent);
+});
