@@ -22,17 +22,20 @@
 //= require select2
 //= require editable/bootstrap-editable
 //= require editable/rails
+//= require jquery_nested_form
 
 //= require_tree .
 
 
+function datetimepickerInit() {
+  $('.datetimepicker-standard').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm:ss'
+  });
+}
 
 $( document ).ready(function() {
-    $('.datetimepicker-standard').datetimepicker(
-        {
-            format: 'YYYY-MM-DD HH:mm:ss'
-        }
-    );
+    datetimepickerInit();
+    $(document).on('nested:fieldAdded', datetimepickerInit);
 
     $('.colorpicker').colorpicker()
     $('[data-toggle="tooltip"]').tooltip();

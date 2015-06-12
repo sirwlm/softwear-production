@@ -1,0 +1,33 @@
+<h1 class="pull-left">Listing orders</h1>
+<%= render 'nav' %>
+<br clear="all" />
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Deadline</th>
+      <th>Jobs</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><h4><%= link_to order.name, order %></h4></td>
+        <td><%= order.deadline.try(:strftime, '%c') || 'Not set' %></td>
+        <td>
+          <% order.jobs.each do |job| %>
+            <p><%= job.name %> (<%= job.imprints.size %> imprints)</p>
+          <% end %>
+        </td>
+        <td>
+          <%= bootstrap_show_button(order) %>
+          <%= bootstrap_edit_button(order) %>
+          <%= bootstrap_destroy_button(order) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

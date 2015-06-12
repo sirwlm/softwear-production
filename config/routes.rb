@@ -10,6 +10,12 @@ SoftwearProduction::Application.routes.draw do
     get :scheduled
   end
 
+  resources :orders do
+    resources :jobs do
+      resources :imprints
+    end
+  end
+
   resources :imprints do
     member do
       patch 'complete', to: 'imprints#complete'

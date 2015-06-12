@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col-sm-2">
+  </div>
+  <div class="col-sm-10">
+    <h3>Imprint</h3>
+    <%= render 'imprints/form_fields', f: f, imprint: f.object %>
+    <%= f.link_to_remove "Remove Imprint", class: 'btn btn-danger' %>
+  </div>
+</div>

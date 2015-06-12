@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe Job, job_spec: true do
-
   describe 'Relationships' do
     it { is_expected.to have_one :imprintable_train }
+    it { is_expected.to have_many :imprints }
+    it { is_expected.to belong_to :order }
   end
 
   describe 'Validations' do

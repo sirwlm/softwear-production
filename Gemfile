@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'softwear-lib'
 require 'softwear/lib'
 Softwear::Lib.common_gems(self)
 
@@ -30,6 +31,7 @@ group :test do
   gem 'capybara-select2'
 end
 
+gem 'nested_form'
 gem 'x-editable-rails'
 gem 'safe_yaml', '~> 1.0.4'
 gem 'autoprefixer-rails'

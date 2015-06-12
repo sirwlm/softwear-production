@@ -1,0 +1,21 @@
+<h1 class="pull-left">Order: <%= @order.name %></h1>
+<%= render 'nav' %>
+<br clear="all" />
+
+<div class='container'>
+  <div class="row">
+    <h3>Jobs:</h3>
+
+    <% @order.jobs.each do |job| %>
+      <div class="row">
+        <h4><%= job.name %></h4>
+        <ul>
+          <% job.imprints.each do |imprint| %>
+            <li> <%= link_to imprint.name, imprint_path(imprint), remote: true %> </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+  </div>
+</div>
