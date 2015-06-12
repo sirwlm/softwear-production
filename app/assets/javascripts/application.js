@@ -27,13 +27,15 @@
 //= require_tree .
 
 
+function datetimepickerInit() {
+  $('.datetimepicker-standard').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm:ss'
+  });
+}
 
 $( document ).ready(function() {
-    $('.datetimepicker-standard').datetimepicker(
-        {
-            format: 'YYYY-MM-DD HH:mm:ss'
-        }
-    );
+    datetimepickerInit();
+    $(document).on('nested:fieldAdded', datetimepickerInit);
 
     $('.colorpicker').colorpicker()
     $('[data-toggle="tooltip"]').tooltip();

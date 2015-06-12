@@ -1,17 +1,19 @@
 require 'spec_helper'
 
 feature 'Orders' do
+  include_context 'logged_in_as_user'
+
   given!(:machine) { create(:machine) }
 
   scenario 'I can create a new order, with jobs and imprints', js: true, story_676: true do
     visit new_order_path
     fill_in 'Name', with: 'Test Order'
-    click_button 'Add Job'
+    click_link 'New Job'
 
-    within '.new-job-in-order' do
+    within '.order-jobs' do
       fill_in 'Name', with: 'A job'
-      click_button 'Add Imprint'
-      within '.new-imprint-in-job' do
+      click_link 'New Imprint'
+      within '.job-imprints' do
         fill_in 'Name', with: 'An imprint'
         fill_in 'Description', with: 'Here it is - the imprint'
         select machine.name, from: 'Machine'

@@ -1,13 +1,21 @@
-<%= nested_form_for order, role: 'form', builder: BootstrapForm::FormBuilder do |f| %>
-  <%= f.text_field :name, class: 'form-control' %>
-  <%= f.text_field :deadline, class: 'form-control datetimepicker-standard', value: order.deadline %>
+<div class='container'>
+  <div class='row'>
+    <div class='col-sm-12'>
+      <%= nested_form_for order, role: 'form', builder: BootstrapForm::FormBuilder do |f| %>
+        <div class='control-group'>
+          <%= f.text_field :name, class: 'form-control' %>
+          <%= f.text_field :deadline, class: 'form-control datetimepicker-standard', value: order.deadline %>
+        </div>
 
-  <div class='order-jobs'>
-    <%= f.fields_for :jobs do |ff| %>
-      <%= render 'job_fields', f: ff %>
-    <% end %>
-    <%= f.link_to_add "New Job", :jobs, class: 'btn btn-primary' %>
+        <div class='order-jobs'>
+          <%= f.fields_for :jobs do |ff| %>
+            <%= render 'job_fields', f: ff %>
+          <% end %>
+          <%= f.link_to_add "New Job", :jobs, class: 'btn btn-primary' %>
+        </div>
+
+        <%= f.submit %>
+      <% end %>
+    </div>
   </div>
-
-  <%= f.submit %>
-<% end %>
+</div>
