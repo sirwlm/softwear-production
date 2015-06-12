@@ -1,12 +1,16 @@
 <div class="row">
-  <h3>Job</h3>
-  <%= f.text_field :name %>
-  <div class='job-imprints'>
-    <%= f.fields_for :imprints do |ff| %>
-      <%= render 'imprint_fields', f: ff %>
-    <% end %>
-    <%= f.add_record_button :imprints %>
+  <div class="col-sm-1">
   </div>
-  <%= f.remove_record_button %>
+  <div class="col-sm-11">
+    <h3>Job</h3>
+    <%= f.text_field :name %>
+    <div class='job-imprints'>
+      <%= f.fields_for :imprints do |ff| %>
+        <%= render 'imprint_fields', f: ff %>
+      <% end %>
+      <%= f.link_to_add "New Imprint", :imprints, class: 'btn btn-primary' %>
+    </div>
+    <%= f.link_to_remove "Remove Job", class: 'btn btn-danger' %>
+  </div>
 </div>
 <hr />

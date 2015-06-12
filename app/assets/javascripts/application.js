@@ -22,6 +22,7 @@
 //= require select2
 //= require editable/bootstrap-editable
 //= require editable/rails
+//= require jquery_nested_form
 
 //= require_tree .
 

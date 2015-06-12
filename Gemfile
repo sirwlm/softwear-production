@@ -30,6 +30,7 @@ group :test do
   gem 'endpoint_stub', github: 'AnnArborTees/endpoint_stub', branch: 'develop'
 end
 
+gem 'nested_form'
 gem 'x-editable-rails'
 gem 'safe_yaml', '~> 1.0.4'
 gem 'autoprefixer-rails'
