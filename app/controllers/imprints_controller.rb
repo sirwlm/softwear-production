@@ -1,4 +1,5 @@
 class ImprintsController < InheritedResources::Base
+  belongs_to :job, optional: true
   respond_to :json, :js, :html
   before_filter :prepare_calendar_entries, only: [:index]
 
