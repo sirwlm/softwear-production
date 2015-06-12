@@ -53,4 +53,21 @@ feature 'Orders' do
     expect(order.jobs.first.name).to eq 'New Job Name'
     expect(order.jobs.last.name).to eq 'Actually New Job'
   end
+
+  scenario 'I can remove a job from an order', js: true, story_676: true do
+    job = Job.create(name: 'Test Job')
+    job.imprints = [create(:imprint, name: 'The Imprint')]
+    order = create(:order, jobs: [job])
+
+    visit edit_order_path(order)
+
+    within '.order-jobs' do
+      click_link 'Remove Job'
+    end
+
+    click_button 'Update Order'
+
+    order.reload
+    expect(order.jobs.size).to eq 0
+  end
 end

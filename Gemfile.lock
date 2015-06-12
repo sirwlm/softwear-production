@@ -469,7 +469,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   simplecov
-  softwear-lib (= 0.0.7)
+  softwear-lib
   state_machine
   sunspot_matchers
   sunspot_rails
