@@ -3,8 +3,10 @@ FactoryGirl.define do
 
     factory :machine do
       sequence(:name) { |n| "machine_#{n}" }
-    end
 
-    after(:create) { |machine| create(:imprint, machine_id: machine.id) }
+      factory :machine_with_imprint do
+        after(:create) { |machine| create(:imprint, machine_id: machine.id) }
+      end
+    end
   end
 end

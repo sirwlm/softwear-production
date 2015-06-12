@@ -1,0 +1,30 @@
+<h1 class="pull-left">Listing orders</h1>
+
+<br clear="all" />
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Info</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><h4><%= order.name %></h4></td>
+        <td>
+          <%= order.deadline.strftime('%c') %>
+          <p><%#= order.maybe_a_job_list_or_something? %></p>
+        </td>
+        <td>
+          <%= bootstrap_show_button(order) %>
+          <%= bootstrap_edit_button(order) %>
+          <%= bootstrap_destroy_button(order) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
