@@ -27,6 +27,7 @@ group :test do
   gem 'timecop'
   gem 'with_model'
   gem 'endpoint_stub', github: 'AnnArborTees/endpoint_stub', branch: 'develop'
+  gem 'capybara-select2'
 end
 
 gem 'x-editable-rails'
