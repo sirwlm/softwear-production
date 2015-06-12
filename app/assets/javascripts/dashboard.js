@@ -15,10 +15,6 @@ $(document).ready(function() {
 
     imprintCalendarOn('#calendar', {
       events: Routes.imprints_path(),
-
-      // removeAfterDrop: function(element) {
-      //   return element.data('machine-id') != null;
-      // }
     });
 
     var tags = [];
@@ -88,18 +84,11 @@ $(document).ready(function() {
         });
       }
       else return;
-
-      // this sucks!
-      /*
-      var newCalendar = $('<div></div>');
-      newCalendar.insertAfter('#calendar');
-      $('#calendar').remove();
-      newCalendar.prop('id', 'calendar');
-      newCalendar.prop('class', 'col-lg-9');
-      imprintCalendarOn('#calendar', {
-        events: Routes.imprints_path(),
-      });
-      */
     });
+
+    setInterval(
+      function() { $('#calendar').fullCalendar('refetchEvents') },
+      1800000
+    );
   }
 });
