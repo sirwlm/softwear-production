@@ -1,5 +1,5 @@
 <%= form_tag "#", id: 'screen-filters' do %>
-<div class="row">
+<div class="filters row">
   <div class="col-xs-6 col-sm-3">
     <%= label_tag 'frame-type', 'Frame Type' %><br />
     <%= select_tag 'frame-type', options_for_select(Screen::FRAME_TYPES), multiple: true, include_blank: true, 
@@ -20,11 +20,9 @@
     <%= select_tag 'state', options_for_select(Screen::INITIAL_STATES.map{|x| [x.humanize, x]}), multiple: true, include_blank: true, 
                                 id: 'state', class: 'js-screen-multiple-select' %>
    </div>
-  <br clear='all' />
-  <br clear='all' />
-  <%= button_tag "Filter", class: 'col-xs-6 col-xs-offset-3 btn btn-primary'%>
-  <br clear='all' />
-  <br clear='all' />
+</div>
+<div class='filters row'>
+   <%= button_tag "Filter Screens", class: 'col-xs-6 col-xs-offset-3 btn btn-success'%>
 </div>
 <% end %>
 
