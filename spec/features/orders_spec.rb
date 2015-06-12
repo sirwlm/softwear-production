@@ -23,9 +23,34 @@ feature 'Orders' do
 
     click_button 'Create Order'
 
-    expect(page).to have_content 'Successfully created Order'
+    expect(page).to have_content 'Test Order'
     expect(Order.where(name: 'Test Order')).to exist
     expect(Job.where(name: 'A job')).to exist
     expect(Imprint.where(name: 'An imprint')).to exist
+  end
+
+  scenario 'I can edit an existing order (add/remove jobs and imprints)', js: true, story_676: true do
+    job = Job.create(name: 'Test Job')
+    job.imprints = [create(:imprint, name: 'The Imprint')]
+    order = create(:order, jobs: [job])
+
+    visit edit_order_path(order)
+
+    within '.order-jobs' do
+      fill_in 'Name', with: 'New Job Name'
+    end
+
+    click_link 'New Job'
+
+    within '.new-job' do
+      fill_in 'Name', with: 'Actually New Job'
+    end
+
+    click_button 'Update Order'
+
+    order.reload
+    expect(order.jobs.size).to eq 2
+    expect(order.jobs.first.name).to eq 'New Job Name'
+    expect(order.jobs.last.name).to eq 'Actually New Job'
   end
 end

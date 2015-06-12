@@ -7,10 +7,10 @@ class OrdersController < InheritedResources::Base
     params.permit(order: [
       :name, :deadline,
       jobs_attributes: [
-        :name,
+        :name, :id,
         imprints_attributes: [
           :name, :description, :estimated_time, :scheduled_at,
-          :machine_id, :approved,
+          :machine_id, :approved, :id
         ]
       ]
     ])

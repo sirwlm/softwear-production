@@ -5,8 +5,9 @@ class Job < ActiveRecord::Base
   has_many :imprints
   belongs_to :order
 
-  accepts_nested_attributes_for :imprints
+  accepts_nested_attributes_for :imprints, allow_destroy: true
 
+  # TODO this will become a thing again at somepoint, I'm sure.
   validates :imprintable_train, presence: true
 
   before_validation :assign_imprintable_train
@@ -14,7 +15,6 @@ class Job < ActiveRecord::Base
   private
 
   def assign_imprintable_train
-    self.imprintable_train = ImprintableTrain.new
-    false unless self.imprintable_train.save
+    self.imprintable_train = ImprintableTrain.new(state: 'ready_to_order')
   end
 end
