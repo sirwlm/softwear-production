@@ -1,4 +1,36 @@
-<table class="table table-striped" data-sortable="true">
+<%= form_tag "#", id: 'screen-filters' do %>
+<div class="row">
+  <div class="col-xs-6 col-sm-3">
+    <%= label_tag 'frame-type', 'Frame Type' %><br />
+    <%= select_tag 'frame-type', options_for_select(Screen::FRAME_TYPES), multiple: true, include_blank: true, 
+                                id: 'frame-type', class: 'js-screen-multiple-select' %>
+  </div>
+  <div class="col-xs-6 col-sm-3">
+    <%= label_tag 'dimensions', 'Dimensions' %><br />
+    <%= select_tag 'dimensions', options_for_select(Screen::DIMENSIONS), multiple: true, include_blank: true, 
+                                id: 'dimensions', class: 'js-screen-multiple-select' %>
+  </div>
+  <div class="col-xs-6 col-sm-3">
+    <%= label_tag 'mesh-type', 'Mesh Type' %><br />
+    <%= select_tag 'mesh-type', options_for_select(Screen::MESH_TYPES), multiple: true, include_blank: true, 
+                                id: 'mesh-type', class: 'js-screen-multiple-select' %>
+  </div>
+  <div class="col-xs-6 col-sm-3">
+    <%= label_tag 'state', 'State' %><br />
+    <%= select_tag 'state', options_for_select(Screen::INITIAL_STATES.map{|x| [x.humanize, x]}), multiple: true, include_blank: true, 
+                                id: 'state', class: 'js-screen-multiple-select' %>
+   </div>
+  <br clear='all' />
+  <br clear='all' />
+  <%= button_tag "Filter", class: 'col-xs-6 col-xs-offset-3 btn btn-primary'%>
+  <br clear='all' />
+  <br clear='all' />
+</div>
+<% end %>
+
+
+
+<table class="table table-striped" data-sortable="true" id='screen-status-table'>
   <thead>
   <tr>
     <th>Frame Type</th>
@@ -7,11 +39,13 @@
     <th>State</th>
     <th>Count</th>
   </tr>
+  <tr>
+  </tr>
   </thead>
 
   <tbody>
   <% @screens.each do |screen| %>
-      <tr>
+    <tr class="screen-row" data-frame-type="<%= screen.frame_type %>" data-dimensions="<%= screen.dimensions %>" data-mesh-type="<%= screen.mesh_type %>" data-state="<%= screen.state %>" >
         <td><%= screen.frame_type %></td>
         <td><%= screen.dimensions %></td>
         <td><%= screen.mesh_type %></td>

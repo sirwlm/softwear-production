@@ -117,7 +117,7 @@ class Screen < ActiveRecord::Base
   private
 
   def assign_id
-    self.id = Screen.maximum(:id) + 1 unless (self.id? && Screen.count > 0)
+    self.id = (Screen.maximum(:id) || 0) + 1 unless (self.id? && Screen.count > 0)
   end
 
 end

@@ -27,6 +27,14 @@ GIT
       mimemagic (= 0.3.0)
 
 GIT
+  remote: git@github.com:AnnArborTees/acts_as_warnable.git
+  revision: 2b3eee8447fae174398d6933513c766555338bb6
+  specs:
+    acts_as_warnable (0.0.1)
+      devise
+      rails (~> 4.2.1)
+
+GIT
   remote: git@github.com:AnnArborTees/dumpsync.git
   revision: 8244088c7f9c5647b941ae2268c1045ba5e03ac9
   specs:
@@ -123,6 +131,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-select2 (1.0.1)
+      capybara
+      rspec
     capybara-webkit (1.5.1)
       capybara (>= 2.3.0, < 2.5.0)
       json
@@ -277,6 +288,10 @@ GEM
       railties (>= 4.2.0, < 5)
     rsolr (1.0.12)
       builder (>= 2.1.2)
+    rspec (3.2.0)
+      rspec-core (~> 3.2.0)
+      rspec-expectations (~> 3.2.0)
+      rspec-mocks (~> 3.2.0)
     rspec-activemodel-mocks (1.0.1)
       activemodel (>= 3.0)
       activesupport (>= 3.0)
@@ -335,6 +350,8 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
+    softwear-lib (0.0.7)
+      activesupport
     sprockets (3.1.0)
       rack (~> 1.0)
     sprockets-rails (2.3.1)
@@ -390,6 +407,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeresource
+  acts_as_warnable!
   autoprefixer-rails
   better_errors (>= 0.3.2)
   binding_of_caller
@@ -404,6 +422,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capybara (~> 2.4)
+  capybara-select2
   capybara-webkit
   coffee-rails (~> 4.0.0)
   database_cleaner (~> 1.0)
@@ -446,6 +465,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   simplecov
+  softwear-lib (= 0.0.7)
   state_machine
   sunspot_matchers
   sunspot_rails
