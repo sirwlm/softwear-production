@@ -4,6 +4,8 @@
 
 <%= render 'search' %>
 
+<%= paginate @imprints %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -37,3 +39,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @imprints %>

@@ -14,10 +14,13 @@ class ImprintsController < InheritedResources::Base
       end
       @imprints = search.results
     else
-      index!
+      @imprints = Imprint.search do
+        with :complete, false
+        paginate page: (params[:page] || 1)
+      end
+        .results
     end
   end
-
 
   def show
     show! do |format|
