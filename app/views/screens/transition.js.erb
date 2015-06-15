@@ -3,8 +3,6 @@ $('#screen-status-table').html("<%= escape_javascript(render('screens/status_tab
 $('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
 $('#mesh_type').html("<%= @screen.mesh_type %>");
 window.setTimeout(function() {
-    $(".flash-notice").fadeTo(200, 0).slideUp(200, function(){
-        $(this).remove();
-    });
-}, 5000);
+  $('#contentModal').modal('hide');
+}, 2000);
 prepare_failure_buttons();

@@ -17,6 +17,23 @@ feature 'Screen Features', js: true do
     visit status_screens_path
   end
 
+  context 'when I change the state of a screen' do
+    scenario 'I see success for 2 seconds, and then the modal closes', story_677: true do
+      s1.update_attributes! state: :ready_to_reclaim
+      find('#screen-id').set s1.id
+      click_button 'Look Up Screen'
+      sleep 0.5
+      click_link 'Reclaimed'
+      wait_for_ajax
+      expect(page).to have_content 'Updated Screen State'
+      expect(page).to have_content 'Current State is Reclaimed And Drying'
+      sleep 1
+      expect(page).to have_content 'Current State is Reclaimed And Drying'
+      sleep 2
+      expect(page).to_not have_content 'Current State is Reclaimed And Drying'
+    end
+  end
+
   context 'can filter by a single field' do
     it 'can filter by only Frame Type' do
       select2_tag("Panel", from: 'Frame Type')
