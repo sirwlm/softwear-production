@@ -39,4 +39,5 @@ bower.json
 **.swp
 /solr
 /**/.DS_Store
-/.DS_Store
+.DS_STore
+/**/*.swo

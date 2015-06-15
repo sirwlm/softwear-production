@@ -469,7 +469,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   simplecov
-  softwear-lib
+  softwear-lib (= 0.0.7)
   state_machine
   sunspot_matchers
   sunspot_rails
@@ -480,3 +480,6 @@ DEPENDENCIES
   whenever
   with_model
   x-editable-rails
+
+BUNDLED WITH
+   1.10.3
