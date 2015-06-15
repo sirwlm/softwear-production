@@ -88,7 +88,7 @@ $(document).ready(function() {
 
     setInterval(
       function() { $('#calendar').fullCalendar('refetchEvents') },
-      1800000
+      300000
     );
   }
 });
