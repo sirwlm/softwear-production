@@ -3,6 +3,7 @@ lock '3.2.1'
 set :application, 'softwear-production'
 set :repo_url, 'git@github.com:annarbortees/softwear-production.git'
 set :rvm_ruby_version, 'rbx-2.5.2'
+set :rvm_ruby_string, 'rbx-2.5.2'
 
 # Default branch is :master
 ask :branch, 'master'

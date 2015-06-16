@@ -344,7 +344,7 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
-    softwear-lib (0.0.11)
+    softwear-lib (0.0.12)
       activesupport
     sprockets (3.2.0)
       rack (~> 1.0)
@@ -462,7 +462,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   simplecov
-  softwear-lib (= 0.0.11)
+  softwear-lib (= 0.0.12)
   state_machine
   sunspot_matchers
   sunspot_rails
