@@ -3,6 +3,7 @@ lock '3.2.1'
 set :application, 'softwear-production'
 set :repo_url, 'git@github.com:annarbortees/softwear-production.git'
 set :rvm_ruby_version, 'rbx-2.5.2'
+set :rvm_ruby_string, 'rbx-2.5.2'
 
 # Default branch is :master
 ask :branch, 'master'
@@ -34,6 +35,8 @@ set :linked_files, %w{config/database.yml config/application.yml config/sunspot.
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+
+Softwear::Lib.capistrano(self)
 
 namespace :deploy do
 
