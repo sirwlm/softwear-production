@@ -2,6 +2,14 @@ $('#contentModal .modal-title').html("<%= @imprint.name %>");
 $('#contentModal .modal-body').html("<%=j render('imprints/view', imprint: @imprint, edit_link: true) %>");
 $('#contentModal').modal('show');
 $('#contentModalSaveChanges').hide();
+$('.select2').select2({width: '35%'});
+<% if current_user.admin? %>
+  $('.editable').editable({
+    ajaxOptions: {
+      dataType: 'script'
+    }
+  });
+<% end %>
 
 <% if local_assigns[:refresh_imprint] %>
   $(window.calendarMatcher).fullCalendar(

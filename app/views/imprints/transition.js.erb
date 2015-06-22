@@ -1,0 +1,2 @@
+$('#transition-state').html("<%= escape_javascript(render('screens/transition_state')) %>");
+$('#imprint-activities').html("<%= escape_javascript(render_activities(@imprint.activities.order(created_at: :desc))) %>");

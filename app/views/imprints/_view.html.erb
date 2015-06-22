@@ -1,4 +1,5 @@
 <div class="row">
+  <% if flash[:notice] %><p class="alert alert-success flash-notice"><%= flash[:notice] %></p><% end %>
   <% if defined?(edit_link) && edit_link %>
       <%= link_to edit_imprint_path(@imprint), class: 'btn btn-primary pull-right' do %>
           <i class="glyphicon glyphicon-edit"></i> Edit
@@ -6,19 +7,11 @@
   <% end %>
   <div class="col-xs-6">
     <dl>
-      <dt>
-        Description
-      </dt>
-      <dd>
-        <%= @imprint.description %>
-      </dd>
+      <dt>Description</dt>
+      <dd><%= @imprint.description %></dd>
       <% if @imprint.scheduled? %>
-          <dt>
-            Scheduled At
-          </dt>
-          <dd>
-            <%= @imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @imprint.estimated_time %>hrs
-          </dd>
+          <dt>Scheduled At</dt>
+          <dd><%= @imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @imprint.estimated_time %>hrs</dd>
       <% else %>
           <dt>Unscheduled</dt>
       <% end %>
@@ -34,30 +27,9 @@
       </dd>
     </dl>
 
-    <div class='row'>
-      <div class='col-sm-6'>
-        <% if @imprint.approved? && !@imprint.completed? %>
-          <%= bootstrap_form_for @imprint, url: complete_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as completed?' } do |f| %>
-            <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id),  class: 'user-who-completed' %>
-
-            <%= f.button class: 'btn btn-warning'  do %>
-                <i class="glyphicon glyphicon-check"></i> Mark as Complete
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
-
-      <div class='col-sm-6'>
-        <% unless @imprint.approved? %>
-            <%= bootstrap_form_for @imprint, url: approve_imprint_path(@imprint), remote: true, data: { confirm: 'Mark this imprint as approved?' } do |f| %>
-                <%= f.button class: 'btn btn-success'  do %>
-                    <i class="glyphicon glyphicon-check"></i> Approve
-                <% end %>
-            <% end %>
-        <% end %>
-      </div>
+    <div id='transition-state' class='row'>
+      <%= render 'transition_state', imprint: @imprint %>
     </div>
-
   </div>
 
   <div class="col-xs-6">
@@ -77,14 +49,3 @@
   </div>
 
 </div>
-
-<script type='application/javascript'>
-  $('.user-who-completed').select2({width: '150%'});
-  <% if current_user.admin? %>
-    $('.editable').editable({
-      ajaxOptions: {
-        dataType: 'script'
-      }
-    });
-  <% end %>
-</script>

@@ -1,6 +1,9 @@
 class Imprint < ActiveRecord::Base
   # include CrmCounterpart
   include ColorUtils
+  include PublicActivity::Model
+
+  tracked only: [:transition]
 
   before_save :assign_estimated_end_at
 
@@ -17,8 +20,6 @@ class Imprint < ActiveRecord::Base
   validate :schedule_conflict?
   validates :name, :description, presence: true
 
-  after_initialize :set_approved_to_true
-
   searchable do
     text :name, :description
     integer :completed_by_id
@@ -30,6 +31,14 @@ class Imprint < ActiveRecord::Base
     boolean :scheduled do
       !scheduled_at.nil?
     end
+  end
+
+  state_machine :state, initial: :pending_approval do
+    state :approved
+  end
+
+  def approved?
+    state.to_syn == :approved
   end
 
   def display
@@ -109,10 +118,6 @@ class Imprint < ActiveRecord::Base
 
   def assign_estimated_end_at
     self.estimated_end_at = (scheduled_at + estimated_time.hours rescue nil)
-  end
-
-  def set_approved_to_true
-    self.approved = true if self.approved.nil?
   end
 
 end

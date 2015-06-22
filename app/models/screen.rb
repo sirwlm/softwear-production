@@ -1,5 +1,6 @@
 class Screen < ActiveRecord::Base
   include PublicActivity::Model
+
   tracked only: [:transition]
 
   INITIAL_STATES = %w(new broken ready_to_reclaim ready_to_coat ready_to_expose ready_to_tape in_production)

@@ -13,4 +13,13 @@ feature 'Imprints' do
     click_button 'Search'
     expect(Sunspot.session).to be_a_search_for(Imprint)
   end
+
+  scenario "An imprint's state can be transitioned", story_694: true do
+    visit imprint_path(imprint)
+    expect(page).to have_content "Current State is Pending approval"
+    click_button '(WHATEVER THE NEXT EVENT IS)'
+
+    expect(page).to have_content "Current State is WHATEVER THE STATE SHOULD BE"
+    expect(imprint.reload.state).to eq 'WHATEVER THE STATE SHOULD BE'
+  end
 end
