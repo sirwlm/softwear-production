@@ -6,6 +6,7 @@ class Imprint < ActiveRecord::Base
   tracked only: [:transition]
 
   before_save :assign_estimated_end_at
+  before_save :reset_state_when_type_changed
 
   scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
   scope :unscheduled, -> { where(scheduled_at: nil) }
@@ -33,12 +34,8 @@ class Imprint < ActiveRecord::Base
     end
   end
 
-  state_machine :state, initial: :pending_approval do
-    state :approved
-  end
-
   def approved?
-    state.to_syn == :approved
+    state.to_sym != :pending_approval
   end
 
   def display
@@ -118,6 +115,12 @@ class Imprint < ActiveRecord::Base
 
   def assign_estimated_end_at
     self.estimated_end_at = (scheduled_at + estimated_time.hours rescue nil)
+  end
+
+  def reset_state_when_type_changed
+    if type_changed?
+      self.state = :pending_approval
+    end
   end
 
 end

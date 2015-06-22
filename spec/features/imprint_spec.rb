@@ -6,6 +6,7 @@ feature 'Imprints' do
   given!(:admin) { create(:admin) }
   given!(:user) { create(:user) }
   given!(:imprint) { create(:imprint)}
+  given(:print) { create(:print) }
 
   scenario 'a production manager can search imprints', story_460: true do
     visit imprints_path
@@ -14,12 +15,12 @@ feature 'Imprints' do
     expect(Sunspot.session).to be_a_search_for(Imprint)
   end
 
-  scenario "An imprint's state can be transitioned", story_694: true do
-    visit imprint_path(imprint)
-    expect(page).to have_content "Current State is Pending approval"
-    click_button '(WHATEVER THE NEXT EVENT IS)'
+  scenario "An imprint's state can be transitioned", js: true, story_694: true do
+    visit imprint_path(print)
+    expect(page).to have_content "Current State is Pending Approval"
+    click_button 'Approve'
 
-    expect(page).to have_content "Current State is WHATEVER THE STATE SHOULD BE"
-    expect(imprint.reload.state).to eq 'WHATEVER THE STATE SHOULD BE'
+    expect(page).to have_content "Current State is Ready To Print"
+    expect(print.reload.state).to eq 'ready_to_print'
   end
 end

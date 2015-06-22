@@ -60,7 +60,7 @@ class ImprintsController < InheritedResources::Base
       @imprint.completed_at = Time.now
       @imprint.completed_by_id = params[:user_id]
     end
-    @imprint.send(params[:transition])
+    @imprint.fire_state_event(params[:transition])
     @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
     @imprint.save!
     flash[:notice] = ' Updated Imprint State'
@@ -100,7 +100,7 @@ class ImprintsController < InheritedResources::Base
   end
 
   def imprint_params
-    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at)
+    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at, :type)
   end
 
   def complete_params

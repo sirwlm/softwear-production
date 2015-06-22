@@ -31,6 +31,19 @@ describe Imprint, imprint_spec: true, story_110: true do
     end
   end
 
+  describe 'Before save' do
+    context 'when type is changed' do
+      let(:print) { create(:print, state: :printed) }
+
+      it 'resets state to pending_approval', story_694: true do
+        print.type = 'ScreenPrint'
+        print.save!
+
+        expect(print.reload.state.to_sym).to eq :pending_approval
+      end
+    end
+  end
+
   describe '#estimated_end_at' do
     let(:subject) { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine_id: create(:machine).id)}
     it 'returns the time ' do

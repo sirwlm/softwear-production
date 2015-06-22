@@ -10,7 +10,7 @@
       <%= link_to edit_imprint_path, class: 'btn btn-md btn-warning', data: { toggle: 'tooltip'}, title: "Edit Imprint" do %>
           <i class='glyphicon glyphicon-pencil'></i>
       <% end %>
-      <%= link_to @imprint, method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?', toggle: 'tooltip'}, title: "Destroy Imprint" do %>
+      <%= link_to imprint_path(@imprint), method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?', toggle: 'tooltip'}, title: "Destroy Imprint" do %>
           <i class='glyphicon glyphicon-remove-circle'></i>
       <% end %>
   <% end %>

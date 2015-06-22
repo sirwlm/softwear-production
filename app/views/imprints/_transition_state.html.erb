@@ -6,9 +6,9 @@
     <%= form_tag transition_imprint_path(imprint, e), remote: true, method: :patch do %>
       <%= button_tag e.to_s.humanize, class: 'btn btn-lg btn-success' %>
 
-      <% if e.to_sym == :printing_complete %>
+      <% if e.to_sym == :printing_complete || e.to_sym == :print %>
         by
-        <%= select_tag :completed_by, options_from_collection_for_select(User.all, :id, :full_name, current_user.id),  class: 'user-who-completed select2' %>
+        <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id),  class: 'user-who-completed select2' %>
       <% end %>
     <% end %>
   <% end %>

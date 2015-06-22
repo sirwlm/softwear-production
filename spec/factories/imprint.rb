@@ -8,6 +8,13 @@ FactoryGirl.define do
       scheduled_at Time.now
       sequence(:estimated_time) { |n| n }
       machine { |imprint| imprint.association(:machine) }
+
+      factory :print do
+        type 'Print'
+      end
+      factory :screen_print do
+        type 'ScreenPrint'
+      end
     end
   end
 end

@@ -39,7 +39,7 @@ module ApplicationHelper
   end
 
   def bootstrap_edit_button(record)
-    link_to(send("edit_#{record.class.to_s.underscore}_path", record), data: { toggle: 'tooltip' }, class: 'btn btn-xs btn-warning', title: 'Edit') do
+    link_to(send("edit_#{record.class.model_name.to_s.underscore}_path", record), data: { toggle: 'tooltip' }, class: 'btn btn-xs btn-warning', title: 'Edit') do
       content_tag :i, '', class: 'glyphicon glyphicon-remove-circle'
     end
   end

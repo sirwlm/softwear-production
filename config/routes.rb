@@ -18,8 +18,6 @@ SoftwearProduction::Application.routes.draw do
 
   resources :imprints do
     member do
-      patch 'complete', to: 'imprints#complete'
-      patch 'approve', to: 'imprints#approve'
       patch ':transition', to: 'imprints#transition', as: :transition
     end
   end

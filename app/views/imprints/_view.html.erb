@@ -25,6 +25,8 @@
           <%= @imprint.machine_name %>
         <% end %>
       </dd>
+      <dt>Type</dt>
+      <dd><%= @imprint.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>
     </dl>
 
     <div id='transition-state' class='row'>
@@ -32,19 +34,9 @@
     </div>
   </div>
 
-  <div class="col-xs-6">
+  <div id='completion-info' class="col-xs-6">
     <% if @imprint.completed? %>
-    <span class='imprint-completed'>
-      <dl>
-        <dt>Completed by</dt>
-        <dd>
-          <%= @imprint.completed_by.try(:full_name) || 'someone' %>
-        </dd>
-        <dt>Completed At</dt>
-        <dd>
-          <%= @imprint.completed_at.strftime('%m/%d/%Y at %I:%M%p') %>
-        </dd>
-    </span>
+      <%= render 'completed_info', imprint: @imprint %>
     <% end %>
   </div>
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ImprintsController, imprint_spec: true, story_113: true do
   include_context 'signed_in_as_user'
-  let!(:imprint) { create(:imprint) }
+  let!(:imprint) { create(:print) }
 
   describe 'GET #show' do
     it 'renders show.js.erb' do
@@ -40,7 +40,7 @@ describe ImprintsController, imprint_spec: true, story_113: true do
     let(:user) { create :user }
 
     before do
-      allow_any_instance_of(Imprint).to receive(:transition)
+      allow_any_instance_of(Print).to receive(:fire_state_event).with('transition')
     end
 
     context 'with a user_id' do
