@@ -34,6 +34,13 @@ $ ->
        width: "100%"
   )
 
+  $(".js-screen-state-select").select2(
+       width: "100%"
+  )
+
+
+    
+
   $("#screen-filters").submit (event) -> 
     event.preventDefault()
     attrs = {}

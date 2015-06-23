@@ -29,6 +29,7 @@ SoftwearProduction::Application.routes.draw do
     collection do
       get :lookup, action: :lookup
       get :status, action: :status
+      get :fast_scan, action: :fast_scan
     end
   end
   get '/screens/:id/:transition' =>  'screens#transition', as: :transition_screen

@@ -18,7 +18,7 @@ class ScreensController < InheritedResources::Base
     if params[:mesh_type] && params[:transition] == 'meshed'
       @screen.update_attribute(:mesh_type, params[:mesh_type])
     end
-    flash[:notice] = ' Updated Screen State'
+    flash[:notice] = 'Updated Screen State'
     load_screens_grouped_by_type
     respond_to do |format|
       format.js

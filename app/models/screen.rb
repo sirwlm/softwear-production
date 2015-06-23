@@ -115,10 +115,31 @@ class Screen < ActiveRecord::Base
     end
   end
 
+  def next_successful_events
+    # get rid of eventst that are failures
+    # return the array that remains
+  end
+
+  def next_successful_event
+    # just wrap the function above, and return the one event name
+    # throw an exception if the array size is > 1
+  end
+
   private
 
   def assign_id
     self.id = (Screen.maximum(:id) || 0) + 1 unless (self.id? && Screen.count > 0)
   end
 
+  def check_state(guess)
+    if self.state == guess
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.list_states
+    Screen.state_machine.states.map &:name
+  end
 end
