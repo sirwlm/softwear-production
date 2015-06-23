@@ -23,6 +23,7 @@
 //= require editable/bootstrap-editable
 //= require editable/rails
 //= require jquery_nested_form
+//= require jquery-tablesorter
 
 //= require_tree .
 

@@ -49,4 +49,6 @@ $ ->
           row.hide()
       )
     )
+
+  $('.table-sortable').tablesorter()
   

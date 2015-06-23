@@ -87,4 +87,11 @@ feature 'Screen Features', js: true do
     expect(page).to have_content('Static')
     expect(page).to have_content('Roller')
   end
+  
+  scenario 'can sort columns', story_691: true do
+    expect(page).to have_css('th.tablesorter-header')
+    page.find('th.tablesorter-header').click
+  end
+
+
 end

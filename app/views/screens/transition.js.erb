@@ -1,8 +1,9 @@
 $('#transition-state').html("<%= escape_javascript(render('screens/transition_state')) %>");
-$('#screen-status-table').html("<%= escape_javascript(render('screens/status_table')) %>");
+$('#screen-status').html("<%= escape_javascript(render('screens/status_table')) %>");
 $('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
 $('#mesh_type').html("<%= @screen.mesh_type %>");
 window.setTimeout(function() {
   $('#contentModal').modal('hide');
 }, 2000);
+$('.table-sortable').tablesorter();
 prepare_failure_buttons();
