@@ -1,13 +1,13 @@
 module ApplicationHelper
 
   def alert_class_from_flash_type(flash_type)
-    return 'alert-danger' if flash_type == :error || flash_type == :alert
-    return 'alert-success' if flash_type == :notice
+    return 'alert-danger' if flash_type == 'error' || flash_type == 'alert'
+    return 'alert-success' if flash_type == 'notice'
   end
 
   def alert_text_from_flash_type(flash_type)
-    return 'Error!' if flash_type == :error || flash_type == :alert
-    return 'Hooray!' if flash_type == :notice
+    return 'Error!' if flash_type == 'error' || flash_type == 'alert'
+    return 'Hooray!' if flash_type == 'notice'
   end
 
   def datetimepicker_format(datetime)

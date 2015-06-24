@@ -3,18 +3,24 @@
 <br clear="all" />
 <br clear="all" />
 
-<div class="col-xs-12">
-  <div class="col-xs-6 col-sm-3">
-    <%= label_tag 'state-type', 'Expected Current State' %>
-    <%= select_tag 'state-type', options_for_select(Screen.list_states), multiple: false, include_blank: false,
-                   id: 'expected-state', class: 'js-screen-state-select' %>
-  </div>
-</div>
 
-<div class="col-xs-12">
-    <%= form_tag("/search", method: "get") do %>
-      <%= label_tag(:q, "Screen ID:") %>
-      <%= text_field_tag(:q) %>
-      <%= submit_tag("Search") %>
-    <% end %>
-</div>
+<%= form_tag fast_scan_transition_screen_path, method: :post do %>
+  <div class="col-sm-6 col-xs-12">
+    <%= label_tag :expected_state, 'Expected Current State' %>
+    <%= select_tag :expected_state, options_for_select(
+          Screen.list_states.map{|s| [s, s, {'data-transitions' => Screen.new(state: s).state_events}]}), 
+                  multiple: false, include_blank: false, id: 'expected-state', class: 'js-screen-state-select' %>
+  </div>
+
+  <div class="col-sm-6 col-xs-12">
+    <%= label_tag :transition, 'Expected Transition' %>
+    <%= select_tag :transition, options_for_select(''), multiple: false, include_blank: false,
+                   id: 'expected-transition', class: 'js-screen-state-select' %>
+  </div>
+
+  <div class="col-xs-12">
+    <b>Scan Here</b>
+    <%= text_field_tag :id, '', class: 'form-control', id: 'screen_id' %>
+      <%= submit_tag "Transition" %>
+  </div>
+<% end%>

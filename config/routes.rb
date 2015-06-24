@@ -32,7 +32,9 @@ SoftwearProduction::Application.routes.draw do
       get :fast_scan, action: :fast_scan
     end
   end
+
   get '/screens/:id/:transition' =>  'screens#transition', as: :transition_screen
+  post '/screens/fast_scan' => 'screens#transition', as: :fast_scan_transition_screen
 
   resources :users, only: [:index, :new, :edit, :update, :destroy, :patch]
   post '/users/create_user', to: 'users#create', controller: 'users', as: :create_user

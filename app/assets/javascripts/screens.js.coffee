@@ -38,10 +38,18 @@ $ ->
        width: "100%"
   )
 
+  $("#expected-state").change( ->
+    currentState = $(this)
+    transitions = $(this).find(':selected').data("transitions")
+    $('#expected-transition').empty()
+    transitions.split(' ').forEach (transition) ->
+      $('#expected-transition').append("<option>#{transition}</option>")
+  )
 
-    
+  $('.js-screen-state-select').on "select2-selecting", (e) ->
+    setTimeout (-> $('#screen_id').focus()), 150
 
-  $("#screen-filters").submit (event) -> 
+  $("#screen-filters").submit (event) ->
     event.preventDefault()
     attrs = {}
     $(this).find('select').each (o) ->
