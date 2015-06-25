@@ -16,25 +16,26 @@ class ScreensController < InheritedResources::Base
       @screen = Screen.find(params[:id])
     else
       flash[:alert] = 'Invalid Screen ID'
-      redirect_to fast_scan_screens_path 
       return
     end
+    
     if params[:mesh_type] && params[:transition] == 'meshed'
       @screen.update_attribute(:mesh_type, params[:mesh_type])
     end
-    if params[:expected_state].nil? || params[:expected_state] != @screen.state
-      flash[:alert] = 'Failed to update screen. Wrong expected current state selected. Fix this.'
+
+    if params[:expected_state] != @screen.state
+      flash[:alert] = "Screen was not in the expected state"
     else
-      flash[:notice] = 'Updated Screen State'
+      flash[:notice] = "Screen state was successfully updated"
       @screen.fire_state_event(params[:transition])
       @screen.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
     end
+
     load_screens_grouped_by_type
+    
     respond_to do |format|
       format.js
-      format.html { redirect_to fast_scan_screens_path }
     end
-
   end
 
   private
