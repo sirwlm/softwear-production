@@ -4,29 +4,29 @@ describe ApplicationHelper, helper_spec: true do
 
   describe '#alert_class_from_flash_type' do
     it 'returns alert-danger if error' do
-      expect(alert_class_from_flash_type(:error)).to eq('alert-danger')
+      expect(alert_class_from_flash_type('error')).to eq('alert-danger')
     end
 
     it 'returns alert-danger if alert' do
-      expect(alert_class_from_flash_type(:alert)).to eq('alert-danger')
+      expect(alert_class_from_flash_type('alert')).to eq('alert-danger')
     end
 
     it 'returns alert-success if notice' do
-      expect(alert_class_from_flash_type(:notice)).to eq('alert-success')
+      expect(alert_class_from_flash_type('notice')).to eq('alert-success')
     end
   end
 
   describe '#alert_text_from_flash_type' do
     it 'returns error if error' do
-      expect(alert_text_from_flash_type(:error)).to eq('Error!')
+      expect(alert_text_from_flash_type('error')).to eq('Error!')
     end
 
     it 'returns error if alert' do
-      expect(alert_text_from_flash_type(:alert)).to eq('Error!')
+      expect(alert_text_from_flash_type('alert')).to eq('Error!')
     end
 
     it 'returns hooray if notice' do
-      expect(alert_text_from_flash_type(:notice)).to eq('Hooray!')
+      expect(alert_text_from_flash_type('notice')).to eq('Hooray!')
     end
   end
 

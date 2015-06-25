@@ -5,7 +5,7 @@ feature 'Orders' do
 
   given!(:machine) { create(:machine) }
 
-  scenario 'I can create a new order, with jobs and imprints', js: true, story_676: true do
+  scenario 'I can create a new order, with jobs and imprints', js: true, story_676: true, current: true do
     visit new_order_path
     fill_in 'Name', with: 'Test Order'
     click_link 'New Job'
@@ -20,9 +20,8 @@ feature 'Orders' do
         fill_in 'Estimated Time in Hours', with: 3
       end
     end
-
     click_button 'Create Order'
-
+    sleep 1
     expect(page).to have_content 'Test Order'
     expect(Order.where(name: 'Test Order')).to exist
     expect(Job.where(name: 'A job')).to exist

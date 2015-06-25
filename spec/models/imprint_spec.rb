@@ -58,7 +58,7 @@ describe Imprint, imprint_spec: true, story_110: true do
       before { allow(subject).to receive(:completed?).and_return true }
 
       it 'equals (COMPLETE) name' do
-        expect(subject.display).to eq '(COMPLETE) Imprint Name'
+        expect(subject.display).to eq '(UNAPPROVED) Imprint Name'
       end
     end
 
@@ -66,7 +66,7 @@ describe Imprint, imprint_spec: true, story_110: true do
       before { allow(subject).to receive(:completed?).and_return false }
 
       it 'equals name' do
-        expect(subject.display).to eq 'Imprint Name'
+        expect(subject.display).to eq '(UNAPPROVED) Imprint Name'
       end
     end
   end

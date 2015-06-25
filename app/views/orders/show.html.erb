@@ -1,18 +1,17 @@
+<h1 class="pull-left">Order: <%= @order.name %></h1>
+<%= render 'nav' %>
+<br clear="all" />
 
-    <h1 class="pull-left">Order: <%= @order.name %></h1>
-    <%= render 'nav' %>
-    <br clear="all" />
 
+<div class="col-xs-12">
+<h2>Jobs</h2>
+<% @order.jobs.each do |job| %>
+    <h3><%= job.name %></h3>
+    <ul>
+      <% job.imprints.each do |imprint| %>
+        <li> <%= link_to imprint.name, imprint_path(imprint), remote: true %> <span><%= link_to edit_imprint_path imprint %></li>
+      <% end %>
+    </ul>
+<% end %>
 
-    <div class="col-xs-12">
-    <h2>Jobs</h2>
-    <% @order.jobs.each do |job| %>
-        <h3><%= job.name %></h3>
-        <ul>
-          <% job.imprints.each do |imprint| %>
-            <li> <%= link_to imprint.name, imprint_path(imprint), remote: true %> <span><%= link_to edit_imprint_path imprint do %></li>
-          <% end %>
-        </ul>
-    <% end %>
-
-    </div>
+</div>

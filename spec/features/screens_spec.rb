@@ -33,6 +33,7 @@ feature 'Screen Features', js: true do
         sleep 0.5
         select user.email, from: "user_id"
         select Screen::SCREEN_BREAK_REASONS.last, from: "reason"
+
         click_button 'Confirm Break'
         expect(page).to have_content "Mesh"
         expect(page).to have_content "Current State is Broken"
@@ -42,7 +43,7 @@ feature 'Screen Features', js: true do
       scenario 'can advance bad_prep state' do
         scan_barcode('screen-id', s1.id)
         click_link 'Bad Prep'
-        sleep 0.5
+        sleep 1.5
         select user.email, from: "user_id"
         select Screen::SCREEN_BAD_PREP_REASONS.last, from: "reason"
         click_button 'Confirm Bad Prep'

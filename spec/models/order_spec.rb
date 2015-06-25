@@ -5,7 +5,7 @@ describe Order do
     it { is_expected.to have_many :jobs }
   end
 
-  it { is_expected.to validate_presence_of :softwear_crm_id }
+ # it { is_expected.to validate_presence_of :softwear_crm_id }
 
 =begin
   describe '#crm_order' do
