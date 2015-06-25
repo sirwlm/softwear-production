@@ -70,7 +70,7 @@ describe ScreensController do
         it 'assigns nothing' do
           post :transition, id: screen.id, transition: 'arbitrary', expected_state: 'new', format: 'js'
           expect(assigns(:screen)).not_to be_nil 
-          expect(flash[:alert]).to eq('Screen was not in the expected state')
+          expect(flash[:alert]).to include('Screen was not in the expected state')
           expect(response).to render_template('transition')
         end
       end
