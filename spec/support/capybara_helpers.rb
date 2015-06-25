@@ -1,4 +1,10 @@
 module CapybaraExt
+  def scan_barcode(input_id, barcode)
+    page.evaluate_script("document.activeElement.id") == input_id
+    fill_in input_id, with: barcode
+    find("##{input_id}").native.send_keys(:return)
+  end
+
   def page!
     save_and_open_page
   end

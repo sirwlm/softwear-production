@@ -1,10 +1,91 @@
+
+$('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
+<% if flash[:notice] %>
+  $('#contentModal .modal-body').html("<%= escape_javascript render 'shared/flash', key: "notice", val: flash[:notice] %>");
+  window.setTimeout(function() {
+    $('#contentModal').modal('hide');
+  }, 2000);
+<% elsif flash[:alert] %>
+  $('#contentModal .modal-body').html("<%= escape_javascript render 'shared/flash', key: "alert", val: flash[:alert] %>");
+<% end %>  
+$('#contentModal').modal('show');
+
+
+$('#screen_id').val('');
+$('#screen_id').focus();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<% if false %>
+$('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
+<% if flash[:notice] %>
+  $('#contentModal .modal-body').html("<%= escape_javascript render 'shared/flash', :key => "notice", :val => "Updated screen state" %>");
+  window.setTimeout(function() {
+    $('#contentModal').modal('hide');
+  }, 2000);
+<% elsif flash[:alert] %>
+  $('#contentModal .modal-body').html("<%= escape_javascript render 'shared/flash', :key => "alert", :val => "Failed to update screen state" %>");
+<% end %>  
+
+$('#contentModal').modal('show');
 $('#transition-state').html("<%= escape_javascript(render('screens/transition_state')) %>");
 $('#screen-status').html("<%= escape_javascript(render('screens/status_table')) %>");
 $('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
-$('#mesh_type').html("<%= @screen.mesh_type %>");
-window.setTimeout(function() {
-  $('#contentModal').modal('hide');
-}, 2000);
-$('.table-sortable').tablesorter();
-$('#screen_id').focus();
-prepare_failure_buttons();
+<% unless params[:expected_state] %>
+  $('#mesh_type').html("<%= @screen.mesh_type %>");
+  $('.table-sortable').tablesorter();
+  prepare_failure_buttons();
+  window.setTimeout(function() {
+    $('#contentModal').modal('hide');
+  }, 2000);
+<% end %>
+
+
+//  $('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
+//    <% if flash[:notice] %>
+//      $('#contentModal .modal-body').html("<%= render 'shared/flash', :key => "notice", :val => "Success" %>");
+//      window.setTimeout(function() {
+//        $('#contentModal').modal('hide');
+//      }, 2000);
+//    <% elsif flash[:alert] %>
+//      $('#contentModal .modal-body').html("<%= render 'shared/flash', :key => "alert", :val => "Failure" %>");
+//    <% end %>  
+//    $('#contentModal').modal('show');
+//  
+//  
+//  
+//    $('#transition-state').html("<%= escape_javascript(render('screens/transition_state')) %>");
+//  $('#screen-status').html("<%= escape_javascript(render('screens/status_table')) %>");
+//  $('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
+//  $('#mesh_type').html("<%= @screen.mesh_type %>");
+//  $('.table-sortable').tablesorter();
+//  prepare_failure_buttons();
+//  window.setTimeout(function() {
+//    $('#contentModal').modal('hide');
+//  }, 2000);
+//
+//
+//$('#screen_id').focus();
+<% end %>

@@ -16,6 +16,6 @@ FactoryGirl.define do
       admin true
     end
 
-    after(:create) { |u| u.confirm! }
+    after(:create) { |u| u.confirm }
   end
 end

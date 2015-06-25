@@ -23,8 +23,10 @@ class ScreensController < InheritedResources::Base
       @screen.update_attribute(:mesh_type, params[:mesh_type])
     end
 
-    if params[:expected_state] != @screen.state
-      flash[:alert] = "Screen was not in the expected state"
+    if params[:expected_state] && params[:expected_state] != @screen.state
+      flash[:alert] = "Screen was not in the expected state. You expected screen ##{@screen.id} "\
+        "to be in state #{params[:expected_state]} but was in state #{@screen.state}"
+
     else
       flash[:notice] = "Screen state was successfully updated"
       @screen.fire_state_event(params[:transition])
