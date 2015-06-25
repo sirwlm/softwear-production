@@ -1,4 +1,4 @@
-prepare_failure_buttons = ->
+@prepare_failure_buttons = ->
   $('#break-link').click (e) ->
     e.preventDefault()
     $('#failed-buttons').hide()
@@ -15,7 +15,7 @@ prepare_failure_buttons = ->
     $('#bad-prep-form').hide()
     $('#break-form').hide()
 
-prepare_screen_id_input = ->
+@prepare_screen_id_input = ->
   if $('#screen-id').size() > 0
     $('#screen-id').val ''
     $('#screen-id').focus()
