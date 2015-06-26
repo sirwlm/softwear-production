@@ -3,23 +3,24 @@ class Imprint < ActiveRecord::Base
   include ColorUtils
   include PublicActivity::Model
 
-  tracked only: [:transition]
-
-  before_save :assign_estimated_end_at
-  before_save :reset_state_when_type_changed
-
   scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
   scope :unscheduled, -> { where(scheduled_at: nil) }
   scope :machineless, -> { where(machine_id: nil) }
   scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
 
+  validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
+  validate :schedule_conflict?
+  validates :name, :description, presence: true
+  validates :count, presence: true, numericality: { greater_than: 0 }
+
+  before_save :assign_estimated_end_at
+  before_save :reset_state_when_type_changed
+
   belongs_to :job
   belongs_to :machine
   belongs_to :completed_by, class_name: 'User'
 
-  validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
-  validate :schedule_conflict?
-  validates :name, :description, presence: true
+  tracked only: [:transition]
 
   searchable do
     text :name, :description

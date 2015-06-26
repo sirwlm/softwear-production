@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150622191757) do
+ActiveRecord::Schema.define(version: 20150626141835) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20150622191757) do
     t.integer  "completed_by_id",  limit: 4
     t.string   "state",            limit: 255
     t.string   "type",             limit: 255
+    t.integer  "count",            limit: 4
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
@@ -113,12 +114,6 @@ ActiveRecord::Schema.define(version: 20150622191757) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
-  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
-  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
-  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
-  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
 
   create_table "trains", force: :cascade do |t|
     t.string   "kind",           limit: 255

@@ -33,6 +33,8 @@ SoftwearProduction::Application.routes.draw do
     end
   end
 
+  get '/reports/:report_type/(:start_date...:end_date)' => 'reports#show', as: :report
+
   get '/screens/:id/:transition' =>  'screens#transition', as: :transition_screen
   post '/screens/fast_scan' => 'screens#transition', as: :fast_scan_transition_screen
 

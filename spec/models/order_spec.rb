@@ -5,6 +5,11 @@ describe Order do
     it { is_expected.to have_many :jobs }
   end
 
+  describe 'validations' do 
+    it { is_expected.to validate_presence_of :jobs }
+    it { is_expected.to validate_presence_of :name }
+  end
+
  # it { is_expected.to validate_presence_of :softwear_crm_id }
 
 =begin

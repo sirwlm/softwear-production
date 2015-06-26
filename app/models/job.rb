@@ -5,10 +5,9 @@ class Job < ActiveRecord::Base
   has_many :imprints
   belongs_to :order
 
+  validates :imprintable_train, :imprints, presence: true
+ 
   accepts_nested_attributes_for :imprints, allow_destroy: true
-
-  # TODO this will become a thing again at somepoint, I'm sure.
-  validates :imprintable_train, presence: true
 
   before_validation :assign_imprintable_train
 
