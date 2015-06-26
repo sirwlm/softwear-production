@@ -1,4 +1,13 @@
+var mouseDown = false;
+
 $(document).ready(function() {
+  $(document).mousedown(function() {
+    mouseDown = true;
+  });
+  $(document).mouseup(function() {
+    mouseDown = false;
+  });
+
   if ($('#calendar').length != 0) {
     imprintDraggableProperties.stop = function(event, ui) {
       var droppedElement = $(this);
@@ -87,7 +96,9 @@ $(document).ready(function() {
     });
 
     setInterval(
-      function() { $('#calendar').fullCalendar('refetchEvents') },
+      function() {
+        if (!mouseDown) $('#calendar').fullCalendar('refetchEvents');
+      },
       300000
     );
   }
