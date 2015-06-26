@@ -22,6 +22,8 @@ SoftwearProduction::Application.routes.draw do
     end
   end
 
+  resources :maintenances
+
   resources :api_settings
   resources :jobs
 

@@ -1,0 +1,18 @@
+<% if maintenance.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(maintenance.errors.count, "error") %> prohibited this crap from being saved:</h2>
+
+      <ul>
+        <% maintenance.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+
+<%= bootstrap_form_for(maintenance, role: 'form') do |f| %>
+  <%= render 'form_fields', f: f, maintenance: maintenance %>
+
+  <%= f.submit class: 'btn btn-primary'%>
+<% end %>
+

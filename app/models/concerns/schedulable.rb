@@ -41,4 +41,9 @@ module Schedulable
   def border_color
     return 'black'
   end
+
+  def machine_name
+    machine.try(:name) || 'Not Assigned'
+  end
+
 end

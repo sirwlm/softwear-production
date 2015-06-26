@@ -1,0 +1,46 @@
+<div class="row">
+  <% if defined?(edit_link) && edit_link %>
+      <%= link_to edit_maintenance_path(@maintenance), class: 'btn btn-primary pull-right' do %>
+          <i class="glyphicon glyphicon-edit"></i> Edit
+      <% end %>
+  <% end %>
+  <div class="col-xs-6">
+    <dl>
+      <dt>Description</dt>
+      <dd><%= @maintenance.description %></dd>
+      <% if @maintenance.scheduled? %>
+        <dt>Scheduled At</dt>
+        <dd><%= @maintenance.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @maintenance.estimated_time %>hrs</dd>
+      <% else %>
+        <dt>Unscheduled</dt>
+      <% end %>
+      <dt>
+        Machine
+      </dt>
+      <dd>
+        <% if current_user.admin? %>
+          <%= editable @maintenance, :machine_id, type: :select, data: { source: Machine.all.map { |m| { m.id => m.name } } } %>
+        <% else %>
+          <%= @maintenance.machine_name %>
+        <% end %>
+      </dd>
+    </dl>
+  </div>
+
+  <div id='completion-info' class="col-xs-6">
+    <% if @maintenance.completed? %>
+      <span class='imprint-completed'>
+        <dl>
+          <dt>Completed by</dt>
+          <dd>
+            <%= imprint.completed_by.try(:full_name) || 'someone' %>
+          </dd>
+          <dt>Completed At</dt>
+          <dd>
+            <%= imprint.completed_at.strftime('%m/%d/%Y at %I:%M%p') %>
+          </dd>
+      </span>
+    <% end %>
+  </div>
+
+</div>

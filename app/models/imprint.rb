@@ -43,10 +43,6 @@ class Imprint < ActiveRecord::Base
     save!
   end
 
-  def machine_name
-    machine.name rescue 'Not Assigned'
-  end
-
   def deadline
     # TODO This should be crm_imprint.order.in_hand_by or something.
     Time.now + (1..10).sample.days
