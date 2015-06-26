@@ -16,6 +16,7 @@ class Maintenance < ActiveRecord::Base
     boolean :scheduled do
       !scheduled_at.nil?
     end
+    integer :machine_id
   end
 
   def display
@@ -31,6 +32,6 @@ class Maintenance < ActiveRecord::Base
   end
 
   def border_color
-    calendar_color
+    nil
   end
 end

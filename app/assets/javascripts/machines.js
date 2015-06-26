@@ -11,13 +11,9 @@ $(document).ready(function() {
   var machineId = getMachineId();
 
   if(machineId > 0) {
-    $.getJSON(machineId +'/scheduled.json', function(machineJobs) {
-
-      imprintCalendarOn('#machine-calendar', {
-        events: machineJobs,
-        dropData: { machine_id: machineId }
-      });
-
+    imprintCalendarOn('#machine-calendar', {
+      events: Routes.calendar_events_machines_path({ machine: machineId }),
+      dropData: { machine_id: machineId }
     });
   }
 

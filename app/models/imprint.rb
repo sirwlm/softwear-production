@@ -25,6 +25,7 @@ class Imprint < ActiveRecord::Base
     boolean :scheduled do
       !scheduled_at.nil?
     end
+    integer :machine_id
   end
 
   def approved?

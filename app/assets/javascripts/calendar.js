@@ -36,10 +36,6 @@ function imprintCalendarOn(matcher, options) {
 
     drop: function(date) {
       var droppedElement = $(this);
-      // if (droppedElement.parent().data('machine-id') == null
-      //     &&
-      //     $(matcher).data('machine') == null)
-      //   return;
       var imprintId = droppedElement.data('id');
 
       if (options.removeAfterDrop === undefined || options.removeAfterDrop($(this)))

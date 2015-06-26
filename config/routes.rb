@@ -8,6 +8,7 @@ SoftwearProduction::Application.routes.draw do
 
   resources :machines do
     get :scheduled
+    collection { get :calendar_events }
   end
 
   resources :orders do

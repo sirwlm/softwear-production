@@ -14,7 +14,7 @@ $(document).ready(function() {
     $('.event-drop').draggable(imprintDraggableProperties);
 
     imprintCalendarOn('#calendar', {
-      events: Routes.imprints_path(),
+      events: Routes.calendar_events_machines_path(),
     });
 
     var tags = [];

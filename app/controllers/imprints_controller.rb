@@ -33,10 +33,12 @@ class ImprintsController < InheritedResources::Base
       format.json do
         if params[:return_content]
           partial = 'imprints/unscheduled_entry'
+          key = :imprint
         else
-          partial = 'imprints/for_calendar'
+          partial = 'machines/calendar_entry'
+          key = :event
         end
-        render partial: partial, locals: { imprint: @imprint }
+        render partial: partial, locals: { key => @imprint }
       end
     end
   end
