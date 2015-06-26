@@ -98,15 +98,15 @@ ActiveRecord::Schema.define(version: 20150625221633) do
 
   create_table "maintenances", force: :cascade do |t|
     t.datetime "scheduled_at"
-    t.datetime "estimated_time"
+    t.decimal  "estimated_time",               precision: 10
     t.datetime "estimated_end_at"
     t.integer  "machine_id",       limit: 4
     t.datetime "completed_at"
     t.integer  "completed_by_id",  limit: 4
     t.string   "name",             limit: 255
     t.string   "description",      limit: 255
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
   end
 
   create_table "orders", force: :cascade do |t|

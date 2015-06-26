@@ -2,7 +2,7 @@ class CreateMaintenances < ActiveRecord::Migration
   def change
     create_table :maintenances do |t|
       t.datetime :scheduled_at
-      t.datetime :estimated_time
+      t.decimal :estimated_time
       t.datetime :estimated_end_at
       t.integer :machine_id
       t.datetime :completed_at

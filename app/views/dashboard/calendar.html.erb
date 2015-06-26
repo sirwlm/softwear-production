@@ -20,7 +20,10 @@
           <h4 align='center'><%= machine.name %></h4>
 
           <% machine.imprints.unscheduled.each do |imprint| %>
-            <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
+            <%= render 'machines/unscheduled_entry.html.erb', event: imprint %>
+          <% end %>
+          <% machine.maintenances.unscheduled.each do |maintenance| %>
+            <%= render 'machines/unscheduled_entry.html.erb', event: maintenance %>
           <% end %>
 
         </div>
@@ -30,7 +33,10 @@
           <h4 align='center'>No Machine</h4>
 
           <% Imprint.unscheduled.machineless.each do |imprint| %>
-            <%= render 'imprints/unscheduled_entry.html.erb', imprint: imprint %>
+            <%= render 'machines/unscheduled_entry.html.erb', event: imprint %>
+          <% end %>
+          <% Maintenance.unscheduled.machineless.each do |maintenance| %>
+            <%= render 'machines/unscheduled_entry.html.erb', event: maintenance %>
           <% end %>
 
         </div>

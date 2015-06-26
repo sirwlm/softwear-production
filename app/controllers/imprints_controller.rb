@@ -1,4 +1,6 @@
 class ImprintsController < InheritedResources::Base
+  include CalendarEventController
+
   belongs_to :job, optional: true
   respond_to :json, :js, :html
   before_filter :prepare_calendar_entries, only: [:index]
@@ -25,21 +27,6 @@ class ImprintsController < InheritedResources::Base
   def show
     show! do |format|
       format.js { render layout: nil }
-    end
-  end
-
-  def update
-    update! do |format|
-      format.json do
-        if params[:return_content]
-          partial = 'imprints/unscheduled_entry'
-          key = :imprint
-        else
-          partial = 'machines/calendar_entry'
-          key = :event
-        end
-        render partial: partial, locals: { key => @imprint }
-      end
     end
   end
 

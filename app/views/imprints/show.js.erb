@@ -5,9 +5,7 @@ $('#contentModalSaveChanges').hide();
 $('.select2').select2({width: '65%'});
 <% if current_user.admin? %>
   $('.editable').editable({
-    ajaxOptions: {
-      dataType: 'script'
-    }
+    ajaxOptions: { dataType: 'script' }
   });
 <% end %>
 
@@ -16,6 +14,6 @@ $('.select2').select2({width: '65%'});
     'removeEvents', <%= @imprint.id %>
   );
   $(window.calendarMatcher).fullCalendar(
-    'renderEvent', JSON.parse("<%=j render(partial: 'imprints/for_calendar', locals: { imprint: @imprint }, formats: [:json]).html_safe %>")
+    'renderEvent', JSON.parse("<%=j render(partial: 'machines/calendar_entry', locals: { event: @imprint }, formats: [:json]).html_safe %>")
   );
 <% end %>
