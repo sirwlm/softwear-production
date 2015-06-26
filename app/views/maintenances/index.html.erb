@@ -19,7 +19,7 @@
       <tr>
         <td><%= maintenance.id %></td>
         <td>
-            <h4><%= maintenance.name %></h4>
+          <h4><%= "(Completed at #{maintenance.completed_at.strftime('%Y-%m-%d %I:%M%P')})" if maintenance.completed? %> <%= maintenance.name %></h4>
             <p><%= maintenance.description %></p>
             <% if maintenance.scheduled? %>
                 <p><%= maintenance.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= maintenance.estimated_time %>hrs</p>
