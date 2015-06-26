@@ -33,13 +33,23 @@
         <dl>
           <dt>Completed by</dt>
           <dd>
-            <%= imprint.completed_by.try(:full_name) || 'someone' %>
+            <%= maintenance.completed_by.try(:full_name) || 'someone' %>
           </dd>
           <dt>Completed At</dt>
           <dd>
-            <%= imprint.completed_at.strftime('%m/%d/%Y at %I:%M%p') %>
+            <%= maintenance.completed_at.strftime('%m/%d/%Y at %I:%M%p') %>
           </dd>
       </span>
+
+    <% else %>
+
+      <%= bootstrap_form_for @maintenance, method: :post, url: complete_maintenance_path(@maintenance), remote: true, data: { confirm: 'Mark this maintenance as completed?' } do |f| %>
+        <%= f.button class: 'btn btn-warning'  do %>
+            <i class="glyphicon glyphicon-check"></i> Completed by
+        <% end %>
+
+        <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id),  class: 'user-who-completed select2' %>
+      <% end %>
     <% end %>
   </div>
 

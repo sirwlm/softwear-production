@@ -36,7 +36,7 @@ $(document).ready(function() {
         var start = $('#calendar').fullCalendar('getView').start
         var end   = $('#calendar').fullCalendar('getView').end
         $.ajax({
-          url: Routes.imprints_path(),
+          url: Routes.calendar_events_machines_path(),
           dataType: 'json',
           method: 'get',
 

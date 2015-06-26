@@ -20,7 +20,7 @@ class Maintenance < ActiveRecord::Base
   end
 
   def display
-    "(MAINTENANCE)#{' (COMPLETE)' if completed?} #{name}"
+    "#{'(COMPLETE) ' if completed?}(MAINTENANCE) #{name}"
   end
 
   def calendar_color

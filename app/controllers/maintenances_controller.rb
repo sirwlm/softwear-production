@@ -38,7 +38,7 @@ class MaintenancesController < InheritedResources::Base
         redirect_to action: :show
       end
       format.js do
-        render :show, locals: { refresh_maintenance: true }
+        render :show, refresh_maintenance: true
       end
     end
   end

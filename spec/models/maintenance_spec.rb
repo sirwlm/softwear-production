@@ -9,7 +9,7 @@ describe Maintenance do
     context 'when completed' do
       before { allow(maintenance).to receive(:completed?).and_return true }
 
-      it { is_expected.to eq "(MAINTENANCE) (COMPLETE) Test Maintenance" }
+      it { is_expected.to eq "(COMPLETE) (MAINTENANCE) Test Maintenance" }
     end
 
     context 'when not completed' do

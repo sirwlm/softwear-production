@@ -81,12 +81,13 @@ function event_path() {
   var eventId;
 
   if (arguments.length == 1) {
-    eventType = arguments[0].type;
-    eventId   = arguments[0].id;
+    var match = arguments[0].id.toString().match(/(\w+)-(\d+)/);
+    eventType = arguments[0].type || match[1];
+    eventId   = match[2];
   }
   else if (arguments.length == 2) {
-    eventType = arguments[0]
-    eventId   = arguments[1]
+    eventType = arguments[0];
+    eventId   = arguments[1];
   }
   else throw "Can't get event path without an id and a type";
 
@@ -109,7 +110,7 @@ $(function() {
   });
 });
 
-function changeEventColor(calendar, eventId, color) {
+function changeEventColor(calendar, eventId, color, textColor, borderColor) {
   var events = $(calendar).fullCalendar('clientEvents', eventId);
 
   for (var i = 0; i < events.length; i++) {
@@ -117,6 +118,8 @@ function changeEventColor(calendar, eventId, color) {
 
     if (event.id == eventId) {
       event.color = color;
+      if (textColor != null && textColor.length != 0) event.textColor = textColor;
+      if (borderColor != null && borderColor.length != 0) event.borderColor = borderColor;
       $(calendar).fullCalendar('updateEvent', event);
       return true;
     }

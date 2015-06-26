@@ -1,6 +1,6 @@
 if (window.calendarMatcher != undefined) {
   <% if session[:show_machines].try(:keys).try(:include?, @imprint.machine_id.to_s) %>
-  changeEventColor(window.calendarMatcher, <%= @imprint.event_id %>, "<%= @imprint.calendar_color %>");
+  changeEventColor(window.calendarMatcher, "<%= @imprint.event_id %>", "<%= @imprint.calendar_color %>");
   <% else %>
   $(window.calendarMatcher).fullCalendar('removeEvents', <%= @imprint.event_id %>);
   <% end %>
