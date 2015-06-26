@@ -28,7 +28,11 @@ class Maintenance < ActiveRecord::Base
   end
 
   def text_color
-    completed? ? 'black' : 'white'
+    if machine.blank?
+      completed? ? 'black' : 'white'
+    else
+      machine.color
+    end
   end
 
   def border_color
