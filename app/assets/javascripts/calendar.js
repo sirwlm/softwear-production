@@ -90,7 +90,7 @@ function event_path() {
   }
   else throw "Can't get event path without an id and a type";
 
-  return Routes[eventType+"_path"](eventId);
+  return Routes[eventType+"_path"](eventId.replace(/\w+-/, ''));
 }
 
 var imprintDraggableProperties = {

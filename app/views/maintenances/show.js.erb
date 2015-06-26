@@ -11,7 +11,7 @@ $('.select2').select2({width: '65%'});
 
 <% if local_assigns[:refresh_maintenance] %>
   $(window.calendarMatcher).fullCalendar(
-    'removeEvents', <%= @maintenance.id %>
+    'removeEvents', <%= @maintenance.event_id %>
   );
   $(window.calendarMatcher).fullCalendar(
     'renderEvent', JSON.parse("<%=j render(partial: 'machines/calendar_entry', locals: { event: @maintenance }, formats: [:json]).html_safe %>")

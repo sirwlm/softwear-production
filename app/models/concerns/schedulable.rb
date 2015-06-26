@@ -13,6 +13,9 @@ module Schedulable
     before_save :assign_estimated_end_at
   end
 
+  def event_id
+    "#{self.class.table_name.singularize}-#{id}"
+  end
 
   def scheduled?
     !scheduled_at.blank?

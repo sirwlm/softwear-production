@@ -1,4 +1,4 @@
-json.id          event.id
+json.id          event.event_id
 json.title       event.display
 json.url         url_for(event)
 json.start       fullcalendar_format event.scheduled_at
