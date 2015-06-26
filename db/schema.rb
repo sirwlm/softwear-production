@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150622191757) do
+ActiveRecord::Schema.define(version: 20150625221633) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -94,6 +94,19 @@ ActiveRecord::Schema.define(version: 20150622191757) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "color",      limit: 255
+  end
+
+  create_table "maintenances", force: :cascade do |t|
+    t.datetime "scheduled_at"
+    t.datetime "estimated_time"
+    t.datetime "estimated_end_at"
+    t.integer  "machine_id",       limit: 4
+    t.datetime "completed_at"
+    t.integer  "completed_by_id",  limit: 4
+    t.string   "name",             limit: 255
+    t.string   "description",      limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "orders", force: :cascade do |t|

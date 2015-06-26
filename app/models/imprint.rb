@@ -2,20 +2,13 @@ class Imprint < ActiveRecord::Base
   # include CrmCounterpart
   include ColorUtils
   include PublicActivity::Model
+  include Schedulable
 
   tracked only: [:transition]
 
-  before_save :assign_estimated_end_at
   before_save :reset_state_when_type_changed
 
-  scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
-  scope :unscheduled, -> { where(scheduled_at: nil) }
-  scope :machineless, -> { where(machine_id: nil) }
-  scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
-
   belongs_to :job
-  belongs_to :machine
-  belongs_to :completed_by, class_name: 'User'
 
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
   validate :schedule_conflict?
@@ -42,18 +35,6 @@ class Imprint < ActiveRecord::Base
     return "(UNAPPROVED) #{name}" unless approved?
     return "(COMPLETE) #{name}" if completed?
     name
-  end
-
-  def scheduled?
-    !scheduled_at.blank?
-  end
-
-  def estimated?
-    estimated_time && estimated_time > 0
-  end
-
-  def completed?
-    !completed_at.nil?
   end
 
   def complete!(user)
@@ -111,10 +92,6 @@ class Imprint < ActiveRecord::Base
 
   def schedule_conflict?
 
-  end
-
-  def assign_estimated_end_at
-    self.estimated_end_at = (scheduled_at + estimated_time.hours rescue nil)
   end
 
   def reset_state_when_type_changed
