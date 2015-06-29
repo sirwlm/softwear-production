@@ -9,6 +9,8 @@
   <%= f.radio_button :require_manager_signoff, true, label: "Yes", inline: true, checked: imprint.require_manager_signoff?  %>
 <% end %>
 
+<%= f.select :job_id, Job.unscoped.collect{ |j| [j.name, j.id] }, { include_blank: 'Select Machine' }, class: 'select2' %> 
+
 <% unless imprint.new_record? %>
   <%= f.text_field :completed_at, class: 'datetimepicker-standard' %>
 <% end %>
