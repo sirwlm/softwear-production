@@ -10,6 +10,8 @@
   <thead>
     <tr>
       <th>ID</th>
+      <th>Order</th>
+      <th>Job</th>
       <th>Info</th>
       <th>Machine</th>
       <th style="width: 100px">Actions</th>
@@ -20,19 +22,25 @@
     <% @imprints.each do |imprint| %>
       <tr>
         <td><%= imprint.id %></td>
+        <td><%= imprint_order_link imprint %></td>
+        <td><%= imprint.job_name %></td>
         <td>
-            <h4><%= imprint.name %></h4>
+          <h3><%= imprint.name %></h3>
             <p><%= imprint.description %></p>
             <% if imprint.scheduled? %>
                 <p><%= imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= imprint.estimated_time %>hrs</p>
             <% else %>
               <p>Unscheduled</p>
             <% end %>
+            <p>
+            <!-- todo: remove when data is all fixed -->
+            <%= link_to "Temporary Imprint Edit", edit_imprint_path(imprint) %>
+            </p>
         </td>
         <td><%= imprint.machine_name %></td>
         <td>
         <%= bootstrap_show_button(imprint) %>
-        <%= bootstrap_edit_button(imprint) %>
+        <%=imprint_edit_order_link(imprint) %>
         <%= bootstrap_destroy_button(imprint) %>
         </td>
       </tr>

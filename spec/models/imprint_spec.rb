@@ -5,9 +5,7 @@ describe Imprint, imprint_spec: true, story_110: true do
     it { should have_searchable_field(:name) }
   end
 
-  describe 'Machine Print Counts', current: true do
-
-  end
+  describe 'Machine Print Counts'
 
   describe 'Scopes' do
     describe 'scheduled' do
@@ -21,6 +19,8 @@ describe Imprint, imprint_spec: true, story_110: true do
 
   describe 'Relationships' do
     it { is_expected.to belong_to(:machine) }
+    it { is_expected.to belong_to(:job) }
+    it { is_expected.to have_one(:order).through(:job) }
   end
 
   describe 'Validations' do
@@ -78,4 +78,84 @@ describe Imprint, imprint_spec: true, story_110: true do
       end
     end
   end
+
+  describe '#order_name' do 
+    
+    context 'order exists' do 
+      let(:order) { create(:order, jobs: [create(:job)]) }
+      let(:imprint) { order.imprints.first }
+
+      it 'returns the order name' do 
+        expect(imprint.order_name).to eq(order.name)
+      end
+
+    end
+
+    context 'job nil' do 
+      
+      let(:imprint) { create(:imprint, job: nil) }
+
+      it 'returns n/a' do 
+        expect(imprint.order_name).to eq('n/a')
+      end
+    end
+
+  end
+
+  describe '#job_name' do 
+    
+    context 'job exists' do 
+      let(:job) { create(:job) }
+      let(:imprint) { job.imprints.first }
+      
+      it 'returns the job name' do 
+        expect(imprint.job_name).to eq(job.name)
+      end
+
+    end
+
+    context 'job nil' do 
+      
+      let(:imprint) { create(:imprint) }
+
+      it 'returns n/a' do 
+        expect(imprint.job_name).to eq('n/a')
+      end
+    end
+
+  end
+
+  describe '#order_deadline_day' do 
+    context 'deadline is set' do 
+      let(:order) { create(:order, jobs: [create(:job)], deadline: '2015-06-29') } # 6/29 is a monday
+      let(:imprint) { order.imprints.first }
+      
+      it 'returns the name of the weekday and the day/month' do 
+        expect(imprint.order_deadline_day).to eq("Mon 06/29")
+      end
+
+    end
+
+    context 'deadline is not set' do 
+      let(:order) { create(:order, jobs: [create(:job)], deadline: nil) }
+      let(:imprint) { order.imprints.first }
+      
+      it 'returns no deadline' do 
+        expect(imprint.order_deadline_day).to eq('No Deadline')
+      end
+    end
+
+  end
+
+
+  describe '#full_name' do  
+    let(:order) { create(:order, jobs: [create(:job)], deadline: '2015-06-29') }
+    let(:imprint) { order.imprints.first }
+
+    it 'returns the contatenated deadline weekday, order, job, and imprint name and quantity' do 
+      expect(imprint.full_name).to eq("#{imprint.order_deadline_day} - #{imprint.order_name} -#{imprint.job.name} - #{imprint.name} (#{imprint.count})")
+    end
+
+  end
+
 end

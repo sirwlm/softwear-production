@@ -20,6 +20,8 @@ class Imprint < ActiveRecord::Base
   before_save :reset_state_when_type_changed
 
   belongs_to :job
+  has_one :order, through: :job
+
 
   tracked only: [:transition]
 
@@ -92,6 +94,22 @@ class Imprint < ActiveRecord::Base
     end
 
     "rgb(#{rgb(color).map { |c| [255, c * factor].min.floor }.join(', ')})"
+  end
+
+  def job_name
+    self.job.name rescue 'n/a'
+  end
+  
+  def order_name
+    self.order.name rescue 'n/a'
+  end
+
+  def full_name
+    "#{order_deadline_day} - #{order_name} -#{job.name} - #{name} (#{count})"
+  end
+
+  def order_deadline_day
+    self.order.deadline.strftime('%a %m/%d') rescue 'No Deadline'
   end
 
   private

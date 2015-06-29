@@ -5,7 +5,7 @@ class Job < ActiveRecord::Base
   has_many :imprints
   belongs_to :order
 
-  validates :imprintable_train, :imprints, presence: true
+  validates :imprintable_train,  presence: true
  
   accepts_nested_attributes_for :imprints, allow_destroy: true
 

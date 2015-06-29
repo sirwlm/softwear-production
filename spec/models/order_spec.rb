@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Order do
   describe 'Relationships' do
     it { is_expected.to have_many :jobs }
+    it { is_expected.to have_many(:imprints).through(:jobs) }
   end
 
   describe 'validations' do 
