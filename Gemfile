@@ -5,7 +5,7 @@ require 'softwear/lib'
 Softwear::Lib.common_gems(self)
 
 gem 'jbuilder', '~> 1.2'
-gem 'state_machine'
+gem 'state_machines-activerecord'
 # use cancan for user roles
 gem 'cancan'
 gem 'jquery-tablesorter', '~> 1.16.5'

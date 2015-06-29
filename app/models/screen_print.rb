@@ -8,16 +8,18 @@ class ScreenPrint < Imprint
     event :schedule do
       transition :pending_scheduling => :pending_preproduction
     end
-
-    # NOTE pending_preproduction to pending_job_cart/pending_imprintables happens
-    # through imprintable preproduction train.
+    
+    event :preproduction_complete do 
+      transition :pending_preproduction => :pending_job_cart
+    end
 
     event :cart_staged do
       transition :pending_job_cart => :pending_imprintables
     end
 
-    # NOTE pending_imprintables to ready_to_print happens through imprintable
-    # preproduction train.
+    event :imprintables_ready do 
+      transition :pending_imprintables => :ready_to_print
+    end
 
     event :reviewed_production_notes do
       transition :ready_to_print => :pending_press_set_up

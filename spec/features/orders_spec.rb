@@ -24,9 +24,8 @@ feature 'Orders' do
     click_button 'Create Order'
     sleep 1
     expect(page).to have_content 'Test Order'
-    expect(Order.where(name: 'Test Order')).to exist
-    expect(Job.where(name: 'A job')).to exist
-    expect(Imprint.where(name: 'An imprint')).to exist
+    click_link "An Imprint"
+    expect(page).to have_content "An imprint"
   end
 
   scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true, js: true, story_676: true, current: true do

@@ -359,7 +359,13 @@ GEM
       colorize (>= 0.7.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    state_machine (1.2.0)
+    state_machines (0.2.2)
+    state_machines-activemodel (0.1.2)
+      activemodel (~> 4.1)
+      state_machines (~> 0.2.0)
+    state_machines-activerecord (0.2.0)
+      activerecord (~> 4.1)
+      state_machines-activemodel (~> 0.1.0)
     sunspot (2.2.0)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
@@ -466,7 +472,7 @@ DEPENDENCIES
   shoulda-matchers
   simplecov
   softwear-lib
-  state_machine
+  state_machines-activerecord
   sunspot_matchers
   sunspot_rails
   sunspot_solr

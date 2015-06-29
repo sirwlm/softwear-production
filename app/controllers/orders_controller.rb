@@ -10,7 +10,7 @@ class OrdersController < InheritedResources::Base
         :name, :id, :_destroy,
         imprints_attributes: [
           :name, :description, :estimated_time, :scheduled_at,
-          :machine_id, :id, :_destroy, :count
+          :type, :require_manager_signoff, :machine_id, :id, :_destroy, :count
         ]
       ]
     ])

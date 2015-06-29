@@ -13,9 +13,9 @@
       <%= link_to imprint_path(@imprint), method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?', toggle: 'tooltip'}, title: "Destroy Imprint" do %>
           <i class='glyphicon glyphicon-remove-circle'></i>
       <% end %>
-  <% end %>
+    <% end %>
   <% unless controller.action_name == 'new' %>
-      <%= link_to new_imprint_path, class: 'btn btn-md btn-success', data: { toggle: 'tooltip'}, title: "New Imprint" do %>
+      <%= link_to new_order_path, class: 'btn btn-md btn-success', data: { toggle: 'tooltip'}, title: "New Order" do %>
           <i class='glyphicon glyphicon-plus'></i>
       <% end %>
   <% end %>

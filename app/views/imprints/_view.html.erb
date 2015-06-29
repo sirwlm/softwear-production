@@ -1,5 +1,10 @@
 <div class="row">
   <% if flash[:notice] %><p class="alert alert-success flash-notice"><%= flash[:notice] %></p><% end %>
+  <% if @imprint.require_manager_signoff? %>
+    <p class="alert alert-warning flash-notice">
+    This Imprint Requires Signoff
+    </p>
+  <% end %>
   <% if defined?(edit_link) && edit_link %>
       <%= link_to edit_imprint_path(@imprint), class: 'btn btn-primary pull-right' do %>
           <i class="glyphicon glyphicon-edit"></i> Edit
