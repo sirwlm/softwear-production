@@ -11,6 +11,10 @@ class Job < ActiveRecord::Base
 
   before_validation :assign_imprintable_train
 
+  def full_name
+    "#{order.name} - #{name}" rescue name
+  end
+
   private
 
   def assign_imprintable_train
