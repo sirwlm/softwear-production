@@ -9,7 +9,7 @@ class UsersController < InheritedResources::Base
   def create
     super do |success, failure|
       success.html do
-        @user.confirm!
+        @user.confirm
         flash[:notice] = 'New user was successfully created'
         redirect_to users_path
       end

@@ -3,6 +3,7 @@
 <%= f.select :machine_id, @machines.collect{ |machine| [machine.name, machine.id] }, { include_blank: 'Select Machine' } %>
 <%= f.select :type, options_for_select([['Print', 'Print'], ['Screen Print', 'ScreenPrint']], f.object.type) %>
 <%= f.number_field :estimated_time, step: 'any', label: 'Estimated Time in Hours' %>
+<%= f.number_field :count, step: 'any', label: 'Machine Print Count' %>
 <% unless imprint.new_record? %>
   <%= f.text_field :completed_at, class: 'datetimepicker-standard' %>
 <% end %>

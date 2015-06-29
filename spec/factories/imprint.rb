@@ -6,6 +6,7 @@ FactoryGirl.define do
 
     factory :imprint do
       scheduled_at Time.now
+      count 1
       sequence(:estimated_time) { |n| n }
       machine { |imprint| imprint.association(:machine) }
 

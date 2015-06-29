@@ -5,6 +5,10 @@ describe Imprint, imprint_spec: true, story_110: true do
     it { should have_searchable_field(:name) }
   end
 
+  describe 'Machine Print Counts', current: true do
+
+  end
+
   describe 'Scopes' do
     describe 'scheduled' do
       let!(:imprint_1) { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine: build_stubbed(:machine))}
@@ -20,6 +24,10 @@ describe Imprint, imprint_spec: true, story_110: true do
   end
 
   describe 'Validations' do
+    
+    it { is_expected.to validate_presence_of(:count) }
+    it { is_expected.not_to allow_value(0, -1).for(:count) }
+    
     context 'if scheduled? is true' do
       before { allow(subject).to receive(:scheduled?).and_return(true) }
       it { is_expected.to validate_presence_of(:machine).with_message('must be selected in order to schedule a print') }

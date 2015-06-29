@@ -1,0 +1,39 @@
+<%= form_tag(report_path("imprint_count"), method: :get) do %>
+  <%= label_tag :start_date, "Start Date" %>
+  <%= text_field_tag :start_date %>
+  <%= label_tag :end_date, "End Date" %>
+  <%= text_field_tag :end_date, params[:end_date], class: 'form-control datetimepicker-standard'%>
+
+  <%= submit_tag "Run Report" %>
+<% end %>
+
+<% if @report_data %>
+
+  <h2>Report For</h2>
+  <h3>Start Date: <%= @report_data[:start_date] %></h3>
+  <h3>End Date: <%= @report_data[:end_date] %></h3>
+  <table class='table table-striped'>
+    <thead>
+      <th></th>
+      <% @report_data[:machines].each do |name, data| %>
+        <th>
+          <%= name %>
+        </th>
+      <% end %>
+    </thead>
+    <tbody>
+      <% (@report_data[:start_date]..@report_data[:end_date]).each do |date| %>
+        <tr>
+          <td>
+            <%= date %>
+          </td>
+          <% @report_data[:machines].each do |name, data| %>
+            <td>
+              <%= data[date] %>
+            </td>
+          <% end %> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -12,10 +12,11 @@ describe Job, job_spec: true do
   end
 
   describe 'Callbacks' do
-    it 'assigns the imprintable train', story_104: true do
-      job = Job.new
-      expect_any_instance_of(ImprintableTrain).to receive(:save)
-      job.save
+    
+    let(:job) { create(:job) }
+
+    it 'creates an imprintable train', story_104: true do
+      expect(job.imprintable_train).to_not be_nil
     end
   end
 
