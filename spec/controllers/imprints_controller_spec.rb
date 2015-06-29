@@ -27,12 +27,12 @@ describe ImprintsController, imprint_spec: true, story_113: true do
       allow_any_instance_of(Print).to receive(:fire_state_event).with('transition')
     end
 
-    context 'with a user_id' do
+    context 'when params[:transition] = :printing_complete' do
       it 'marks completed_at to Time.now, and completed_by_id to the given user' do
         now = Time.now
         allow(Time).to receive(:now).and_return now
 
-        patch :transition, id: imprint.id, user_id: user.id, transition: :transition, format: :js
+        patch :transition, id: imprint.id, user_id: user.id, transition: :printing_complete, format: :js
         expect(imprint.reload.completed_at).to eq now.to_s(:db)
         expect(imprint.reload.completed_by).to eq user
       end

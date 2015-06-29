@@ -45,20 +45,49 @@ class ImprintsController < InheritedResources::Base
 
   def transition
     @imprint = Imprint.find(params[:id])
-    if params[:user_id]
-      @imprint.completed_at = Time.now
-      @imprint.completed_by_id = params[:user_id]
-    end
-    @imprint.fire_state_event(params[:transition])
-    @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
-    @imprint.save!
-    flash[:notice] = ' Updated Imprint State'
+    
+    if params[:transition] == 'printing_complete'
+      if params[:user_id]
+        @imprint.completed_at = Time.now
+        @imprint.completed_by_id = params[:user_id]
+        @imprint.fire_state_event(params[:transition])
+        @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+        @imprint.save!
+        flash[:notice] = 'Updated Imprint State'
+      else
+        flash[:error] = 'Must select user to complete printing'
+      end
+    elsif params[:transition] == 'production_manager_approved'
+      if valid_manager(params[:manager_id], params[:manager_password])
+        @imprint.fire_state_event(params[:transition])
+        @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+      else
+        @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+      end
+
+    else
+      @imprint.fire_state_event(params[:transition])
+      @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+      @imprint.save!
+      flash[:notice] = ' Updated Imprint State'
+    end 
+
   end
 
   private
 
+  def valid_manager(id, password)
+    user = User.find_by(id: id)
+    flash[:error] = "Invalid Manager Password" unless user.valid_password?(password)
+    user.valid_password?(password)
+  end
+
   def transition_parameters
-    { event: params[:transition] }
+    t_p = { event: params[:transition] }
+    t_p[:printed_by] = params[:user_id] unless params[:user_id].nil?
+    t_p[:approved_by] = params[:manager_id] unless params[:manager_id].nil?
+    t_p[:invalid_password_attempt] = "bad manager password" unless params[:manager_id] && valid_manager(params[:manager_id], params[:manager_password])
+    t_p
   end
 
   def owner

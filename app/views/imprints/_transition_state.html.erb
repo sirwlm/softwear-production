@@ -1,5 +1,9 @@
 <h2>Transition State</h2>
-<p class="alert alert-info">Current State is <b><%= imprint.human_state_name.titleize %></b></p>
+
+<p id="transition-error" class='alert alert-danger' style="display: none">
+</p>
+
+<p class="alert alert-info alert-dismissable transition-alert">Current State is <b><%= imprint.human_state_name.titleize %></b></p>
 <div class='col-sm-6 col-xs-12'>
 </div>
 
@@ -11,13 +15,22 @@
   
   <% imprint.state_events.each do |e| %>
     <%= form_tag transition_imprint_path(imprint, e), remote: true, method: :patch do %>
-      <%= button_tag e.to_s.humanize, class: 'btn btn-lg btn-success' %>
-
       <% if e.to_sym == :printing_complete || e.to_sym == :print %>
         <br />
-        <%= label_tag :user_id, "completed by" %><br />
+        <%= label_tag :user_id, "printed by" %><br />
         <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id), required: true,  class: 'user-who-completed select2' %>
       <% end %>
+      
+      <% if e.to_sym == :production_manager_approved  %>
+        <%= label_tag :manager_id, "approved by" %><br />
+        <%= select_tag :manager_id, options_from_collection_for_select(User.managers, :id, :full_name, current_user.id), required: true,  class: 'user-who-completed select2' %> <br />
+        <%= label_tag :manager_password, "Password" %><br />
+        <%= password_field_tag :manager_password, class: 'form-control' %><br />
+        <br />
+      <% end %>
+      
+      <%= button_tag e.to_s.humanize, class: 'btn btn-lg btn-success' %>
+
     <% end %>
   <% end %>
 </div>
