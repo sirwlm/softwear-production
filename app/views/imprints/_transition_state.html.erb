@@ -1,14 +1,22 @@
 <h2>Transition State</h2>
 <p class="alert alert-info">Current State is <b><%= imprint.human_state_name.titleize %></b></p>
+<div class='col-sm-6 col-xs-12'>
+</div>
 
-<div>
+<div class="col-sm-6 col-xs-12">
+  <h3>Success</h3>
+  <% if imprint.state_events.empty? %>
+    <p class='alert alert-info'>This imprint is completed. There are no actions to be carried out on it.</p>
+  <% end %>
+  
   <% imprint.state_events.each do |e| %>
     <%= form_tag transition_imprint_path(imprint, e), remote: true, method: :patch do %>
       <%= button_tag e.to_s.humanize, class: 'btn btn-lg btn-success' %>
 
       <% if e.to_sym == :printing_complete || e.to_sym == :print %>
-        by
-        <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id),  class: 'user-who-completed select2' %>
+        <br />
+        <%= label_tag :user_id, "completed by" %><br />
+        <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id), required: true,  class: 'user-who-completed select2' %>
       <% end %>
     <% end %>
   <% end %>

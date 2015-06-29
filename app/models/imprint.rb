@@ -26,7 +26,7 @@ class Imprint < ActiveRecord::Base
   tracked only: [:transition]
 
   searchable do
-    text :name, :description
+    text :name, :description, :full_name
     integer :completed_by_id
     boolean :complete  do
       completed?
@@ -44,9 +44,9 @@ class Imprint < ActiveRecord::Base
   end
 
   def display
-    return "(UNAPPROVED) #{name}" unless approved?
-    return "(COMPLETE) #{name}" if completed?
-    name
+    return "(UNAPPROVED) #{full_name}" unless approved?
+    return "(COMPLETE) #{full_name}" if completed?
+    full_name
   end
 
   def complete!(user)
@@ -105,7 +105,7 @@ class Imprint < ActiveRecord::Base
   end
 
   def full_name
-    "#{order_deadline_day} - #{order_name} -#{job.name} - #{name} (#{count})"
+    "#{order_deadline_day} - #{order_name} -#{job_name} - #{name} (#{count})"
   end
 
   def order_deadline_day

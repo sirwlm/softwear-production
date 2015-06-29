@@ -1,48 +1,48 @@
 <div class="row">
-  <% if flash[:notice] %><p class="alert alert-success flash-notice"><%= flash[:notice] %></p><% end %>
-  <% if @imprint.require_manager_signoff? %>
-    <p class="alert alert-warning flash-notice">
-    This Imprint Requires Signoff
-    </p>
-  <% end %>
-  <% if defined?(edit_link) && edit_link %>
-      <%= link_to edit_imprint_path(@imprint), class: 'btn btn-primary pull-right' do %>
-          <i class="glyphicon glyphicon-edit"></i> Edit
-      <% end %>
-  <% end %>
-  <div class="col-xs-6">
-    <dl>
-      <dt>Description</dt>
-      <dd><%= @imprint.description %></dd>
-      <% if @imprint.scheduled? %>
-          <dt>Scheduled At</dt>
-          <dd><%= @imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @imprint.estimated_time %>hrs</dd>
-      <% else %>
-          <dt>Unscheduled</dt>
-      <% end %>
-      <dt>
-        Machine
-      </dt>
-      <dd>
-        <% if current_user.admin? %>
-          <%= editable @imprint, :machine_id, type: :select, data: { source: Machine.all.map { |m| { m.id => m.name } } } %>
+  <div class="col-xs-12">
+    
+    <div class='col-xs-4'>
+      <h2>Details</h2>  
+      <dl>
+        <dt>Description</dt>
+        <dd><%= @imprint.description %></dd>
+        <% if @imprint.scheduled? %>
+            <dt>Scheduled At</dt>
+            <dd><%= @imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= @imprint.estimated_time %>hrs</dd>
         <% else %>
-          <%= @imprint.machine_name %>
+            <dt>Unscheduled</dt>
         <% end %>
-      </dd>
-      <dt>Type</dt>
-      <dd><%= @imprint.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>
-    </dl>
+        <dt>
+          Machine
+        </dt>
+        <dd>
+          <%= @imprint.machine_name %>
+        </dd>
+        <dt>Type</dt>
+        <dd><%= @imprint.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>
+        <dt>Count</dt>
+        <dd><%= @imprint.count %></dd>
+      </dl>
+        <% if @imprint.completed? %>
+          <%= render 'completed_info', imprint: @imprint %>
+        <% end %>
+    </div>
+    
+    <div class='col-xs-8'> 
+      <% if flash[:notice] %><p class="alert alert-success flash-notice"><%= flash[:notice] %></p><% end %>
+      
+      <% if @imprint.require_manager_signoff? %>
+        <p class="alert alert-warning flash-notice col-xs-12">
+        This Imprint Requires Signoff
+        </p>
+      <% end %>
 
-    <div id='transition-state' class='row'>
-      <%= render 'transition_state', imprint: @imprint %>
+      <div id='transition-state' class='row'>
+        <%= render 'transition_state', imprint: @imprint %>
+      </div>
+
     </div>
   </div>
 
-  <div id='completion-info' class="col-xs-6">
-    <% if @imprint.completed? %>
-      <%= render 'completed_info', imprint: @imprint %>
-    <% end %>
-  </div>
 
 </div>

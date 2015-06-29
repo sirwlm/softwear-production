@@ -25,6 +25,7 @@ feature 'Orders' do
     sleep 1
     expect(page).to have_content 'Test Order'
     click_link "An Imprint"
+    sleep 1
     expect(page).to have_content "An imprint"
   end
 

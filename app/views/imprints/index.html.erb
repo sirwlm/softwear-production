@@ -25,7 +25,7 @@
         <td><%= imprint_order_link imprint %></td>
         <td><%= imprint.job_name %></td>
         <td>
-          <h3><%= imprint.name %></h3>
+          <h4><%= imprint.name %></h4>
             <p><%= imprint.description %></p>
             <% if imprint.scheduled? %>
                 <p><%= imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= imprint.estimated_time %>hrs</p>
