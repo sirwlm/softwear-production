@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Imprint, imprint_spec: true, story_110: true do
   describe 'searches', story_460: true do
-    it { should have_searchable_field(:name) }
+    it { should have_searchable_field(:full_name) }
   end
 
   describe 'Machine Print Counts'

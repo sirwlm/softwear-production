@@ -30,7 +30,7 @@ feature 'Screen Features', js: true do
       scenario 'can advance broken state' do
         scan_barcode('screen-id', s1.id)
         click_link 'Broke'
-        sleep 0.5
+        sleep 1.0
         select user.email, from: "user_id"
         select Screen::SCREEN_BREAK_REASONS.last, from: "reason"
 

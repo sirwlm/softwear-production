@@ -46,7 +46,7 @@ feature 'Users', user_spec: true, js: true, story_115: true do
     scenario 'an admin can view a list of users', story_116: true do
       visit root_path
       click_link 'Admin'
-      click_link 'Manage Users'
+      click_link 'Users'
       expect(page).to have_content 'View and Edit registered Users'
     end
 
