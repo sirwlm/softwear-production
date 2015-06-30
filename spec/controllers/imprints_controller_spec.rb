@@ -24,7 +24,7 @@ describe ImprintsController, imprint_spec: true, story_113: true do
     let(:user) { create :user }
 
     before do
-      allow_any_instance_of(Print).to receive(:fire_state_event).with('transition')
+      allow_any_instance_of(Print).to receive(:fire_state_event).with('printing_complete')
     end
 
     context 'when params[:transition] = :printing_complete' do
@@ -40,7 +40,7 @@ describe ImprintsController, imprint_spec: true, story_113: true do
 
     context 'without a user_id' do
       it "doesn't mark completed_at or completed_by_id" do
-        patch :transition, id: imprint.id, transition: :transition, format: :js
+        patch :transition, id: imprint.id, transition: :printing_complete, format: :js
         expect(imprint.reload.completed_at).to be_nil
         expect(imprint.reload.completed_by).to be_nil
       end

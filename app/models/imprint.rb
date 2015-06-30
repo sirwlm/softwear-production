@@ -26,7 +26,7 @@ class Imprint < ActiveRecord::Base
   tracked only: [:transition]
 
   searchable do
-    text :name, :description, :full_name
+    text :full_name, :description
     integer :completed_by_id
     boolean :complete  do
       completed?

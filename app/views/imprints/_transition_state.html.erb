@@ -18,7 +18,7 @@
       <% if e.to_sym == :printing_complete || e.to_sym == :print %>
         <br />
         <%= label_tag :user_id, "printed by" %><br />
-        <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id), required: true,  class: 'user-who-completed select2' %>
+        <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :full_name, current_user.id), required: true,  class: 'user-who-completed select2' %><br />
       <% end %>
       
       <% if e.to_sym == :production_manager_approved  %>

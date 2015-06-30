@@ -10,7 +10,11 @@ class ScreenPrint < Imprint
     end
     
     event :preproduction_complete do 
-      transition :pending_preproduction => :pending_job_cart
+      transition :pending_preproduction => :ready_for_production
+    end
+
+    event :at_the_press do
+     transition :ready_for_production => :pending_job_cart
     end
 
     event :cart_staged do
