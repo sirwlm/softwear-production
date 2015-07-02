@@ -40,7 +40,7 @@ $ ->
 
   $("#expected-state").on "select2-selected", (e) ->
     currentState = $(this)
-    transitions = $(this).find("[value='in_production']").data('transitions')
+    transitions = $(this).find("[value='"+e.val+"']").data('transitions')
     $('#expected-transition').empty()
     $('#expected-transition').select2('val', '')
     transitions.split(' ').forEach (transition) ->

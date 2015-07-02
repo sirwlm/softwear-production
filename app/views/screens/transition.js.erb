@@ -7,6 +7,8 @@ $('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
   
   window.setTimeout(function() {
     $('#contentModal').modal('hide');
+    $('#screen_id').val('');
+    $('#screen_id').focus();
   }, 2000);
 
 <% elsif flash[:notice] %>
@@ -15,12 +17,15 @@ $('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
 
   window.setTimeout(function() {
     $('#contentModal').modal('hide');
+    $('#screen_id').val('');
+    $('#screen_id').focus();
   }, 2000);
 
   $('#screen-status').html("<%= escape_javascript(render('screens/status_table')) %>");
   $('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
 
   $('.table-sortable').tablesorter()
+
 <% elsif flash[:alert] %>
   
   $('#contentModal .modal-body').html("<%= escape_javascript render 'shared/flash', key: "alert", val: flash[:alert] %>");
@@ -30,70 +35,3 @@ $('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
 
 $('#screen_id').val('');
 $('#screen_id').focus();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<% if false %>
-$('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
-
-$('#contentModal').modal('show');
-$('#transition-state').html("<%= escape_javascript(render('screens/transition_state')) %>");
-$('#screen-status').html("<%= escape_javascript(render('screens/status_table')) %>");
-$('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
-<% unless params[:expected_state] %>
-  $('#mesh_type').html("<%= @screen.mesh_type %>");
-  $('.table-sortable').tablesorter();
-  prepare_failure_buttons();
-  window.setTimeout(function() {
-    $('#contentModal').modal('hide');
-  }, 2000);
-<% end %>
-
-
-//  $('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
-//    <% if flash[:notice] %>
-//      $('#contentModal .modal-body').html("<%= render 'shared/flash', :key => "notice", :val => "Success" %>");
-//      window.setTimeout(function() {
-//        $('#contentModal').modal('hide');
-//      }, 2000);
-//    <% elsif flash[:alert] %>
-//      $('#contentModal .modal-body').html("<%= render 'shared/flash', :key => "alert", :val => "Failure" %>");
-//    <% end %>  
-//    $('#contentModal').modal('show');
-//  
-//  
-//  
-//  $('#screen-status').html("<%= escape_javascript(render('screens/status_table')) %>");
-//  $('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
-//  $('#mesh_type').html("<%= @screen.mesh_type %>");
-//  $('.table-sortable').tablesorter();
-//  prepare_failure_buttons();
-//  window.setTimeout(function() {
-//    $('#contentModal').modal('hide');
-//  }, 2000);
-//
-//
-//$('#screen_id').focus();
-<% end %>
