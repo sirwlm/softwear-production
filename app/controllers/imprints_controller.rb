@@ -1,4 +1,6 @@
 class ImprintsController < InheritedResources::Base
+  include CalendarEventController
+
   belongs_to :job, optional: true
   respond_to :json, :js, :html
   before_filter :prepare_calendar_entries, only: [:index]
@@ -28,19 +30,6 @@ class ImprintsController < InheritedResources::Base
     end
   end
 
-  def update
-    update! do |format|
-      format.json do
-        if params[:return_content]
-          partial = 'imprints/unscheduled_entry'
-        else
-          partial = 'imprints/for_calendar'
-        end
-        render partial: partial, locals: { imprint: @imprint }
-      end
-    end
-  end
-
   def complete
     @imprint = Imprint.find(params[:id])
     @imprint.completed_at = Time.now
@@ -54,15 +43,56 @@ class ImprintsController < InheritedResources::Base
     show_result
   end
 
-  def approve
+  def transition
     @imprint = Imprint.find(params[:id])
-    @imprint.approved = true
-    @imprint.save!
+    
+    if params[:transition] == 'printing_complete'
+      if params[:user_id]
+        @imprint.completed_at = Time.now
+        @imprint.completed_by_id = params[:user_id]
+        @imprint.fire_state_event(params[:transition])
+        @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+        @imprint.save!
+        flash[:notice] = 'Updated Imprint State'
+      else
+        flash[:error] = 'Must select user to complete printing'
+      end
+    elsif params[:transition] == 'production_manager_approved'
+      if valid_manager(params[:manager_id], params[:manager_password])
+        @imprint.fire_state_event(params[:transition])
+        @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+      else
+        @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+      end
 
-    show_result
+    else
+      @imprint.fire_state_event(params[:transition])
+      @imprint.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+      @imprint.save!
+      flash[:notice] = ' Updated Imprint State'
+    end 
+
   end
 
   private
+
+  def valid_manager(id, password)
+    user = User.find_by(id: id)
+    flash[:error] = "Invalid Manager Password" unless user.valid_password?(password)
+    user.valid_password?(password)
+  end
+
+  def transition_parameters
+    t_p = { event: params[:transition] }
+    t_p[:printed_by] = params[:user_id] unless params[:user_id].nil?
+    t_p[:approved_by] = params[:manager_id] unless params[:manager_id].nil?
+    t_p[:invalid_password_attempt] = "bad manager password" unless params[:manager_id] && valid_manager(params[:manager_id], params[:manager_password])
+    t_p
+  end
+
+  def owner
+    @owner ||= params[:user_id] ? User.find(params[:user_id]) : current_user
+  end
 
   def show_result
     respond_to do |format|
@@ -88,7 +118,8 @@ class ImprintsController < InheritedResources::Base
   end
 
   def imprint_params
-    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :approved, :completed_at)
+    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at, :job_id, 
+                                    :type, :count, :require_manager_signoff)
   end
 
   def complete_params

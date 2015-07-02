@@ -1,4 +1,13 @@
+var mouseDown = false;
+
 $(document).ready(function() {
+  $(document).mousedown(function() {
+    mouseDown = true;
+  });
+  $(document).mouseup(function() {
+    mouseDown = false;
+  });
+
   if ($('#calendar').length != 0) {
     imprintDraggableProperties.stop = function(event, ui) {
       var droppedElement = $(this);
@@ -14,7 +23,7 @@ $(document).ready(function() {
     $('.event-drop').draggable(imprintDraggableProperties);
 
     imprintCalendarOn('#calendar', {
-      events: Routes.imprints_path(),
+      events: Routes.calendar_events_machines_path(),
     });
 
     var tags = [];
@@ -36,7 +45,7 @@ $(document).ready(function() {
         var start = $('#calendar').fullCalendar('getView').start
         var end   = $('#calendar').fullCalendar('getView').end
         $.ajax({
-          url: Routes.imprints_path(),
+          url: Routes.calendar_events_machines_path(),
           dataType: 'json',
           method: 'get',
 
@@ -87,7 +96,9 @@ $(document).ready(function() {
     });
 
     setInterval(
-      function() { $('#calendar').fullCalendar('refetchEvents') },
+      function() {
+        if (!mouseDown) $('#calendar').fullCalendar('refetchEvents');
+      },
       300000
     );
   }

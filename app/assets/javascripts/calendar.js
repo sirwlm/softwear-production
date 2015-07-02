@@ -16,11 +16,11 @@ function imprintCalendarOn(matcher, options) {
     snapDuration: '00:05:00',
     allDaySlot: false,
 
-    eventClick: function(jsEvent) {
-      if (jsEvent.url) {
+    eventClick: function(event) {
+      if (event.url) {
         $.ajax({
           type: 'GET',
-          url: Routes.imprint_path(jsEvent.id),
+          url: event_path(event),
           dataType: 'script'
         });
 
@@ -36,21 +36,18 @@ function imprintCalendarOn(matcher, options) {
 
     drop: function(date) {
       var droppedElement = $(this);
-      // if (droppedElement.parent().data('machine-id') == null
-      //     &&
-      //     $(matcher).data('machine') == null)
-      //   return;
-      var imprintId = droppedElement.data('id');
+      var eventType = droppedElement.data('type');
+      var eventId   = droppedElement.data('id');
 
       if (options.removeAfterDrop === undefined || options.removeAfterDrop($(this)))
         $(this).remove();
 
       $.ajax({
         type: 'PUT',
-        url: Routes.imprint_path(imprintId),
+        url: event_path(eventType, eventId),
         dataType: 'json',
         data: {
-          imprint: $.extend({ scheduled_at: date.format() }, options.dropData || {})
+          event: $.extend({ scheduled_at: date.format() }, options.dropData || {})
         }
       })
 
@@ -67,15 +64,34 @@ function imprintCalendarOn(matcher, options) {
         alert("Something went wrong :(");
       });
     },
-      views: {
-          agendaThreeDay: {
-              type: 'agenda',
-              duration: { days: 3 },
-              buttonText: '3-day',
-          }
-      }
+
+    views: {
+        agendaThreeDay: {
+            type: 'agenda',
+            duration: { days: 3 },
+            buttonText: '3-day',
+        }
+    }
 
   });
+}
+
+function event_path() {
+  var eventType;
+  var eventId;
+
+  if (arguments.length == 1) {
+    var match = arguments[0].id.toString().match(/(\w+)-(\d+)/);
+    eventType = arguments[0].type || match[1];
+    eventId   = match[2];
+  }
+  else if (arguments.length == 2) {
+    eventType = arguments[0];
+    eventId   = arguments[1];
+  }
+  else throw "Can't get event path without an id and a type";
+
+  return Routes[eventType+"_path"](eventId.replace(/\w+-/, ''));
 }
 
 var imprintDraggableProperties = {
@@ -94,7 +110,7 @@ $(function() {
   });
 });
 
-function changeEventColor(calendar, eventId, color) {
+function changeEventColor(calendar, eventId, color, textColor, borderColor) {
   var events = $(calendar).fullCalendar('clientEvents', eventId);
 
   for (var i = 0; i < events.length; i++) {
@@ -102,6 +118,8 @@ function changeEventColor(calendar, eventId, color) {
 
     if (event.id == eventId) {
       event.color = color;
+      if (textColor != null && textColor.length != 0) event.textColor = textColor;
+      if (borderColor != null && borderColor.length != 0) event.borderColor = borderColor;
       $(calendar).fullCalendar('updateEvent', event);
       return true;
     }
@@ -124,15 +142,14 @@ function estimatedHoursFor(eventObject) {
 function onChange(eventObject, delta, revert, jsEvent, ui, view) {
   if (eventObject.allDay) { return; }
 
-  var imprintId = eventObject.id;
   var estimatedTime = estimatedHoursFor(eventObject);
 
   $.ajax({
     type: 'PUT',
-    url: Routes.imprint_path(imprintId),
+    url: event_path(eventObject),
     dataType: 'json',
     data: {
-      imprint: {
+      event: {
         scheduled_at:   eventObject.start.format(),
         estimated_time: estimatedTime
       }
@@ -182,10 +199,10 @@ function dropOutside(matcher, options) {
 
         $.ajax({
           type: 'PUT',
-          url: Routes.imprint_path(eventObject.id),
+          url: event_path(eventObject),
           dataType: 'json',
           data: {
-            imprint: imprintObject,
+            event: imprintObject,
             return_content: true
           }
         })

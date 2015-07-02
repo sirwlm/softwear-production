@@ -1,0 +1,41 @@
+<h1 class="pull-left">Listing Maintenances</h1>
+<%= render 'nav' %>
+<br clear="all" />
+
+<%= paginate @maintenances %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Info</th>
+      <th>Machine</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @maintenances.each do |maintenance| %>
+      <tr>
+        <td><%= maintenance.id %></td>
+        <td>
+          <h4><%= "(Completed at #{maintenance.completed_at.strftime('%Y-%m-%d %I:%M%P')})" if maintenance.completed? %> <%= maintenance.name %></h4>
+            <p><%= maintenance.description %></p>
+            <% if maintenance.scheduled? %>
+                <p><%= maintenance.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= maintenance.estimated_time %>hrs</p>
+            <% else %>
+              <p>Unscheduled</p>
+            <% end %>
+        </td>
+        <td><%= maintenance.machine_name %></td>
+        <td>
+        <%= bootstrap_show_button(maintenance) %>
+        <%= bootstrap_edit_button(maintenance) %>
+        <%= bootstrap_destroy_button(maintenance) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @maintenances %>

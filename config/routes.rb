@@ -8,6 +8,9 @@ SoftwearProduction::Application.routes.draw do
 
   resources :machines do
     get :scheduled
+    collection do
+      get :calendar_events
+    end
   end
 
   resources :orders do
@@ -16,10 +19,15 @@ SoftwearProduction::Application.routes.draw do
     end
   end
 
-  resources :imprints do
+  resources :imprints, except: [:new, :create] do
     member do
-      patch 'complete', to: 'imprints#complete'
-      patch 'approve', to: 'imprints#approve'
+      patch ':transition', to: 'imprints#transition', as: :transition
+    end
+  end
+
+  resources :maintenances do
+    member do
+      post :complete
     end
   end
 
@@ -30,9 +38,14 @@ SoftwearProduction::Application.routes.draw do
     collection do
       get :lookup, action: :lookup
       get :status, action: :status
+      get :fast_scan, action: :fast_scan
     end
   end
+
+  get '/reports/:report_type/(:start_date...:end_date)' => 'reports#show', as: :report
+
   get '/screens/:id/:transition' =>  'screens#transition', as: :transition_screen
+  post '/screens/fast_scan' => 'screens#transition', as: :fast_scan_transition_screen
 
   resources :users, only: [:index, :new, :edit, :update, :destroy, :patch]
   post '/users/create_user', to: 'users#create', controller: 'users', as: :create_user

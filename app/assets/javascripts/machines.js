@@ -11,27 +11,17 @@ $(document).ready(function() {
   var machineId = getMachineId();
 
   if(machineId > 0) {
-    $.getJSON(machineId +'/scheduled.json', function(machineJobs) {
-
-      imprintCalendarOn('#machine-calendar', {
-        events: machineJobs,
-        dropData: { machine_id: machineId }
-      });
-
+    imprintCalendarOn('#machine-calendar', {
+      events: Routes.calendar_events_machines_path({ machine: machineId }),
+      dropData: { machine_id: machineId }
     });
   }
 
-  function refreshMachineEvents(){
-    $.ajax({
-      url: Routes.machine_path(machineId),
-      dataType: 'script'
-    });
-  }
-
-  if(machineId > 0) {
-    setInterval(refreshMachineEvents, 30000 )
-  }
+  setInterval(
+    function() {
+      if (!mouseDown) $('#machine-calendar').fullCalendar('refetchEvents');
+    },
+    30000
+  );
 
 });
-
-

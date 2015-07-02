@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
   acts_as_paranoid
+
+  scope :managers, -> { where(admin: true)  }
+
   after_initialize :blacklist_admin
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

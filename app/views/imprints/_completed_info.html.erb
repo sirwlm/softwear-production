@@ -1,0 +1,11 @@
+<span class='imprint-completed'>
+  <dl>
+    <dt>Completed by</dt>
+    <dd>
+      <%= imprint.completed_by.try(:full_name) || 'someone' %>
+    </dd>
+    <dt>Completed At</dt>
+    <dd>
+      <%= imprint.completed_at.strftime('%m/%d/%Y at %I:%M%p') %>
+    </dd>
+</span>

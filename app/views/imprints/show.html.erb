@@ -1,5 +1,12 @@
-<h1><%= @imprint.name %></h1>
+<h1><%= @imprint.full_name %></h1>
 <%= render 'nav' %>
 <br clear="all" />
 
 <%= render partial: 'view' %>
+
+<div class="col-xs-12">
+  <h2>Activity</h2>
+  <div id="imprint-activities">
+    <%= render_activities(@imprint.activities.order(created_at: :desc)) %>
+  </div>
+</div>

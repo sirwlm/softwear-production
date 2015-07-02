@@ -1,0 +1,26 @@
+<%= render 'nav' %>
+<h1 class="pull-left">Fast Screen Scan</h1>
+<br clear="all" />
+<br clear="all" />
+
+
+<%= form_tag fast_scan_transition_screen_path, method: :post, remote: true do %>
+  <div class="col-sm-6 col-xs-12">
+    <%= label_tag :expected_state, 'Expected Current State' %>
+    <%= select_tag :expected_state, options_for_select(
+          Screen.list_states.map{|s| [s, s, {'data-transitions' => Screen.new(state: s).state_events}]}), 
+                  multiple: false, include_blank: false, required: true, id: 'expected-state', class: 'js-screen-state-select' %>
+  </div>
+
+  <div class="col-sm-6 col-xs-12">
+    <%= label_tag :transition, 'Expected Transition' %>
+    <%= select_tag :transition, options_for_select(''), required: true, multiple: false, include_blank: false,
+                   id: 'expected-transition', class: 'js-screen-state-select' %>
+  </div>
+  <div class="col-xs-12">
+    <b>Scan Here</b>
+    <%= text_field_tag :id, '', class: 'form-control', id: 'screen_id', required: true %>
+    <br />
+    <%= submit_tag "Transition", class: 'btn btn-primary col-sm-6 col-sm-offset-3' %>
+  </div>
+<% end%>

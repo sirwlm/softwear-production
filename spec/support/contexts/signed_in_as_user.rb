@@ -6,3 +6,4 @@ shared_context 'signed_in_as_user', :signed_in_as_user do
 
   before(:each) { sign_in user }
 end
+

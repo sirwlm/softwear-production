@@ -3,9 +3,15 @@ require 'spec_helper'
 describe Order do
   describe 'Relationships' do
     it { is_expected.to have_many :jobs }
+    it { is_expected.to have_many(:imprints).through(:jobs) }
   end
 
-  it { is_expected.to validate_presence_of :softwear_crm_id }
+  describe 'validations' do 
+    it { is_expected.to validate_presence_of :jobs }
+    it { is_expected.to validate_presence_of :name }
+  end
+
+ # it { is_expected.to validate_presence_of :softwear_crm_id }
 
 =begin
   describe '#crm_order' do

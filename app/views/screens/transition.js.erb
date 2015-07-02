@@ -1,8 +1,37 @@
-$('#transition-state').html("<%= escape_javascript(render('screens/transition_state')) %>");
-$('#screen-status-table').html("<%= escape_javascript(render('screens/status_table')) %>");
-$('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
-$('#mesh_type').html("<%= @screen.mesh_type %>");
-window.setTimeout(function() {
-  $('#contentModal').modal('hide');
-}, 2000);
-prepare_failure_buttons();
+
+$('#contentModal .modal-title').html("Screen #<%= params[:id] %> Transition");
+<% if flash[:notice] && params[:expected_state] %>
+
+  $('#contentModal .modal-body').html("<%= escape_javascript render 'shared/flash', key: "notice", val: flash[:notice] %>");
+  $('#contentModal').modal('show');
+  
+  window.setTimeout(function() {
+    $('#contentModal').modal('hide');
+    $('#screen_id').val('');
+    $('#screen_id').focus();
+  }, 2000);
+
+<% elsif flash[:notice] %>
+
+  $('#transition-state').html("<%= escape_javascript(render('screens/transition_state')) %>");
+
+  window.setTimeout(function() {
+    $('#contentModal').modal('hide');
+    $('#screen_id').val('');
+    $('#screen_id').focus();
+  }, 2000);
+
+  $('#screen-status').html("<%= escape_javascript(render('screens/status_table')) %>");
+  $('#screen-activities').html("<%= escape_javascript(render_activities(@screen.activities.order(created_at: :desc))) %>");
+
+  $('.table-sortable').tablesorter()
+
+<% elsif flash[:alert] %>
+  
+  $('#contentModal .modal-body').html("<%= escape_javascript render 'shared/flash', key: "alert", val: flash[:alert] %>");
+  $('#contentModal').modal('show');
+<% end %>  
+
+
+$('#screen_id').val('');
+$('#screen_id').focus();

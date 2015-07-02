@@ -12,14 +12,29 @@ class ScreensController < InheritedResources::Base
   end
 
   def transition
-    @screen = Screen.find(params[:id])
-    @screen.send(params[:transition])
-    @screen.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+    if Screen.exists?(params[:id])
+      @screen = Screen.find(params[:id])
+    else
+      flash[:alert] = 'Invalid Screen ID'
+      return
+    end
+    
     if params[:mesh_type] && params[:transition] == 'meshed'
       @screen.update_attribute(:mesh_type, params[:mesh_type])
     end
-    flash[:notice] = ' Updated Screen State'
+
+    if params[:expected_state] && params[:expected_state] != @screen.state
+      flash[:alert] = "Screen was not in the expected state. You expected screen ##{@screen.id} "\
+        "to be in state #{params[:expected_state]} but was in state #{@screen.state}"
+
+    else
+      flash[:notice] = "Screen state was successfully updated"
+      @screen.fire_state_event(params[:transition])
+      @screen.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
+    end
+
     load_screens_grouped_by_type
+    
     respond_to do |format|
       format.js
     end

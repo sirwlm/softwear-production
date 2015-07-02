@@ -1,0 +1,19 @@
+$('#contentModal .modal-title').html("<%= @maintenance.display %>");
+$('#contentModal .modal-body').html("<%=j render('maintenances/view', maintenance: @maintenance, edit_link: true) %>");
+$('#contentModal').modal('show');
+$('#contentModalSaveChanges').hide();
+$('.select2').select2({width: '65%'});
+<% if current_user.admin? %>
+  $('.editable').editable({
+    ajaxOptions: { dataType: 'script' }
+  });
+<% end %>
+
+<% if local_assigns[:refresh_maintenance] %>
+  $(window.calendarMatcher).fullCalendar(
+    'removeEvents', <%= @maintenance.event_id %>
+  );
+  $(window.calendarMatcher).fullCalendar(
+    'renderEvent', JSON.parse("<%=j render(partial: 'machines/calendar_entry', locals: { event: @maintenance }, formats: [:json]).html_safe %>")
+  );
+<% end %>

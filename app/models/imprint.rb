@@ -1,26 +1,32 @@
 class Imprint < ActiveRecord::Base
   # include CrmCounterpart
   include ColorUtils
+  include PublicActivity::Model
+  include Schedulable
 
-  before_save :assign_estimated_end_at
+  tracked only: [:transition]
 
   scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
   scope :unscheduled, -> { where(scheduled_at: nil) }
   scope :machineless, -> { where(machine_id: nil) }
   scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
 
-  belongs_to :job
-  belongs_to :machine
-  belongs_to :completed_by, class_name: 'User'
-
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
   validate :schedule_conflict?
   validates :name, :description, presence: true
+  validates :count, presence: true, numericality: { greater_than: 0 }
 
-  after_initialize :set_approved_to_true
+  before_save :assign_estimated_end_at
+  before_save :reset_state_when_type_changed
+
+  belongs_to :job
+  has_one :order, through: :job
+
+
+  tracked only: [:transition]
 
   searchable do
-    text :name, :description
+    text :full_name, :description
     integer :completed_by_id
     boolean :complete  do
       completed?
@@ -30,34 +36,23 @@ class Imprint < ActiveRecord::Base
     boolean :scheduled do
       !scheduled_at.nil?
     end
+    integer :machine_id
+  end
+
+  def approved?
+    state.to_sym != :pending_approval
   end
 
   def display
-    return "(UNAPPROVED) #{name}" unless approved?
-    return "(COMPLETE) #{name}" if completed?
-    name
-  end
-
-  def scheduled?
-    !scheduled_at.blank?
-  end
-
-  def estimated?
-    estimated_time && estimated_time > 0
-  end
-
-  def completed?
-    !completed_at.nil?
+    return "(UNAPPROVED) #{full_name}" unless approved?
+    return "(COMPLETE) #{full_name}" if completed?
+    full_name
   end
 
   def complete!(user)
     self.completed_at = Time.now
     self.completed_by = user
     save!
-  end
-
-  def machine_name
-    machine.name rescue 'Not Assigned'
   end
 
   def deadline
@@ -101,18 +96,32 @@ class Imprint < ActiveRecord::Base
     "rgb(#{rgb(color).map { |c| [255, c * factor].min.floor }.join(', ')})"
   end
 
+  def job_name
+    self.job.name rescue 'n/a'
+  end
+  
+  def order_name
+    self.order.name rescue 'n/a'
+  end
+
+  def full_name
+    "#{order_deadline_day} - #{order_name} -#{job_name} - #{name} (#{count})"
+  end
+
+  def order_deadline_day
+    self.order.deadline.strftime('%a %m/%d') rescue 'No Deadline'
+  end
+
   private
 
   def schedule_conflict?
 
   end
 
-  def assign_estimated_end_at
-    self.estimated_end_at = (scheduled_at + estimated_time.hours rescue nil)
-  end
-
-  def set_approved_to_true
-    self.approved = true if self.approved.nil?
+  def reset_state_when_type_changed
+    if type_changed?
+      self.state = :pending_approval
+    end
   end
 
 end

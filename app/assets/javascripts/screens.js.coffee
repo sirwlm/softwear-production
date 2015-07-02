@@ -1,4 +1,4 @@
-prepare_failure_buttons = ->
+@prepare_failure_buttons = ->
   $('#break-link').click (e) ->
     e.preventDefault()
     $('#failed-buttons').hide()
@@ -15,7 +15,7 @@ prepare_failure_buttons = ->
     $('#bad-prep-form').hide()
     $('#break-form').hide()
 
-prepare_screen_id_input = ->
+@prepare_screen_id_input = ->
   if $('#screen-id').size() > 0
     $('#screen-id').val ''
     $('#screen-id').focus()
@@ -34,7 +34,23 @@ $ ->
        width: "100%"
   )
 
-  $("#screen-filters").submit (event) -> 
+  $(".js-screen-state-select").select2(
+       width: "100%"
+  )
+
+  $("#expected-state").on "select2-selected", (e) ->
+    currentState = $(this)
+    transitions = $(this).find("[value='"+e.val+"']").data('transitions')
+    $('#expected-transition').empty()
+    $('#expected-transition').select2('val', '')
+    transitions.split(' ').forEach (transition) ->
+      $('#expected-transition').append("<option>#{transition}</option>")
+  
+
+  $('.js-screen-state-select').on "select2-selecting", (e) ->
+    setTimeout (-> $('#screen_id').focus()), 150
+
+  $("#screen-filters").submit (event) ->
     event.preventDefault()
     attrs = {}
     $(this).find('select').each (o) ->
@@ -49,4 +65,6 @@ $ ->
           row.hide()
       )
     )
+
+  $('.table-sortable').tablesorter()
   

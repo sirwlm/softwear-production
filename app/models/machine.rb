@@ -1,5 +1,6 @@
 class Machine < ActiveRecord::Base
   has_many :imprints
+  has_many :maintenances
 
   # validates :imprints, presence: { message: 'all imprints must be scheduled to be assigned a machine',  allow_blank: false }, if: :scheduled?
   validates :name, presence: true, uniqueness: true

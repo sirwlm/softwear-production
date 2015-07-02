@@ -1,0 +1,22 @@
+<div class="pull-right">
+  <%= link_to maintenances_path, class: 'btn btn-md btn-primary', data: { toggle: 'tooltip'}, title: "List Maintenance" do %>
+      <i class='glyphicon glyphicon-list'></i>
+  <% end %>
+  <% if @maintenance && controller.action_name == 'edit' %>
+      <%= link_to maintenance_path, class: 'btn btn-md btn-success', data: { toggle: 'tooltip'}, title: "Show Maintenance" do %>
+          <i class='glyphicon glyphicon-eye-open'></i>
+      <% end %>
+  <% elsif @maintenance && controller.action_name == 'show' %>
+      <%= link_to edit_maintenance_path, class: 'btn btn-md btn-warning', data: { toggle: 'tooltip'}, title: "Edit Maintenance" do %>
+          <i class='glyphicon glyphicon-pencil'></i>
+      <% end %>
+      <%= link_to maintenance_path(@maintenance), method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?', toggle: 'tooltip'}, title: "Destroy Maintenance" do %>
+          <i class='glyphicon glyphicon-remove-circle'></i>
+      <% end %>
+  <% end %>
+  <% unless controller.action_name == 'new' %>
+      <%= link_to new_maintenance_path, class: 'btn btn-md btn-success', data: { toggle: 'tooltip'}, title: "New Maintenance" do %>
+          <i class='glyphicon glyphicon-plus'></i>
+      <% end %>
+  <% end %>
+</div>

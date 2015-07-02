@@ -23,6 +23,7 @@
 //= require editable/bootstrap-editable
 //= require editable/rails
 //= require jquery_nested_form
+//= require jquery-tablesorter
 
 //= require_tree .
 
@@ -33,12 +34,19 @@ function datetimepickerInit() {
   });
 }
 
+function datepickerInit() {
+  $('.datepicker-standard').datetimepicker({
+    format: 'YYYY-MM-DD'
+  });
+}
+
 $( document ).ready(function() {
     datetimepickerInit();
+    datepickerInit();
     $(document).on('nested:fieldAdded', datetimepickerInit);
 
     $('.colorpicker').colorpicker()
     $('[data-toggle="tooltip"]').tooltip();
-    $('.select2').select2();
+    $('.select2').select2({width: '35%'});
 });
 

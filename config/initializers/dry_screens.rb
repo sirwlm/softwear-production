@@ -1,6 +1,6 @@
 DRY_EVERY = 1.minute
 
-unless defined?(Rails::Console) or Rails.env.development?
+unless defined?(Rails::Console) or Rails.env.development? or Rails.env.test?
   Thread.new do
     require "#{Rails.root}/app/models/screen"
 

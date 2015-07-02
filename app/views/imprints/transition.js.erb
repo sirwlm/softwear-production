@@ -1,0 +1,15 @@
+$('#transition-state').html("<%= escape_javascript(render('imprints/transition_state', imprint: @imprint)) %>");
+$('#imprint-activities').html("<%= escape_javascript(render_activities(@imprint.activities.order(created_at: :desc))) %>");
+<% if @imprint.completed? %>
+  $('#completion-info').html("<%= escape_javascript(render 'imprints/completed_info', imprint: @imprint) %>");
+<% end %>
+
+if ($('#calendar').length > 0) {
+  $('#calendar').fullCalendar('refetchEvents');
+}
+$(".select2").select2();
+
+<% if flash[:error] %>
+  $("#transition-error").html("<%= flash[:error] %>");
+  $("#transition-error").show();
+<% end %>
