@@ -1,17 +1,24 @@
-<%= form_tag(report_path("imprint_count"), method: :get) do %>
-  <%= label_tag :start_date, "Start Date" %>
-  <%= text_field_tag :start_date %>
-  <%= label_tag :end_date, "End Date" %>
-  <%= text_field_tag :end_date, params[:end_date], class: 'form-control datetimepicker-standard'%>
 
-  <%= submit_tag "Run Report" %>
-<% end %>
-
+<div class="row">
+  <%= form_tag(report_path("imprint_count"), method: :get) do %>
+    <div class="col-xs-6 col-sm-4">
+      <%= label_tag :start_date, "Start Date" %>
+      <%= text_field_tag :start_date, @report_data[:start_date], class: 'form-control datepicker-standard', required: true %>
+    </div>
+    <div class='col-xs-6 col-sm-4'>
+      <%= label_tag :end_date, "End Date" %>
+      <%= text_field_tag :end_date, @report_data[:end_date], class: 'form-control datepicker-standard', required: true %>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <br />
+      <%= submit_tag "Run Report", class: 'btn btn-primary col-xs-12' %>
+    </div>
+  <% end %>
+</div>
 <% if @report_data %>
 
   <h2>Report For</h2>
-  <h3>Start Date: <%= @report_data[:start_date] %></h3>
-  <h3>End Date: <%= @report_data[:end_date] %></h3>
+  <h3>Start Date: <%= @report_data[:start_date] %>, End Date: <%= @report_data[:end_date] %></h3>
   <table class='table table-striped'>
     <thead>
       <th></th>
@@ -22,7 +29,12 @@
       <% end %>
     </thead>
     <tbody>
-      <% (@report_data[:start_date]..@report_data[:end_date]).each do |date| %>
+    <%  
+    st = Time.parse(@report_data[:start_date]).to_i
+    et = Time.parse(@report_data[:end_date]).to_i
+    %>
+    <% (st..et).step(1.day) do |d| %>
+      <% date = Time.at(d).strftime('%F') %>
         <tr>
           <td>
             <%= date %>

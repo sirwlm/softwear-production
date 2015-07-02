@@ -17,10 +17,10 @@
     <%= select_tag :transition, options_for_select(''), required: true, multiple: false, include_blank: false,
                    id: 'expected-transition', class: 'js-screen-state-select' %>
   </div>
-
   <div class="col-xs-12">
     <b>Scan Here</b>
     <%= text_field_tag :id, '', class: 'form-control', id: 'screen_id', required: true %>
-      <%= submit_tag "Transition" %>
+    <br />
+    <%= submit_tag "Transition", class: 'btn btn-primary col-sm-6 col-sm-offset-3' %>
   </div>
 <% end%>

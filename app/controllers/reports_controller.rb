@@ -18,8 +18,16 @@ class ReportsController < ApplicationController
       end_date: params[:end_date], 
       machines: {}
     }
+    
+    if @report_data[:start_date] > @report_data[:end_date]
+      @report_data[:start_date] = @report_data[:end_date]
+    end
+
+    st = Time.parse(params[:start_date]).to_i
+    et = Time.parse(params[:end_date]).to_i
     Machine.all.each do |machine|
-      (params[:start_date]..params[:end_date]).each do |date|
+      (st..et).step(1.day) do |d|
+        date = Time.at(d).strftime('%F')
         count = 0
         machine.imprints.where("scheduled_at LIKE '#{date}%' and completed_at is not null").each do |imprint|
           count = imprint.count + count

@@ -34,8 +34,15 @@ function datetimepickerInit() {
   });
 }
 
+function datepickerInit() {
+  $('.datepicker-standard').datetimepicker({
+    format: 'YYYY-MM-DD'
+  });
+}
+
 $( document ).ready(function() {
     datetimepickerInit();
+    datepickerInit();
     $(document).on('nested:fieldAdded', datetimepickerInit);
 
     $('.colorpicker').colorpicker()

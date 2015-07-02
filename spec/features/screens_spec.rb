@@ -152,6 +152,12 @@ feature 'Screen Features', js: true do
         visit fast_scan_screens_path
       end
 
+      scenario 'selecting an expected current state updates expected transitions' do 
+        select2("coated_and_drying", from: 'Expected Current State') 
+        sleep 0.5
+        select2("dry", from: 'Expected Transition')
+      end
+
       scenario 'can advance a screen state' do
         select2("in_production", from: 'Expected Current State')
         sleep 0.5
