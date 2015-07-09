@@ -474,6 +474,7 @@ DEPENDENCIES
   shoulda-matchers
   simplecov
   softwear-lib
+  state_machines-activemodel
   state_machines-activerecord
   sunspot_matchers
   sunspot_rails

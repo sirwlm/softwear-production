@@ -18,7 +18,7 @@ class ScreensController < InheritedResources::Base
       flash[:alert] = 'Invalid Screen ID'
       return
     end
-    
+
     if params[:mesh_type] && params[:transition] == 'meshed'
       @screen.update_attribute(:mesh_type, params[:mesh_type])
     end
@@ -34,7 +34,7 @@ class ScreensController < InheritedResources::Base
     end
 
     load_screens_grouped_by_type
-    
+
     respond_to do |format|
       format.js
     end
