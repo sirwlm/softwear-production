@@ -8,20 +8,20 @@ class ScreenPrint < Imprint
     event :schedule do
       transition :pending_scheduling => :pending_preproduction
     end
-    
-    event :preproduction_complete do 
+
+    event :preproduction_complete do
       transition :pending_preproduction => :ready_for_production
     end
 
     event :at_the_press do
-     transition :ready_for_production => :pending_job_cart
+      transition :ready_for_production => :pending_job_cart
     end
 
     event :cart_staged do
       transition :pending_job_cart => :pending_imprintables
     end
 
-    event :imprintables_ready do 
+    event :imprintables_ready do
       transition :pending_imprintables => :ready_to_print
     end
 
@@ -49,7 +49,7 @@ class ScreenPrint < Imprint
     event :production_manager_approved do
       transition :pending_production_manager_approval => :in_production
     end
-      
+
     event :printing_complete do
       transition :in_production => :numbers_confirmed
     end
