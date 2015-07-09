@@ -1,0 +1,26 @@
+<p id="transition-error" class='alert alert-danger' style='display: none'></p>
+
+<p class="alert alert-info alert-dismissable transition-alert">Current State is <b><%= train_state_of(object).human_name.titleize %></b></p>
+
+<div>
+  <% object.train_machine.event_categories.each_key do |category| %>
+    <div class="train-events train-events-<%= category %>">
+      <h3><%= category.to_s.humanize %></h3>
+
+      <% if object.state_events(category).empty? %>
+        <p class='alert alert-info'>No actions available</p>
+      <% else %>
+
+        <% object.state_events(category).each do |event| %>
+          <%= form_tag '#TODO-MAKE-TRAINS-CONTROLLER?', remote: :true, method: :patch do %>
+
+            <% # TODO here is where we want to parse event_params and generate form fields for that %>
+            <%= button_tag event.to_s.humanize, class: "btn btn-lg btn-#{category}" %>
+
+          <% end %>
+        <% end %>
+      <% end %>
+
+    </div>
+  <% end %>
+</div>

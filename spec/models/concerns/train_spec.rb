@@ -1,42 +1,9 @@
 require 'spec_helper'
 
-class TestObject
-  include ActiveModel::Model
-  include Train
-
-  attr_accessor :state
-
-  train :state, initial: :first do
-    event :normal_success do
-      transition :first => :success
-    end
-    event :normal_failure do
-      transition all => :failure
-    end
-
-    success_event :won do
-      transition :first => :success
-    end
-    success_event :now_were_here do
-      transition :failure => :success
-    end
-    failure_event :messed_up do
-      transition :first => :failure
-    end
-
-    event :approve, params: { user_id: [1, 2, 3] } do
-      transition :first => :approved
-    end
-    event :broadcast, public_activity: { message: :string } do
-      transition :first => :success
-    end
-  end
-end
-
 describe Train do
   describe 'a model including `Train`', story_735: true do
-    subject { TestObject.new(state: :first) }
-    let(:state_machine) { StateMachines::Machine.find_or_create(TestObject, :state) }
+    subject { TestTrain.new(state: :first) }
+    let(:state_machine) { StateMachines::Machine.find_or_create(TestTrain, :state) }
 
     it 'can use `success_event` and `failure_event` in its state machine' do
       expect{subject}.to_not raise_error

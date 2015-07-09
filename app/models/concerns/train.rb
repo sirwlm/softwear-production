@@ -93,9 +93,9 @@ module Train
         end
       RUBY
     end
+  end
 
-    def poop
-      'piss'
-    end
+  def train_machine
+    self.class.train_machine
   end
 end
