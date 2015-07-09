@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20150629150301) do
     t.string   "state",                   limit: 255
     t.string   "type",                    limit: 255
     t.integer  "count",                   limit: 4
-    t.boolean  "require_manager_signoff", limit: 1
+    t.boolean  "require_manager_signoff"
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
@@ -157,7 +157,7 @@ ActiveRecord::Schema.define(version: 20150629150301) do
     t.datetime "deleted_at"
     t.string   "first_name",             limit: 255
     t.string   "last_name",              limit: 255
-    t.boolean  "admin",                  limit: 1
+    t.boolean  "admin"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
