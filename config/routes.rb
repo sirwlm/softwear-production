@@ -50,4 +50,6 @@ SoftwearProduction::Application.routes.draw do
   resources :users, only: [:index, :new, :edit, :update, :destroy, :patch]
   post '/users/create_user', to: 'users#create', controller: 'users', as: :create_user
   delete '/users/delete_user/:id', to: 'users#destroy', controller: 'users', as: :destroy_user
+
+  patch '/:model_name/:id/transition_to/:event', to: 'train#transition', as: :transition_train
 end
