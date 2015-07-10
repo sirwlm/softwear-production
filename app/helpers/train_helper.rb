@@ -6,4 +6,8 @@ module TrainHelper
   def field_name_for(object, field)
     "#{object.class.model_name.element}[#{field}]"
   end
+
+  def transition_train_path(object, event)
+    super(object.class.model_name.element, object.id, event)
+  end
 end

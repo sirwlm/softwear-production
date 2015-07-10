@@ -38,4 +38,8 @@ class TestTrain
     attrs.each { |key, value| send("#{key}=", value) }
     save!
   end
+
+  def id
+    1
+  end
 end

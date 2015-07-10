@@ -5,11 +5,13 @@ class TrainController < ApplicationController
     @event  = params[:event].to_sym
 
     @object.train_machine.events.fetch(@event).fire(@object)
-    @object.create_activity(
-      action:     :transition,
-      parameters: public_activity_params,
-      owner:      current_user
-    )
+    if @object.respond_to?(:create_activity)
+      @object.create_activity(
+        action:     :transition,
+        parameters: public_activity_params,
+        owner:      current_user
+      )
+    end
     @object.update_attributes!(permitted_attributes)
 
     # TODO make js response

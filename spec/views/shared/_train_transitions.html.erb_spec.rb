@@ -12,14 +12,14 @@ describe 'shared/_train_transitions.html.erb', story_735: true, type: :view do
   it 'renders an event block for each category' do
     do_render object: object_first
     expect(rendered).to have_css '.train-events', count: 2
-    expect(rendered).to have_css '.train-events-success'
-    expect(rendered).to have_css '.train-events-failure'
+    expect(rendered).to have_css '.train-category-success'
+    expect(rendered).to have_css '.train-category-failure'
   end
 
   it 'displays the name of each category' do
     do_render object: object_first
-    expect(rendered).to have_css 'h3', text: 'Success', count: 1
-    expect(rendered).to have_css 'h3', text: 'Failure', count: 1
+    expect(rendered).to have_css '.panel-heading', text: 'Success', count: 1
+    expect(rendered).to have_css '.panel-heading', text: 'Failure', count: 1
   end
 
   it 'renders a button for each event with a class for its category' do
@@ -31,7 +31,7 @@ describe 'shared/_train_transitions.html.erb', story_735: true, type: :view do
   context 'when there are no events in a category' do
     it 'displays "No actions available"' do
       do_render object: object_success
-      expect(rendered).to have_css '.alert.alert-info', text: 'No actions available'
+      expect(rendered).to have_content 'No actions available'
     end
   end
 

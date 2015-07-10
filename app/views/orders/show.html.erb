@@ -10,15 +10,13 @@
     <h4>Pre Production</h4>
 
     <ul class="trains clearfix clear-after">
-      <li class='col-sm-4 well'>
-      <h4>Imprintables</h4>
-      <dl>
-        <dt>State</dd>
-        <dd><%= job.imprintable_train.state.humanize %></dd>
-      </dl>
+      <li class='col-xs-4 well'>
+        <h4>Imprintables</h4>
+
+        <%= render 'shared/train_transitions', object: job.imprintable_train %>
       </li>
     </ul>
-    
+
     <h4>Production</h4>
 
     <ul class='imprints'>
@@ -30,8 +28,9 @@
             <dd><%= imprint.state.humanize %></dd>
           </dl>
 
-          <%= render 'shared/imprint_details', imprint: imprint %>
-          <p> 
+          <% # render 'shared/imprint_details', imprint: imprint %>
+          insert imprint details here
+          <p>
             <%= link_to "Show Full Details", imprint_path(imprint), class: 'btn btn-primary' %>
           </p>
         </li>
