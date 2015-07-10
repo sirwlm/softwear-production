@@ -1,0 +1,35 @@
+<% object.train_machine.event_categories.try(:keys).try(:reverse_each) do |category| %>
+  <div class='pull-left'>
+    <div class="panel panel-default train-events train-category-<%= category %>">
+      <div class='panel-heading'><%= category.to_s.humanize %></div>
+      <div class='panel-body'>
+        <% train_events = object.train_events(category) %>
+
+        <% if train_events.empty? %>
+          No actions available
+        <% else %>
+          <% train_events.each do |event| %>
+
+            <div class='well well-sm train-category'>
+              <%= form_tag transition_train_path(object, event), remote: :true, method: :patch do %>
+
+                <% object.train_machine.event_public_activity.try(:[], event).try(:each) do |field, type| %>
+                  <%= render 'shared/train_field', object: object, field: field, type: type, field_name: "public_activity[#{field}]", category: category %>
+                <% end %>
+
+                <% object.train_machine.event_params.try(:[], event).try(:each) do |field, type| %>
+                  <%= render 'shared/train_field', object: object, field: field, type: type, field_name: field_name_for(object, field), category: category %>
+                <% end %>
+
+                <%= button_tag event.to_s.humanize, class: "btn btn-#{category}" %>
+
+              <% end %>
+            </div>
+
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+<% end %>

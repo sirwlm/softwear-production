@@ -1,42 +1,9 @@
-<p id="transition-error" class='alert alert-danger' style='display: none'></p>
+<div id='train-<%= object.model_name.element %>-<%= object.id %>'>
+  <p class='transition-error alert alert-danger' style='display: none'></p>
 
-<p class="alert alert-info alert-dismissable transition-alert">Current State: <b><%= train_state_of(object).human_name.titleize %></b></p>
+  <p class="alert alert-info alert-dismissable transition-alert">Current State: <b class='current-state'><%= train_state_of(object).human_name.titleize %></b></p>
 
-<div class='row'>
-  <% col_size = (12 / object.train_machine.event_categories.try(:size) || 1).floor %>
-  <% object.train_machine.event_categories.try(:keys).try(:reverse_each) do |category| %>
-    <div class='pull-left'>
-      <div class="panel panel-default train-events train-category-<%= category %>">
-        <div class='panel-heading'><%= category.to_s.humanize %></div>
-        <div class='panel-body'>
-          <% train_events = object.train_events(category) %>
-
-          <% if train_events.empty? %>
-            No actions available
-          <% else %>
-            <% train_events.each do |event| %>
-
-              <div class='well well-sm train-category'>
-                <%= form_tag transition_train_path(object, event), remote: :true, method: :patch do %>
-
-                  <% object.train_machine.event_public_activity.try(:[], event).try(:each) do |field, type| %>
-                    <%= render 'shared/train_field', object: object, field: field, type: type, field_name: "public_activity[#{field}]", category: category %>
-                  <% end %>
-
-                  <% object.train_machine.event_params.try(:[], event).try(:each) do |field, type| %>
-                    <%= render 'shared/train_field', object: object, field: field, type: type, field_name: field_name_for(object, field), category: category %>
-                  <% end %>
-
-                  <%= button_tag event.to_s.humanize, class: "btn #{local_assigns[:button_size]} btn-#{category}" %>
-
-                <% end %>
-              </div>
-
-            <% end %>
-          <% end %>
-        </div>
-
-      </div>
-    </div>
-  <% end %>
+  <div class='row train-categories'>
+    <%= render 'shared/train_categories', object: object %>
+  </div>
 </div>

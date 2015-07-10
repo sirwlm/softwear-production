@@ -38,6 +38,10 @@ class TestTrain
     attrs.each { |key, value| send("#{key}=", value) }
     save!
   end
+  def update_attributes(attrs)
+    attrs.each { |key, value| send("#{key}=", value) }
+    save
+  end
 
   def id
     1

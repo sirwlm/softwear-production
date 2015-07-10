@@ -4,6 +4,11 @@ class TrainController < ApplicationController
     @object = object_class.find(params[:id])
     @event  = params[:event].to_sym
 
+    unless @object.train_events.include?(@event)
+      @error = "Invalid transition: #{@event} => "\
+        "#{@object.send(@object.train_machine.attribute)}"
+    end
+
     @object.train_machine.events.fetch(@event).fire(@object)
     if @object.respond_to?(:create_activity)
       @object.create_activity(
@@ -12,10 +17,9 @@ class TrainController < ApplicationController
         owner:      current_user
       )
     end
-    @object.update_attributes!(permitted_attributes)
-
-    # TODO make js response
-    render inline: ''
+    unless @object.update_attributes(permitted_attributes)
+      @error = @object.errors.full_messages.join(', ')
+    end
   end
 
   private

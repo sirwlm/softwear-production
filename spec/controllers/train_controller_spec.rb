@@ -14,7 +14,7 @@ describe TrainController, type: :controller do
   describe 'PATCH #transition', story_735: true do
     context 'given a model name, id, and event' do
       before do
-        patch :transition, model_name: 'test_train', id: 1, event: :won
+        patch :transition, model_name: 'test_train', id: 1, event: :won, format: :js
       end
 
       it 'camelizes and constantizes model_name and finds the record by id' do
@@ -40,8 +40,8 @@ describe TrainController, type: :controller do
         it 'assigns them to the object' do
           expect(object.winner_id).to be_blank
           patch :transition, model_name: 'test_train', id: 1, event: :won,
-            test_train: { winner_id: 3 }
-          expect(object.winner_id).to eq '3'
+            test_train: { winner_id: 3 }, format: :js
+          expect(object.winner_id.to_i).to eq 3
         end
       end
 
@@ -49,7 +49,7 @@ describe TrainController, type: :controller do
         it 'does not assign anything' do
           expect(object.winner_id).to be_blank
           patch :transition, model_name: 'test_train', id: 1, event: :approve,
-            test_train: { winner_id: 3 }
+            test_train: { winner_id: 3 }, format: :js
           expect(object.winner_id).to be_blank
         end
       end
@@ -63,7 +63,7 @@ describe TrainController, type: :controller do
             parameters: { event: :broadcast, message: 'hey' },
             owner: user
           )
-        patch :transition, model_name: 'test_train', id: 1, event: :broadcast, public_activity: { message: 'hey' }
+        patch :transition, model_name: 'test_train', id: 1, event: :broadcast, public_activity: { message: 'hey' }, format: :js
       end
     end
   end
