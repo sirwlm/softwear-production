@@ -91,6 +91,10 @@ module Train
             train_machine.events.valid_for(self, *args).map(&:name)
           end
         end
+
+        def train_events(*args)
+          #{train_machine.attribute}_events(*args)
+        end
       RUBY
     end
   end

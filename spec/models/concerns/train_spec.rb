@@ -33,13 +33,13 @@ describe Train do
     context 'event option' do
       describe 'params: {  }' do
         it "populates the state machine's event_params[<event name>]" do
-          expect(state_machine.event_params[:approve]).to eq({ user_id: [1, 2, 3] })
+          expect(state_machine.event_params[:won]).to eq({ winner_id: [1, 2, 3] })
         end
       end
 
       describe 'public_activity: {  }' do
         it "populates the state machine's event_public_activity[<event name>]" do
-          expect(state_machine.event_public_activity[:broadcast]).to eq({ message: :string })
+          expect(state_machine.event_public_activity[:broadcast]).to eq({ message: :text_field })
         end
       end
     end

@@ -12,20 +12,23 @@ class TestTrain
       transition all => :failure
     end
 
-    success_event :won do
+    success_event :won, params: { winner_id: [1, 2, 3] }, public_activity: { user_id: [2, 4, 5] } do
       transition :first => :success
     end
-    success_event :now_were_here do
+    success_event :now_were_here, public_activity: { message: :text_field } do
       transition :failure => :success
     end
     failure_event :messed_up do
       transition :first => :failure
     end
 
-    event :approve, params: { user_id: [1, 2, 3] } do
+    event :approve, public_activity: { user_id: [1, 2, 3] } do
       transition :first => :approved
     end
-    event :broadcast, public_activity: { message: :string } do
+    failure_event :unsucceed, params: { reason: :text_field } do
+      transition :success => :first
+    end
+    event :broadcast, public_activity: { message: :text_field } do
       transition :first => :success
     end
   end

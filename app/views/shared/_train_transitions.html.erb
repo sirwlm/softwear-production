@@ -7,14 +7,21 @@
     <div class="train-events train-events-<%= category %>">
       <h3><%= category.to_s.humanize %></h3>
 
-      <% if object.state_events(category).empty? %>
+      <% if object.train_events(category).empty? %>
         <p class='alert alert-info'>No actions available</p>
       <% else %>
 
-        <% object.state_events(category).each do |event| %>
+        <% object.train_events(category).each do |event| %>
           <%= form_tag '#TODO-MAKE-TRAINS-CONTROLLER?', remote: :true, method: :patch do %>
 
-            <% # TODO here is where we want to parse event_params and generate form fields for that %>
+            <% object.train_machine.event_public_activity[event].try(:each) do |field, type| %>
+              <%= render 'shared/train_field', object: object, field: field, type: type, field_name: "public_activity[#{field}]", category: category %>
+            <% end %>
+
+            <% object.train_machine.event_params[event].try(:each) do |field, type| %>
+              <%= render 'shared/train_field', object: object, field: field, type: type, field_name: field_name_for(object, field), category: category %>
+            <% end %>
+
             <%= button_tag event.to_s.humanize, class: "btn btn-lg btn-#{category}" %>
 
           <% end %>

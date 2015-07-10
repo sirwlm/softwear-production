@@ -24,7 +24,8 @@ class TrainController < ApplicationController
     if params[:public_activity]
       if extra = @object.train_machine.event_public_activity[@event.to_sym]
         extra.each do |key, type|
-          p[key] = params[:public_activity][key]
+          val = params[:public_activity][key]
+          p[key] = val if val
         end
       end
     end
