@@ -10,13 +10,28 @@ class TrainController < ApplicationController
       parameters: public_activity_params,
       owner:      current_user
     )
-    @object.save!
+    @object.update_attributes!(permitted_attributes)
 
     # TODO make js response
     render inline: ''
   end
 
   private
+
+  def permitted_attributes
+    p = if params[model_name]
+          params.permit(model_name =>
+            @object.train_machine.event_params[@event].try(:keys)
+          )
+        else
+          { model_name => {} }
+        end
+    p[model_name]
+  end
+
+  def model_name
+    @object.model_name.element
+  end
 
   def public_activity_params
     p = {}

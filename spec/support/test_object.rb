@@ -3,6 +3,7 @@ class TestTrain
   include Train
 
   attr_accessor :state
+  attr_accessor :winner_id
 
   train :state, initial: :first do
     event :normal_success do
@@ -31,5 +32,10 @@ class TestTrain
     event :broadcast, public_activity: { message: :text_field } do
       transition :first => :success
     end
+  end
+
+  def update_attributes!(attrs)
+    attrs.each { |key, value| send("#{key}=", value) }
+    save!
   end
 end

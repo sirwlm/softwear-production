@@ -37,11 +37,21 @@ describe TrainController, type: :controller do
 
     context 'passed model params' do
       context 'when the given event has those registered' do
-        it 'assigns them to the object'
+        it 'assigns them to the object' do
+          expect(object.winner_id).to be_blank
+          patch :transition, model_name: 'test_train', id: 1, event: :won,
+            test_train: { winner_id: 3 }
+          expect(object.winner_id).to eq '3'
+        end
       end
 
       context 'when the given event does not have them registered' do
-        it 'does not assign anything'
+        it 'does not assign anything' do
+          expect(object.winner_id).to be_blank
+          patch :transition, model_name: 'test_train', id: 1, event: :approve,
+            test_train: { winner_id: 3 }
+          expect(object.winner_id).to be_blank
+        end
       end
     end
 
