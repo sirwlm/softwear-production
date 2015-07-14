@@ -1,4 +1,4 @@
-# -- State Machine Example Usage --
+# -- Modified State Machine Example Usage --
 =begin
 
 # To have an attribute assigned:
@@ -17,7 +17,44 @@ module Train
   extend ActiveSupport::Concern
 
   cattr_accessor :train_types
-  self.train_types = {}
+
+  def self.train_types
+    Thread.main[:train_types] ||= {}
+  end
+  def self.train_types=(value)
+    Thread.main[:train_types] = value
+  end
+
+  def self.available_trains_of_type(type, record)
+    return [] unless Train.train_types.key?(type)
+
+    Train.train_types[type].select do |train_class|
+      name = train_class.model_name
+      if record.try(name.collection)
+        true
+      elsif record.respond_to?(name.element) && record.send(name.element).nil?
+        true
+      else
+        false
+      end
+    end
+  end
+
+  def self.each_train_of_type(type, record, &block)
+    return unless Train.train_types.key?(type)
+
+    Train.train_types[type].each do |train_class|
+      name = train_class.model_name
+
+      if record.try(name.collection)
+        record.send(name.collection).each(&block)
+      end
+
+      if record.respond_to?(name.element) && !record.send(name.element).nil?
+        yield record.send(name.element)
+      end
+    end
+  end
 
   module StateMachine
     attr_accessor :event_categories
@@ -68,6 +105,21 @@ module Train
 
     def self.train_type(type)
       key = type.to_sym
+      if Train.train_types.key?(key)
+        Train.train_types[key].delete_if { |t| t.name == name }
+        Train.train_types[key] << self
+
+      else
+        Train.train_types[key] = []
+
+        Train.instance_eval <<-RUBY, __FILE__, __LINE__
+          def self.#{key}_trains
+            Train.train_types[:#{key}]
+          end
+        RUBY
+
+        Train.train_types[key] << self
+      end
       (Train.train_types[key] ||= []).tap do |t|
         t << self unless t.include?(self)
       end

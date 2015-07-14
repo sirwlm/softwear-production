@@ -1,0 +1,8 @@
+<%= form_tag trains_path, method: :post do %>
+  <%= hidden_field_tag :object_class, object.class.name %>
+  <%= hidden_field_tag :object_id, object.id %>
+
+  <%= select_tag :train_class, Train.available_trains_of_type(train_type, object), class: 'form-control' %>
+
+  <%= button_tag 'Create Train', class: 'btn btn-primary' %>
+<% end %>

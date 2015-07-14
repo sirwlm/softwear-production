@@ -4,6 +4,17 @@ describe Train do
   describe 'a model including `Train`', story_735: true do
     subject { TestTrain.new(state: :first) }
     let(:state_machine) { StateMachines::Machine.find_or_create(TestTrain, :state) }
+    let(:record_with_test_trains) { double('Record with test_trains', test_trains: []) }
+    let(:record_with_test_train) { double('Record with test_train', test_train: TestTrain.new) }
+    let(:record_with_nil_test_train) { double('Record with nil test_train', test_train: nil) }
+
+    let(:test_class) do
+      Class.new do
+        include Train
+
+        train_type :test_type
+      end
+    end
 
     it 'can use `success_event` and `failure_event` in its state machine' do
       expect{subject}.to_not raise_error
@@ -44,15 +55,7 @@ describe Train do
       end
     end
 
-    context '::train_type' do
-      let(:test_class) do
-        Class.new do
-          include Train
-
-          train_type :test_type
-        end
-      end
-
+    describe '::train_type' do
       context 'when Train.train_types has nothing in it' do
         let!(:train_types) { {} }
         before do
@@ -62,6 +65,11 @@ describe Train do
         it 'creates an entry and adds its class to it' do
           test_class
           expect(Train.train_types).to eq(test_type: [test_class])
+        end
+
+        it 'defines a convenience method <category>_trains' do
+          test_class
+          expect(Train.test_type_trains).to include test_class
         end
       end
 
@@ -75,6 +83,31 @@ describe Train do
           test_class
           expect(Train.train_types[:test_type]).to include test_class
         end
+      end
+    end
+
+    describe '::available_trains_of_type', story_736: true do
+      let!(:train_types) { { preproduction: [TestTrain] } }
+      before do
+        allow(Train).to receive(:train_types).and_return train_types
+      end
+
+      context 'passed a record that responds to #test_trains' do
+        subject { Train.available_trains_of_type(:preproduction, record_with_test_trains) }
+
+        it { is_expected.to include TestTrain }
+      end
+
+      context 'passed a record that responds to #test_train - which is not nil' do
+        subject { Train.available_trains_of_type(:preproduction, record_with_test_train) }
+
+        it { is_expected.to_not include TestTrain }
+      end
+
+      context 'passed a record that responds to #test_train - which is nil' do
+        subject { Train.available_trains_of_type(:preproduction, record_with_nil_test_train) }
+
+        it { is_expected.to include TestTrain }
       end
     end
   end

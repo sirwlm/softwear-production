@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TrainController, type: :controller do
+describe TrainsController, type: :controller do
   include_context 'signed_in_as_user'
   let(:object) { TestTrain.new(state: :first) }
 
@@ -9,6 +9,30 @@ describe TrainController, type: :controller do
     allow(object).to receive(:create_activity)
     allow(object).to receive(:save).and_return true
     allow(object).to receive(:save!).and_return true
+  end
+
+  describe 'POST #create', story_736: true do
+    class TestObject
+      include ActiveModel::Model
+      attr_accessor :id
+      attr_accessor :test_trains
+    end
+    let(:object_test_trains) { [] }
+    let(:test_object) { TestObject.new(test_trains: object_test_trains, id: 1) }
+
+    before do
+      allow(TestObject).to receive(:find).with('1').and_return test_object
+      allow(test_object).to receive(:save!)
+      request.env["HTTP_REFERER"] = root_path
+    end
+
+    context 'given an object class, id, and train class' do
+      it 'adds a new instance of the train class to the object' do
+        expect(test_object.test_trains.size).to eq 0
+        post :create, model_name: 'TestObject', id: 1, train_class: TestTrain
+        expect(test_object.test_trains.size).to eq 1
+      end
+    end
   end
 
   describe 'PATCH #transition', story_735: true do

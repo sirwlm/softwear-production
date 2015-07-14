@@ -1,7 +1,43 @@
-class TrainController < ApplicationController
+class TrainsController < ApplicationController
+  def create
+    @object = fetch_object
+    @train_class = params[:train_class].constantize
+
+    name = @train_class.model_name
+
+    if @object.try(name.collection)
+      @object.send(name.collection) << @train_class.new
+
+    elsif @object.respond_to?("#{name.element}=")
+      @object.send("#{name.element}=", @train_class.new)
+    end
+
+    @object.save!
+
+    # TODO figure out how to make a reasonable json response...
+    redirect_to :back
+  end
+
+  def show
+    @object = fetch_object
+    if @object.respond_to?(:name)
+      @title = @object.name
+    else
+      @title = @object.model_name.element.humanize
+    end
+  end
+
+  def new
+    @object = fetch_object
+    @type = params[:train_type]
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def transition
-    object_class = params[:model_name].camelize.constantize
-    @object = object_class.find(params[:id])
+    @object = fetch_object
     @event  = params[:event].to_sym
 
     unless @object.train_events.include?(@event)
@@ -23,6 +59,11 @@ class TrainController < ApplicationController
   end
 
   private
+
+  def fetch_object
+    object_class = params[:model_name].camelize.constantize
+    object_class.find(params[:id])
+  end
 
   def permitted_attributes
     p = if params[model_name]

@@ -5,6 +5,7 @@ class ImprintableTrain < ActiveRecord::Base
 
   belongs_to :job
 
+  train_type :pre_production
   train initial: :ready_to_order do
 
     success_event :some_pieces_ordered do
