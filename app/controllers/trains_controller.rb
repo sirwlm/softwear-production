@@ -29,7 +29,7 @@ class TrainsController < ApplicationController
 
   def new
     @object = fetch_object
-    @type = params[:train_type]
+    @type = params[:train_type].to_sym
 
     respond_to do |format|
       format.js

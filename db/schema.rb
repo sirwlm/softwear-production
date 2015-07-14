@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150709192349) do
+ActiveRecord::Schema.define(version: 20150714211139) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -41,6 +41,18 @@ ActiveRecord::Schema.define(version: 20150709192349) do
   end
 
   add_index "api_settings", ["slug"], name: "index_api_settings_on_slug", unique: true, using: :btree
+
+  create_table "fba_bagging_trains", force: :cascade do |t|
+    t.integer  "job_id",           limit: 4
+    t.string   "state",            limit: 255
+    t.integer  "machine_id",       limit: 4
+    t.integer  "completed_by_id",  limit: 4
+    t.datetime "scheduled_at"
+    t.decimal  "estimated_time",               precision: 10
+    t.datetime "estimated_end_at"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false

@@ -9,7 +9,7 @@
 
   <dl>
     <dt>State</dt>
-    <dd><%= object.send("human_#{object.train_machine.attribute}_name") %></dd>
+    <dd class='<%= object.class.name.underscore %>_<%= object.id %>_current_state'><%= object.send("human_#{object.train_machine.attribute}_name") %></dd>
   </dl>
   <%= capture(&block) if local_assigns[:block] %>
 
