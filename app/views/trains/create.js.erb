@@ -1,0 +1,12 @@
+var container = $('.<%= Train.type_of(@train_class) %>_trains');
+var addTrainButton = container.find('.add-train-btn');
+var newEntry = $("<%=j train_entry(@new_train) %>");
+
+if (addTrainButton.length > 0) {
+  addTrainButton.before(newEntry);
+}
+else {
+  container.append(newEntry);
+}
+
+$('#contentModal').modal('hide');

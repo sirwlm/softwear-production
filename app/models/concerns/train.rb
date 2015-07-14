@@ -25,6 +25,13 @@ module Train
     Thread.main[:train_types] = value
   end
 
+  def self.type_of(train_class)
+    train_types.each do |type, classes|
+      return type if classes.include?(train_class)
+    end
+    nil
+  end
+
   def self.available_trains_of_type(type, record)
     return [] unless Train.train_types.key?(type)
 

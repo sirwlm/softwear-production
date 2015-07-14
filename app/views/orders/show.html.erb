@@ -9,7 +9,7 @@
   <div class="job well">
     <h4>Pre Production</h4>
 
-    <div class="trains clearfix clear-after">
+    <div class="trains pre_production_trains clearfix clear-after">
       <% Train.each_train_of_type(:pre_production, job) do |train| %>
         <%= train_entry(train) %>
       <% end %>

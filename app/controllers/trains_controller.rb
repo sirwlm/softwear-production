@@ -5,17 +5,21 @@ class TrainsController < ApplicationController
 
     name = @train_class.model_name
 
+    @new_train = @train_class.new
+
     if @object.try(name.collection)
-      @object.send(name.collection) << @train_class.new
+      @object.send(name.collection) << @new_train
 
     elsif @object.respond_to?("#{name.element}=")
-      @object.send("#{name.element}=", @train_class.new)
+      @object.send("#{name.element}=", @new_train)
     end
 
     @object.save!
 
-    # TODO figure out how to make a reasonable json response...
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
   end
 
   def show
