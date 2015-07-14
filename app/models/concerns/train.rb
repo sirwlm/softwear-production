@@ -16,6 +16,9 @@ end
 module Train
   extend ActiveSupport::Concern
 
+  cattr_accessor :train_types
+  self.train_types = {}
+
   module StateMachine
     attr_accessor :event_categories
     attr_accessor :event_params
@@ -62,6 +65,13 @@ module Train
 
   included do
     cattr_accessor :train_machine
+
+    def self.train_type(type)
+      key = type.to_sym
+      (Train.train_types[key] ||= []).tap do |t|
+        t << self unless t.include?(self)
+      end
+    end
 
     def self.train(*args, &block)
       if train_machine && train_machine.attribute != args.first

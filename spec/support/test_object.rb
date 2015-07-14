@@ -5,6 +5,8 @@ class TestTrain
   attr_accessor :state
   attr_accessor :winner_id
 
+  train_type :preproduction
+
   train :state, initial: :first do
     event :normal_success do
       transition :first => :success

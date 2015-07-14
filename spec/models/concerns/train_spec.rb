@@ -43,5 +43,39 @@ describe Train do
         end
       end
     end
+
+    context '::train_type' do
+      let(:test_class) do
+        Class.new do
+          include Train
+
+          train_type :test_type
+        end
+      end
+
+      context 'when Train.train_types has nothing in it' do
+        let!(:train_types) { {} }
+        before do
+          allow(Train).to receive(:train_types).and_return train_types
+        end
+
+        it 'creates an entry and adds its class to it' do
+          test_class
+          expect(Train.train_types).to eq(test_type: [test_class])
+        end
+      end
+
+      context 'when Train.train_types already contains the category' do
+        let!(:train_types) { { test_type:  [] } }
+        before do
+          allow(Train).to receive(:train_types).and_return train_types
+        end
+
+        it 'adds its class to the category' do
+          test_class
+          expect(Train.train_types[:test_type]).to include test_class
+        end
+      end
+    end
   end
 end
