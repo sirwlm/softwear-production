@@ -4,7 +4,15 @@ class OrdersController < InheritedResources::Base
   def index
     q = params[:q]
     @orders = Order.search do
-      fulltext q if q
+      if q
+        fulltext q[:text] unless q[:text].blank?
+
+        with(:earliest_scheduled_date).greater_than(q[:scheduled_start_at_after]) unless q[:scheduled_start_at_after].blank?
+        with(:latest_scheduled_date).less_than(q[:scheduled_start_at_before])     unless q[:scheduled_start_at_before].blank?
+        with :complete,  q[:complete]  == 'true' unless q[:complete].blank?
+        with :scheduled, q[:scheduled] == 'true' unless q[:scheduled].blank?
+      end
+
       paginate page: params[:page] || 1
     end
       .results

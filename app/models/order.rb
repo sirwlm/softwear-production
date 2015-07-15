@@ -9,6 +9,11 @@ class Order < ActiveRecord::Base
 
   searchable do
     text :name, :job_names, :imprint_names, :imprint_descriptions
+
+    boolean(:complete) { complete? }
+    boolean(:scheduled) { scheduled? }
+    time :earliest_scheduled_date
+    time :latest_scheduled_date
   end
 
   %w(job_names imprint_names imprint_descriptions).each do |name|
@@ -19,5 +24,21 @@ class Order < ActiveRecord::Base
         #{split.first.pluralize}.pluck(:#{split.last.singularize}).join(' ')
       end
     RUBY
+  end
+
+  def complete?
+    imprints.all?(&:completed?)
+  end
+
+  def scheduled?
+    imprints.all?(&:scheduled?)
+  end
+
+  def earliest_scheduled_date
+    imprints.pluck(:scheduled_at).compact.min
+  end
+
+  def latest_scheduled_date
+    imprints.pluck(:scheduled_at).compact.max
   end
 end
