@@ -54,7 +54,7 @@ class TrainsController < ApplicationController
       @object.create_activity(
         action:     :transition,
         parameters: public_activity_params,
-        owner:      current_user
+        owner:      public_activity_owner
       )
     end
     unless @object.update_attributes(permitted_attributes)
@@ -85,16 +85,26 @@ class TrainsController < ApplicationController
   end
 
   def public_activity_params
-    p = {}
-    p[:event] = @event
+    return @public_activity_params unless @public_activity_params.nil?
+
+    @public_activity_params = {}
+    @public_activity_params[:event] = @event
     if params[:public_activity]
       if extra = @object.train_machine.event_public_activity[@event.to_sym]
         extra.each do |key, type|
           val = params[:public_activity][key]
-          p[key] = val if val
+          @public_activity_params[key] = val if val
         end
       end
     end
-    p
+    @public_activity_params
+  end
+
+  def public_activity_owner
+    if params[:public_activity].nil? || params[:public_activity][:owner_id].nil?
+      current_user
+    else
+      User.find params[:public_activity][:owner_id]
+    end
   end
 end

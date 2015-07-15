@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe TrainsController, type: :controller do
   include_context 'signed_in_as_user'
+  let(:other_user) { create(:user) }
   let(:object) { TestTrain.new(state: :first) }
 
   before do
@@ -88,6 +89,16 @@ describe TrainsController, type: :controller do
             owner: user
           )
         patch :transition, model_name: 'test_train', id: 1, event: :broadcast, public_activity: { message: 'hey' }, format: :js
+      end
+
+      it 'assigns owner to User.find params[:public_activity][:owner_id]' do
+        expect(object).to receive(:create_activity)
+          .with(
+            action: :transition,
+            parameters: { event: :broadcast, message: 'hey' },
+            owner: other_user
+          )
+        patch :transition, model_name: 'test_train', id: 1, event: :broadcast, public_activity: { message: 'hey', owner_id: other_user.id }, format: :js
       end
     end
   end

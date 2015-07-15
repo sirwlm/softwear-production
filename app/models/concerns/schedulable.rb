@@ -1,7 +1,25 @@
 module Schedulable
   extend ActiveSupport::Concern
 
+  def self.schedulable_classes
+    Thread.main[:schedulable_classes] ||= []
+  end
+  def self.schedulable_classes=(value)
+    Thread.main[:schedulable_classes] = value
+  end
+
+  %i(scheduled unscheduled machineless ready_to_schedule).each do |scope|
+    define_singleton_method "all_#{scope}" do |&block|
+      schedulable_classes.flat_map do |c|
+        (block ? block.call(c) : c).send(scope)
+      end
+    end
+  end
+
   included do
+    Schedulable.schedulable_classes.delete_if { |c| c.name == name }
+    Schedulable.schedulable_classes << self
+
     scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
     scope :unscheduled, -> { where(scheduled_at: nil) }
     scope :machineless, -> { where(machine_id: nil) }
@@ -11,6 +29,10 @@ module Schedulable
     belongs_to :completed_by, class_name: 'User'
 
     before_save :assign_estimated_end_at
+  end
+
+  def display
+    try(:name) || 'Unknown event'
   end
 
   def event_id
@@ -48,5 +70,4 @@ module Schedulable
   def machine_name
     machine.try(:name) || 'Not Assigned'
   end
-
 end

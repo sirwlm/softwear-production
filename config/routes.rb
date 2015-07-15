@@ -31,6 +31,8 @@ SoftwearProduction::Application.routes.draw do
     end
   end
 
+  resources :fba_bagging_trains, only: [:show, :update]
+
   resources :api_settings
   resources :jobs
 

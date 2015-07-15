@@ -22,6 +22,10 @@ module CalendarEventController
 
   protected
 
+  def calendar_event_params(*others)
+    ([:estimated_time, :scheduled_at, :machine_id, :completed_at] + others).uniq
+  end
+
   def move_event_to_table_name_in_params
     if params[:event]
       params[resource_class.table_name.singularize] = params[:event]
