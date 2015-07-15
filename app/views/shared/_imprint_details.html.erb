@@ -1,4 +1,4 @@
-<h2>Details</h2>  
+<h2>Details</h2>
 <dl>
   <dt>Description</dt>
   <dd><%= imprint.description %></dd>
@@ -12,7 +12,11 @@
     Machine
   </dt>
   <dd>
-    <%= imprint.machine_name %>
+    <% if current_user.admin? %>
+      <%= editable imprint, :machine_id, type: :select, data: { source: Machine.all.map { |m| { m.id => m.name } } } %>
+    <% else %>
+      <%= imprint.machine_name %>
+    <% end %>
   </dd>
   <dt>Type</dt>
   <dd><%= imprint.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>

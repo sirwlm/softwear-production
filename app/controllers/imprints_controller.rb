@@ -118,6 +118,8 @@ class ImprintsController < InheritedResources::Base
   end
 
   def imprint_params
+    if params[:screen_print] then params[:imprint] = params[:screen_print]
+    elsif params[:print]     then params[:imprint] = params[:print] end
     params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at, :job_id,
                                     :type, :count, :require_manager_signoff)
   end

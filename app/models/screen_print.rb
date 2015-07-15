@@ -63,4 +63,7 @@ class ScreenPrint < Imprint
   def self.model_name
     Imprint.model_name
   end
+  def model_name
+    Imprint.model_name
+  end
 end

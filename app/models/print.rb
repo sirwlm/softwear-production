@@ -7,7 +7,7 @@ class Print < Imprint
       transition :pending_approval => :ready_to_print
     end
 
-    event :at_the_press do 
+    event :at_the_press do
       transition :ready_to_print => :in_production
     end
 
@@ -17,6 +17,9 @@ class Print < Imprint
   end
 
   def self.model_name
+    Imprint.model_name
+  end
+  def model_name
     Imprint.model_name
   end
 
