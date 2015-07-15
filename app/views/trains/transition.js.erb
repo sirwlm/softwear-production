@@ -1,0 +1,11 @@
+var e = $('#train-<%= @object.model_name.element %>-<%= @object.id %>');
+<% if @error %>
+  e.find('.transition-error').html("<%=j @error %>").show();
+<% else %>
+  e.find('.transition-error').hide();
+  e.find('.current-state').text("<%=j train_state_of(@object).human_name.titleize %>");
+  e.find('.train-categories').html("<%=j render 'shared/train_categories', object: @object %>");
+
+  $('.<%=j @object.class.name.underscore %>_<%= @object.id %>_current_state')
+    .text('<%=j @object.send("human_#{@object.train_machine.attribute}_name") %>');
+<% end %>

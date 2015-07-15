@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629150301) do
+ActiveRecord::Schema.define(version: 20150714211139) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -41,6 +41,18 @@ ActiveRecord::Schema.define(version: 20150629150301) do
   end
 
   add_index "api_settings", ["slug"], name: "index_api_settings_on_slug", unique: true, using: :btree
+
+  create_table "fba_bagging_trains", force: :cascade do |t|
+    t.integer  "job_id",           limit: 4
+    t.string   "state",            limit: 255
+    t.integer  "machine_id",       limit: 4
+    t.integer  "completed_by_id",  limit: 4
+    t.datetime "scheduled_at"
+    t.decimal  "estimated_time",               precision: 10
+    t.datetime "estimated_end_at"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
@@ -78,7 +90,7 @@ ActiveRecord::Schema.define(version: 20150629150301) do
     t.string   "state",                   limit: 255
     t.string   "type",                    limit: 255
     t.integer  "count",                   limit: 4
-    t.boolean  "require_manager_signoff", limit: 1
+    t.boolean  "require_manager_signoff"
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
@@ -129,14 +141,6 @@ ActiveRecord::Schema.define(version: 20150629150301) do
     t.datetime "updated_at"
   end
 
-  create_table "trains", force: :cascade do |t|
-    t.string   "kind",           limit: 255
-    t.integer  "trainable_id",   limit: 4
-    t.string   "trainable_type", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
     t.string   "encrypted_password",     limit: 255, default: "", null: false
@@ -157,7 +161,7 @@ ActiveRecord::Schema.define(version: 20150629150301) do
     t.datetime "deleted_at"
     t.string   "first_name",             limit: 255
     t.string   "last_name",              limit: 255
-    t.boolean  "admin",                  limit: 1
+    t.boolean  "admin"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

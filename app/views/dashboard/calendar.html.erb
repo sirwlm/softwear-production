@@ -19,11 +19,8 @@
              <%= "style='display: none;'".html_safe unless session[:show_machines].try(:[], machine.id.to_s) %>>
           <h4 align='center'><%= machine.name %></h4>
 
-          <% machine.imprints.unscheduled.each do |imprint| %>
-            <%= render 'machines/unscheduled_entry.html.erb', event: imprint %>
-          <% end %>
-          <% machine.maintenances.unscheduled.each do |maintenance| %>
-            <%= render 'machines/unscheduled_entry.html.erb', event: maintenance %>
+          <% Schedulable.all_unscheduled { |c| c.where(machine_id: machine.id) }.each do |event| %>
+            <%= render 'machines/unscheduled_entry.html.erb', event: event %>
           <% end %>
 
         </div>
@@ -32,11 +29,8 @@
         <div class='event-receiver unscheduled-imprints no-machine' data-no-machine='true'>
           <h4 align='center'>No Machine</h4>
 
-          <% Imprint.unscheduled.machineless.each do |imprint| %>
-            <%= render 'machines/unscheduled_entry.html.erb', event: imprint %>
-          <% end %>
-          <% Maintenance.unscheduled.machineless.each do |maintenance| %>
-            <%= render 'machines/unscheduled_entry.html.erb', event: maintenance %>
+          <% Schedulable.all_unscheduled(&:machineless).each do |event| %>
+            <%= render 'machines/unscheduled_entry.html.erb', event: event %>
           <% end %>
 
         </div>

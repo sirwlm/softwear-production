@@ -1,0 +1,9 @@
+<div id='train-<%= object.model_name.element %>-<%= object.id %>'>
+  <p class='transition-error alert alert-danger' style='display: none'></p>
+
+  <p class="alert alert-info alert-dismissable transition-alert">Current State: <b class='current-state'><%= train_state_of(object).human_name.titleize %></b></p>
+
+  <div class='row train-categories'>
+    <%= render 'shared/train_categories', object: object %>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+$('#contentModal .modal-title').html("<%=j @title %>");
+$('#contentModal .modal-body').html("<%=j render('trains/view', object: @object) %>");
+$('#contentModal .modal-dialog').css('width', '90%');
+$('#contentModal').modal('show');
+$('#contentModalSaveChanges').hide();
+
+<% if current_user.admin? %>
+  $('.editable').editable({
+    ajaxOptions: { dataType: 'script' }
+  });
+<% end %>
+
+<% if local_assigns[:refresh] %>
+  if (window.calendarMatcher) {
+    $(window.calendarMatcher).fullCalendar(
+      'removeEvents', <%= @object.event_id %>
+    );
+    $(window.calendarMatcher).fullCalendar(
+      'renderEvent', JSON.parse("<%=j render(partial: 'machines/calendar_entry', locals: { event: @object }, formats: [:json]).html_safe %>")
+    );
+  }
+<% end %>

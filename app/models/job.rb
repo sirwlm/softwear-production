@@ -2,11 +2,12 @@ class Job < ActiveRecord::Base
   # include CrmCounterpart
 
   has_one :imprintable_train
+  has_many :fba_bagging_trains
   has_many :imprints
   belongs_to :order
 
   validates :imprintable_train,  presence: true
- 
+
   accepts_nested_attributes_for :imprints, allow_destroy: true
 
   before_validation :assign_imprintable_train

@@ -1,6 +1,15 @@
 class OrdersController < InheritedResources::Base
   respond_to :html, :js
 
+  def index
+    q = params[:q]
+    @orders = Order.search do
+      fulltext q if q
+      paginate page: params[:page] || 1
+    end
+      .results
+  end
+
   private
 
   def permitted_params

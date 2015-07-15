@@ -1,0 +1,16 @@
+<h1><%= @title %></h1>
+
+<%= render partial: 'view', object: @object %>
+
+<div class="col-xs-12">
+  <h2>Activity</h2>
+
+  <% if @object.respond_to?(:activities) %>
+    <div id="activities">
+      <%= render_activities(@object.activities.order(created_at: :desc)) %>
+    </div>
+  <% else %>
+    This type of train does not use public activity.
+  <% end %>
+</div>
+

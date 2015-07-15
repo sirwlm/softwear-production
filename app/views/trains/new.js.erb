@@ -1,0 +1,4 @@
+$('#contentModal .modal-body').html("<%=j render 'select', object: @object, train_type: @type, container: @container %>");
+$('#contentModal .modal-title').html('Select <%=j @type.to_s.humanize %> Train');
+$('#contentModal').modal('show');
+$('#contentModalSaveChanges').hide();

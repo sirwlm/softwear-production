@@ -44,6 +44,6 @@ class MaintenancesController < InheritedResources::Base
   end
 
   def maintenance_params
-    params.require(:maintenance).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at)
+    params.require(:maintenance).permit(calendar_event_params(:name, :description))
   end
 end

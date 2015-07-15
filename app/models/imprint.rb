@@ -22,9 +22,6 @@ class Imprint < ActiveRecord::Base
   belongs_to :job
   has_one :order, through: :job
 
-
-  tracked only: [:transition]
-
   searchable do
     text :full_name, :description
     integer :completed_by_id
@@ -99,7 +96,7 @@ class Imprint < ActiveRecord::Base
   def job_name
     self.job.name rescue 'n/a'
   end
-  
+
   def order_name
     self.order.name rescue 'n/a'
   end

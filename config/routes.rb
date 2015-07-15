@@ -31,6 +31,8 @@ SoftwearProduction::Application.routes.draw do
     end
   end
 
+  resources :fba_bagging_trains, only: [:show, :update]
+
   resources :api_settings
   resources :jobs
 
@@ -50,4 +52,9 @@ SoftwearProduction::Application.routes.draw do
   resources :users, only: [:index, :new, :edit, :update, :destroy, :patch]
   post '/users/create_user', to: 'users#create', controller: 'users', as: :create_user
   delete '/users/delete_user/:id', to: 'users#destroy', controller: 'users', as: :destroy_user
+
+  resources :trains, only: :create
+  patch '/:model_name/:id/transition_to/:event', to: 'trains#transition', as: :transition_train
+  get '/:model_name/:id/new_train/:train_type', to: 'trains#new', as: :new_train
+  get '/:model_name/:id/train', to: 'trains#show', as: :show_train
 end

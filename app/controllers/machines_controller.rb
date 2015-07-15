@@ -34,7 +34,7 @@ class MachinesController < InheritedResources::Base
       machine_id = []
     end
 
-    @calendar_events = Sunspot.search(Imprint, Maintenance) do
+    @calendar_events = Sunspot.search(*Schedulable.schedulable_classes) do
       with :scheduled_at, time_start..time_end
       with :machine_id, machine_id
     end

@@ -1,6 +1,9 @@
 class Maintenance < ActiveRecord::Base
+  include PublicActivity::Model
   include ColorUtils
   include Schedulable
+
+  tracked only: [:transition]
 
   validates :machine, presence: { message: 'must be present in order to schedule a maintenance', allow_blank: false }, if: :scheduled?
   validates :name, :description, presence: true

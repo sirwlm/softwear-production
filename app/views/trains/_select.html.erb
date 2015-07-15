@@ -1,0 +1,9 @@
+<%= form_tag trains_path, method: :post, remote: true do %>
+  <%= hidden_field_tag :model_name, object.class.name %>
+  <%= hidden_field_tag :id, object.id %>
+  <%= hidden_field_tag :container, container if local_assigns[:container] %>
+
+  <%= select_tag :train_class, options_for_select(Train.available_trains_of_type(train_type, object).map(&:name)), class: 'form-control' %>
+
+  <%= button_tag 'Create Train', class: 'btn btn-primary' %>
+<% end %>
