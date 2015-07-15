@@ -2,6 +2,7 @@ class TrainsController < ApplicationController
   def create
     @object = fetch_object
     @train_class = params[:train_class].constantize
+    @container = params[:container]
 
     name = @train_class.model_name
 
@@ -34,6 +35,7 @@ class TrainsController < ApplicationController
   def new
     @object = fetch_object
     @type = params[:train_type].to_sym
+    @container = params[:container]
 
     respond_to do |format|
       format.js

@@ -27,7 +27,7 @@ class FbaBaggingTrain < ActiveRecord::Base
   end
 
   def display
-    "#{'(COMPLETE)' if completed?}FBA BAGGING: #{job.name}"
+    "#{'(COMPLETE) ' if completed?}FBA BAGGING: #{job.name}"
   end
 
   def calendar_color

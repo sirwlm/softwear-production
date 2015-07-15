@@ -7,9 +7,13 @@ module TrainHelper
     "#{object.class.model_name.element}[#{field}]"
   end
 
-  def link_to_add_train(object, train_type)
+  def link_to_add_train(object, train_type, container = nil)
     content_tag(:div, class: 'well col-xs-1 add-train-btn') do
-      link_to '+', new_train_path(object, train_type), remote: :true, class: 'btn btn-xl btn-success'
+      url = new_train_path(object, train_type)
+      if container
+        url += URI.encode "?container=#{container}"
+      end
+      link_to '+', url, remote: :true, class: 'btn btn-xl btn-success', data: { container: container }
     end
   end
 
