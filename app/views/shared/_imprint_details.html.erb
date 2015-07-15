@@ -1,0 +1,24 @@
+<h2>Details</h2>  
+<dl>
+  <dt>Description</dt>
+  <dd><%= imprint.description %></dd>
+  <% if imprint.scheduled? %>
+      <dt>Scheduled At</dt>
+      <dd><%= imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= imprint.estimated_time %>hrs</dd>
+  <% else %>
+      <dt>Unscheduled</dt>
+  <% end %>
+  <dt>
+    Machine
+  </dt>
+  <dd>
+    <%= imprint.machine_name %>
+  </dd>
+  <dt>Type</dt>
+  <dd><%= imprint.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>
+  <dt>Count</dt>
+  <dd><%= imprint.count %></dd>
+</dl>
+  <% if imprint.completed? %>
+    <%= render 'imprints/completed_info', imprint: imprint %>
+  <% end %>
