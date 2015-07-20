@@ -3,6 +3,7 @@ require 'spec_helper'
 feature 'Imprints' do
 
   given(:print) { create(:print) }
+  given(:order) { create(:order) }
  
   context "as an admin" do 
     include_context 'logged_in_as_admin'
@@ -35,7 +36,9 @@ feature 'Imprints' do
       end
       click_button 'Create Order'
       sleep 1
-      click_link "An imprint"
+      within('.imprints') do
+        click_link "Show Full Details"
+      end
       expect(page).to have_content 'This Imprint Requires Signoff' 
     end
   end

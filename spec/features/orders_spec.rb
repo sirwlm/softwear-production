@@ -24,7 +24,9 @@ feature 'Orders' do
     click_button 'Create Order'
     sleep 1
     expect(page).to have_content 'Test Order'
-    click_link "An imprint"
+    within('.imprints') do
+      click_link "Show Full Details"
+    end
     sleep 1
     expect(page).to have_content "An imprint"
   end
@@ -114,6 +116,7 @@ feature 'Orders' do
       end
 
       click_button 'Bagged'
+      sleep 1
       expect(page).to have_content 'Current State: Bagged'
       click_button 'Close'
       expect(page).to have_content 'State bagged'
