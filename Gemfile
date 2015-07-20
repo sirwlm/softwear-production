@@ -41,7 +41,7 @@ gem 'friendly_id', '~> 5.0.0'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'sunspot_matchers'
-gem 'select2-rails', git: 'git@github.com:argerim/select2-rails'
+gem 'select2-rails', git: 'git://github.com/argerim/select2-rails'
 gem 'public_activity', github: 'AnnArborTees/public_activity'
 
 # === BEGIN SOFTWEAR LIB GEMS === #
