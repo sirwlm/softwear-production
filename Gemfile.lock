@@ -46,7 +46,7 @@ GIT
       sshkit (~> 1.2)
 
 GIT
-  remote: git@github.com:argerim/select2-rails
+  remote: git://github.com/argerim/select2-rails
   revision: 2cf2c1645b02e061f136ecd136d9ee0c2c9d25ae
   specs:
     select2-rails (3.5.9.3)
