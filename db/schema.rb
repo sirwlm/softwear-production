@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721193820) do
-
+ActiveRecord::Schema.define(version: 20150721193947) do
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
     t.string   "trackable_type", limit: 255
@@ -129,6 +128,7 @@ ActiveRecord::Schema.define(version: 20150721193820) do
     t.datetime "updated_at"
     t.datetime "deadline"
     t.string   "name",            limit: 255
+    t.boolean  "fba"
   end
 
   create_table "screens", force: :cascade do |t|

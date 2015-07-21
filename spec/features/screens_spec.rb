@@ -27,8 +27,9 @@ feature 'Screen Features', js: true do
         expect(page).not_to have_content "Current State is Ready To Reclaim"
       end
 
-      scenario 'can advance broken state' do
+      scenario 'can advance broken state', retry: 3 do
         scan_barcode('screen-id', s1.id)
+        sleep 1
         click_link 'Broke'
         sleep 1.0
         select user.email, from: "user_id"
