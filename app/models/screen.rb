@@ -101,9 +101,9 @@ class Screen < ActiveRecord::Base
 
   def self.dry_screens
     intervals = {
-        reclaimed_and_drying: 15.minutes,
+        reclaimed_and_drying: 1.hour,
         coated_and_drying: 30.minutes,
-        washed_out_and_drying: 20.minutes
+        washed_out_and_drying: 10.minutes
     }
     intervals.each do |state, interval|
       screens = Screen.where(state: state)
