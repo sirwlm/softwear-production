@@ -2,11 +2,13 @@ class Order < ActiveRecord::Base
   # include CrmCounterpart
   has_many :jobs
   has_many :imprints, through: :jobs
-  has_many :fba_bagging_trains
+  has_one :fba_bagging_train
 
   validates :name, :jobs,  presence: true
 
   accepts_nested_attributes_for :jobs, allow_destroy: true
+
+  after_save :add_fba_bagging_train
 
   searchable do
     text :name, :job_names, :imprint_names, :imprint_descriptions
@@ -41,5 +43,11 @@ class Order < ActiveRecord::Base
 
   def latest_scheduled_date
     imprints.pluck(:scheduled_at).compact.max
+  end
+
+  def add_fba_bagging_train
+    if fba_bagging_train.blank? && fba?
+      self.fba_bagging_train = FbaBaggingTrain.new
+    end
   end
 end
