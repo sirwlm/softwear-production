@@ -63,6 +63,7 @@ feature 'Orders' do
       end
     end
     click_button 'Update Order'
+    sleep 2
     order.reload
     expect(order.jobs.size).to eq 2
     expect(order.jobs.first.name).to eq 'New Job Name'

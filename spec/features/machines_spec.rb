@@ -23,6 +23,7 @@ feature 'Machine Features', js: true, machine_spec: true, story_113: true do
       click_link 'Edit'
       fill_in 'Name', with: 'New Machine Name'
       click_button 'Update Machine'
+      sleep 1
       expect(Machine.where(name: 'New Machine Name')).to exist
       expect(page).to have_css('div.alert-success')
     end
@@ -30,6 +31,7 @@ feature 'Machine Features', js: true, machine_spec: true, story_113: true do
     scenario 'A user can destroy a machine' do
       visit machines_path
       click_link 'Destroy'
+      sleep 1
       page.driver.browser.switch_to.alert.accept
       wait_for_ajax
       expect(page).to have_css('div.alert-success')
