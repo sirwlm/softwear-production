@@ -1,3 +1,4 @@
+require 'softwear/lib'
 lock '3.2.1'
 
 set :application, 'softwear-production'
