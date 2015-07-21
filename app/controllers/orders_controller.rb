@@ -22,7 +22,7 @@ class OrdersController < InheritedResources::Base
 
   def permitted_params
     params.permit(order: [
-      :name, :deadline,
+      :name, :deadline, :fba,
       jobs_attributes: [
         :name, :id, :_destroy,
         imprints_attributes: [
