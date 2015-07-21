@@ -57,4 +57,16 @@ module ApplicationHelper
       'container'
     end
   end
+
+  def date_field_tag(*args)
+    unless args.last.is_a?(Hash)
+      args << {}
+    end
+    if args.last[:class].is_a?(String)
+      args.last[:class] += ' datetimepicker-standard'
+    else
+      args.last[:class] ||= 'datetimepicker-standard'
+    end
+    text_field_tag(*args)
+  end
 end

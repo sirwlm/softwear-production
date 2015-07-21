@@ -4,6 +4,9 @@ $('#contentModal .modal-dialog').css('width', '90%');
 $('#contentModal').modal('show');
 $('#contentModalSaveChanges').hide();
 
+datetimepickerInit();
+datepickerInit();
+
 <% if current_user.admin? %>
   $('.editable').editable({
     ajaxOptions: { dataType: 'script' }
