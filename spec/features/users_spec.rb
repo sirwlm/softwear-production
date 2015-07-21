@@ -32,13 +32,6 @@ feature 'Users', user_spec: true, js: true, story_115: true do
       click_button 'Update'
       expect(page).to have_content 'Hooray! Your account has been updated successfully.'
     end
-
-    scenario 'a user can log out' do
-      visit root_path
-      click_link user.full_name
-      click_link 'Log Out'
-      expect(current_path).to eq '/users/sign_in'
-    end
   end
 
   context 'when logged in as admin', story_116: true do
