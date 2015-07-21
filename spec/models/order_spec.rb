@@ -30,6 +30,22 @@ describe Order do
     end
   end
 
+  describe 'fba_bagging_train' do
+    let(:not_fba) { create(:order, fba: false, jobs: [create(:job)]) }
+
+    context 'when fba is set to true on an order' do
+      it 'is blank when fba is false' do
+        expect(not_fba.fba_bagging_train).to be_blank
+      end
+      it 'is not blank after fba is set to true' do
+        not_fba.fba = true
+        not_fba.save
+        expect(not_fba.fba_bagging_train).not_to be_blank
+      end
+    end
+
+  end
+
   describe '#scheduled?' do
     let(:scheduled_imprint) { double('Imprint', scheduled?: true) }
     let(:unscheduled_imprint) { double('Imprint', scheduled?: false) }
