@@ -21,7 +21,14 @@ RSpec.configure do |config|
 
   # Use chrome instead of firefox.
   Capybara.register_driver :selenium do |app|
-    Capybara::Selenium::Driver.new(app, :browser => :chrome)
+    if ENV['CI'] == 'true'
+      args = ['--no-default-browser-check', '--no-sandbox', '--no-first-run', '--disable-default-apps']
+    else
+      args = []
+    end
+    client = Selenium::WebDriver::Remote::Http::Default.new
+    client.timeout = 360
+    Capybara::Selenium::Driver.new(app, browser: :chrome, args: args, http_client: client)
   end
 
   # A workaround to deal with random failure caused by phantomjs. Turn it on

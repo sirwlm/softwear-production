@@ -103,7 +103,7 @@ feature 'Orders' do
       expect(page).to have_content 'State ready to bag'
     end
 
-    scenario 'I can advance the state of an FBA Bagging Train', story_737: true do
+    scenario 'I can advance the state of an FBA Bagging Train', story_737: true, retry: 3 do
       job = Job.create(name: 'Test Job')
       job.imprints = [create(:imprint, name: 'The Imprint')]
       job.fba_bagging_trains << FbaBaggingTrain.new
@@ -115,6 +115,7 @@ feature 'Orders' do
         click_link 'Show Full Details'
       end
 
+      sleep 1
       click_button 'Bagged'
       sleep 1
       expect(page).to have_content 'Current State: Bagged'
