@@ -11,7 +11,7 @@ class ImprintableTrain < ActiveRecord::Base
   train_type :pre_production
   train initial: :ready_to_order do
 
-    success_event :some_pieces_ordered, public_activity: { supplier: :text_field, location: :text_field, estimated_arrival_date: :text_field } do
+    success_event :some_pieces_ordered, public_activity: { supplier: :text_field, location: :text_field, estimated_arrival_date: :date_field } do
       transition [:ready_to_order, :partially_ordered] => :partially_ordered
     end
 
