@@ -16,6 +16,7 @@
     <div class='col-sm-12'>
       <%= nested_form_for order, role: 'form', builder: BootstrapForm::FormBuilder do |f| %>
         <div class='control-group'>
+          <%= f.check_box :fba, class: 'form-control', label: 'FBA?' %>
           <%= f.text_field :name, class: 'form-control' %>
           <%= f.text_field :deadline, class: 'form-control datetimepicker-standard', value: order.deadline %>
         </div>
