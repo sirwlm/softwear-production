@@ -3,55 +3,83 @@
 <br clear="all" />
 <h2>Deadline: <%= @order.try(:deadline).try(:strftime, '%F') %></h2>
 
-<div class="col-xs-12">
-<% @order.jobs.each do |job| %>
-<h3>Job: <%= job.name %></h3>
-  <div id='job-<%= job.id %>' class="job well">
-    <h4>Pre Production</h4>
+<div id='order-pre-production' class='row'>
+  <div class='well pre_production_trains'>
+    <h4>Order Pre Production</h4>
+    <% Train.each_train_of_type(:pre_production, @order) do |train| %>
+      <%= train_entry(train) %>
+    <% end %>
 
-    <div class="trains pre_production_trains clearfix clear-after">
-      <% Train.each_train_of_type(:pre_production, job) do |train| %>
-        <%= train_entry(train) %>
-      <% end %>
-
-      <% unless Train.available_trains_of_type(:pre_production, job).empty? %>
-        <%= link_to_add_train(job, :pre_production, "#job-#{job.id}") %>
-      <% end %>
-    </div>
-
-    <h4>Production</h4>
-
-    <div class='imprints clearfix clear-after'>
-      <% job.imprints.each do |imprint| %>
-        <div class='col-sm-4 well'>
-        <h4><%= imprint.name %></h4>
-          <dl>
-            <dt>State</dt>
-            <dd><%= imprint.state.humanize %></dd>
-          </dl>
-
-          <%= render 'shared/imprint_details', imprint: imprint %>
-          insert imprint details here
-          <p>
-            <%= link_to "Show Full Details", imprint_path(imprint), class: 'btn btn-primary' %>
-          </p>
-        </div>
-      <% end %>
-    </div>
-
-    <h4>Post Production</h4>
-
-    <div class='trains post_production_trains clearfix clear-after'>
-      <% Train.each_train_of_type(:post_production, job) do |train| %>
-        <%= train_entry(train) %>
-      <% end %>
-
-      <% unless Train.available_trains_of_type(:post_production, job).empty? %>
-        <%= link_to_add_train(job, :post_production, "#job-#{job.id}") %>
-      <% end %>
-    </div>
-
+    <% unless Train.available_trains_of_type(:pre_production, @order).empty? %>
+      <%= link_to_add_train(@order, :pre_production, "#order-pre-production") %>
+    <% end %>
   </div>
-<% end %>
+</div>
 
+<div class="col-xs-12">
+  <% @order.jobs.each do |job| %>
+    <h3>Job: <%= job.name %></h3>
+    <div id='job-<%= job.id %>' class="job well">
+      <h4>Pre Production</h4>
+
+      <div class="trains pre_production_trains clearfix clear-after">
+        <% Train.each_train_of_type(:pre_production, job) do |train| %>
+          <%= train_entry(train) %>
+        <% end %>
+
+        <% unless Train.available_trains_of_type(:pre_production, job).empty? %>
+          <%= link_to_add_train(job, :pre_production, "#job-#{job.id}") %>
+        <% end %>
+      </div>
+
+      <h4>Production</h4>
+
+      <div class='imprints clearfix clear-after'>
+        <% job.imprints.each do |imprint| %>
+          <div class='col-sm-4 well'>
+          <h4><%= imprint.name %></h4>
+            <dl>
+              <dt>State</dt>
+              <dd><%= imprint.state.humanize %></dd>
+            </dl>
+
+            <%= render 'shared/imprint_details', imprint: imprint %>
+            insert imprint details here
+            <p>
+              <%= link_to "Show Full Details", imprint_path(imprint), class: 'btn btn-primary' %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+
+      <h4>Post Production</h4>
+
+      <div class='trains post_production_trains clearfix clear-after'>
+        <% Train.each_train_of_type(:post_production, job) do |train| %>
+          <%= train_entry(train) %>
+        <% end %>
+
+        <% unless Train.available_trains_of_type(:post_production, job).empty? %>
+          <%= link_to_add_train(job, :post_production, "#job-#{job.id}") %>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+
+</div>
+
+<div class='clearfix'></div>
+
+<div id='order-post-production' class='row'>
+  <div class='well clearfix clear-after post_production_trains'>
+    <h4>Order Post Production</h4>
+    <% Train.each_train_of_type(:post_production, @order) do |train| %>
+      <%= train_entry(train) %>
+    <% end %>
+
+    <% unless Train.available_trains_of_type(:post_production, @order).empty? %>
+      <%= link_to_add_train(@order, :post_production, "#order-post-production") %>
+    <% end %>
+  </div>
 </div>

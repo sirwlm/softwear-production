@@ -103,15 +103,15 @@ feature 'Orders' do
       expect(page).to have_content 'State ready to bag'
     end
 
-    scenario 'I can advance the state of an FBA Bagging Train', story_737: true do
+    scenario 'I can advance the state of an FBA Bagging Train', story_765: true, story_737: true do
       job = Job.create(name: 'Test Job')
       job.imprints = [create(:imprint, name: 'The Imprint')]
-      job.fba_bagging_trains << FbaBaggingTrain.new
       order = create(:order, jobs: [job, job])
+      order.fba_bagging_trains << FbaBaggingTrain.new
 
       visit order_path(order)
 
-      within '.post_production_trains' do
+      within '#order-post-production .post_production_trains' do
         click_link 'Show Full Details'
       end
 

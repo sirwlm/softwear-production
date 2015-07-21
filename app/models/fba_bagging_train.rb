@@ -6,7 +6,7 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   tracked only: [:transition]
 
-  belongs_to :job
+  belongs_to :order
 
   before_create :set_default_machine_id
 

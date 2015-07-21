@@ -16,8 +16,6 @@ end
 module Train
   extend ActiveSupport::Concern
 
-  cattr_accessor :train_types
-
   def self.train_types
     Thread.main[:train_types] ||= {}
   end
@@ -69,7 +67,7 @@ module Train
     attr_accessor :event_public_activity
 
     # -- So that:
-    # ``` failure_event :mess_it_up ```
+    # failure_event :mess_it_up
     # -- Will add :mess_it_up to the :failure events
     def method_missing(name, *args, &block)
       if /(?<category>\w+)_event/ =~ name.to_s

@@ -33,6 +33,12 @@ class FbaBaggingTrainsController < InheritedResources::Base
     end
   end
 
+  def destroy
+    super do |format|
+      format.html { redirect_to order_path(@fba_bagging_train.order) }
+    end
+  end
+
   protected
 
   def fba_bagging_train_params

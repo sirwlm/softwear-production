@@ -13,6 +13,8 @@ class TrainsController < ApplicationController
 
     elsif @object.respond_to?("#{name.element}=")
       @object.send("#{name.element}=", @new_train)
+    else
+      raise "#{@object.class.name} appears to not have any relations for #{@train_class}"
     end
 
     @object.save!

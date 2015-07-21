@@ -2,6 +2,7 @@ class Order < ActiveRecord::Base
   # include CrmCounterpart
   has_many :jobs
   has_many :imprints, through: :jobs
+  has_many :fba_bagging_trains
 
   validates :name, :jobs,  presence: true
 
