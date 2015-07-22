@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721193947) do
+ActiveRecord::Schema.define(version: 20150722163746) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -52,6 +52,13 @@ ActiveRecord::Schema.define(version: 20150721193947) do
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
     t.integer  "order_id",         limit: 4
+  end
+
+  create_table "fba_label_trains", force: :cascade do |t|
+    t.string   "state",      limit: 255
+    t.integer  "order_id",   limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -138,14 +145,6 @@ ActiveRecord::Schema.define(version: 20150721193947) do
     t.string   "mesh_type",  limit: 255
     t.string   "state",      limit: 255
     t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "trains", force: :cascade do |t|
-    t.string   "kind",           limit: 255
-    t.integer  "trainable_id",   limit: 4
-    t.string   "trainable_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end

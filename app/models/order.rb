@@ -3,6 +3,7 @@ class Order < ActiveRecord::Base
   has_many :jobs
   has_many :imprints, through: :jobs
   has_one :fba_bagging_train
+  has_one :fba_label_train
 
   validates :name, :jobs,  presence: true
 
@@ -46,8 +47,13 @@ class Order < ActiveRecord::Base
   end
 
   def add_fba_bagging_train
-    if fba_bagging_train.blank? && fba?
+    return unless fba?
+
+    if fba_bagging_train.blank?
       self.fba_bagging_train = FbaBaggingTrain.new
+    end
+    if fba_label_train.blank?
+      self.fba_label_train = FbaLabelTrain.new
     end
   end
 end
