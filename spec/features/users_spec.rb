@@ -37,6 +37,7 @@ feature 'Users', user_spec: true, js: true, story_115: true do
       visit root_path
       click_link user.full_name
       click_link 'Log Out'
+      sleep 2
       expect(current_path).to eq '/users/sign_in'
     end
   end

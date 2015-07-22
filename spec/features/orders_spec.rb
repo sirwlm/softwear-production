@@ -88,29 +88,14 @@ feature 'Orders' do
   end
 
   describe 'trains', js: true, trains: true do
-    scenario 'I can add an FBA Bagging Train', story_737: true do
-      job = Job.create(name: 'Test Job')
-      job.imprints = [create(:imprint, name: 'The Imprint')]
-      order = create(:order, jobs: [job, job])
-
-      visit order_path(order)
-
-      click_link '+'
-
-      find('#train_class').select 'FbaBaggingTrain'
-      click_button 'Create Train'
-
-      expect(page).to have_content 'Fba bagging train'
-      expect(page).to have_content 'State ready to bag'
-    end
-
     scenario 'I can advance the state of an FBA Bagging Train', story_737: true, retry: 3 do
       job = Job.create(name: 'Test Job')
       job.imprints = [create(:imprint, name: 'The Imprint')]
-      order = create(:order, jobs: [job, job])
-      order.fba_bagging_trains << FbaBaggingTrain.new
-
+      order = create(:order, fba: true, jobs: [job, job])
+      order.add_fba_bagging_train
       visit order_path(order)
+
+      sleep 1
 
       within '#order-post-production .post_production_trains' do
         click_link 'Show Full Details'
