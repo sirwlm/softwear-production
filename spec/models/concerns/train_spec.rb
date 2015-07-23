@@ -16,6 +16,10 @@ describe Train do
       end
     end
 
+    it 'assigns the "complete_state", to the final: option passed to train', story_767: true do
+      expect(TestTrain.train_machine.complete_state).to eq :success
+    end
+
     it 'can use `success_event` and `failure_event` in its state machine' do
       expect{subject}.to_not raise_error
     end
@@ -39,6 +43,21 @@ describe Train do
 
     specify '#state_events(:failure) returns relevant events defined with failure_event' do
       expect(subject.state_events(:failure)).to eq [:messed_up]
+    end
+
+    describe '#complete?', story_767: true do
+      context 'when state is the "final" state' do
+        it 'returns true' do
+          subject.state = :success
+          expect(subject).to be_complete
+        end
+      end
+      context 'when state is not the "final" state' do
+        it 'returns false' do
+          subject.state = :failure
+          expect(subject).to_not be_complete
+        end
+      end
     end
 
     context 'event option' do

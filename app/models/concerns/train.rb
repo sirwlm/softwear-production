@@ -65,6 +65,7 @@ module Train
     attr_accessor :event_categories
     attr_accessor :event_params
     attr_accessor :event_public_activity
+    attr_accessor :complete_state
 
     # -- So that:
     # failure_event :mess_it_up
@@ -135,9 +136,12 @@ module Train
         raise "Only one train can be defined per object"
       end
 
+      final_state = args.last.try(:delete, :final)
+
       self.train_machine = StateMachines::Machine.find_or_create(self, *args)
       train_machine.instance_eval { extend Train::StateMachine }
       train_machine.instance_eval(&block)
+      train_machine.complete_state = final_state.to_sym if final_state
 
       class_eval <<-RUBY, __FILE__, __LINE__
         def #{train_machine.attribute}_events(*args)
@@ -168,5 +172,9 @@ module Train
 
   def train_machine
     self.class.train_machine
+  end
+
+  def complete?
+    send(train_machine.attribute).to_sym == train_machine.complete_state
   end
 end

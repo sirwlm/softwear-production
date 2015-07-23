@@ -7,7 +7,7 @@ class TestTrain
 
   train_type :preproduction
 
-  train :state, initial: :first do
+  train :state, initial: :first, final: :success do
     event :normal_success do
       transition :first => :success
     end
