@@ -1,0 +1,14 @@
+<h4>Group #<%= imprint_group.id %></h4>
+
+<h5>Imprints:</h5>
+<div class='well imprint-group-drop-zone' data-imprint-group-id='<%= imprint_group.id %>'>
+  <div>&lt;drop imprints here&gt;</div>
+  <ul>
+    <% imprint_group.imprints.each do |imprint| %>
+      <li>
+        <%= render 'imprint_group_entry', imprint: imprint %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<%# TODO show full details? delete group? %>

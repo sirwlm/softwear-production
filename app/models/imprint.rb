@@ -6,11 +6,6 @@ class Imprint < ActiveRecord::Base
 
   tracked only: [:transition]
 
-  scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
-  scope :unscheduled, -> { where(scheduled_at: nil) }
-  scope :machineless, -> { where(machine_id: nil) }
-  scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
-
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: proc { scheduled? && !part_of_group? }
   validate :schedule_conflict?, unless: :part_of_group?
   validates :name, :description, presence: true

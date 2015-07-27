@@ -43,6 +43,17 @@ class ImprintsController < InheritedResources::Base
     show_result
   end
 
+  def update
+    byebug
+    if params[:render] && alternate_update_views.include?(params[:render])
+      super do |format|
+        format.js { render params[:render] }
+      end
+    else
+      super
+    end
+  end
+
   def transition
     @imprint = Imprint.find(params[:id])
 
@@ -120,11 +131,18 @@ class ImprintsController < InheritedResources::Base
   def imprint_params
     if params[:screen_print] then params[:imprint] = params[:screen_print]
     elsif params[:print]     then params[:imprint] = params[:print] end
-    params.require(:imprint).permit(:name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at, :job_id,
-                                    :type, :count, :require_manager_signoff)
+
+    params.require(:imprint).permit(
+      :name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at, :job_id,
+      :type, :count, :require_manager_signoff, :imprint_group_id
+    )
   end
 
   def complete_params
     params.permit(:user_id)
+  end
+
+  def alternate_update_views
+    ['add_to_group']
   end
 end
