@@ -3,7 +3,7 @@
 <br clear="all" />
 <h2>Deadline: <%= @order.try(:deadline).try(:strftime, '%F') %></h2>
 
-<div id='order-pre-production' class='row'>
+<div id='order-pre-production' class='row clear-after'>
   <div class='well pre_production_trains'>
     <h4>Order Pre Production</h4>
     <% Train.each_train_of_type(:pre_production, @order) do |train| %>
@@ -13,60 +13,42 @@
     <% unless Train.available_trains_of_type(:pre_production, @order).empty? %>
       <%= link_to_add_train(@order, :pre_production, "#order-pre-production") %>
     <% end %>
+    <div class='clearfix'></div>
   </div>
 </div>
 
-<div class="col-xs-12">
-  <% @order.jobs.each do |job| %>
-    <h3>Job: <%= job.name %></h3>
-    <div id='job-<%= job.id %>' class="job well">
-      <h4>Pre Production</h4>
-
-      <div class="trains pre_production_trains clearfix clear-after">
-        <% Train.each_train_of_type(:pre_production, job) do |train| %>
-          <%= train_entry(train) %>
-        <% end %>
-
-        <% unless Train.available_trains_of_type(:pre_production, job).empty? %>
-          <%= link_to_add_train(job, :pre_production, "#job-#{job.id}") %>
-        <% end %>
-      </div>
-
-      <h4>Production</h4>
-
-      <div class='imprints clearfix clear-after'>
-        <% job.imprints.each do |imprint| %>
-          <div class='col-sm-4 well'>
-          <h4><%= imprint.name %></h4>
-            <dl>
-              <dt>State</dt>
-              <dd><%= imprint.state.humanize %></dd>
-            </dl>
-
-            <%= render 'shared/imprint_details', imprint: imprint %>
-            insert imprint details here
-            <p>
-              <%= link_to "Show Full Details", imprint_path(imprint), class: 'btn btn-primary' %>
-            </p>
-          </div>
-        <% end %>
-      </div>
-
-      <h4>Post Production</h4>
-
-      <div class='trains post_production_trains clearfix clear-after'>
-        <% Train.each_train_of_type(:post_production, job) do |train| %>
-          <%= train_entry(train) %>
-        <% end %>
-
-        <% unless Train.available_trains_of_type(:post_production, job).empty? %>
-          <%= link_to_add_train(job, :post_production, "#job-#{job.id}") %>
-        <% end %>
-      </div>
-
+<div class='row'>
+<% if @order.has_imprint_groups? %>
+  <div class="col-xs-8 col-lg-8" id='jobs-panel'>
+    <%= render 'jobs', order: @order %>
+  </div>
+  <div class="col-xs-4 col-lg-4" id='imprint-groups-panel'>
+    <%= render 'imprint_groups', order: @order %>
+    <div class='well'>
+      CONTENT CONTENT CONTENT CONTENT CONTENT
     </div>
-  <% end %>
+    <div class='well'>
+      CONTENT CONTENT CONTENT CONTENT CONTENT
+    </div>
 
+    <div class='well'>
+      CONTENT CONTENT CONTENT CONTENT CONTENT
+    </div>
+    <div class='well'>
+      CONTENT CONTENT CONTENT CONTENT CONTENT
+    </div>
+    <div class='well'>
+      CONTENT CONTENT CONTENT CONTENT CONTENT
+    </div>
+    <div class='well'>
+      CONTENT CONTENT CONTENT CONTENT CONTENT
+    </div>
+  </div>
+<% else %>
+  <div class="col-xs-12">
+    <%= render 'jobs', order: @order %>
+  </div>
+<% end %>
 </div>
 
 <div class='clearfix'></div>

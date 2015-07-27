@@ -1,0 +1,30 @@
+<h3>Imprint Groups</h3>
+<div class="well">
+  <div class='imprint-groups'>
+    <% @order.imprint_groups.each do |imprint_group| %>
+      <div class="well">
+        <h4>Group #<%= imprint_group.id %></h4>
+
+        <h5>Imprints:</h5>
+        <div class='well imprint-group-drop-zone'>
+          <div>&lt;drop imprints here&gt;</div>
+          <ul>
+            <% imprint_group.imprints.each do |imprint| %>
+              <li>
+                <hr />
+                <%= imprint.name %>
+                <%# TODO remove imprint from group %>
+                <%= link_to 'x', '#', remote: true, class: 'btn btn-xs btn-danger pull-right' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class=''>
+    <% # TODO new imprint group button here %>
+    <%= link_to '+', '#', remote: true, class: 'btn btn-lg btn-success' %>
+  </div>
+</div>

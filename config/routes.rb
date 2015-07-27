@@ -17,6 +17,7 @@ SoftwearProduction::Application.routes.draw do
     resources :jobs do
       resources :imprints
     end
+    resources :imprint_groups, shallow: true
   end
 
   resources :imprints, except: [:new, :create] do

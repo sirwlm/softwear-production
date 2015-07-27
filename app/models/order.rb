@@ -2,6 +2,7 @@ class Order < ActiveRecord::Base
   # include CrmCounterpart
   has_many :jobs
   has_many :imprints, through: :jobs
+  has_many :imprint_groups
   has_one :fba_bagging_train
   has_one :fba_label_train
 

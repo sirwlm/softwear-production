@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150722163746) do
+ActiveRecord::Schema.define(version: 20150724192333) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -74,6 +74,20 @@ ActiveRecord::Schema.define(version: 20150722163746) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
+  create_table "imprint_groups", force: :cascade do |t|
+    t.integer  "order_id",                limit: 4
+    t.datetime "scheduled_at"
+    t.datetime "estimated_end_at"
+    t.decimal  "estimated_time",                      precision: 10
+    t.integer  "machine_id",              limit: 4
+    t.datetime "completed_at"
+    t.integer  "completed_by_id",         limit: 4
+    t.boolean  "require_manager_signoff"
+    t.string   "type",                    limit: 255
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
   create_table "imprintable_trains", force: :cascade do |t|
     t.integer  "job_id",     limit: 4
     t.string   "state",      limit: 255
@@ -98,6 +112,7 @@ ActiveRecord::Schema.define(version: 20150722163746) do
     t.string   "type",                    limit: 255
     t.integer  "count",                   limit: 4
     t.boolean  "require_manager_signoff"
+    t.integer  "imprint_group_id",        limit: 4
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
@@ -131,12 +146,13 @@ ActiveRecord::Schema.define(version: 20150722163746) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer  "softwear_crm_id", limit: 4
+    t.integer  "softwear_crm_id",    limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deadline"
-    t.string   "name",            limit: 255
+    t.string   "name",               limit: 255
     t.boolean  "fba"
+    t.boolean  "has_imprint_groups"
   end
 
   create_table "screens", force: :cascade do |t|

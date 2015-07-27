@@ -1,0 +1,13 @@
+<div class='draggable-imprint col-sm-4 well'>
+  <h4><%= imprint.name %></h4>
+  <dl>
+    <dt>State</dt>
+    <dd><%= imprint.state.humanize %></dd>
+  </dl>
+
+  <%= render 'shared/imprint_details', imprint: imprint %>
+  insert imprint details here
+  <p>
+    <%= link_to "Show Full Details", imprint_path(imprint), class: 'btn btn-primary' %>
+  </p>
+</div>

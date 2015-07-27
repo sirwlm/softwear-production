@@ -11,8 +11,8 @@ class Imprint < ActiveRecord::Base
   scope :machineless, -> { where(machine_id: nil) }
   scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
 
-  validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: :scheduled?
-  validate :schedule_conflict?
+  validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: proc { scheduled? && !part_of_group? }
+  validate :schedule_conflict?, unless: :part_of_group?
   validates :name, :description, presence: true
   validates :count, presence: true, numericality: { greater_than: 0 }
 
@@ -20,6 +20,7 @@ class Imprint < ActiveRecord::Base
   before_save :reset_state_when_type_changed
 
   belongs_to :job
+  belongs_to :imprint_group
   has_one :order, through: :job
 
   searchable do
@@ -34,6 +35,10 @@ class Imprint < ActiveRecord::Base
       !scheduled_at.nil?
     end
     integer :machine_id
+  end
+
+  def part_of_group?
+    !imprint_group_id.nil?
   end
 
   def approved?

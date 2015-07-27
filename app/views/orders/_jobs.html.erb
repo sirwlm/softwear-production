@@ -1,0 +1,41 @@
+<% order.jobs.each do |job| %>
+  <h3>Job: <%= job.name %></h3>
+  <div id='job-<%= job.id %>' class="job well">
+    <h4>Pre Production</h4>
+
+    <div class="trains pre_production_trains clearfix clear-after">
+      <% Train.each_train_of_type(:pre_production, job) do |train| %>
+        <%= train_entry(train) %>
+      <% end %>
+
+      <% unless Train.available_trains_of_type(:pre_production, job).empty? %>
+        <%= link_to_add_train(job, :pre_production, "#job-#{job.id}") %>
+      <% end %>
+    </div>
+
+    <h4>Production</h4>
+
+    <div class='imprints clearfix clear-after'>
+      <% job.imprints.each do |imprint| %>
+        <% if imprint.part_of_group? %>
+          <%= render 'imprint_part_of_group', imprint: imprint %>
+        <% else %>
+          <%= render 'imprint', imprint: imprint %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <h4>Post Production</h4>
+
+    <div class='trains post_production_trains clearfix clear-after'>
+      <% Train.each_train_of_type(:post_production, job) do |train| %>
+        <%= train_entry(train) %>
+      <% end %>
+
+      <% unless Train.available_trains_of_type(:post_production, job).empty? %>
+        <%= link_to_add_train(job, :post_production, "#job-#{job.id}") %>
+      <% end %>
+    </div>
+
+  </div>
+<% end %>

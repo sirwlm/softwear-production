@@ -1,5 +1,6 @@
 class OrdersController < InheritedResources::Base
   respond_to :html, :js
+  before_filter :assign_fluid_container, only: :show
 
   def index
     q = params[:q]
@@ -22,7 +23,7 @@ class OrdersController < InheritedResources::Base
 
   def permitted_params
     params.permit(order: [
-      :name, :deadline, :fba,
+      :name, :deadline, :fba, :has_imprint_groups,
       jobs_attributes: [
         :name, :id, :_destroy,
         imprints_attributes: [
