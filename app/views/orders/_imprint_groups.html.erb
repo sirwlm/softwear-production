@@ -1,15 +1,14 @@
 <h3>Imprint Groups</h3>
 <div class="well">
-  <div class='imprint-groups'>
+  <div class='imprint-groups imprint-groups-contaner'>
     <% @order.imprint_groups.each do |imprint_group| %>
       <div class='well imprint-group' id='imprint-group-<%= imprint_group.id %>'>
-        <%= render 'imprint_group', imprint_group: imprint_group %>
+        <%= render 'orders/imprint_group', imprint_group: imprint_group %>
       </div>
     <% end %>
   </div>
 
   <div>
-    <% # TODO new imprint group button here %>
-    <%= link_to '+', '#', remote: true, class: 'btn btn-lg btn-success' %>
+    <%= button_to '+', order_imprint_groups_path(@order), method: :post, remote: true, class: 'btn btn-lg btn-success add-imprint-group' %>
   </div>
 </div>

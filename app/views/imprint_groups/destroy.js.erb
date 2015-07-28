@@ -1,0 +1,8 @@
+$('#imprint-group-<%= @imprint_group.id %>').remove();
+<% @imprints.each do |imprint| %>
+  $('#imprint-<%= imprint.id %>').html(
+    "<%=j render partial: 'orders/imprint', locals: { imprint: imprint } %>"
+  );
+<% end %>
+
+initializeDraggableImprints();

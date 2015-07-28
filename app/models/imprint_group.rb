@@ -22,4 +22,12 @@ class ImprintGroup < ActiveRecord::Base
   def remove_imprints
     imprints.update_all(imprint_group_id: nil)
   end
+
+  def description
+    imprints.pluck(:description).join(', ')
+  end
+
+  def count
+    imprints.pluck(:count).reduce(0, :+)
+  end
 end

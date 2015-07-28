@@ -18,6 +18,6 @@ class Job < ActiveRecord::Base
   private
 
   def assign_imprintable_train
-    self.imprintable_train = ImprintableTrain.new(state: 'ready_to_order')
+    self.imprintable_train ||= ImprintableTrain.new(state: 'ready_to_order')
   end
 end

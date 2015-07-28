@@ -109,4 +109,109 @@ feature 'Orders' do
       expect(page).to have_content 'State bagged'
     end
   end
+
+  describe 'imprint groups', js: true, story_768: true do
+    let(:imprint_group) { create(:imprint_group, order_id: order.id) }
+    let(:imprint_1) { job_1.imprints.first.tap { |i| i.update_attributes name: 'Imprint 1' } }
+    let(:imprint_2) { job_2.imprints.first { |i| i.update_attributes name: 'Imprint 2' } }
+    let(:job_1) { create(:job) }
+    let(:job_2) { create(:job) }
+    let(:order) { create(:order, has_imprint_groups: true, jobs: [job_1, job_2]) }
+
+    scenario 'I can specify that an order has imprint groups during creation' do
+      visit new_order_path
+      check 'Has imprint groups'
+      fill_in 'Name', with: 'Test Order'
+      click_link 'New Job'
+
+      within '.order-jobs' do
+        fill_in 'Name', with: 'A job'
+        click_link 'New Imprint'
+        within '.job-imprints' do
+          fill_in 'Name', with: 'An imprint'
+          fill_in 'Description', with: 'Here it is - the imprint'
+          select machine.name, from: 'Machine'
+          fill_in 'Estimated Time in Hours', with: 3
+          fill_in 'Machine Print Count', with: 7
+        end
+      end
+      click_button 'Create Order'
+      sleep 1
+
+      expect(page).to have_content 'Imprint Groups'
+      expect(Order.where(has_imprint_groups: true)).to exist
+    end
+
+    scenario 'I can add an imprint group to an order' do
+      visit order_path(order)
+
+      find('.add-imprint-group').click
+      sleep 1
+      within '.imprint-groups' do
+        expect(page).to have_content /Group #\d/
+        expect(page).to have_content 'drop imprints here'
+        expect(ImprintGroup.where(order_id: order.id)).to exist
+      end
+    end
+
+    scenario 'I can drag an imprint onto an imprint group' do
+      imprint_1; imprint_2; imprint_group
+
+      visit order_path(order)
+
+      find("#imprint-#{imprint_1.id} .draggable-imprint")
+        .drag_to(find("#imprint-group-#{imprint_group.id}"))
+
+      sleep 1
+      expect(imprint_1.reload.imprint_group_id).to eq imprint_group.id
+
+      within '.imprint-group' do
+        expect(page).to have_content 'Imprint 1'
+      end
+      within "#job-#{job_1.id}" do
+        expect(page).to have_content "(Group ##{imprint_group.id}) Imprint 1"
+      end
+    end
+
+    scenario 'I can remove an imprint from an imprint group' do
+      imprint_1; imprint_2; imprint_group
+      imprint_1.update_attributes! imprint_group_id: imprint_group.id
+
+      visit order_path(order)
+
+      within '.imprint-group' do
+        find('.remove-imprint-from-group').click
+        expect(page).to_not have_content 'Imprint 1'
+      end
+      sleep 1
+
+      within "#job-#{job_1.id}" do
+        expect(page).to have_content "Imprint 1"
+        expect(page).to_not have_content "(Group ##{imprint_group.id}) Imprint 1"
+      end
+
+      expect(imprint_1.reload.imprint_group_id).to be_nil
+    end
+
+    scenario 'I can remove an imprint group, purging it of its imprints', rm_imprint_group: true do
+      imprint_1; imprint_2; imprint_group
+      imprint_1.update_attributes! imprint_group_id: imprint_group.id
+
+      visit order_path(order)
+
+      within "#job-#{job_1.id}" do
+        expect(page).to have_content "(Group ##{imprint_group.id}) Imprint 1"
+      end
+
+      find('.remove-imprint-group').click
+      sleep 1
+
+      within "#job-#{job_1.id}" do
+        expect(page).to have_content "Imprint 1"
+        expect(page).to_not have_content "(Group ##{imprint_group.id}) Imprint 1"
+      end
+
+      expect(page).to_not have_selector "#imprint-group-#{imprint_group.id}"
+    end
+  end
 end

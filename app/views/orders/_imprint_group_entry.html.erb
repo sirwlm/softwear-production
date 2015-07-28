@@ -1,4 +1,6 @@
 <hr />
-<%= imprint.name %>
-<%# TODO remove imprint from group on click %>
-<%= link_to 'x', '#', remote: true, class: 'btn btn-xs btn-danger pull-right' %>
+<span class='pull-left'><%= imprint.name %></span>
+<%= form_for imprint, remote: true, method: :put, class: 'pull-right' do |f| %>
+  <%= f.hidden_field :imprint_group_id, value: '' %>
+  <%= f.submit 'x', class: 'btn btn-xs btn-danger remove-imprint-from-group' %>
+<% end %>

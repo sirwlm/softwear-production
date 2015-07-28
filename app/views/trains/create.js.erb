@@ -1,4 +1,4 @@
-var topLevel = $("<%=j @container ? @container : 'body' %>")
+var topLevel = $("<%=j @container ? @container : 'body' %>");
 
 var container = topLevel.find('.<%= Train.type_of(@train_class) %>_trains');
 var addTrainButton = container.find('.add-train-btn');

@@ -4,6 +4,8 @@ class ImprintsController < InheritedResources::Base
   belongs_to :job, optional: true
   respond_to :json, :js, :html
   before_filter :prepare_calendar_entries, only: [:index]
+  before_filter :grab_imprint_group, only: [:update]
+  helper_method :imprint_group
 
   def index
     if params[:q]
@@ -41,17 +43,6 @@ class ImprintsController < InheritedResources::Base
     @imprint.save!
 
     show_result
-  end
-
-  def update
-    byebug
-    if params[:render] && alternate_update_views.include?(params[:render])
-      super do |format|
-        format.js { render params[:render] }
-      end
-    else
-      super
-    end
   end
 
   def transition
@@ -142,7 +133,13 @@ class ImprintsController < InheritedResources::Base
     params.permit(:user_id)
   end
 
-  def alternate_update_views
-    ['add_to_group']
+  def grab_imprint_group
+    return unless params.key?(:id)
+    group_id = Imprint.where(id: params[:id]).pluck(:imprint_group_id).first
+    @imprint_group = ImprintGroup.find(group_id) unless group_id.nil?
+  end
+
+  def imprint_group
+    @imprint_group || @imprint.imprint_group
   end
 end

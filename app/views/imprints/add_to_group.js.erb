@@ -1,8 +1,0 @@
-$('#imprint-<%= @imprint.id %>').html(
-  "<%=j render partial: 'orders/' + @imprint.part_of_group? ? 'imprint_part_of_group' : 'imprint', locals: { imprint: @imprint } %>"
-);
-$('imprint-group-<%= @imprint.imprint_group_id %>').html(
-  "<%=j render 'orders/imprint_group', imprint_group: @imprint.imprint_group %>"
-);
-
-initializeDraggableImprints();

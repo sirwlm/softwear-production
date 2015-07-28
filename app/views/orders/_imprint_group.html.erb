@@ -6,9 +6,14 @@
   <ul>
     <% imprint_group.imprints.each do |imprint| %>
       <li>
-        <%= render 'imprint_group_entry', imprint: imprint %>
+        <%= render 'orders/imprint_group_entry', imprint: imprint %>
       </li>
     <% end %>
   </ul>
 </div>
-<%# TODO show full details? delete group? %>
+
+<div>
+  <%= form_for imprint_group, remote: true, method: :delete do |f| %>
+    <%= f.submit 'x', class: 'btn btn-danger remove-imprint-group' %>
+  <% end %>
+</div>
