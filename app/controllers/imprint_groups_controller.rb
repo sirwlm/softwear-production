@@ -8,7 +8,19 @@ class ImprintGroupsController < InheritedResources::Base
     end
   end
 
+  def update
+    super do |format|
+      format.js { render }
+    end
+  end
+
   def destroy
+    super do |format|
+      format.js { render }
+    end
+  end
+
+  def edit
     super do |format|
       format.js { render }
     end
@@ -18,5 +30,13 @@ class ImprintGroupsController < InheritedResources::Base
 
   def fetch_imprints
     @imprints = Imprint.where(imprint_group_id: params[:id]).to_a
+  end
+
+  def permitted_params
+    params.permit(
+      imprint_group: [
+        :machine_id, :estimated_time, :require_manager_signoff, :order_id
+      ]
+    )
   end
 end

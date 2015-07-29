@@ -29,6 +29,7 @@ group :test do
   gem 'endpoint_stub', github: 'AnnArborTees/endpoint_stub', branch: 'develop'
   gem 'state_machines-activemodel'
   gem 'capybara-select2'
+  gem 'test_after_commit'
 end
 
 gem 'nested_form'

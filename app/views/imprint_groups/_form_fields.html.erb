@@ -1,0 +1,6 @@
+<%= f.select :machine_id, Machine.all.collect{ |machine| [machine.name, machine.id] }, { include_blank: 'Select Machine' } %>
+<%= f.number_field :estimated_time, step: 'any', label: 'Estimated Time in Hours' %>
+<%= f.form_group :require_manager_signoff, label: { text: "Require manager signoff?" } do %>
+  <%= f.radio_button :require_manager_signoff, false, label: "No", inline: true, checked: !imprint_group.require_manager_signoff? %>
+  <%= f.radio_button :require_manager_signoff, true, label: "Yes", inline: true, checked: imprint_group.require_manager_signoff?  %>
+<% end %>

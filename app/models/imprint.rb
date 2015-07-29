@@ -6,6 +6,10 @@ class Imprint < ActiveRecord::Base
 
   tracked only: [:transition]
 
+  scope :scheduled, -> { where.not(scheduled_at: nil, imprint_group_id: nil).where.not(scheduled_at: '') }
+  scope :unscheduled, -> { where(scheduled_at: nil, imprint_group_id: nil) }
+  scope :ready_to_schedule, -> { where(scheduled_at: nil, imprint_group_id: nil).where.not(estimated_time: nil) }
+
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: proc { scheduled? && !part_of_group? }
   validate :schedule_conflict?, unless: :part_of_group?
   validates :name, :description, presence: true
@@ -13,6 +17,7 @@ class Imprint < ActiveRecord::Base
 
   before_save :assign_estimated_end_at
   before_save :reset_state_when_type_changed
+  after_commit :populate_group_fields
 
   belongs_to :job
   belongs_to :imprint_group
@@ -119,6 +124,10 @@ class Imprint < ActiveRecord::Base
     if type_changed?
       self.state = :pending_approval
     end
+  end
+
+  def populate_group_fields
+    imprint_group.populate_fields_from_imprint(self) if imprint_group_id
   end
 
 end

@@ -1,0 +1,17 @@
+<% if imprint_group.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(imprint_group.errors.count, "error") %> prohibited this crap from being saved:</h2>
+
+      <ul>
+        <% imprint_group.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+
+<%= bootstrap_form_for(imprint_group, role: 'form', remote: true) do |f| %>
+  <%= render 'form_fields', f: f, imprint_group: imprint_group %>
+
+  <%= f.submit class: 'btn btn-primary'%>
+<% end %>

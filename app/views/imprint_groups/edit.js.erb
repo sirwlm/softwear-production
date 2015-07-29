@@ -1,0 +1,7 @@
+$('#contentModal .modal-title').html("<%=j 'Imprint group' %>");
+$('#contentModal .modal-body').html("<%=j render('imprint_groups/form', imprint_group: @imprint_group) %>");
+$('#contentModal').modal('show');
+$('#contentModalSaveChanges').hide();
+
+datetimepickerInit();
+datepickerInit();

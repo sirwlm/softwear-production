@@ -160,7 +160,7 @@ feature 'Orders' do
       visit order_path(order)
 
       find("#imprint-#{imprint_1.id} .draggable-imprint")
-        .drag_to(find("#imprint-group-#{imprint_group.id}"))
+        .drag_to(find("#imprint-group-#{imprint_group.id} .imprint-group-drop-zone"))
 
       sleep 1
       expect(imprint_1.reload.imprint_group_id).to eq imprint_group.id
@@ -212,6 +212,29 @@ feature 'Orders' do
       end
 
       expect(page).to_not have_selector "#imprint-group-#{imprint_group.id}"
+    end
+
+    scenario 'I can edit an imprint group', edit_imprint_group: true do
+      imprint_1; imprint_2; imprint_group
+      imprint_1.update_attributes! imprint_group_id: imprint_group.id
+
+      visit order_path(order)
+
+      within '.imprint-group' do
+        find('.edit-imprint-group').click
+      end
+
+      select machine.name, from: 'Machine'
+      fill_in 'Estimated Time in Hours', with: '5'
+
+      click_button 'Update Imprint group'
+
+      sleep 2
+
+      expect(imprint_group.reload.machine_id).to eq machine.id
+      expect(imprint_group.estimated_time).to eq 5
+
+      expect(page).to have_content machine.name
     end
   end
 end

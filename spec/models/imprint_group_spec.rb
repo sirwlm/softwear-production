@@ -31,4 +31,45 @@ describe ImprintGroup, story_768: true do
       expect(imprint_2.reload.imprint_group_id).to be_nil
     end
   end
+
+  describe 'when an imprint is added' do
+    let!(:job) { create(:job, name: 'second job') }
+    let!(:machine) { create(:machine) }
+    let(:machine_2) { create(:machine) }
+    let!(:imprint_1) { create(:print, name: 'imprint1', job: job, estimated_time: 2, machine_id: machine.id, require_manager_signoff: true) }
+    let(:imprint_2) { create(:print, name: 'imprint2', job: job, estimated_time: 3, machine_id: machine_2.id, require_manager_signoff: false) }
+    let!(:imprint_group) { create(:imprint_group, imprints: []) }
+
+    context 'and there was previously no imprints' do
+      it 'assigns machine, estimated time, and require manager signoff to that of the imprint' do
+        expect(imprint_group.machine_id).to_not eq machine.id
+        expect(imprint_group.estimated_time).to_not eq 2
+        expect(imprint_group.require_manager_signoff).to_not eq true
+
+        imprint_group.imprints << imprint_1
+
+        expect(imprint_group.machine_id).to eq machine.id
+        expect(imprint_group.estimated_time).to eq 2
+        expect(imprint_group.require_manager_signoff).to eq true
+      end
+    end
+
+    context 'and there were already imprints' do
+      before do
+        imprint_group.imprints << imprint_2
+      end
+
+      it 'does not alter machine, estimated time, or require manager signoff' do
+        expect(imprint_group.machine_id).to_not eq machine.id
+        expect(imprint_group.estimated_time).to_not eq 2
+        expect(imprint_group.require_manager_signoff).to_not eq true
+
+        imprint_group.imprints << imprint_1
+
+        expect(imprint_group.machine_id).to_not eq machine.id
+        expect(imprint_group.estimated_time).to_not eq 2
+        expect(imprint_group.require_manager_signoff).to_not eq true
+      end
+    end
+  end
 end
