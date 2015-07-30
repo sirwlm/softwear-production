@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/AnnArborTees/acts_as_warnable.git
-  revision: 2b3eee8447fae174398d6933513c766555338bb6
+  revision: 7709fe55215eb1c7e92f12f6f549249aee0b1ed1
   specs:
-    acts_as_warnable (0.0.1)
+    acts_as_warnable (0.0.2)
       devise
       rails (~> 4.2.1)
 
@@ -238,7 +238,7 @@ GEM
     momentjs-rails (2.9.0)
       railties (>= 3.1)
     multi_json (1.11.2)
-    mysql2 (0.3.18)
+    mysql2 (0.3.19)
     nested_form (0.3.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -339,7 +339,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
-    selenium-webdriver (2.46.2)
+    selenium-webdriver (2.47.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -381,7 +381,7 @@ GEM
     sunspot (2.2.0)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
-    sunspot_matchers (2.2.0.1)
+    sunspot_matchers (2.2.0.2)
     sunspot_rails (2.2.0)
       nokogiri
       rails (>= 3)
@@ -396,7 +396,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    timecop (0.7.4)
+    timecop (0.8.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)

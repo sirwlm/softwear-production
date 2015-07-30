@@ -15,7 +15,7 @@
     </div>
   <% end %>
 </div>
-<% if @report_data %>
+<% if @report_data && can? :read, @report_data %>
 
   <h2>Report For</h2>
   <h3>Start Date: <%= @report_data[:start_date] %>, End Date: <%= @report_data[:end_date] %></h3>
