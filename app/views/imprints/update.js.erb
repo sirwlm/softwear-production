@@ -10,12 +10,19 @@ if (window.calendarMatcher != undefined) {
 else {
   <%# Updating (changing group) from orders/show %>
 
-  $('#imprint-<%= @imprint.id %>').html(
-    "<%=j render partial: 'orders/' + (@imprint.part_of_group? ? 'imprint_part_of_group' : 'imprint'), locals: { imprint: @imprint } %>"
-  );
-  $('#imprint-group-<%= imprint_group.id %>').html(
-    "<%=j render 'orders/imprint_group', imprint_group: imprint_group %>"
-  );
+  <% if @imprint.valid? %>
+    $('#imprint-<%= @imprint.id %>').html(
+      "<%=j render partial: 'orders/' + (@imprint.part_of_group? ? 'imprint_part_of_group' : 'imprint'), locals: { imprint: @imprint } %>"
+    );
+    $('#imprint-group-<%= imprint_group.id %>').html(
+      "<%=j render 'orders/imprint_group', imprint_group: imprint_group %>"
+    );
 
-  initializeDraggableImprints();
+    initializeDraggableImprints();
+  <% else %>
+    $('#contentModal .modal-title').html("<%=j @imprint.full_name %> errors");
+    $('#contentModal .modal-body').html("<%=j @imprint.errors.full_messages.join(', ') %>");
+    $('#contentModal').modal('show');
+    $('#contentModalSaveChanges').hide();
+  <% end %>
 }

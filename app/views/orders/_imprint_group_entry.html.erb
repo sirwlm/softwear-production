@@ -2,5 +2,6 @@
 <span class='pull-left'><%= imprint.name %></span>
 <%= form_for imprint, remote: true, method: :put, class: 'pull-right' do |f| %>
   <%= f.hidden_field :imprint_group_id, value: '' %>
+  &nbsp;
   <%= f.submit 'x', class: 'btn btn-xs btn-danger remove-imprint-from-group' %>
 <% end %>

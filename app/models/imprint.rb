@@ -6,17 +6,19 @@ class Imprint < ActiveRecord::Base
 
   tracked only: [:transition]
 
-  scope :scheduled, -> { where.not(scheduled_at: nil, imprint_group_id: nil).where.not(scheduled_at: '') }
-  scope :unscheduled, -> { where(scheduled_at: nil, imprint_group_id: nil) }
-  scope :ready_to_schedule, -> { where(scheduled_at: nil, imprint_group_id: nil).where.not(estimated_time: nil) }
+  scope :scheduled, -> { Schedulable.scheduled_scope(self).where(imprint_group_id: nil) }
+  scope :unscheduled, -> { Schedulable.unscheduled_scope(self).where(imprint_group_id: nil) }
+  scope :ready_to_schedule, -> { Schedulable.ready_to_schedule_scope(self).where(imprint_group_id: nil) }
 
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: proc { scheduled? && !part_of_group? }
   validate :schedule_conflict?, unless: :part_of_group?
+  validate :type_matches_group, if: :part_of_group?
   validates :name, :description, presence: true
   validates :count, presence: true, numericality: { greater_than: 0 }
 
   before_save :assign_estimated_end_at
   before_save :reset_state_when_type_changed
+  before_save :synchronize_with_group, if: :part_of_group?
   after_commit :populate_group_fields
 
   belongs_to :job
@@ -130,4 +132,22 @@ class Imprint < ActiveRecord::Base
     imprint_group.populate_fields_from_imprint(self) if imprint_group_id
   end
 
+  def type_matches_group
+    if imprint_group.imprints.where.not(type: type).exists?
+      errors.add(
+        :imprint_group,
+        "##{imprint_group_id} must contain only #{type.underscore.humanize.downcase.pluralize}"
+      )
+    end
+  end
+
+  def synchronize_with_group
+    return if imprint_group_id.nil?
+    return unless imprint_group_id_changed?
+
+    state = imprint_group.try(:state)
+    self.state           = state if state
+    self.completed_at    = imprint_group.completed_at
+    self.completed_by_id = imprint_group.completed_by_id
+  end
 end

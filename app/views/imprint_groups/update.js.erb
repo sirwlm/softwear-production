@@ -1,2 +1,15 @@
-$('#imprint-group-<%= @imprint_group.id %>').html("<%=j render 'orders/imprint_group', imprint_group: @imprint_group %>");
-$('#contentModal').modal('hide');
+if (window.calendarMatcher != undefined) {
+  <%# Updating from calendar view modal %>
+
+  <% if session[:show_machines].try(:keys).try(:include?, @imprint_group.machine_id.to_s) %>
+    changeEventColor(window.calendarMatcher, "<%= @imprint_group.event_id %>", "<%= @imprint_group.calendar_color %>");
+  <% else %>
+    $(window.calendarMatcher).fullCalendar('removeEvents', <%= @imprint_group.event_id %>);
+  <% end %>
+}
+else {
+  <%# Updating from orders/show %>
+
+  $('#imprint-group-<%= @imprint_group.id %>').html("<%=j render 'orders/imprint_group', imprint_group: @imprint_group %>");
+  $('#contentModal').modal('hide');
+}

@@ -11,8 +11,54 @@ class ImprintGroup < ActiveRecord::Base
 
   before_destroy :remove_imprints
 
+  searchable do
+    time :scheduled_at
+    time :completed_at
+    boolean :scheduled do
+      !scheduled_at.nil?
+    end
+    integer :machine_id
+    integer :completed_by_id
+  end
+
+  def respond_to?(name)
+    return super if imprints.empty?
+    super || imprints.first.respond_to?(name)
+  end
+  def method_missing(name, *args, &block)
+    return super if imprints.empty?
+    imprints.first.send(name, *args, &block)
+  end
+
   def full_name
     "#{order.name}: Group including #{imprint_names.join(', ')}"
+  end
+  def display
+    "#{'(COMPLETE)' if complete?} #{full_name}"
+  end
+
+  def calendar_color
+    # return 'white' if !approved?
+    return 'rgb(58, 135, 173)' if machine.blank?
+    return 'rgb(204, 204, 204)' if completed?
+
+    machine.color
+  end
+
+  def text_color
+    unless machine.blank?
+      return machine.color if completed?# || !approved?
+    end
+
+    if intensity(calendar_color) > 300
+      'black'
+    else
+      'white'
+    end
+  end
+
+  def border_color
+    return 'white'
   end
 
   def imprint_names
@@ -20,7 +66,7 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def remove_imprints
-    imprints.update_all(imprint_group_id: nil)
+    Imprint.where(imprint_group_id: id).update_all(imprint_group_id: nil)
   end
 
   def description

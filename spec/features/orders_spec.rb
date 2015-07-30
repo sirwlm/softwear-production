@@ -111,12 +111,12 @@ feature 'Orders' do
   end
 
   describe 'imprint groups', js: true, story_768: true do
-    let(:imprint_group) { create(:imprint_group, order_id: order.id) }
-    let(:imprint_1) { job_1.imprints.first.tap { |i| i.update_attributes name: 'Imprint 1' } }
-    let(:imprint_2) { job_2.imprints.first { |i| i.update_attributes name: 'Imprint 2' } }
-    let(:job_1) { create(:job) }
-    let(:job_2) { create(:job) }
-    let(:order) { create(:order, has_imprint_groups: true, jobs: [job_1, job_2]) }
+    given(:imprint_group) { create(:imprint_group, order_id: order.id) }
+    given(:imprint_1) { job_1.imprints.first.tap { |i| i.update_attributes name: 'Imprint 1' } }
+    given(:imprint_2) { job_2.imprints.first { |i| i.update_attributes name: 'Imprint 2' } }
+    given(:job_1) { create(:job) }
+    given(:job_2) { create(:job) }
+    given(:order) { create(:order, has_imprint_groups: true, jobs: [job_1, job_2]) }
 
     scenario 'I can specify that an order has imprint groups during creation' do
       visit new_order_path

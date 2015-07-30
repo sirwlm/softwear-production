@@ -1,3 +1,13 @@
 <div class='col-sm-4 well'>
   <h4>(Group #<%= imprint.imprint_group.id %>) <%= imprint.name %></h4>
+  <dl>
+    <dt>State</dt>
+    <dd><%= imprint.state.humanize %></dd>
+  <% if imprint.completed? %>
+    <dt>Completed by</dt>
+    <dd><%= imprint.completed_by.full_name %></dd>
+    <dt>Completed at</dt>
+    <dd><%= imprint.completed_at.strftime('%Y-%m-%d %I:%M%P') %></dd>
+  <% end %>
+  </dl>
 </div>

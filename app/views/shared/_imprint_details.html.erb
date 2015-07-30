@@ -23,6 +23,6 @@
   <dt>Count</dt>
   <dd><%= imprint.count %></dd>
 </dl>
-  <% if imprint.completed? %>
-    <%= render 'imprints/completed_info', imprint: imprint %>
-  <% end %>
+<% if imprint.completed? %>
+  <%= render 'imprints/completed_info', imprint: imprint %>
+<% end %>

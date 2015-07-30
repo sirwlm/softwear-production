@@ -16,14 +16,27 @@ module Schedulable
     end
   end
 
+  def self.scheduled_scope(context)
+    context.where.not(scheduled_at: nil).where.not(scheduled_at: '')
+  end
+  def self.unscheduled_scope(context)
+    context.where(scheduled_at: nil)
+  end
+  def self.machineless_scope(context)
+    context.where(machine_id: nil)
+  end
+  def self.ready_to_schedule_scope(context)
+    context.where(scheduled_at: nil).where.not(estimated_time: nil)
+  end
+
   included do
     Schedulable.schedulable_classes.delete_if { |c| c.name == name }
     Schedulable.schedulable_classes << self
 
-    scope :scheduled, -> { where.not(scheduled_at: nil).where.not(scheduled_at: '') }
-    scope :unscheduled, -> { where(scheduled_at: nil) }
-    scope :machineless, -> { where(machine_id: nil) }
-    scope :ready_to_schedule, -> { where(scheduled_at: nil).where.not(estimated_time: nil) }
+    scope :scheduled, -> { Schedulable.scheduled_scope(self) }
+    scope :unscheduled, -> { Schedulable.unscheduled_scope(self) }
+    scope :machineless, -> { Schedulable.machineless_scope(self) }
+    scope :ready_to_schedule, -> { Schedulable.ready_to_schedule_scope(self) }
 
     belongs_to :machine
     belongs_to :completed_by, class_name: 'User'

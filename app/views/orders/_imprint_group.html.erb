@@ -16,12 +16,15 @@
 
 <ul class='list-inline'>
   <li>
-    <%= form_for imprint_group, remote: true, method: :delete do |f| %>
-      <%= button_tag '<i class="glyphicon glyphicon-remove-circle"></i>'.html_safe, class: 'btn btn-danger remove-imprint-group' %>
-    <% end %>
+    <%= link_to '<i class="glyphicon glyphicon-eye-open"></i>'.html_safe, imprint_group_path(imprint_group), class: 'btn btn-primary show-imprint-group' %>
   </li>
   <li>
     <%= link_to '<i class="glyphicon glyphicon-pencil"></i>'.html_safe, edit_imprint_group_path(imprint_group), remote: true, class: 'btn btn-warning edit-imprint-group' %>
+  </li>
+  <li>
+    <%= form_for imprint_group, remote: true, method: :delete do |f| %>
+      <%= button_tag '<i class="glyphicon glyphicon-remove-circle"></i>'.html_safe, class: 'btn btn-danger remove-imprint-group' %>
+    <% end %>
   </li>
 </ul>
 <div class='clearfix'></div>

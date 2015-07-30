@@ -17,7 +17,11 @@ SoftwearProduction::Application.routes.draw do
     resources :jobs do
       resources :imprints
     end
-    resources :imprint_groups, shallow: true
+    resources :imprint_groups, shallow: true do
+      member do
+        patch ':transition', to: 'imprint_groups#transition', as: :transition
+      end
+    end
   end
 
   resources :imprints, except: [:new, :create] do

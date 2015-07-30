@@ -21,7 +21,7 @@ describe ImprintGroup, story_768: true do
     let!(:imprint_2) { create(:print, name: 'imprint2', job: job_2) }
     let!(:imprint_group) { create(:imprint_group, imprints: [imprint_1, imprint_2]) }
 
-    it 'nulls the imprint_group_ids of its imprints' do
+    it 'nulls the imprint_group_ids of its imprints', busted: true do
       expect(imprint_1.imprint_group_id).to eq imprint_group.id
       expect(imprint_2.imprint_group_id).to eq imprint_group.id
 
