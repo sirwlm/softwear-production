@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731155929) do
+ActiveRecord::Schema.define(version: 20150731173638) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -169,14 +169,6 @@ ActiveRecord::Schema.define(version: 20150731155929) do
     t.datetime "updated_at"
   end
 
-  create_table "trains", force: :cascade do |t|
-    t.string   "kind",           limit: 255
-    t.integer  "trainable_id",   limit: 4
-    t.string   "trainable_type", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "user_roles", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -204,7 +196,6 @@ ActiveRecord::Schema.define(version: 20150731155929) do
     t.datetime "deleted_at"
     t.string   "first_name",             limit: 255
     t.string   "last_name",              limit: 255
-    t.boolean  "admin"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

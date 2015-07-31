@@ -13,7 +13,7 @@ FactoryGirl.define do
       last_name 'Mensch'
       sequence(:email) { |n| "idol_#{n}@god.com"}
       password '2_1337_4_u'
-      admin true
+      roles { [ create(:admin_role) ] }
     end
 
     after(:create) { |u| u.confirm }
