@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   acts_as_paranoid
 
+  has_many :user_roles
+  has_many :roles, through: :user_roles
+
   scope :managers, -> { where(admin: true)  }
 
   after_initialize :blacklist_admin

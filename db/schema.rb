@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724192333) do
+ActiveRecord::Schema.define(version: 20150731155929) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -155,6 +155,10 @@ ActiveRecord::Schema.define(version: 20150724192333) do
     t.boolean  "has_imprint_groups"
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string "name", limit: 255
+  end
+
   create_table "screens", force: :cascade do |t|
     t.string   "frame_type", limit: 255
     t.string   "dimensions", limit: 255
@@ -171,6 +175,13 @@ ActiveRecord::Schema.define(version: 20150724192333) do
     t.string   "trainable_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "user_roles", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id",    limit: 4
+    t.integer  "role_id",    limit: 4
   end
 
   create_table "users", force: :cascade do |t|
