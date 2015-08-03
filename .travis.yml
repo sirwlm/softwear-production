@@ -26,5 +26,6 @@ before_script:
   - 'echo path: $PATH'
   - bundle exec rake db:create
   - bundle exec rake db:migrate
+  - echo On branch $(git rev-parse --abbrev-ref HEAD)
 
 script: xvfb-run --server-args="-screen 0, 1024x768x24" bundle exec rspec -t ~no_ci && bundle exec softwear-deploy
