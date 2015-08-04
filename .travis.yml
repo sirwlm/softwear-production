@@ -30,5 +30,7 @@ before_script:
   - export PATH=$PATH:~/chromedriver
   - bundle exec rake db:create
   - bundle exec rake db:migrate
+  - echo "Travis branch is $TRAVIS_BRANCH"
+  - echo "Deploy branch is $DEPLOY_BRANCH (should be empty)"
 
 script: xvfb-run --server-args="-screen 0, 1024x768x24" bundle exec rspec -t ~no_ci && bundle exec softwear-deploy
