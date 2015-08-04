@@ -14,6 +14,8 @@ before_install:
   - sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
   - sudo apt-get update
   - sudo apt-get install google-chrome-stable
+  - openssl aes-256-cbc -K $encrypted_a470fe2bff2c_key -iv $encrypted_a470fe2bff2c_iv -in SoftWEAR-MockBot.pem.enc -out SoftWEAR-MockBot.pem -d
+  - ssh-add Softwear-MockBot.pem
 
 before_script:
   - |
