@@ -20,6 +20,7 @@ feature 'Screen Features', js: true do
       scenario 'can advance success state and closes modal' do
         scan_barcode('screen-id', s1.id)
         click_link 'Removed from production'
+        sleep 1
         expect(page).to have_content "Reclaimed"
         expect(page).to have_content "Current State is Ready To Reclaim"
         expect(page).to have_content "Screen state was successfully updated"
