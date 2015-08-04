@@ -6,6 +6,7 @@ set :repo_url, 'git@github.com:annarbortees/softwear-production.git'
 set :rvm_ruby_version, 'rbx-2.5.2'
 set :rvm_ruby_string, 'rbx-2.5.2'
 set :rvm_task_ruby_version, 'ruby-2.1.2'
+set :ssh_options, { forward_agent: true }
 
 # Default branch is :master
 ask :branch, 'master'
