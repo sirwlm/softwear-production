@@ -5,6 +5,7 @@ rvm:
 before_install:
   - sudo apt-get install libmysql-ruby libmysqlclient-dev ruby-dev
   - gem install eventmachine -i ~/.rvm/rubies/rbx-2.5.2/gems -v 1.0.3 --no-ri --no-rdoc
+  - gem install softwear-lib -i ~/.rvm/rubies/rbx-2.5.2/gems --no-ri --no-rdoc
   - wget http://chromedriver.storage.googleapis.com/2.15/chromedriver_linux64.zip
   - mkdir ~/chromedriver
   - unzip chromedriver_linux64.zip -d ~/chromedriver
@@ -30,6 +31,5 @@ before_script:
   - export PATH=$PATH:~/chromedriver
   - bundle exec rake db:create
   - bundle exec rake db:migrate
-  - ruby -e "puts %(Travis branch is ) + ENV['TRAVIS_BRANCH'].inspect"
 
-script: xvfb-run --server-args="-screen 0, 1024x768x24" bundle exec rspec -t ~no_ci && bundle exec softwear-deploy
+script: xvfb-run --server-args="-screen 0, 1024x768x24" bundle exec rspec -t ~no_ci && softwear-deploy
