@@ -3,8 +3,8 @@ rvm:
   - ruby-2.1.2
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_a470fe2bff2c_key -iv $encrypted_a470fe2bff2c_iv -in .travis/SoftWEAR-MockBot.pem.enc -out SoftWEAR-MockBot.pem -d
-  - openssl aes-256-cbc -K $encrypted_a470fe2bff2c_key -iv $encrypted_a470fe2bff2c_iv -in .travis/travis_id_rsa.enc -out travis_id_rsa -d
+  - openssl aes-256-cbc -K $encrypted_a470fe2bff2c_key -iv $encrypted_a470fe2bff2c_iv -in travis-ssh.tar.enc -out travis-ssh.tar -d
+  - tar -xvf travis-ssh.tar
   - sudo chmod 600 SoftWEAR-MockBot.pem
   - sudo chmod 600 travis_id_rsa
   - 'eval "$(ssh-agent -s)"'
