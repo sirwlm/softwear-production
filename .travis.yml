@@ -9,7 +9,7 @@ before_install:
   - sudo chmod 600 travis_id_rsa
   - 'eval "$(ssh-agent -s)"'
   - ssh-add SoftWEAR-MockBot.pem travis_id_rsa
-  - ssh -T git@github.com || :
+  - "ssh -T git@github.com || :"
   - sudo apt-get install libmysql-ruby libmysqlclient-dev ruby-dev
   - gem install eventmachine -i ~/.rvm/rubies/rbx-2.5.2/gems -v 1.0.3 --no-ri --no-rdoc
   - gem install softwear-lib -i ~/.rvm/rubies/rbx-2.5.2/gems --no-ri --no-rdoc
