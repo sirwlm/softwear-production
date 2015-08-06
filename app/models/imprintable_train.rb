@@ -7,6 +7,11 @@ class ImprintableTrain < ActiveRecord::Base
   attr_accessor :solution
 
   belongs_to :job
+  has_many :imprints, through: :job
+
+  searchable do
+    text :job_name, :imprint_names, :order_name # TODO <- define order_name method
+  end
 
   train_type :pre_production
   train initial: :ready_to_order do
@@ -58,5 +63,13 @@ class ImprintableTrain < ActiveRecord::Base
   def resolved_imprintable_change(solution)
     @solution = solution
     super
+  end
+
+  def job_name
+    job.try(:name)
+  end
+
+  def imprint_names
+    imprints.pluck(:name).join(' ')
   end
 end

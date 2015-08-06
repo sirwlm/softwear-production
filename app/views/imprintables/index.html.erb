@@ -1,0 +1,44 @@
+<h3>Imprintables Dashboard</h3>
+
+<div class="container">
+  <%= render 'search' %>
+</div>
+
+<div class="container">
+  <table class="table table-hover table-bordered ">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Order</th>
+        <th>Job</th>
+        <th>Imprints</th>
+        <th>State</th>
+        <th>Expected Arrival</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% ImprintableTrain.where.not(job_id: nil).each do |it| %>
+        <tr>
+          <td><%= it.id %></td>
+          <td><%= it.job.order.try(:name) %></td>
+          <td><%= it.job.name %></td>
+          
+          <td>
+            <% it.job.imprints.each do |i| %>
+              <p>
+                <%= i.name %> 
+                <%="(#{i.scheduled_at.try(:strftime, '%D')})" %>
+              </p>
+            <% end %>
+          </td>
+          <td><%= it.human_state_name %></td>
+          <td>Insert Expected Arrival Here:</td>
+          <td>Insert Location Here:</td>
+          <td>Insert Actions Here:</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

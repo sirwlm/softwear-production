@@ -58,6 +58,8 @@ SoftwearProduction::Application.routes.draw do
   post '/users/create_user', to: 'users#create', controller: 'users', as: :create_user
   delete '/users/delete_user/:id', to: 'users#destroy', controller: 'users', as: :destroy_user
 
+  get '/imprintables/dashboard', to: 'imprintables#index', as: :imprintable_dashboard
+
   resources :trains, only: :create
   patch '/:model_name/:id/transition_to/:event', to: 'trains#transition', as: :transition_train
   get '/:model_name/:id/new_train/:train_type', to: 'trains#new', as: :new_train
