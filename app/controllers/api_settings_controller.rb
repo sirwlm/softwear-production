@@ -1,5 +1,6 @@
 class ApiSettingsController < InheritedResources::Base
   actions :new, :show, :create, :update
+  load_and_authorize_resource
 
   def new
     super do |format|

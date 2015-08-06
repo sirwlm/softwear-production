@@ -3,9 +3,11 @@ require 'spec_helper'
 feature 'Reports' do
   
   context 'as an administrator' do 
+    include_context "logged_in_as_admin"
     context 'I can view reports about imprints' do
       let!(:machine_1) { create(:machine) }
       let!(:machine_2) { create(:machine) }
+      let!(:user) { create(:admin) }  
 
       before(:each) {
        allow_any_instance_of(Machine).to receive(:imprints).and_return (

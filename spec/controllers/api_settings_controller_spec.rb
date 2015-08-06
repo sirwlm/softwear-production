@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ApiSettingsController, api_spec: true, story_201: true do
-  include_context 'signed_in_as_user'
+  include_context 'signed_in_as_admin'
 
   describe 'GET #new' do
     it 'renders edit' do

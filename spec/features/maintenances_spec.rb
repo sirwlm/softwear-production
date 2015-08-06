@@ -19,7 +19,10 @@ feature 'Maintenances' do
 
       expect(page).to have_content maintenance.name
     end
+  end
 
+  context "As a logged in admin", js: true do
+    include_context 'logged_in_as_admin'
     scenario 'I can create a maintenance', story_111: true do
       visit new_maintenance_path
 

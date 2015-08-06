@@ -1,4 +1,5 @@
 class MachinesController < InheritedResources::Base
+  load_and_authorize_resource
   respond_to :json, :js, :html
   before_filter :assign_fluid_container, only: [:show]
 

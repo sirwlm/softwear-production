@@ -1,51 +1,52 @@
+<% if current_user.admin  %>
+  <div class="row">
+    <%= form_tag(report_path("imprint_count"), method: :get) do %>
+      <div class="col-xs-6 col-sm-4">
+        <%= label_tag :start_date, "Start Date" %>
+        <%= text_field_tag :start_date, params[:start_date], class: 'form-control datepicker-standard', required: true %>
+      </div>
+      <div class='col-xs-6 col-sm-4'>
+        <%= label_tag :end_date, "End Date" %>
+        <%= text_field_tag :end_date, params[:end_date], class: 'form-control datepicker-standard', required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4">
+        <br />
+        <%= submit_tag "Run Report", class: 'btn btn-primary col-xs-12' %>
+      </div>
+    <% end %>
+  </div>
+  <% if @report_data %>
 
-<div class="row">
-  <%= form_tag(report_path("imprint_count"), method: :get) do %>
-    <div class="col-xs-6 col-sm-4">
-      <%= label_tag :start_date, "Start Date" %>
-      <%= text_field_tag :start_date, params[:start_date], class: 'form-control datepicker-standard', required: true %>
-    </div>
-    <div class='col-xs-6 col-sm-4'>
-      <%= label_tag :end_date, "End Date" %>
-      <%= text_field_tag :end_date, params[:end_date], class: 'form-control datepicker-standard', required: true %>
-    </div>
-    <div class="col-xs-12 col-sm-4">
-      <br />
-      <%= submit_tag "Run Report", class: 'btn btn-primary col-xs-12' %>
-    </div>
-  <% end %>
-</div>
-<% if @report_data %>
-
-  <h2>Report For</h2>
-  <h3>Start Date: <%= @report_data[:start_date] %>, End Date: <%= @report_data[:end_date] %></h3>
-  <table class='table table-striped'>
-    <thead>
-      <th></th>
-      <% @report_data[:machines].each do |name, data| %>
-        <th>
-          <%= name %>
-        </th>
-      <% end %>
-    </thead>
-    <tbody>
-    <%  
-    st = Time.parse(@report_data[:start_date]).to_i
-    et = Time.parse(@report_data[:end_date]).to_i
-    %>
-    <% (st..et).step(1.day) do |d| %>
-      <% date = Time.at(d).strftime('%F') %>
-        <tr>
-          <td>
-            <%= date %>
-          </td>
-          <% @report_data[:machines].each do |name, data| %>
+    <h2>Report For</h2>
+    <h3>Start Date: <%= @report_data[:start_date] %>, End Date: <%= @report_data[:end_date] %></h3>
+    <table class='table table-striped'>
+      <thead>
+        <th></th>
+        <% @report_data[:machines].each do |name, data| %>
+          <th>
+            <%= name %>
+          </th>
+        <% end %>
+      </thead>
+      <tbody>
+      <%  
+      st = Time.parse(@report_data[:start_date]).to_i
+      et = Time.parse(@report_data[:end_date]).to_i
+      %>
+      <% (st..et).step(1.day) do |d| %>
+        <% date = Time.at(d).strftime('%F') %>
+          <tr>
             <td>
-              <%= data[date] %>
+              <%= date %>
             </td>
-          <% end %> 
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+            <% @report_data[:machines].each do |name, data| %>
+              <td>
+                <%= data[date] %>
+              </td>
+            <% end %> 
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 <% end %>

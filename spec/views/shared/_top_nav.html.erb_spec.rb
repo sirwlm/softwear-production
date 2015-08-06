@@ -13,8 +13,10 @@ describe 'shared/_top_nav.html.erb' do
   context 'when the current user is an admin' do
     before(:each) { render 'shared/top_nav.html.erb', current_user: admin }
 
-    it 'contains links to manage users', story_116: true do
+    it 'contains admin links to manage users, machines, maintenences', story_116: true do
       expect(rendered).to have_css 'a[href="/users"]'
+      expect(rendered).to have_css 'a[href="/machines"]'
+      expect(rendered).to have_css 'a[href="/maintenances"]'
     end
   end
 
@@ -24,5 +26,7 @@ describe 'shared/_top_nav.html.erb' do
 
   it 'doesn\'t allow peons to mess with other people shit', story_116: true do
     expect(rendered).to_not have_css 'a[href="/users"]'
+    expect(rendered).to_not have_css 'a[href="/machines"]'
+    expect(rendered).not_to have_css 'a[href="/maintenances"]'
   end
 end
