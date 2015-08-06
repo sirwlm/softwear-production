@@ -2,44 +2,53 @@ class ImprintableTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
 
-  tracked only: [:transition]
+  SOLUTIONS = {
+    need_to_order:           :ready_to_order,
+    need_to_fully_order:     :partially_ordered,
+    need_to_inventory:       :ordered,
+    need_to_fully_inventory: :partially_inventoried,
+    need_to_stage:           :inventoried,
+    need_to_print:           :staged
+  }
+    .with_indifferent_access
 
-  attr_accessor :solution
+  tracked only: [:transition]
 
   belongs_to :job
 
+  attr_accessor :solution
+
+  before_save :check_solution
+
   train_type :pre_production
   train initial: :ready_to_order do
-
-    success_event :some_pieces_ordered, public_activity: { supplier: :text_field, location: :text_field, estimated_arrival_date: :date_field } do
+    success_event :some_pieces_ordered,
+        params:          { location: :text_field, expected_arrival_date: :date_field },
+        public_activity: { supplier: :text_field } do
       transition [:ready_to_order, :partially_ordered] => :partially_ordered
     end
 
-    success_event :all_pieces_ordered do
+    success_event :all_pieces_ordered,
+      params:          { location: :text_field, expected_arrival_date: :date_field },
+      public_activity: { supplier: :text_field } do
       transition [:ready_to_order, :partially_ordered] => :ordered
     end
 
-    success_event :some_pieces_arrive, public_activity: { input: :text_field, location: :text_field } do
+    success_event :some_pieces_arrive do
       transition [:ordered, :partially_inventoried] => :partially_inventoried
     end
 
-    success_event :all_pieces_arrived, public_activity: { input: :text_field, location: :text_field } do
+    success_event :all_pieces_arrived do
       transition [:ordered, :partially_inventoried] => :inventoried
     end
 
-    success_event :pieces_on_cart, public_activity: { input: :text_field, location: :text_field } do
+    success_event :pieces_on_cart, params: { location: :text_field } do
       transition :inventoried => :staged
     end
 
-    success_event :resolved_imprintable_change do
-      # TODO: check out these @solutions, are they right?
-      transition :imprintable_changed => :ready_to_order,        if: ->(it){ it.solution == 'need_to_order' }
-      transition :imprintable_changed => :partially_ordered,     if: ->(it){ it.solution == 'need_to_fully_order' }
-      transition :imprintable_changed => :ordered,               if: ->(it){ it.solution == 'need_to_inventory' }
-      transition :imprintable_changed => :partially_inventoried, if: ->(it){ it.solution == 'need_to_fully_inventory' }
-      transition :imprintable_changed => :inventoried,           if: ->(it){ it.solution == 'need_to_stage' }
-      transition :imprintable_changed => :staged,                if: ->(it){ it.solution == 'need_to_print' }
-      # avoid a default transition here to expose an incorrect @solution to the user
+    success_event :resolved_changes,
+        params: { solution: SOLUTIONS.keys.map { |k| [k.to_s.humanize, k] } } do
+      transition :imprintable_changed => :ready_to_order
     end
 
     delay_event :imprintable_line_items_changed do
@@ -55,8 +64,12 @@ class ImprintableTrain < ActiveRecord::Base
     state :imprintable_changed
   end
 
-  def resolved_imprintable_change(solution)
-    @solution = solution
-    super
+  private
+
+  def check_solution
+    return if @solution.nil?
+
+    update_column :state, SOLUTIONS[@solution]
+    @solution = nil
   end
 end
