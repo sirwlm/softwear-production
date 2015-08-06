@@ -1,5 +1,6 @@
 class MaintenancesController < InheritedResources::Base
   include CalendarEventController
+  load_and_authorize_resource
 
   respond_to :json, :js, :html
 
