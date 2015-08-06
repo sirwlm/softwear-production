@@ -1,7 +1,5 @@
 class ReportsController < ApplicationController
   def show
-    authorize! :read, @report_data
-
     if defined? params[:report_type]
       if params[:start_date] && params[:end_date]
         send(params[:report_type])

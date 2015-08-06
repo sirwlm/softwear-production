@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'cancan/matchers'
 
 describe Machine, machine_spec: true, story_113: true, story_110: true do
   describe 'Relationships' do
@@ -27,6 +28,32 @@ describe Machine, machine_spec: true, story_113: true, story_110: true do
     context 'when color is equal to the "unapproved imprint" color', story_486: true do
       before { allow(subject).to receive(:color).and_return '#ffffff' }
       it { is_expected.to_not be_valid }
+    end
+  end
+
+  describe 'User' do
+    describe "abilities" do
+      subject(:ability) { Ability.new(user) }
+      let(:user) { nil }
+
+      context "when is an admin" do
+        let(:user) { create(:admin) }
+
+        it { should be_able_to(:manage, Machine.new) }
+        it { should be_able_to(:index, Machine.new) }
+        it { should be_able_to(:update, Machine.new) }
+        it { should be_able_to(:destroy, Machine.new) }
+      end
+
+      context "when is a user" do
+        let(:user) { create(:user) }
+
+        it { should be_able_to(:show, Machine.new) }
+
+        it { should_not be_able_to(:index, Machine.new) }
+        it { should_not be_able_to(:update, Machine.new) }
+        it { should_not be_able_to(:destroy, Machine.new) }
+      end
     end
   end
 end
