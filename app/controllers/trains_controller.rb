@@ -92,13 +92,19 @@ class TrainsController < ApplicationController
     return @public_activity_params unless @public_activity_params.nil?
 
     @public_activity_params = {}
-    @public_activity_params[:event] = @event
+    @public_activity_params[:event] = @event.to_s
     if params[:public_activity]
       if extra = @object.train_machine.event_public_activity[@event.to_sym]
         extra.each do |key, type|
           val = params[:public_activity][key]
           @public_activity_params[key] = val if val
         end
+      end
+    end
+    if attrs = permitted_attributes
+      attrs.each do |key, type|
+        val = attrs[key]
+        @public_activity_params[key.to_sym] = val if val
       end
     end
     @public_activity_params

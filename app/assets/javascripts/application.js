@@ -41,12 +41,18 @@ function datepickerInit() {
 }
 
 $( document ).ready(function() {
-    datetimepickerInit();
-    datepickerInit();
-    $(document).on('nested:fieldAdded', datetimepickerInit);
+  datetimepickerInit();
+  datepickerInit();
+  $(document).on('nested:fieldAdded', datetimepickerInit);
 
-    $('.colorpicker').colorpicker()
-    $('[data-toggle="tooltip"]').tooltip();
-    $('.select2').select2({width: '35%'});
+  $('.colorpicker').colorpicker()
+  $('[data-toggle="tooltip"]').tooltip();
+  $('.select2').select2({width: '35%'});
+  $('.select2').each(function() {
+    var width = $(this).data('width');
+    if (!width)
+      width = '35%';
+    $(this).select2({width: width});
+  });
 });
 

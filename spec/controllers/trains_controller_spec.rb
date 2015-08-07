@@ -1,3 +1,5 @@
+### NOTE All Train tests reference the object spec/support/test_train.rb ###
+
 require 'spec_helper'
 
 describe TrainsController, type: :controller do
@@ -54,9 +56,9 @@ describe TrainsController, type: :controller do
         expect(object.state).to eq 'success'
       end
 
-      it 'creates a public activity entry' do
+      it 'creates a public activity entry with public_activity and params' do
         expect(object).to have_received(:create_activity)
-          .with(action: :transition, parameters: { event: :won }, owner: user)
+          .with(action: :transition, parameters: { event: 'won' }, owner: user)
       end
     end
 
@@ -85,20 +87,46 @@ describe TrainsController, type: :controller do
         expect(object).to receive(:create_activity)
           .with(
             action: :transition,
-            parameters: { event: :broadcast, message: 'hey' },
+            parameters: { event: 'broadcast', message: 'hey' },
             owner: user
           )
-        patch :transition, model_name: 'test_train', id: 1, event: :broadcast, public_activity: { message: 'hey' }, format: :js
+        patch :transition,
+          model_name: 'test_train',
+          id: 1,
+          event: :broadcast,
+          public_activity: { message: 'hey' },
+          format: :js
       end
 
       it 'assigns owner to User.find params[:public_activity][:owner_id]' do
         expect(object).to receive(:create_activity)
           .with(
             action: :transition,
-            parameters: { event: :broadcast, message: 'hey' },
+            parameters: { event: 'broadcast', message: 'hey' },
             owner: other_user
           )
-        patch :transition, model_name: 'test_train', id: 1, event: :broadcast, public_activity: { message: 'hey', owner_id: other_user.id }, format: :js
+        patch :transition,
+          model_name: 'test_train',
+          id: 1,
+          event: :broadcast,
+          public_activity: { message: 'hey', owner_id: other_user.id },
+          format: :js
+      end
+
+      it 'calls create_activity with public_activity and params', story_94: true do
+        expect(object).to receive(:create_activity)
+          .with(
+            action: :transition,
+            parameters: { event: 'won', user_id: 2, winner_id: 3 },
+            owner: anything
+          )
+        patch :transition,
+          model_name: 'test_train',
+          id: 1,
+          event: :won,
+          public_activity: { user_id: 2 },
+          test_train: { winner_id: 3 },
+          format: :js
       end
     end
   end

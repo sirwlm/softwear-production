@@ -1,5 +1,5 @@
 <% object.train_machine.event_categories.try(:keys).try(:reverse_each) do |category| %>
-  <div class='pull-left'>
+  <div class='pull-left train-category-container'>
     <div class="panel panel-default train-events train-category-<%= category %>">
       <div class='panel-heading'><%= category.to_s.humanize %></div>
       <div class='panel-body'>
@@ -21,7 +21,7 @@
                   <%= render 'shared/train_field', object: object, field: field, type: type, field_name: field_name_for(object, field), category: category %>
                 <% end %>
 
-                <%= button_tag event.to_s.humanize, class: "btn btn-#{category}" %>
+                <%= button_tag event.to_s.humanize, class: "btn btn-#{category} train-state-button" %>
 
               <% end %>
             </div>

@@ -1,5 +1,5 @@
 $('#contentModal .modal-title').html("<%=j @title %>");
-$('#contentModal .modal-body').html("<%=j render('trains/view', object: @object) %>");
+$('#contentModal .modal-body').html("<%=j render('trains/view', object: @object, in_modal: true) %>");
 $('#contentModal .modal-dialog').css('width', '90%');
 $('#contentModal').modal('show');
 $('#contentModalSaveChanges').hide();
