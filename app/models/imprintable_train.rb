@@ -15,13 +15,14 @@ class ImprintableTrain < ActiveRecord::Base
   tracked only: [:transition]
 
   belongs_to :job
+  has_one :order, through: :job
 
   attr_accessor :solution
 
   before_save :check_solution
 
   train_type :pre_production
-  train initial: :ready_to_order do
+  train initial: :ready_to_order, final: :staged do
     success_event :some_pieces_ordered,
         params:          { location: :text_field, expected_arrival_date: :date_field },
         public_activity: { supplier: :text_field } do
@@ -68,8 +69,9 @@ class ImprintableTrain < ActiveRecord::Base
 
   def check_solution
     return if @solution.nil?
+    new_state = SOLUTIONS[@solution]
 
-    update_column :state, SOLUTIONS[@solution]
+    update_column :state, new_state unless new_state.nil?
     @solution = nil
   end
 end

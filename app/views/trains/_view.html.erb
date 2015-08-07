@@ -3,7 +3,7 @@
 
     <% if lookup_context.find_all("shared/_#{@object.model_name.element}_details").any? %>
       <div class='col-xs-4'>
-        <%= render "shared/#{@object.model_name.element}_details", object: @object %>
+        <%= render "shared/#{@object.model_name.element}_details", object: @object, in_modal: !local_assigns[:in_modal].nil? %>
       </div>
     <% else %>
       <div class='col-xs-1'></div>

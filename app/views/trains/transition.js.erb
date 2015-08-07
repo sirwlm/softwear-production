@@ -9,9 +9,10 @@ var e = $('#train-<%= @object.model_name.element %>-<%= @object.id %>');
   $('.<%=j @object.class.name.underscore %>_<%= @object.id %>_current_state')
     .text('<%=j @object.send("human_#{@object.train_machine.attribute}_name") %>');
 
-  var element = e.find('.current-state');
+  var element = e.find('.transition-alert');
+  var returnColor = element.css('background-color');
   element.css('background-color', '#FAFF9E');
-  element.animate({backgroundColor: 'inherit'}, 1000, function() { return element.css('background-color'); }, '');
+  element.animate({backgroundColor: returnColor}, 1000, function() { return element.css('background-color'); }, '');
 <% end %>
 
 datetimepickerInit();

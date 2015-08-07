@@ -1,4 +1,7 @@
 FactoryGirl.define do
-  factory :imprintable_train do
+  begin
+    factory :imprintable_train do
+    end
+  rescue FactoryGirl::DuplicateDefinitionError
   end
 end

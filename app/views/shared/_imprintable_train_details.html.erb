@@ -1,0 +1,16 @@
+<h2>Details</h2>
+<dl>
+  <% unless object.expected_arrival_date.blank? %>
+    <dt>Expected Arrival</dt>
+    <dd><%= object.expected_arrival_date.strftime("%m/%d/%Y") %></dd>
+  <% end %>
+  <% unless object.location.blank? %>
+    <dt>Location</dt>
+    <dd><%= object.location %></dd>
+  <% end %>
+</dl>
+<% if in_modal %>
+  <%= link_to 'Full view', show_train_path(object), class: 'btn btn-primary' %>
+<% else %>
+  <%= link_to 'Order', order_path(object.order), class: 'btn btn-primary' %>
+<% end %>
