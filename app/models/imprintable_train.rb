@@ -29,8 +29,8 @@ class ImprintableTrain < ActiveRecord::Base
     end
 
     success_event :all_pieces_ordered,
-      params:          { location: :text_field, expected_arrival_date: :date_field },
-      public_activity: { supplier: :text_field } do
+        params:          { location: :text_field, expected_arrival_date: :date_field },
+        public_activity: { supplier: :text_field } do
       transition [:ready_to_order, :partially_ordered] => :ordered
     end
 
