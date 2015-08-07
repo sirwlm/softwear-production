@@ -19,7 +19,10 @@ class ImprintableTrain < ActiveRecord::Base
   has_many :imprints, through: :job
 
   searchable do
-    text :job_name, :imprint_names, :order_name, :human_state_name 
+    text :job_name, :imprint_names, :order_name, :human_state_name, :location
+    string :state
+    time(:expected_arrival_date) { |i| i.expected_arrival_date.try(:to_date) }
+    integer :job_id
   end
 
   before_save :check_solution

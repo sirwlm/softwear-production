@@ -1,7 +1,8 @@
 <h3>Imprintables Dashboard</h3>
 
-<div class="container">
+<div class="container imprintable-train-search">
   <%= render 'search' %>
+  <%= paginate @imprintable_trains %>
 </div>
 
 <div class="container">
@@ -19,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-      <% ImprintableTrain.where.not(job_id: nil).each do |it| %>
+      <% @imprintable_trains.each do |it| %>
         <tr>
           <td><%= it.id %></td>
           <td><%= it.job.order.try(:name) %></td>
@@ -34,11 +35,17 @@
             <% end %>
           </td>
           <td><%= it.human_state_name %></td>
-          <td>Insert Expected Arrival Here:</td>
-          <td>Insert Location Here:</td>
-          <td>Insert Actions Here:</td>
+          <td><%= it.expected_arrival_date.try(:strftime, '%D') || "none" %></td>
+          <td><%= it.location %></td>
+          <td>
+            <%= link_to show_train_path(it), class: 'btn btn-primary btn-sm', remote: true do %>
+              <i class='glyphicon glyphicon-eye-open'></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
+
+<%= paginate @imprintable_trains %>
