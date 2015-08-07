@@ -10,7 +10,7 @@ class ImprintableTrain < ActiveRecord::Base
   has_many :imprints, through: :job
 
   searchable do
-    text :job_name, :imprint_names, :order_name # TODO <- define order_name method
+    text :job_name, :imprint_names, :order_name, :human_state_name 
   end
 
   train_type :pre_production
@@ -71,5 +71,9 @@ class ImprintableTrain < ActiveRecord::Base
 
   def imprint_names
     imprints.pluck(:name).join(' ')
+  end
+
+  def order_name
+    job.try(:order).try(:name)
   end
 end
