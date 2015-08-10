@@ -47,7 +47,6 @@ $( document ).ready(function() {
 
   $('.colorpicker').colorpicker()
   $('[data-toggle="tooltip"]').tooltip();
-  $('.select2').select2({width: '35%'});
   $('.select2').each(function() {
     var width = $(this).data('width');
     if (!width)

@@ -1,0 +1,51 @@
+<h3>Imprintables Dashboard</h3>
+
+<div class="container imprintable-train-search">
+  <%= render 'search' %>
+  <%= paginate @imprintable_trains %>
+</div>
+
+<div class="container">
+  <table class="table table-hover table-bordered table-sortable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Order</th>
+        <th>Job</th>
+        <th>Imprints</th>
+        <th>State</th>
+        <th>Expected Arrival</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @imprintable_trains.each do |it| %>
+        <tr>
+          <td><%= it.id %></td>
+          <td><%= it.job.order.try(:name) %></td>
+          <td><%= it.job.name %></td>
+          
+          <td>
+            <% it.job.imprints.each do |i| %>
+              <p>
+                <%= i.name %> 
+                <%="(#{i.scheduled_at.try(:strftime, '%D')})" %>
+              </p>
+            <% end %>
+          </td>
+          <td><%= it.human_state_name %></td>
+          <td><%= it.expected_arrival_date.try(:strftime, '%D') || "none" %></td>
+          <td><%= it.location %></td>
+          <td>
+            <%= link_to show_train_path(it), class: 'btn btn-primary btn-sm', remote: true do %>
+              <i class='glyphicon glyphicon-eye-open'></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @imprintable_trains %>

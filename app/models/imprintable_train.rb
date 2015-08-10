@@ -16,10 +16,18 @@ class ImprintableTrain < ActiveRecord::Base
 
   belongs_to :job
   has_one :order, through: :job
+  has_many :imprints, through: :job
 
-  attr_accessor :solution
+  searchable do
+    text :job_name, :imprint_names, :order_name, :human_state_name, :location
+    string :state
+    time(:expected_arrival_date) { |i| i.expected_arrival_date.try(:to_date) }
+    integer :job_id
+  end
 
   before_save :check_solution
+
+  attr_accessor :solution
 
   train_type :pre_production
   train initial: :ready_to_order, final: :staged do
@@ -73,5 +81,17 @@ class ImprintableTrain < ActiveRecord::Base
 
     update_column :state, new_state unless new_state.nil?
     @solution = nil
+  end
+
+  def job_name
+    job.try(:name)
+  end
+
+  def imprint_names
+    imprints.pluck(:name).join(' ')
+  end
+
+  def order_name
+    job.try(:order).try(:name)
   end
 end
