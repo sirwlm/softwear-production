@@ -8,15 +8,17 @@ class ImprintsController < InheritedResources::Base
   helper_method :imprint_group
 
   def index
+    return if @calendar_entries
+
     if params[:q]
-      search = Imprint.search do
+      @imprints = Imprint.search do
         fulltext params[:q][:text] unless params[:q][:text].blank?
         with(:scheduled_at).greater_than(params[:q][:scheduled_start_at_after]) unless params[:q][:scheduled_start_at_after].blank?
         with(:scheduled_at).less_than(params[:q][:scheduled_start_at_before]) unless params[:q][:scheduled_start_at_before].blank?
         with(:complete, params[:q][:complete] == 'true') unless params[:q][:complete].blank?
         with(:scheduled, params[:q][:scheduled] == 'true') unless params[:q][:scheduled].blank?
       end
-      @imprints = search.results
+        .results
     else
       @imprints = Imprint.search do
         with :complete, false
@@ -59,6 +61,7 @@ class ImprintsController < InheritedResources::Base
       else
         flash[:error] = 'Must select user to complete printing'
       end
+
     elsif params[:transition] == 'production_manager_approved'
       if valid_manager(params[:manager_id], params[:manager_password])
         @imprint.fire_state_event(params[:transition])
