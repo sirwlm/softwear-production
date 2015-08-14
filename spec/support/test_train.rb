@@ -34,6 +34,8 @@ class TestTrain
     event :broadcast, public_activity: { message: :text_field } do
       transition :first => :success
     end
+
+    state :failure, type: :bad
   end
 
   def update_attributes!(attrs)
