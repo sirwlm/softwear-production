@@ -4,7 +4,7 @@
 
 <%= render 'search' %>
 
-<%= paginate @orders %>
+<%= paginate @orders, theme: 'twitter-bootstrap-3' %>
 
 <table class="table table-striped">
   <thead>
@@ -19,7 +19,7 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><h4><%= link_to order.name, order %></h4></td>
+        <td><%= link_to order.name, order %></td>
         <td><%= order.deadline.try(:strftime, '%c') || 'Not set' %></td>
         <td>
           <% order.jobs.each do |job| %>
@@ -36,4 +36,4 @@
   </tbody>
 </table>
 
-<%= paginate @orders %>
+<%= paginate @orders, theme: 'twitter-bootstrap-3' %>

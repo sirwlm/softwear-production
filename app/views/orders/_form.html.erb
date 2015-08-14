@@ -14,12 +14,14 @@
   <div class='row'>
     <div class='col-sm-12'>
       <%= nested_form_for order, role: 'form', builder: BootstrapForm::FormBuilder do |f| %>
-        <div class='control-group'>
-          <%= f.check_box :fba, class: 'form-control', label: 'FBA?' %>
-          <%= f.check_box :has_imprint_groups, class: 'form-control' %>
-          <%= f.text_field :name, class: 'form-control' %>
-          <%= f.text_field :deadline, class: 'form-control datetimepicker-standard', value: order.deadline %>
-        </div>
+        <%= f.form_group :fba do %>
+          <%= f.check_box :fba, label: "FBA?" %>
+        <% end %>
+        <%= f.form_group :fba do %>
+          <%= f.check_box :has_imprint_groups %>
+        <% end %>
+        <%= f.text_field :name, class: 'form-control' %>
+        <%= f.text_field :deadline, class: 'form-control datetimepicker-standard', value: order.deadline %>
 
         <div class='order-jobs'>
           <%= f.fields_for :jobs do |ff| %>

@@ -2,11 +2,11 @@
 
 <div class="container imprintable-train-search">
   <%= render 'search' %>
-  <%= paginate @imprintable_trains %>
 </div>
 
-<div class="container">
-  <table class="table table-hover table-bordered table-sortable">
+<%= paginate @imprintable_trains, theme: 'twitter-bootstrap-3' %>
+
+  <table class="table table-hover table-striped table-sortable">
     <thead>
       <tr>
         <th>ID</th>
@@ -46,6 +46,5 @@
       <% end %>
     </tbody>
   </table>
-</div>
 
-<%= paginate @imprintable_trains %>
+<%= paginate @imprintable_trains, theme: 'twitter-bootstrap-3' %>
