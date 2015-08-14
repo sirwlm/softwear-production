@@ -205,7 +205,7 @@ module Train
 
   def serializable_hash(options = {})
     super(
-      { methods: [:train_type, :train_name] }.merge(options)
+      { methods: [:train_type, :train_name, :state_type] }.merge(options)
     )
   end
 
