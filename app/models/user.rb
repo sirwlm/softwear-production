@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   acts_as_paranoid
+  acts_as_token_authenticatable
 
   has_many :user_roles
   has_many :roles, through: :user_roles
