@@ -5,24 +5,23 @@ module Api
 
     def includes
       [
+        :pre_production_trains,
+        :production_trains,
+        :post_production_trains,
         jobs: {
-          include: {
+          include: [
+            :pre_production_trains,
+            :production_trains,
+            :post_production_trains,
             imprints: {
               only: [
-                :state, :machine_name, :scheduled_at, :estimated_time,
-                :completed?
+                :scheduled_at, :estimated_time
+              ],
+              methods: [
+                :completed?, :machine_name
               ]
-            },
-            imprintable_train: {
-              only: [:state, :location]
             }
-          }
-        },
-        fba_bagging_train: {
-          only: [:state]
-        },
-        fba_label_train: {
-          only: [:state]
+          ]
         }
       ]
     end

@@ -1,5 +1,7 @@
 class Order < ActiveRecord::Base
   # include CrmCounterpart
+  include TrainStation
+
   has_many :jobs
   has_many :imprints, through: :jobs
   has_many :imprint_groups

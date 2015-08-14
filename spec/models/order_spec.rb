@@ -59,7 +59,6 @@ describe Order do
         expect(not_fba.fba_label_train).not_to be_blank
       end
     end
-
   end
 
   describe '#scheduled?' do

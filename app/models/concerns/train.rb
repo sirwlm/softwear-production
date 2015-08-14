@@ -144,6 +144,10 @@ module Train
       train_machine.complete_state = final_state.to_sym if final_state
 
       class_eval <<-RUBY, __FILE__, __LINE__
+        searchable do
+          string :train_type
+        end
+
         def #{train_machine.attribute}_events(*args)
           train_machine = self.class.train_machine
 
@@ -174,7 +178,21 @@ module Train
     self.class.train_machine
   end
 
+  def train_type
+    Train.type_of(self.class)
+  end
+
+  def train_name
+    self.class.name.underscore.humanize
+  end
+
   def complete?
     send(train_machine.attribute).to_sym == train_machine.complete_state
+  end
+
+  def serializable_hash(options = {})
+    super(
+      { methods: [:train_type, :train_name] }.merge(options)
+    )
   end
 end
