@@ -15,6 +15,7 @@ class Imprint < ActiveRecord::Base
   validate :type_matches_group, if: :part_of_group?
   validates :name, :description, presence: true
   validates :count, presence: true, numericality: { greater_than: 0 }
+  validates :type, presence: true
 
   before_save :assign_estimated_end_at
   before_save :reset_state_when_type_changed

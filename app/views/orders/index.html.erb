@@ -10,6 +10,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Scheduled At</th>
       <th>Deadline</th>
       <th>Jobs</th>
       <th>Actions</th>
@@ -20,6 +21,7 @@
     <% @orders.each do |order| %>
       <tr>
         <td><%= link_to order.name, order %></td>
+        <td><%= order.earliest_scheduled_date.try(:strftime, '%c') || 'Not set' %></td>
         <td><%= order.deadline.try(:strftime, '%c') || 'Not set' %></td>
         <td>
           <% order.jobs.each do |job| %>
