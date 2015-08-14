@@ -64,13 +64,7 @@ class ImprintableTrain < ActiveRecord::Base
       transition all - :imprintable_changed => :imprintable_changed
     end
 
-    state :partially_ordered
-    state :ready_to_order
-    state :ordered
-    state :partially_inventoried
-    state :inventoried
-    state :staged
-    state :imprintable_changed
+    state :imprintable_changed, type: :delay
   end
 
   private

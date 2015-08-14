@@ -177,7 +177,7 @@ module Train
         end
 
         def #{train_machine.attribute}_type
-          train_state_type(#{train_machine.attribute})
+          complete? ? :complete : train_state_type(#{train_machine.attribute})
         end
       RUBY
     end
