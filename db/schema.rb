@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150806200357) do
+ActiveRecord::Schema.define(version: 20150814151315) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -47,10 +47,10 @@ ActiveRecord::Schema.define(version: 20150806200357) do
     t.integer  "machine_id",       limit: 4
     t.integer  "completed_by_id",  limit: 4
     t.datetime "scheduled_at"
-    t.decimal  "estimated_time",               precision: 10
+    t.decimal  "estimated_time",               precision: 10, scale: 2
     t.datetime "estimated_end_at"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
     t.integer  "order_id",         limit: 4
   end
 
@@ -78,14 +78,14 @@ ActiveRecord::Schema.define(version: 20150806200357) do
     t.integer  "order_id",                limit: 4
     t.datetime "scheduled_at"
     t.datetime "estimated_end_at"
-    t.decimal  "estimated_time",                      precision: 10
+    t.decimal  "estimated_time",                      precision: 10, scale: 2
     t.integer  "machine_id",              limit: 4
     t.datetime "completed_at"
     t.integer  "completed_by_id",         limit: 4
     t.boolean  "require_manager_signoff"
     t.string   "type",                    limit: 255
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
   end
 
   create_table "imprintable_trains", force: :cascade do |t|
@@ -136,15 +136,15 @@ ActiveRecord::Schema.define(version: 20150806200357) do
 
   create_table "maintenances", force: :cascade do |t|
     t.datetime "scheduled_at"
-    t.decimal  "estimated_time",               precision: 10
+    t.decimal  "estimated_time",               precision: 10, scale: 2
     t.datetime "estimated_end_at"
     t.integer  "machine_id",       limit: 4
     t.datetime "completed_at"
     t.integer  "completed_by_id",  limit: 4
     t.string   "name",             limit: 255
     t.string   "description",      limit: 255
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
   end
 
   create_table "orders", force: :cascade do |t|
@@ -170,12 +170,6 @@ ActiveRecord::Schema.define(version: 20150806200357) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
-  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
-  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
-  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
-  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
 
   create_table "user_roles", force: :cascade do |t|
     t.datetime "created_at"
