@@ -66,6 +66,7 @@ module Train
     attr_accessor :event_params
     attr_accessor :event_public_activity
     attr_accessor :complete_state
+    attr_accessor :state_types
 
     # -- So that:
     # failure_event :mess_it_up
@@ -103,6 +104,14 @@ module Train
       end
 
       super
+    end
+
+    def state(name, *args)
+      options = args.last
+      return super unless options.try(:key?, :type)
+
+      self.state_types ||= {}
+      self.state_types[name.to_sym] = options.delete(:type)
     end
   end
 
@@ -170,6 +179,10 @@ module Train
         def train_events(*args)
           #{train_machine.attribute}_events(*args)
         end
+
+        def #{train_machine.attribute}_type
+          complete? ? :complete : train_state_type(#{train_machine.attribute})
+        end
       RUBY
     end
   end
@@ -194,5 +207,9 @@ module Train
     super(
       { methods: [:train_type, :train_name] }.merge(options)
     )
+  end
+
+  def train_state_type(state)
+    train_machine.state_types[state]
   end
 end
