@@ -1,12 +1,14 @@
-<div class='well col-xs-4'>
-  <h4>
+<div class="col-xs-4">
+<div class='panel panel-primary'>
+  <div class="panel-heading">
     <% if object.respond_to?(:name) %>
       <%= object.name %>
     <% else %>
       <%= object.model_name.element.humanize %>
     <% end %>
-  </h4>
+  </div>
 
+  <div class="panel-body"> 
   <dl>
     <dt>State</dt>
     <dd class='<%= object.class.name.underscore %>_<%= object.id %>_current_state'><%= object.send("human_#{object.train_machine.attribute}_name") %></dd>
@@ -14,4 +16,6 @@
   <%= capture(&block) if local_assigns[:block] %>
 
   <%= link_to 'Show Full Details', show_train_path(object), remote: true, class: 'btn btn-primary' %>
+  </div>
+</div>
 </div>

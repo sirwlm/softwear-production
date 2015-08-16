@@ -28,6 +28,7 @@ feature 'Imprints' do
         within '.job-imprints' do
           fill_in 'Name', with: 'An imprint'
           fill_in 'Description', with: 'Here it is - the imprint'
+          select print.type, from: 'Type'
           select machine.name, from: 'Machine'
           fill_in 'Estimated Time in Hours', with: 3
           fill_in 'Machine Print Count', with: 7

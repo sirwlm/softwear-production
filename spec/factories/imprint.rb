@@ -3,6 +3,7 @@ FactoryGirl.define do
     name 'An Imprint'
     description 'An Imprint Description'
     state 'pending_approval'
+    type 'Print' 
 
     factory :imprint do
       scheduled_at Time.now
@@ -11,8 +12,8 @@ FactoryGirl.define do
       machine { |imprint| imprint.association(:machine) }
 
       factory :print do
-        type 'Print'
       end
+      
       factory :screen_print do
         type 'ScreenPrint'
       end

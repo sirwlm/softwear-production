@@ -1,13 +1,18 @@
-<div class='draggable-imprint col-sm-4 well' data-imprint-id="<%= imprint.id %>">
-  <h4><%= imprint.name %></h4>
-  <dl>
-    <dt>State</dt>
-    <dd><%= imprint.state.humanize %></dd>
-  </dl>
+<div class="col-xs-4">
+  <div class='draggable-imprint panel panel-primary' data-imprint-id="<%= imprint.id %>">
+    <div class="panel-heading">
+      <%= imprint.name %>
+    </div>
+    <div class="panel-body">
+    <dl>
+      <dt>State</dt>
+      <dd><%= imprint.state.humanize %></dd>
+    </dl>
 
-  <%= render 'shared/imprint_details', imprint: imprint %>
-  insert imprint details here
-  <p>
-    <%= link_to "Show Full Details", imprint_path(imprint), class: 'btn btn-primary' %>
-  </p>
+    <%= render 'shared/imprint_details', imprint: imprint %>
+    <p>
+      <%= link_to "Show Full Details", imprint_path(imprint), class: 'btn btn-primary' %>
+      </p>
+    </div>
+  </div>
 </div>

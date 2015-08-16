@@ -12,6 +12,20 @@
 }
 
 .imprint-group-drop-zone {
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    list-style: none;
+    margin: 0px;
+    padding: 0px; 
+  }
+
+  .well {
+    background-color: #eee;
+  }
 }
 
 .imprints, .trains, .imprint-groups, .pre_production_trains, .post_production_trains {

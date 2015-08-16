@@ -17,6 +17,7 @@ feature 'Orders' do
         fill_in 'Name', with: 'An imprint'
         fill_in 'Description', with: 'Here it is - the imprint'
         select machine.name, from: 'Machine'
+        select "Print", from: 'Type'
         fill_in 'Estimated Time in Hours', with: 3
         fill_in 'Machine Print Count', with: 7
       end
@@ -44,6 +45,7 @@ feature 'Orders' do
         fill_in 'Name', with: 'An imprint'
         fill_in 'Description', with: 'Here it is - the imprint'
         select machine.name, from: 'Machine'
+        select "Print", from: 'Type'
         fill_in 'Estimated Time in Hours', with: 3
         fill_in 'Machine Print Count', with: 7
       end
@@ -58,6 +60,7 @@ feature 'Orders' do
         fill_in 'Name', with: 'An imprint'
         fill_in 'Description', with: 'Here it is - the imprint'
         select machine.name, from: 'Machine'
+        select "Print", from: 'Type'
         fill_in 'Estimated Time in Hours', with: 3
         fill_in 'Machine Print Count', with: 7
       end
@@ -131,6 +134,7 @@ feature 'Orders' do
           fill_in 'Name', with: 'An imprint'
           fill_in 'Description', with: 'Here it is - the imprint'
           select machine.name, from: 'Machine'
+          select "Print", from: 'Type'
           fill_in 'Estimated Time in Hours', with: 3
           fill_in 'Machine Print Count', with: 7
         end
@@ -149,7 +153,7 @@ feature 'Orders' do
       sleep 1
       within '.imprint-groups' do
         expect(page).to have_content /Group #\d/
-        expect(page).to have_content 'drop imprints here'
+        expect(page).to have_content 'Drop Imprints Below'
         expect(ImprintGroup.where(order_id: order.id)).to exist
       end
     end
