@@ -153,8 +153,10 @@ module Train
       train_machine.complete_state = final_state.to_sym if final_state
 
       class_eval <<-RUBY, __FILE__, __LINE__
-        searchable do
-          string :train_type
+        if defined? searchable
+          searchable do
+            string :train_type
+          end
         end
 
         def #{train_machine.attribute}_events(*args)
