@@ -64,4 +64,8 @@ SoftwearProduction::Application.routes.draw do
   patch '/:model_name/:id/transition_to/:event', to: 'trains#transition', as: :transition_train
   get '/:model_name/:id/new_train/:train_type', to: 'trains#new', as: :new_train
   get '/:model_name/:id/train', to: 'trains#show', as: :show_train
+
+  namespace :api do 
+    resources :orders
+  end
 end
