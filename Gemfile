@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'softwear-lib', '~> 1.2.7'
+gem 'softwear-lib', '~> 1.3.0'
 
 gem 'jbuilder', '~> 1.2'
 gem 'state_machines-activerecord'
@@ -72,6 +72,7 @@ gem 'whenever'
 gem 'dumpsync', git: 'git://github.com/AnnArborTees/dumpsync.git'
 gem 'bootstrap_form'
 gem 'acts_as_warnable', git: 'git://github.com/AnnArborTees/acts_as_warnable.git'
+gem 'simple_token_authentication'
 
 group :development do
   gem 'capistrano', '~> 3.2.0'

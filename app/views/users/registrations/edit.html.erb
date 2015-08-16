@@ -1,5 +1,13 @@
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
+<div>
+  <% if resource.authentication_token.blank? %>
+    Submit this form to receive an authentication token.
+  <% else %>
+    Authentication Token: <code><%= resource.authentication_token %></code>
+  <% end %>
+</div>
+
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
 

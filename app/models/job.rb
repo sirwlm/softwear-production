@@ -1,5 +1,6 @@
 class Job < ActiveRecord::Base
   # include CrmCounterpart
+  include TrainStation
 
   has_one :imprintable_train
   has_many :imprints
