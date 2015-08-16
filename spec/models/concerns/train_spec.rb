@@ -24,6 +24,11 @@ describe Train do
       expect{subject}.to_not raise_error
     end
 
+    it 'can specify state types with state <state name>, type: <type>', story_855: true do
+      subject.state = :failure
+      expect(subject.state_type).to eq :bad
+    end
+
     it 'reacts fine to normal event transitions' do
       expect(subject.state.to_sym).to eq :first
       subject.normal_success
