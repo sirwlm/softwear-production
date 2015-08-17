@@ -1,9 +1,18 @@
 class TestTrain
   include ActiveModel::Model
+  include ActiveModel::Serialization
   include Train
+
+  cattr_accessor :column_names
+  def self.attr_accessor(*args)
+    self.column_names ||= []
+    self.column_names += args.map(&:to_s)
+    super
+  end
 
   attr_accessor :state
   attr_accessor :winner_id
+  attr_accessor :other_field
 
   train_type :preproduction
 
@@ -49,5 +58,14 @@ class TestTrain
 
   def id
     1
+  end
+
+  def attributes
+    a = {}
+    self.class.column_names.each do |col|
+      a[col.to_s] = send(col)
+    end
+    a['id'] = id
+    a
   end
 end
