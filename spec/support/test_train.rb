@@ -63,9 +63,13 @@ class TestTrain
   def attributes
     a = {}
     self.class.column_names.each do |col|
-      a[col.to_s] = send(col)
+      a[col.to_s] = nil
     end
-    a['id'] = id
+    a['id'] = nil
     a
+  end
+
+  def self.reflect_on_all_associations
+    []
   end
 end

@@ -92,9 +92,9 @@ describe Train do
         expect(subject.serializable_hash['state']).to eq :first
       end
 
-      it 'includes train_type, and train_class, which are the declared type and humanized class of the object' do
+      it 'includes train_type, and train_class, which are the declared type and snake cased class of the object' do
         expect(subject.serializable_hash['train_type']).to eq :preproduction
-        expect(subject.serializable_hash['train_class']).to eq 'Test train'
+        expect(subject.serializable_hash['train_class']).to eq 'test_train'
       end
 
       it 'includes "details", which is a hash of fields specific to that train' do

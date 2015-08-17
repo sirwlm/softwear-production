@@ -198,7 +198,7 @@ module Train
   end
 
   def train_class
-    self.class.name.underscore.humanize
+    self.class.name.underscore
   end
 
   def complete?
@@ -206,7 +206,11 @@ module Train
   end
 
   def usual_fields
-    [train_machine.attribute] + [:id, :created_at, :updated_at, :scheduled_at, :estimated_time]
+    [train_machine.attribute] +
+    [:id, :created_at, :updated_at, :scheduled_at, :estimated_time, :estimated_end_at] +
+    self.class.reflect_on_all_associations
+      .select { |a| a.is_a?(ActiveRecord::Reflection::BelongsToReflection) }
+      .map { |a| a.foreign_key.to_sym }
   end
 
   def details
@@ -228,6 +232,7 @@ module Train
   end
 
   def train_state_type(state)
+    return nil if train_machine.state_types.nil?
     train_machine.state_types[state]
   end
 end
