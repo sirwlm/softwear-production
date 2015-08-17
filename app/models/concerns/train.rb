@@ -197,7 +197,7 @@ module Train
     Train.type_of(self.class)
   end
 
-  def train_name
+  def train_class
     self.class.name.underscore.humanize
   end
 
@@ -205,9 +205,25 @@ module Train
     send(train_machine.attribute).to_sym == train_machine.complete_state
   end
 
+  def usual_fields
+    [train_machine.attribute] + [:id, :created_at, :updated_at, :scheduled_at, :estimated_time]
+  end
+
+  def details
+    deets = {}
+    (self.class.column_names.map(&:to_sym) - usual_fields).each do |field|
+      deets[field] = send(field)
+    end
+    deets
+  end
+
   def serializable_hash(options = {})
     super(
-      { methods: [:train_type, :train_name, :state_type] }.merge(options)
+      {
+        only: usual_fields,
+        methods: [:train_type, :train_class, :state_type, :details],
+      }
+        .merge(options)
     )
   end
 

@@ -79,6 +79,34 @@ describe Train do
       end
     end
 
+    describe '#details', story_806: true do
+      it 'returns a hash of field/values specific to the train' do
+        subject.winner_id = 50
+        subject.other_field = 'okay'
+        expect(subject.details).to eq(winner_id: 50, other_field: 'okay')
+      end
+    end
+
+    describe '#serializable_hash', story_806: true do
+      it 'includes state' do
+        expect(subject.serializable_hash['state']).to eq :first
+      end
+
+      it 'includes train_type, and train_class, which are the declared type and humanized class of the object' do
+        expect(subject.serializable_hash['train_type']).to eq :preproduction
+        expect(subject.serializable_hash['train_class']).to eq 'Test train'
+      end
+
+      it 'includes "details", which is a hash of fields specific to that train' do
+        subject.winner_id = 50
+        subject.other_field = 'okay'
+
+        details = subject.serializable_hash['details']
+        expect(details[:winner_id]).to eq 50
+        expect(details[:other_field]).to eq 'okay'
+      end
+    end
+
     describe '::train_type' do
       context 'when Train.train_types has nothing in it' do
         let!(:train_types) { {} }
