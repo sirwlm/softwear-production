@@ -112,7 +112,96 @@ feature 'Orders' do
       expect(page).to have_content 'State bagged'
     end
   end
+  
+  describe 'for an existing order', js: true, story_869: true do 
+    given(:job) { create(:job) }
+    given(:order) { create(:order, jobs: [job]) }
+    
+    scenario 'I can add an embroidery print' do
+      visit edit_order_path(order) 
+      within '.order-jobs' do
+        within '.job-imprints' do
+          fill_in 'Name', with: 'An imprint'
+          fill_in 'Description', with: 'Here it is - the imprint'
+          select "Embroidery Print", from: 'Type'
+        end
+      end
+      
+      click_button 'Update Order'
+      sleep 1
 
+      expect(page).to have_content 'Here it is - the imprint'
+      expect(page).to have_content 'Hooray! Order was successfully updated.'
+    end
+    
+    scenario 'I can add a transfer print' do
+      visit edit_order_path(order) 
+      within '.order-jobs' do
+        within '.job-imprints' do
+          fill_in 'Name', with: 'An imprint'
+          fill_in 'Description', with: 'Here it is - the imprint'
+          select "Transfer Print", from: 'Type'
+        end
+      end
+      
+      click_button 'Update Order'
+      sleep 1
+
+      expect(page).to have_content 'Here it is - the imprint'
+      expect(page).to have_content 'Hooray! Order was successfully updated.'
+    end
+    
+    scenario 'I can add an transfer making print' do
+      visit edit_order_path(order) 
+      within '.order-jobs' do
+        within '.job-imprints' do
+          fill_in 'Name', with: 'An imprint'
+          fill_in 'Description', with: 'Here it is - the imprint'
+          select "Transfer Making Print", from: 'Type'
+        end
+      end
+      
+      click_button 'Update Order'
+      sleep 1
+
+      expect(page).to have_content 'Here it is - the imprint'
+      expect(page).to have_content 'Hooray! Order was successfully updated.'
+    end
+    
+    scenario 'I can add a button making print' do
+      visit edit_order_path(order) 
+      within '.order-jobs' do
+        within '.job-imprints' do
+          fill_in 'Name', with: 'An imprint'
+          fill_in 'Description', with: 'Here it is - the imprint'
+          select "Button Making Print", from: 'Type'
+        end
+      end
+      
+      click_button 'Update Order'
+      sleep 1
+
+      expect(page).to have_content 'Here it is - the imprint'
+      expect(page).to have_content 'Hooray! Order was successfully updated.'
+    end
+    
+    scenario 'I can add a digital print to an order' do
+      visit edit_order_path(order) 
+      within '.order-jobs' do
+        within '.job-imprints' do
+          fill_in 'Name', with: 'An imprint'
+          fill_in 'Description', with: 'Here it is - the imprint'
+          select "Digital Print", from: 'Type'
+        end
+      end
+      
+      click_button 'Update Order'
+      sleep 1
+
+      expect(page).to have_content 'Here it is - the imprint'
+      expect(page).to have_content 'Hooray! Order was successfully updated.'
+    end
+  end
   describe 'imprint groups', js: true, story_768: true do
     given(:imprint_group) { create(:imprint_group, order_id: order.id) }
     given(:imprint_1) { job_1.imprints.first.tap { |i| i.update_attributes name: 'Imprint 1' } }

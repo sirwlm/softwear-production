@@ -1,4 +1,10 @@
 class Imprint < ActiveRecord::Base
+  TYPES = [
+    "Screen Print", "Embroidery Print", "Digital Print", 
+    "Button Making Print", "Transfer Making Print", "Transfer Print", 
+    "Print", "Equipment Cleaning Print"
+  ]
+
   # include CrmCounterpart
   include ColorUtils
   include PublicActivity::Model
