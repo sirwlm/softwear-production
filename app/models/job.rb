@@ -16,6 +16,10 @@ class Job < ActiveRecord::Base
     "#{order.name} - #{name}" rescue name
   end
 
+  def production_trains
+    (super rescue []) + imprints
+  end
+
   private
 
   def assign_imprintable_train

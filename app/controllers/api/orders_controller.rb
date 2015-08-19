@@ -12,15 +12,7 @@ module Api
           include: [
             :pre_production_trains,
             :production_trains,
-            :post_production_trains,
-            imprints: {
-              only: [
-                :scheduled_at, :estimated_time
-              ],
-              methods: [
-                :completed?, :machine_name
-              ]
-            }
+            :post_production_trains
           ]
         }
       ]

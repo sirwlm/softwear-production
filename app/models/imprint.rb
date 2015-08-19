@@ -1,7 +1,7 @@
 class Imprint < ActiveRecord::Base
   TYPES = [
-    "Screen Print", "Embroidery Print", "Digital Print", 
-    "Button Making Print", "Transfer Making Print", "Transfer Print", 
+    "Screen Print", "Embroidery Print", "Digital Print",
+    "Button Making Print", "Transfer Making Print", "Transfer Print",
     "Print", "Equipment Cleaning Print"
   ]
 
@@ -121,6 +121,39 @@ class Imprint < ActiveRecord::Base
 
   def order_deadline_day
     self.order.deadline.strftime('%a %m/%d') rescue 'No Deadline'
+  end
+
+  def train_type
+    :production
+  end
+  def train_class
+    'imprint'
+  end
+  def train_state
+    state
+  end
+  def state_type
+    state.to_sym == :complete ? :complete : :success
+  end
+  def details
+    {
+      name:         name,
+      description:  description,
+      type:         type,
+      machine_name: machine.try(:name) || 'unassigned',
+      count:        count,
+      require_manager_signoff: !require_manager_signoff.nil?
+    }
+  end
+
+  def serializable_hash(options = {})
+    super(
+      {
+        only: [:state, :id, :created_at, :update, :scheduled_at, :estimated_time, :estimated_end_at],
+        methods: [:train_type, :train_class, :state_type, :details]
+      }
+        .merge(options)
+    )
   end
 
   private
