@@ -9,6 +9,7 @@ class Order < ActiveRecord::Base
   has_one :fba_label_train
 
   validates :name, :jobs,  presence: true
+  validates :softwear_crm_id, uniqueness: true, unless: -> { softwear_crm_id.blank? }
 
   accepts_nested_attributes_for :jobs, allow_destroy: true
 
