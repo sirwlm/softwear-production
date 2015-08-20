@@ -126,15 +126,19 @@ class Imprint < ActiveRecord::Base
   def train_type
     :production
   end
+
   def train_class
     'imprint'
   end
+
   def train_state
     state
   end
+
   def state_type
     state.to_sym == :complete ? :complete : :success
   end
+
   def details
     {
       name:         name,
