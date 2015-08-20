@@ -43,11 +43,11 @@ class ImprintableTrain < ActiveRecord::Base
       transition [:ready_to_order, :partially_ordered] => :ordered
     end
 
-    success_event :some_pieces_arrive do
+    success_event :some_pieces_arrive, params: { location: :text_field } do
       transition [:ordered, :partially_inventoried] => :partially_inventoried
     end
 
-    success_event :all_pieces_arrived do
+    success_event :all_pieces_arrived, params: { location: :text_field } do
       transition [:ordered, :partially_inventoried] => :inventoried
     end
 
@@ -62,6 +62,10 @@ class ImprintableTrain < ActiveRecord::Base
 
     delay_event :imprintable_line_items_changed do
       transition all - :imprintable_changed => :imprintable_changed
+    end
+
+    delay_event :moved_back_to_inventory, params: { location: :text_field } do
+      transition :staged => :inventoried
     end
 
     state :imprintable_changed, type: :delay
