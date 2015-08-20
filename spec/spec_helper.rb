@@ -9,6 +9,12 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
+CrmHelper.class_eval do
+  def crm_image_tag(path, options = {})
+    image_tag path, options
+  end
+end
+
 RSpec.configure do |config|
   config.color = true
   config.infer_spec_type_from_file_location!
@@ -51,6 +57,7 @@ RSpec.configure do |config|
     Endpoint::Stub[Crm::Order]
     Endpoint::Stub[Crm::Job]
     Endpoint::Stub[Crm::Imprint]
+    Endpoint::Stub[Crm::Proof]
   end
 
   config.before(:each) do

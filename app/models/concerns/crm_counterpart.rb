@@ -2,15 +2,14 @@ module CrmCounterpart
   extend ActiveSupport::Concern
 
   included do
-    model_name = name.underscore
+    after_save :clear_crm
+  end
 
-    validates :softwear_crm_id, presence: true, uniqueness: true
+  def crm
+    @crm_record ||= "Crm::#{model_name.name}".constantize.find(softwear_crm_id)
+  end
 
-    class_eval <<-RUBY, __FILE__, __LINE__
-      def crm_#{model_name}
-        @crm_#{model_name} ||= Crm::#{name}.find(softwear_crm_id)
-      end
-    RUBY
-
+  def clear_crm
+    @crm_record = nil
   end
 end

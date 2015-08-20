@@ -27,7 +27,7 @@ class OrdersController < InheritedResources::Base
       jobs_attributes: [
         :name, :id, :_destroy,
         imprints_attributes: [
-          :name, :description, :estimated_time, :scheduled_at,
+          :name, :description, :estimated_time, :scheduled_at, :softwear_crm_id,
           :type, :require_manager_signoff, :machine_id, :id, :_destroy, :count
         ]
       ]

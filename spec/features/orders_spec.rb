@@ -112,13 +112,29 @@ feature 'Orders' do
       expect(page).to have_content 'State bagged'
     end
   end
-  
-  describe 'for an existing order', js: true, story_869: true do 
+
+  describe 'for an existing order', js: true, story_869: true do
     given(:job) { create(:job) }
     given(:order) { create(:order, jobs: [job]) }
-    
+
+    context 'and there is a matching crm order' do
+      given!(:crm_order) { create(:crm_order_with_proofs) }
+      given(:proofs) { crm_order.proofs artwork_paths: [Rails.root.join('spec/fixtures/images/capybara1.JPG')] }
+
+      background do
+        order.softwear_crm_id = crm_order.id
+        order.save!
+      end
+
+      scenario 'I can see the proofs from crm', story_864: true do
+        visit order_path(order)
+
+        expect(page).to have_content 'Status: Pending'
+      end
+    end
+
     scenario 'I can add an embroidery print' do
-      visit edit_order_path(order) 
+      visit edit_order_path(order)
       within '.order-jobs' do
         within '.job-imprints' do
           fill_in 'Name', with: 'An imprint'
@@ -126,16 +142,16 @@ feature 'Orders' do
           select "Embroidery Print", from: 'Type'
         end
       end
-      
+
       click_button 'Update Order'
       sleep 1
 
       expect(page).to have_content 'Here it is - the imprint'
       expect(page).to have_content 'Hooray! Order was successfully updated.'
     end
-    
+
     scenario 'I can add a transfer print' do
-      visit edit_order_path(order) 
+      visit edit_order_path(order)
       within '.order-jobs' do
         within '.job-imprints' do
           fill_in 'Name', with: 'An imprint'
@@ -143,16 +159,16 @@ feature 'Orders' do
           select "Transfer Print", from: 'Type'
         end
       end
-      
+
       click_button 'Update Order'
       sleep 1
 
       expect(page).to have_content 'Here it is - the imprint'
       expect(page).to have_content 'Hooray! Order was successfully updated.'
     end
-    
+
     scenario 'I can add an transfer making print' do
-      visit edit_order_path(order) 
+      visit edit_order_path(order)
       within '.order-jobs' do
         within '.job-imprints' do
           fill_in 'Name', with: 'An imprint'
@@ -160,16 +176,16 @@ feature 'Orders' do
           select "Transfer Making Print", from: 'Type'
         end
       end
-      
+
       click_button 'Update Order'
       sleep 1
 
       expect(page).to have_content 'Here it is - the imprint'
       expect(page).to have_content 'Hooray! Order was successfully updated.'
     end
-    
+
     scenario 'I can add a button making print' do
-      visit edit_order_path(order) 
+      visit edit_order_path(order)
       within '.order-jobs' do
         within '.job-imprints' do
           fill_in 'Name', with: 'An imprint'
@@ -177,16 +193,16 @@ feature 'Orders' do
           select "Button Making Print", from: 'Type'
         end
       end
-      
+
       click_button 'Update Order'
       sleep 1
 
       expect(page).to have_content 'Here it is - the imprint'
       expect(page).to have_content 'Hooray! Order was successfully updated.'
     end
-    
+
     scenario 'I can add a digital print to an order' do
-      visit edit_order_path(order) 
+      visit edit_order_path(order)
       within '.order-jobs' do
         within '.job-imprints' do
           fill_in 'Name', with: 'An imprint'
@@ -194,7 +210,7 @@ feature 'Orders' do
           select "Digital Print", from: 'Type'
         end
       end
-      
+
       click_button 'Update Order'
       sleep 1
 
@@ -202,6 +218,7 @@ feature 'Orders' do
       expect(page).to have_content 'Hooray! Order was successfully updated.'
     end
   end
+
   describe 'imprint groups', js: true, story_768: true do
     given(:imprint_group) { create(:imprint_group, order_id: order.id) }
     given(:imprint_1) { job_1.imprints.first.tap { |i| i.update_attributes name: 'Imprint 1' } }

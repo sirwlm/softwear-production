@@ -3,6 +3,8 @@ module Crm
     include RemoteModel
     
     self.api_settings_slug = :crm
-    # add_response_method :http_response
+
+    belongs_to :order
+    belongs_to :job
   end
 end

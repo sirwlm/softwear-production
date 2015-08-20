@@ -2,6 +2,20 @@
 <%= render 'nav' %>
 <br clear="all" />
 <h2>Deadline: <%= @order.try(:deadline).try(:strftime, '%F') %></h2>
+<h2>Proofs:</h2>
+
+<% if @order.softwear_crm_id.blank? %>
+  Assign a SoftWEAR-CRM ID to this order to see proofs
+<% else %>
+  <% begin %>
+    <%= render 'proofs', order: @order.crm %>
+  <% rescue StandardError => e %>
+    <%= javascript_tag do %>
+      console.log('<%=j "#{e.class.name}: #{e.message}" %>');
+    <% end %>
+  <% end %>
+<% end %>
+
 <div class="col-xs-12">
   <div id='order-pre-production' class='row clear-after'>
     <div class='panel panel-default pre_production_trains'>
@@ -20,7 +34,7 @@
   </div>
 </div>
 
-<div class='row'> 
+<div class='row'>
   <% if @order.has_imprint_groups? %>
     <div class="col-xs-8 col-lg-8" id='jobs-panel'>
       <%= render 'jobs', order: @order %>

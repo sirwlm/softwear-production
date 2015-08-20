@@ -5,7 +5,7 @@ class Imprint < ActiveRecord::Base
     "Print", "Equipment Cleaning Print"
   ]
 
-  # include CrmCounterpart
+  include CrmCounterpart
   include ColorUtils
   include PublicActivity::Model
   include Schedulable

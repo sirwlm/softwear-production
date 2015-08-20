@@ -7,6 +7,10 @@
   <% else %>
       <dt>Unscheduled</dt>
   <% end %>
+  <% if current_user.admin? %>
+    <dt>SoftWEAR-CRM ID</dt>
+    <dd><%= editable imprint, :softwear_crm_id %></dd>
+  <% end %>
   <dt>
     Machine
   </dt>

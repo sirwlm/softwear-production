@@ -1,5 +1,5 @@
 class Order < ActiveRecord::Base
-  # include CrmCounterpart
+  include CrmCounterpart
   include TrainStation
 
   has_many :jobs

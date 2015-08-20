@@ -53,5 +53,7 @@ $( document ).ready(function() {
       width = '35%';
     $(this).select2({width: width});
   });
+
+  $('.editable').editable();
 });
 

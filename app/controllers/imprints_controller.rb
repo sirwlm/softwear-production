@@ -123,12 +123,18 @@ class ImprintsController < InheritedResources::Base
   end
 
   def imprint_params
-    if params[:screen_print] then params[:imprint] = params[:screen_print]
-    elsif params[:print]     then params[:imprint] = params[:print] end
+    Imprint.descendants.each do |print_type|
+      key = print_type.name.underscore
+
+      if params[key]
+        params[:imprint] = params[key]
+        break
+      end
+    end
 
     params.require(:imprint).permit(
       :name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at, :job_id,
-      :type, :count, :require_manager_signoff, :imprint_group_id
+      :type, :count, :require_manager_signoff, :imprint_group_id, :softwear_crm_id
     )
   end
 
