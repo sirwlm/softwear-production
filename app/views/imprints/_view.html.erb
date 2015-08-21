@@ -14,6 +14,17 @@
         </p>
       <% end %>
 
+      <% unless @imprint.softwear_crm_id.blank? %>
+        <% begin %>
+          <%= render 'imprints/artwork', imprint: @imprint.crm %>
+        <% rescue StandardError => e %>
+          <span class='text-danger'>There was an issue retrieving proof information from crm.</span>
+          <%= content_tag :code do %>
+            <%= "#{e.class.name}: #{e.message}" %>
+          <% end %>
+        <% end %>
+      <% end %>
+
       <div id='transition-state' class='row'>
         <%= render 'imprints/transition_state', imprint: @imprint %>
       </div>

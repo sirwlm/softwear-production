@@ -1,7 +1,7 @@
 <div class='order-proofs row'>
   <% order.proofs.each do |proof| %>
     <div class='col-sm-6'>
-      <div class=' panel <%= proof_status_panel(proof) %>'>
+      <div class='panel <%= proof_status_panel(proof) %>'>
         <div class='panel-heading'>Status: <strong><%= proof.status %></strong></div>
         <div class='panel-body'>
           <% proof.artwork_paths.each do |artwork_path| %>

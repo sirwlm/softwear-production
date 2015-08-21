@@ -1,0 +1,20 @@
+<% if imprint.proofs.empty? %>
+  <p class='alert alert-danger'>There are no proofs associated with this imprint in SoftWEAR-CRM.</p>
+<% else %>
+  <% imprint.proofs.each do |proof| %>
+    <div>
+      <div>
+        <% if proof.status == 'Rejected' %>
+          <p class='alert alert-danger'>This proof was rejected.</p>
+        <% elsif proof.status != 'Approved' %>
+          <p class='alert alert-danger'>This proof is not yet approved.</p>
+        <% end %>
+      </div>
+
+      <% proof.artwork_thumbnail_paths.each_with_index do |thumb, i| %>
+        <%= link_to(proof.artwork_paths[i], target: '_blank') { image_tag thumb, class: 'img-thumbnail' } %>
+      <% end %>
+    </div>
+    <hr />
+  <% end %>
+<% end %>
