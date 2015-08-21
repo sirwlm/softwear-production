@@ -21,7 +21,20 @@ class ImprintableTrain < ActiveRecord::Base
   searchable do
     text :job_name, :imprint_names, :order_name, :human_state_name, :location
     string :state
+    string :order_imprint_state do
+      order.try(:imprint_state)
+    end
+    string :order_production_state do
+      order.try(:production_state)
+    end
+    string :job_imprint_state do
+      job.try(:imprint_state)
+    end
+    string :job_production_state do
+      job.try(:production_state)
+    end
     time(:expected_arrival_date) { |i| i.expected_arrival_date.try(:to_date) }
+    time :created_at
     integer :job_id
   end
 

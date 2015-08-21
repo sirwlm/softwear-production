@@ -25,11 +25,11 @@
           <td><%= it.id %></td>
           <td><%= it.job.order.try(:name) %></td>
           <td><%= it.job.name %></td>
-          
+
           <td>
             <% it.job.imprints.each do |i| %>
               <p>
-                <%= i.name %> 
+                <%= i.name %>
                 <%="(#{i.scheduled_at.try(:strftime, '%D')})" %>
               </p>
             <% end %>

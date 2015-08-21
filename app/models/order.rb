@@ -23,6 +23,8 @@ class Order < ActiveRecord::Base
     time :created_at
     time :earliest_scheduled_date
     time :latest_scheduled_date
+    string :imprint_state
+    string :production_state
   end
 
   %w(job_names imprint_names imprint_descriptions).each do |name|
