@@ -50,7 +50,7 @@ $( document ).ready(function() {
   $('.select2').each(function() {
     var width = $(this).data('width');
     if (!width)
-      width = '35%';
+      width = '100%';
     $(this).select2({width: width});
   });
 

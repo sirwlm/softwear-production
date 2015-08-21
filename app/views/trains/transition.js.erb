@@ -13,6 +13,10 @@ var e = $('#train-<%= @object.model_name.element %>-<%= @object.id %>');
   var returnColor = element.css('background-color');
   element.css('background-color', '#FAFF9E');
   element.animate({backgroundColor: returnColor}, 1000, function() { return element.css('background-color'); }, '');
+
+  <% if @object.respond_to?(:activities) %>
+    $('#activities').html("<%=j render_activities(@object.activities.order(created_at: :desc)) %>");
+  <% end %>
 <% end %>
 
 datetimepickerInit();
