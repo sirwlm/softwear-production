@@ -12,6 +12,7 @@
 
             <div class='well well-sm train-category'>
               <%= form_tag transition_train_path(object, event), remote: true, method: :patch do %>
+                <%= hidden_field_tag :in_modal, @in_modal %>
 
                 <% object.train_machine.event_public_activity.try(:[], event).try(:each) do |field, type| %>
                   <%= render 'shared/train_field', object: object, field: field, type: type, field_name: "public_activity[#{field}]", category: category %>

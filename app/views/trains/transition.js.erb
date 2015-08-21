@@ -17,6 +17,12 @@ var e = $('#train-<%= @object.model_name.element %>-<%= @object.id %>');
   <% if @object.respond_to?(:activities) %>
     $('#activities').html("<%=j render_activities(@object.activities.order(created_at: :desc)) %>");
   <% end %>
+
+  <% if lookup_context.find_all("shared/_#{@object.model_name.element}_details").any? %>
+    if ($(".<%= @object.model_name.element %>-details").length)
+      $(".<%= @object.model_name.element %>-details")
+        .html("<%=j render "shared/#{@object.model_name.element}_details", object: @object, in_modal: !params[:in_modal].blank? %>");
+  <% end %>
 <% end %>
 
 datetimepickerInit();
