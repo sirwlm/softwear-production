@@ -45,6 +45,20 @@ module Train
     end
   end
 
+  def self.each_train(record, &block)
+    Train.train_types.values.flatten.each do |train_class|
+      name = train_class.model_name
+
+      if record.try(name.collection)
+        record.send(name.collection).each(&block)
+      end
+
+      if record.respond_to?(name.element) && !record.send(name.element).nil?
+        yield record.send(name.element)
+      end
+    end
+  end
+
   def self.each_train_of_type(type, record, &block)
     return unless Train.train_types.key?(type)
 

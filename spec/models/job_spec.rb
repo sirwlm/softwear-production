@@ -12,7 +12,6 @@ describe Job, job_spec: true do
   end
 
   describe 'Callbacks' do
-    
     let(:job) { create(:job) }
 
     it 'creates an imprintable train', story_104: true do
@@ -20,4 +19,51 @@ describe Job, job_spec: true do
     end
   end
 
+  describe '#imprint_state', story_876: true do
+    let!(:job) { create(:job) }
+    let(:complete_imprint_1) { create(:print, state: :complete, completed_at: 2.days.ago) }
+    let(:complete_imprint_2) { create(:print, state: :complete, completed_at: 3.days.ago) }
+    let(:incomplete_imprint_1) { create(:print, state: :pending_approval) }
+    let(:incomplete_imprint_2) { create(:print, state: :pending_approval) }
+
+    subject { job.imprint_state }
+
+    context 'when the job contains an incomplete imprint' do
+      before { job.imprints = [complete_imprint_1, incomplete_imprint_1] }
+      it { is_expected.to eq 'Pending' }
+    end
+
+    context 'when the job contains only complete imprints' do
+      before { job.imprints = [complete_imprint_1, complete_imprint_2] }
+      it { is_expected.to eq 'Printed' }
+    end
+  end
+
+  describe '#production_state', story_876: true do
+    let!(:job) { create(:job) }
+    let(:complete_imprintable_train) { create(:imprintable_train, state: :staged) }
+    let(:incomplete_imprintable_train) { create(:imprintable_train, state: :ready_to_order) }
+    let(:complete_imprint_1) { create(:print, state: :complete) }
+    let(:complete_imprint_2) { create(:print, state: :complete) }
+    let(:incomplete_imprint_1) { create(:print, state: :pending_approval) }
+    let(:incomplete_imprint_2) { create(:print, state: :pending_approval) }
+
+    subject { job.production_state }
+
+    context 'when the job contains an incomplete train' do
+      before do
+        job.imprints = [complete_imprint_1, complete_imprint_2]
+        job.imprintable_train = incomplete_imprintable_train
+      end
+      it { is_expected.to eq 'Pending' }
+    end
+
+    context 'when the job contains only complete trains' do
+      before do
+        job.imprints = [complete_imprint_1, complete_imprint_2]
+        job.imprintable_train = complete_imprintable_train
+      end
+      it { is_expected.to eq 'Complete' }
+    end
+  end
 end

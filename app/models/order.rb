@@ -60,4 +60,12 @@ class Order < ActiveRecord::Base
       self.fba_label_train = FbaLabelTrain.new
     end
   end
+
+  def imprint_state
+    jobs.all? { |j| j.imprint_state == 'Printed' } ? 'Printed' : 'Pending'
+  end
+
+  def production_state
+    jobs.all? { |j| j.production_state == 'Complete' } ? 'Complete' : 'Pending'
+  end
 end

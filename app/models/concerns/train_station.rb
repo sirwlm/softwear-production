@@ -2,9 +2,15 @@ module TrainStation
   extend ActiveSupport::Concern
 
   def trains_of_type(type)
-    trains = []
-    Train.each_train_of_type(type, self, &trains.method(:<<))
-    trains
+    t = []
+    Train.each_train_of_type(type, self, &t.method(:<<))
+    t
+  end
+
+  def trains
+    t = []
+    Train.each_train(self, &t.method(:<<))
+    t
   end
 
   %i(pre_production production post_production).each do |train_type|

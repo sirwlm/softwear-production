@@ -68,12 +68,10 @@ describe Order do
 
     context 'when all imprints are scheduled' do
       before { allow(order).to receive(:imprints).and_return [scheduled_imprint] * 3 }
-
       it { is_expected.to eq true }
     end
     context 'when some imprints are not scheduled' do
       before { allow(order).to receive(:imprints).and_return [scheduled_imprint, unscheduled_imprint] }
-
       it { is_expected.to eq false }
     end
   end
@@ -88,13 +86,11 @@ describe Order do
 
     describe '#earliest_scheduled_date' do
       subject { order.earliest_scheduled_date }
-
       it { is_expected.to eq imprint_2.scheduled_at }
     end
 
     describe '#latest_scheduled_date' do
       subject { order.latest_scheduled_date }
-
       it { is_expected.to eq imprint_1.scheduled_at }
     end
   end

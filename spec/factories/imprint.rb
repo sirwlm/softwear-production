@@ -12,6 +12,7 @@ FactoryGirl.define do
       machine { |imprint| imprint.association(:machine) }
 
       factory :print do
+        type 'Print'
       end
       
       factory :screen_print do
