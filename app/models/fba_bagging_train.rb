@@ -52,6 +52,14 @@ class FbaBaggingTrain < ActiveRecord::Base
     activities.where("`activities`.`key` LIKE '%transition'").pluck(:created_at).first
   end
 
+  def quantity
+    order.imprints.pluck(:count).reduce(0, :+)
+  end
+
+  def due_date
+    order.deadline
+  end
+
   private
 
   def set_default_machine_id

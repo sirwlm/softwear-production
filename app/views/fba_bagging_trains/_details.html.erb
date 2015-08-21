@@ -4,4 +4,10 @@
 
   <dt>Estimated Time</dt>
   <dd><%= fba_bagging_train.estimated_time || '<not set>' %> hours</dd>
+
+  <dt>Due Date</dt>
+  <dd><%= fba_bagging_train.due_date.strftime('%m/%d/%Y') %></dd>
+
+  <dt>Quantity</dt>
+  <dd><%= fba_bagging_train.quantity %></dd>
 </dl>

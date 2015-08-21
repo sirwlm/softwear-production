@@ -7,7 +7,6 @@
   <% when :check_box %>
     <%= check_box_tag field_name, 'true', false, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category}" %>
   <% else %>
-    <% byebug %>
     <%= send "#{it}_tag", field_name, nil, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category}" %>
   <% end %>
 </div>

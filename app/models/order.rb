@@ -20,6 +20,7 @@ class Order < ActiveRecord::Base
 
     boolean(:complete) { complete? }
     boolean(:scheduled) { scheduled? }
+    time :created_at
     time :earliest_scheduled_date
     time :latest_scheduled_date
   end

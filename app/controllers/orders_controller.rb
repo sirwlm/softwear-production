@@ -12,6 +12,8 @@ class OrdersController < InheritedResources::Base
         with(:latest_scheduled_date).less_than(q[:scheduled_start_at_before])     unless q[:scheduled_start_at_before].blank?
         with :complete,  q[:complete]  == 'true' unless q[:complete].blank?
         with :scheduled, q[:scheduled] == 'true' unless q[:scheduled].blank?
+
+        order_by :created_at, :desc
       end
 
       paginate page: params[:page] || 1
