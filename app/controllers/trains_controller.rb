@@ -53,16 +53,19 @@ class TrainsController < ApplicationController
         "#{@object.send(@object.train_machine.attribute)}"
     end
 
-    @object.train_machine.events.fetch(@event).fire(@object)
-    if @object.respond_to?(:create_activity)
-      @object.create_activity(
-        action:     :transition,
-        parameters: public_activity_params,
-        owner:      public_activity_owner
-      )
-    end
     unless @object.update_attributes(permitted_attributes)
       @error = @object.errors.full_messages.join(', ')
+    end
+
+    unless @error
+      @object.train_machine.events.fetch(@event).fire(@object)
+      if @object.respond_to?(:create_activity)
+        @object.create_activity(
+          action:     :transition,
+          parameters: public_activity_params,
+          owner:      public_activity_owner
+        )
+      end
     end
   end
 

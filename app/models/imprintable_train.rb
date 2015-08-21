@@ -28,12 +28,18 @@ class ImprintableTrain < ActiveRecord::Base
   before_save :check_solution
 
   attr_accessor :solution
+  attr_accessor :ordering_complete
 
   train_type :pre_production
   train initial: :ready_to_order, final: :staged do
     success_event :some_pieces_ordered,
-        params:          { location: :text_field, expected_arrival_date: :date_field },
+        params: {
+          location:              :text_field,
+          expected_arrival_date: :date_field,
+          ordering_complete:     :check_box
+        },
         public_activity: { supplier: :text_field } do
+      transition [:ready_to_order, :partially_ordered] => :ordered, if: :ordering_complete
       transition [:ready_to_order, :partially_ordered] => :partially_ordered
     end
 
