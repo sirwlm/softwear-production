@@ -6,11 +6,8 @@
 
       <h4 align='center'>Ready to Schedule Imprints</h4>
 
-      <% @machine.imprints.unscheduled.each do |imprint| %>
-        <%= render 'machines/unscheduled_entry.html.erb', event: imprint %>
-      <% end %>
-      <% @machine.maintenances.unscheduled.each do |maintenance| %>
-        <%= render 'machines/unscheduled_entry.html.erb', event: maintenance %>
+      <% Schedulable.all_unscheduled { |c| c.where(machine_id: machine.id) }.each do |event| %>
+        <%= render 'machines/unscheduled_entry.html.erb', event: event %>
       <% end %>
 
     </div>
