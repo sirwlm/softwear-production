@@ -10,7 +10,9 @@ class ImprintGroup < ActiveRecord::Base
   belongs_to :machine
 
   before_destroy :remove_imprints
-
+  
+  alias_method :complete?, :completed?
+  
   searchable do
     time :scheduled_at
     time :completed_at
