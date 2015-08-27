@@ -3,3 +3,9 @@
 <% else %>
   <%= render 'custom_ink_color_trains/details', custom_ink_color_train: object %>
 <% end %>
+
+<% if in_modal %>
+  <%= link_to 'Full view', show_train_path(object), class: 'btn btn-primary' %>
+<% else %>
+  <%= link_to 'Order', order_path(object.order), class: 'btn btn-primary' %>
+<% end %>
