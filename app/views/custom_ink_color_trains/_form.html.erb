@@ -1,0 +1,7 @@
+<%= bootstrap_form_for custom_ink_color_train, remote: true do |f| %>
+  <%= f.text_field :pantone_color %>
+  <%= f.text_field :volume %>
+
+  <%= f.submit %>
+<% end %>
+<%= button_to 'Delete', custom_ink_color_train, method: :delete, class: 'btn btn-danger' %>

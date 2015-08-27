@@ -3,6 +3,7 @@ class Job < ActiveRecord::Base
   include TrainStation
 
   has_one :imprintable_train, dependent: :destroy
+  has_many :custom_ink_color_trains, dependent: :destroy
   has_many :imprints, dependent: :destroy
   belongs_to :order
 

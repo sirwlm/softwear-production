@@ -30,4 +30,12 @@ module TrainHelper
   def show_train_path(object)
     super(object.class.name.underscore, object.id)
   end
+
+  def call_ignore_arity(lamb, *args)
+    if lamb.arity < args.size
+      lamb.call(*args[0...(lamb.arity - args.size)])
+    else
+      lamb.cal(*args)
+    end
+  end
 end
