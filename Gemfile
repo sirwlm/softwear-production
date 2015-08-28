@@ -45,6 +45,7 @@ gem 'sunspot_matchers'
 gem 'select2-rails', git: 'git://github.com/argerim/select2-rails'
 gem 'public_activity', github: 'AnnArborTees/public_activity'
 gem 'bootstrap-kaminari-views'
+gem 'twitter-typeahead-rails'
 
 # === BEGIN SOFTWEAR LIB GEMS === #
 

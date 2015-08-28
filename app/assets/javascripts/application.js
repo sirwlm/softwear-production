@@ -40,9 +40,19 @@ function datepickerInit() {
   });
 }
 
+function typeaheadInit() {
+  $('.typeahead').each(function() {
+    $(this).typeahead([{
+      name: 'suggestions',
+      local: $(this).data('suggestions') || []
+    }]);
+  });
+}
+
 $( document ).ready(function() {
   datetimepickerInit();
   datepickerInit();
+  typeaheadInit();
   $(document).on('nested:fieldAdded', datetimepickerInit);
 
   $('.colorpicker').colorpicker()
