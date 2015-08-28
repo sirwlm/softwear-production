@@ -1,7 +1,7 @@
 <div class='input-group'>
   <%= label_tag field %>
 
-  <% case it = type.respond_to?(:call) ? type.call(object) : type %>
+  <% case it = type.respond_to?(:call) ? call_ignore_arity(type, object) : type %>
   <% when Array %>
     <%= select_tag field_name, options_for_select(it), class: "select2 event-field-#{category} event-select-field select-field-#{category} form-control" %>
   <% when :check_box %>

@@ -61,6 +61,23 @@ describe Order do
     end
   end
 
+  describe 'when destroyed' do
+    let(:imprint_1) { create(:imprint) }
+    let(:imprint_2) { create(:imprint) }
+    let(:populated_job) { create(:job, imprints: [imprint_1, imprint_2]) }
+    let(:populated_order) { create(:order, jobs: [populated_job]) }
+
+    it 'removes all jobs, imprints, trains', story_904: true do
+      expect(populated_job).to be_persisted
+      expect(imprint_1).to be_persisted
+      expect(imprint_2).to be_persisted
+      populated_order.destroy
+      expect(populated_job).to_not be_persisted
+      expect(imprint_1).to_not be_persisted
+      expect(imprint_2).to_not be_persisted
+    end
+  end
+
   describe '#scheduled?' do
     let(:scheduled_imprint) { double('Imprint', scheduled?: true) }
     let(:unscheduled_imprint) { double('Imprint', scheduled?: false) }

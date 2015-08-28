@@ -2,8 +2,9 @@ class Job < ActiveRecord::Base
   include CrmCounterpart
   include TrainStation
 
-  has_one :imprintable_train
-  has_many :imprints
+  has_one :imprintable_train, dependent: :destroy
+  has_many :custom_ink_color_trains, dependent: :destroy
+  has_many :imprints, dependent: :destroy
   belongs_to :order
 
   validates :imprintable_train,  presence: true

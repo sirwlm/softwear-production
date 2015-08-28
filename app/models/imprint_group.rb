@@ -10,7 +10,9 @@ class ImprintGroup < ActiveRecord::Base
   belongs_to :machine
 
   before_destroy :remove_imprints
-
+  
+  alias_method :complete?, :completed?
+  
   searchable do
     time :scheduled_at
     time :completed_at
@@ -31,7 +33,7 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def full_name
-    "#{order.name}: Group including #{imprint_names.join(', ')}"
+    "#{order.name}: Group including #{imprint_names.join(', ')} (#{count})"
   end
   def display
     "#{'(COMPLETE)' if complete?} #{full_name}"

@@ -25,3 +25,8 @@ datepickerInit();
     );
   }
 <% end %>
+
+var element = $('.flash-notice');
+var returnColor = element.css('background-color');
+element.css('background-color', '#FAFF9E');
+element.animate({backgroundColor: returnColor}, 1000, function() { return element.css('background-color'); }, '');

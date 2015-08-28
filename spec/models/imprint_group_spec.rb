@@ -11,7 +11,7 @@ describe ImprintGroup, story_768: true do
 
     subject { imprint_group.full_name }
 
-    it { is_expected.to eq "The order: Group including 'first job imprint1', 'second job imprint2'" }
+    it { is_expected.to include "The order: Group including 'first job imprint1', 'second job imprint2'" }
   end
 
   describe 'when destroyed' do
