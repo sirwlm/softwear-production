@@ -13,6 +13,7 @@
     <dt>State</dt>
     <dd class='<%= object.class.name.underscore %>_<%= object.id %>_current_state'><%= object.send("human_#{object.train_machine.attribute}_name") %></dd>
   </dl>
+
   <%= capture(&block) if local_assigns[:block] %>
 
   <%= link_to 'Show Full Details', show_train_path(object), remote: true, class: 'btn btn-primary' %>

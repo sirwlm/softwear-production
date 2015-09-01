@@ -9,6 +9,7 @@ class Imprint < ActiveRecord::Base
   include ColorUtils
   include PublicActivity::Model
   include Schedulable
+  include Train
 
   tracked only: [:transition]
 
@@ -123,21 +124,13 @@ class Imprint < ActiveRecord::Base
     self.order.deadline.strftime('%a %m/%d') rescue 'No Deadline'
   end
 
-  def train_type
-    :production
-  end
-
-  def train_class
-    'imprint'
-  end
-
   def train_state
     state
   end
 
-  def state_type
-    state.to_sym == :complete ? :complete : :success
-  end
+#  def state_type
+#    state.to_sym == :complete ? :complete : :success
+#  end
 
   def details
     {
