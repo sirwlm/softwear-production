@@ -66,10 +66,26 @@ class TrainsController < ApplicationController
           owner:      public_activity_owner
         )
       end
+
+      record_autocomplete(public_activity_params.reject { |k,_| k == :event })
     end
   end
 
   private
+
+  def record_autocomplete(attrs)
+    @object.train_fields_for_event_of_input_type(@event, :text_field).each do |text_field|
+      next unless attrs.key?(text_field)
+
+      autocomplete = {
+        field: "#{@object.class.name}##{text_field}",
+        value: attrs[text_field]
+      }
+      unless TrainAutocomplete.where(autocomplete).exists?
+        TrainAutocomplete.create(autocomplete)
+      end
+    end
+  end
 
   def fetch_object
     object_class = params[:model_name].camelize.constantize

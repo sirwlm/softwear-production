@@ -24,6 +24,7 @@
 //= require editable/rails
 //= require jquery_nested_form
 //= require jquery-tablesorter
+//= require twitter/typeahead
 
 //= require_tree .
 
@@ -42,11 +43,25 @@ function datepickerInit() {
 
 function typeaheadInit() {
   $('.typeahead').each(function() {
-    $(this).typeahead([{
-      name: 'suggestions',
-      local: $(this).data('suggestions') || []
-    }]);
+    try {
+      var data = new Bloodhound({
+        local: $(this).data('suggestions') || [],
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        datumTokenizer: Bloodhound.tokenizers.whitespace
+      });
+      data.initialize();
+
+      $(this).typeahead(null, {
+        name: 'suggestions',
+        source: data.ttAdapter()
+      });
+
+      console.log('typeahead! with '+$(this).data('suggestions'));
+    } catch(e) {
+      console.log('WHAT! ' + e);
+    }
   });
+  console.log('==================================');
 }
 
 $( document ).ready(function() {

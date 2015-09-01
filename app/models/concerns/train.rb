@@ -84,7 +84,7 @@ module Train
 
     # -- So that:
     # failure_event :mess_it_up
-    # -- Will add :mess_it_up to the :failure events
+    # -- Will add :mess_it_up to event_categories[:failure]
     def method_missing(name, *args, &block)
       if /(?<category>\w+)_event/ =~ name.to_s
         self.event_categories ||= {}
@@ -126,6 +126,7 @@ module Train
 
       self.state_types ||= {}
       self.state_types[name.to_sym] = options.delete(:type)
+      super
     end
   end
 
@@ -248,5 +249,17 @@ module Train
   def train_state_type(state)
     return nil if train_machine.state_types.nil?
     train_machine.state_types[state]
+  end
+
+  def train_fields_for_event_of_input_type(event, input_type)
+    fields = []
+
+    (train_machine.event_public_activity.try(:[], event.to_sym) || {})
+    .merge(train_machine.event_params.try(:[], event.to_sym) || {})
+      .each do |field, type|
+        fields << field if type == input_type
+      end
+
+    fields
   end
 end

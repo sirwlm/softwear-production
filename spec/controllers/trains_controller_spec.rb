@@ -128,6 +128,17 @@ describe TrainsController, type: :controller do
           test_train: { winner_id: 3 },
           format: :js
       end
+
+      it 'creates an autocomplete entry for any text field params', story_875: true do
+        patch :transition,
+          model_name: 'test_train',
+          id: 1,
+          event: :broadcast,
+          public_activity: { message: 'hello there' },
+          format: :js
+
+        expect(TrainAutocomplete.where(field: 'TestTrain#message', value: 'hello there')).to exist
+      end
     end
   end
 end
