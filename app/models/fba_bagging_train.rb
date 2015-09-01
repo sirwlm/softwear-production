@@ -8,6 +8,8 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   belongs_to :order
 
+  validates :order, presence: true
+
   before_create :set_default_machine_id
 
   searchable do
@@ -20,10 +22,30 @@ class FbaBaggingTrain < ActiveRecord::Base
   end
 
   train_type :post_production
-  train initial: :ready_to_bag do
-    success_event :bagged do
-      transition :ready_to_bag => :bagged
+  train initial: :ready_to_bag, final: :bagged do
+    success_event :bagging_started do 
+      transition :ready_to_bag => :bagging_in_progress
     end
+
+    delay_event :delayed, 
+      public_activity: {
+        reason: :text_field
+      } do 
+      transition :bagging_in_progress => :delayed
+    end
+
+    success_event :bagging_restarted do 
+      transition :delayed => :bagging_in_progress
+    end
+
+    success_event :bagging_complete do
+      transition :bagging_in_progress => :bagged
+    end
+ 
+    state :bagging_started, type: :success
+    state :delayed, type: :delay
+    state :bagged, type: :success
+
   end
 
   def display
