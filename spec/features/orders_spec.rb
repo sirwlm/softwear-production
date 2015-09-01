@@ -32,7 +32,8 @@ feature 'Orders' do
     expect(page).to have_content "An imprint"
   end
 
-  scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true, js: true, story_676: true, current: true do
+  scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true, 
+    js: true, story_676: true do
     job = Job.create(name: 'Test Job')
     job.imprints = [create(:imprint, name: 'The Imprint')]
     order = create(:order, jobs: [job])
@@ -73,7 +74,7 @@ feature 'Orders' do
     expect(order.jobs.last.name).to eq 'Actually New Job'
   end
 
-  scenario 'I can remove a job from an order', js: true, story_676: true, current: true do
+  scenario 'I can remove a job from an order', js: true, story_676: true  do
     job = Job.create(name: 'Test Job')
     job.imprints = [create(:imprint, name: 'The Imprint')]
     order = create(:order, jobs: [job, job])
@@ -105,11 +106,11 @@ feature 'Orders' do
       end
 
       sleep 1
-      click_button 'Bagged'
+      click_button 'Bagging started'
       sleep 1
-      expect(page).to have_content 'Current State: Bagged'
+      expect(page).to have_content 'Current State: Bagging In Progress'
       click_button 'Close'
-      expect(page).to have_content 'State bagged'
+      expect(page).to have_content 'State bagging in progress'
     end
   end
 
