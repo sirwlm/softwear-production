@@ -57,6 +57,7 @@
             <li><%= link_to 'Users', users_path %></li>
             <li><%= link_to "Maintenance", maintenances_path %></li>
             <li><%= link_to 'CRM API Settings', ApiSetting.crm ? edit_api_setting_path(ApiSetting.crm) : new_api_setting_path %></li>
+            <li><%= link_to %(Warnings#{" (#{Warning.active.size})" if Warning.active.any?}), ActsAsWarnable::Engine.routes.url_helpers.warnings_path(active_only: true) %></li>
           </ul>
         </li>
         <li class="dropdown">

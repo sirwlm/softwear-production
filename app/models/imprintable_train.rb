@@ -13,6 +13,7 @@ class ImprintableTrain < ActiveRecord::Base
     .with_indifferent_access
 
   tracked only: [:transition]
+  acts_as_warnable
 
   belongs_to :job
   has_one :order, through: :job

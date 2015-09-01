@@ -57,7 +57,12 @@ class TrainsController < ApplicationController
       @error = @object.errors.full_messages.join(', ')
     end
 
-    unless @error
+    if @error
+      @object.try(
+        :issue_warning, 'State Transition',
+        "Error transitioning states: #{@error}"
+      )
+    else
       @object.train_machine.events.fetch(@event).fire(@object)
       if @object.respond_to?(:create_activity)
         @object.create_activity(
