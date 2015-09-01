@@ -34,27 +34,27 @@ module Train
     return [] unless Train.train_types.key?(type)
 
     Train.train_types[type].select do |train_class|
-      name = train_class.model_name
-      if record.try(name.collection)
+      record.class.reflect_on_all_associations.any? do |assoc|
+        next false unless train_class == assoc.klass || assoc.klass.descendants.include?(train_class)
+        next false if !assoc.collection? && record.send(assoc.name).nil?
         true
-      elsif record.respond_to?(name.element) && record.send(name.element).nil?
-        true
-      else
-        false
       end
     end
   end
 
   def self.each_train(record, &block)
     Train.train_types.values.flatten.each do |train_class|
-      name = train_class.model_name
+      record.class.reflect_on_all_associations.each do |assoc|
+        next unless train_class == assoc.klass || assoc.klass.descendants.include?(train_class)
 
-      if record.try(name.collection)
-        record.send(name.collection).each(&block)
-      end
+        result = record.send(assoc.name)
+        next if result.blank?
 
-      if record.respond_to?(name.element) && !record.send(name.element).nil?
-        yield record.send(name.element)
+        if assoc.collection?
+          result.each(&block)
+        else
+          yield result
+        end
       end
     end
   end
@@ -63,14 +63,17 @@ module Train
     return unless Train.train_types.key?(type)
 
     Train.train_types[type].each do |train_class|
-      name = train_class.model_name
+      record.class.reflect_on_all_associations.each do |assoc|
+        next unless train_class == assoc.klass || assoc.klass.descendants.include?(train_class)
 
-      if record.try(name.collection)
-        record.send(name.collection).each(&block)
-      end
+        result = record.send(assoc.name)
+        next if result.blank?
 
-      if record.respond_to?(name.element) && !record.send(name.element).nil?
-        yield record.send(name.element)
+        if assoc.collection?
+          result.each(&block)
+        else
+          yield result
+        end
       end
     end
   end
