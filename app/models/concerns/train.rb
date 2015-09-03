@@ -158,9 +158,6 @@ module Train
     end
 
     def self.train(*args, &block)
-      if train_machine && train_machine.attribute != args.first
-        raise "Only one train can be defined per object"
-      end
 
       final_state = args.last.try(:delete, :final)
 

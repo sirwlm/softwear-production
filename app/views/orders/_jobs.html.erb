@@ -20,10 +20,16 @@
       <h4>Production</h4>
 
       <div class='trains production_trains clearfix clear-after'>
-        <% Train.each_train_of_type(:production, job)  do |train| %>
-          <%= train_entry(train) do  %> 
-            <%= render 'shared/imprint_details', object: train %>
+        <% job.imprints.each do |imprint| %>
+          <div id="imprint-<%= imprint.id %>">
+          <%= train_entry(imprint) do  %>
+            <% if imprint.part_of_group? %>
+              <%= render 'imprint_part_of_group', imprint: imprint %>
+            <% else %>
+              <%= render 'shared/imprint_details', object: imprint %>
+            <% end %>
           <% end %>
+          </div>
         <% end %>
       </div>
 

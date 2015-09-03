@@ -2,10 +2,11 @@ class Print < Imprint
   before_save :transition_to_ready_to_print_if_just_scheduled
 
   train_type :production
-  train  initial: :pending_approval, final: :printing_complete do
+  train  initial: :pending_approval, final: :complete do
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
       transition :pending_approval => :ready_to_print
+      transition :pending_scheduling => :ready_to_print, unless: ->(i) { i.scheduled_at.nil? }
     end
 
     success_event :at_the_press do
@@ -15,6 +16,9 @@ class Print < Imprint
     success_event :printing_complete do
       transition :in_production => :complete
     end
+
+
+
   end
 
   def self.model_name
@@ -29,7 +33,7 @@ class Print < Imprint
 
   def transition_to_ready_to_print_if_just_scheduled
     if scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling
-      state = :ready_to_print
+      self.approve
     end
   end
 end

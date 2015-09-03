@@ -21,6 +21,10 @@ module TrainHelper
     render 'trains/entry', object: object, block: block
   end
 
+  def js_train_entry(object, &block)
+    j train_entry(object, &block)
+  end
+
   def transition_train_path(object, event)
     super(object.class.name.underscore, object.id, event)
   end

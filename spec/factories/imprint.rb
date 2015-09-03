@@ -2,7 +2,6 @@ FactoryGirl.define do
   factory :blank_imprint, class: Imprint do
     name 'An Imprint'
     description 'An Imprint Description'
-    state 'pending_approval'
     type 'Print' 
 
     factory :imprint do
@@ -11,11 +10,11 @@ FactoryGirl.define do
       sequence(:estimated_time) { |n| n }
       machine { |imprint| imprint.association(:machine) }
 
-      factory :print do
+      factory :print, class: Print do
         type 'Print'
       end
       
-      factory :screen_print do
+      factory :screen_print, class: ScreenPrint do
         type 'ScreenPrint'
       end
     end

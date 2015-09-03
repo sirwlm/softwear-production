@@ -1,12 +1,11 @@
 class ScreenPrint < Imprint
 
   train_type :production
-  train initial: :pending_approval, final: :printing_complete do
+  train initial: :pending_approval, final: :complete do
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
       transition :pending_approval => :pending_preproduction
     end
-
     success_event :schedule do
       transition :pending_scheduling => :pending_preproduction
     end
@@ -59,7 +58,6 @@ class ScreenPrint < Imprint
     success_event :teardown do
       transition :numbers_confirmed => :complete
     end
-
   end
 
   def self.model_name

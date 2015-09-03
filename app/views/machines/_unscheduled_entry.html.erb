@@ -1,4 +1,4 @@
-<%= link_to url_for(event), remote: true, class: "event-drop unscheduled-imprint-link #{'event-drop-with-machine' unless event.machine_id.nil?}", data: { id: event.event_id, type: event.class.table_name.singularize } do %>
+<%= link_to calendar_url_for(event), remote: true, class: "event-drop unscheduled-imprint-link #{'event-drop-with-machine' unless event.machine_id.nil?}", data: { id: event.event_id, type: event.class.table_name.singularize } do %>
   <div class="unscheduled-imprint ui-draggable ui-draggable-handle"
        style="background-color: <%= event.calendar_color %>; color: <%= event.text_color %>; border-color: <%= event.border_color || 'inherit' %>;">
     <%= event.display %> <span class='estimated-time'><%= event.estimated_time ? sprintf('%0.01f', event.estimated_time) : '?' %></span>hrs

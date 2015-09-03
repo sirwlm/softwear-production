@@ -1,3 +1,9 @@
+
+<% if object.require_manager_signoff? %>
+  <p class="alert alert-warning flash-notice col-xs-12">
+  This Imprint Requires Signoff
+  </p>
+<% end %>
 <dl>
   <dt>Description</dt>
   <dd><%= object.description %></dd>

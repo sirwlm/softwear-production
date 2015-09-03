@@ -54,13 +54,14 @@ describe Imprint, imprint_spec: true, story_110: true do
 
   describe 'Before save' do
     context 'when type is changed' do
-      let(:print) { create(:print, state: :printed) }
+      let(:print) { create(:print) }
 
       it 'resets state to pending_approval', story_694: true do
+        print.update_column :state, :ready_to_print
         print.type = 'ScreenPrint'
         print.save!
-
-        expect(print.reload.state.to_sym).to eq :pending_approval
+      
+        expect(print.state.to_sym).to eq :pending_approval
       end
     end
 

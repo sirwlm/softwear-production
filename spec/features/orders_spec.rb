@@ -25,7 +25,7 @@ feature 'Orders' do
     click_button 'Create Order'
     sleep 1
     expect(page).to have_content 'Test Order'
-    within('.imprints') do
+    within('.production_trains') do
       click_link "Show Full Details"
     end
     sleep 1
@@ -220,7 +220,7 @@ feature 'Orders' do
     end
   end
 
-  describe 'imprint groups', js: true, story_768: true do
+  describe 'imprint groups', js: true, story_768: true, current: true  do
     given(:imprint_group) { create(:imprint_group, order_id: order.id) }
     given(:imprint_1) { job_1.imprints.first.tap { |i| i.update_attributes name: 'Imprint 1' } }
     given(:imprint_2) { job_2.imprints.first { |i| i.update_attributes name: 'Imprint 2' } }
