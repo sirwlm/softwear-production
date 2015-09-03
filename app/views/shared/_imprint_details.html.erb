@@ -4,6 +4,9 @@
   This Imprint Requires Signoff
   </p>
 <% end %>
+<% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
+  <h4>(Group #<%= object.imprint_group.id %>) <%= object.name %></h4>
+<% end %>
 <dl>
   <dt>Description</dt>
   <dd><%= object.description %></dd>

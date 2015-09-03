@@ -23,11 +23,7 @@
         <% job.imprints.each do |imprint| %>
           <div id="imprint-<%= imprint.id %>">
           <%= train_entry(imprint) do  %>
-            <% if imprint.part_of_group? %>
-              <%= render 'imprint_part_of_group', imprint: imprint %>
-            <% else %>
               <%= render 'shared/imprint_details', object: imprint %>
-            <% end %>
           <% end %>
           </div>
         <% end %>

@@ -13,11 +13,7 @@ else {
   <% if @imprint.valid? %>
     $('#imprint-<%= @imprint.id %>').html(
         "<%= js_train_entry(@imprint) do %>
-            <% if @imprint.part_of_group? %>
-              <%= render 'orders/imprint_part_of_group', imprint: @imprint %>
-            <% else %>
               <%= render 'shared/imprint_details', object: @imprint %>
-            <% end -%>
           <% end -%>"
     );
     $('#imprint-group-<%= imprint_group.id %>').html(

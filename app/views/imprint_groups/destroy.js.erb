@@ -1,7 +1,10 @@
 $('#imprint-group-<%= @imprint_group.id %>').remove();
 <% @imprints.each do |imprint| %>
   $('#imprint-<%= imprint.id %>').html(
-    "<%=j render partial: 'orders/imprint', locals: { imprint: imprint } %>"
+      "<%= js_train_entry(imprint) do %>
+          <%- imprint.reload -%>
+          <%= render 'shared/imprint_details', object: imprint %>
+        <% end -%>"
   );
 <% end %>
 

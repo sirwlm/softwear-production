@@ -1,4 +1,4 @@
-class DigitalPrint < Print
+class DigitalPrint < Imprint
 
   train_type :production
   train initial: :pending_approval, final: :complete do 
