@@ -10,9 +10,9 @@ class ImprintGroup < ActiveRecord::Base
   belongs_to :machine
 
   before_destroy :remove_imprints
-  
+
   alias_method :complete?, :completed?
-  
+
   searchable do
     time :scheduled_at
     time :completed_at
@@ -37,6 +37,10 @@ class ImprintGroup < ActiveRecord::Base
   end
   def display
     "#{'(COMPLETE)' if complete?} #{full_name}"
+  end
+
+  def event_target
+    imprints.first
   end
 
   def calendar_color

@@ -4,9 +4,9 @@ class Print < Imprint
   train_type :production
   train  initial: :pending_approval, final: :complete do
     success_event :approve do
-      transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
+      transition :pending_approval => :pending_scheduling, unless: ->(i) { i.scheduled? }
       transition :pending_approval => :ready_to_print
-      transition :pending_scheduling => :ready_to_print, unless: ->(i) { i.scheduled_at.nil? }
+      transition :pending_scheduling => :ready_to_print, if: ->(i) { i.scheduled? }
     end
 
     success_event :at_the_press do
@@ -16,9 +16,6 @@ class Print < Imprint
     success_event :printing_complete do
       transition :in_production => :complete
     end
-
-
-
   end
 
   def self.model_name

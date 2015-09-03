@@ -79,8 +79,11 @@ function imprintCalendarOn(matcher, options) {
 function event_path() {
   var eventType;
   var eventId;
+  var event;
 
   if (arguments.length == 1) {
+    return arguments[0].url;
+
     var match = arguments[0].id.toString().match(/(\w+)-(\d+)/);
     eventType = arguments[0].type || match[1];
     eventId   = match[2];
@@ -199,7 +202,7 @@ function dropOutside(matcher, options) {
 
         $.ajax({
           type: 'PUT',
-          url: event_path(eventObject),
+          url: event_path(eventObject.type, eventObject.id),
           dataType: 'json',
           data: {
             event: imprintObject,

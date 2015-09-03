@@ -58,7 +58,8 @@ class TrainsController < ApplicationController
     end
 
     unless @error
-      @object.train_machine.events.fetch(@event).fire(@object)
+      target = @object.try(:event_target) || @object
+      @object.train_machine.events.fetch(@event).fire(target)
       if @object.respond_to?(:create_activity)
         @object.create_activity(
           action:     :transition,
