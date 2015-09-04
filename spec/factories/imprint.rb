@@ -14,8 +14,8 @@ FactoryGirl.define do
         type 'Print'
       end
 
-      factory :button_making_print, class: ScreenPrint do
-        type 'ScreenPrint'
+      factory :button_making_print, class: ButtonMakingPrint do
+        type 'ButtonMakingPrint'
       end
 
       factory :digital_print, class: DigitalPrint do

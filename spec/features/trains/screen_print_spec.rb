@@ -87,11 +87,8 @@ feature 'Screen Print Trains', js: true do
           end
           
           expect(imprint.reload.complete?).to be_truthy
-         end
         end
+      end
     end
   end
-
-
-
 end

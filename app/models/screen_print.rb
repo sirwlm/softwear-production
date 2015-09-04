@@ -1,11 +1,14 @@
 class ScreenPrint < Imprint
   include Train
 
+  before_save :transition_to_ready_to_print_if_just_scheduled
+
   train_type :production
   train initial: :pending_approval, final: :complete do
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
       transition :pending_approval => :pending_preproduction
+      transition :pending_scheduling => :ready_to_print, if: ->(i) { i.scheduled? }
     end
     success_event :schedule do
       transition :pending_scheduling => :pending_preproduction
@@ -49,7 +52,7 @@ class ScreenPrint < Imprint
     end
 
       success_event :production_manager_approved,
-        public_activity: { manager: -> { [""] << User.all.map { |u| [u.full_name] } } } do
+        public_activity: { manager: -> { [""] + User.all.map { |u| u.full_name } } } do
       transition :pending_production_manager_approval => :in_production
     end
 
@@ -72,5 +75,13 @@ class ScreenPrint < Imprint
 
   def model_name
     Imprint.model_name
+  end
+
+  private
+
+  def transition_to_ready_to_print_if_just_scheduled
+    if scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling
+      self.approve
+    end
   end
 end
