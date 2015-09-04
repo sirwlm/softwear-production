@@ -20,7 +20,7 @@ function imprintCalendarOn(matcher, options) {
       if (event.url) {
         $.ajax({
           type: 'GET',
-          url: event_path(event),
+          url: event.url,
           dataType: 'script'
         });
 
@@ -82,8 +82,6 @@ function event_path() {
   var event;
 
   if (arguments.length == 1) {
-    return arguments[0].url;
-
     var match = arguments[0].id.toString().match(/(\w+)-(\d+)/);
     eventType = arguments[0].type || match[1];
     eventId   = match[2];

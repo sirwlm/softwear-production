@@ -51,8 +51,8 @@ class ScreenPrint < Imprint
       transition :pending_final_test_print => :pending_production_manager_approval
     end
 
-      success_event :production_manager_approved,
-        public_activity: { manager: -> { [""] + User.all.map { |u| u.full_name } } } do
+    success_event :production_manager_approved,
+        public_activity: { manager: -> { [""] + User.all.map(&:full_name) } } do
       transition :pending_production_manager_approval => :in_production
     end
 

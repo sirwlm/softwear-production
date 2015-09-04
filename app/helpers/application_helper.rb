@@ -71,7 +71,7 @@ module ApplicationHelper
   end
 
   def calendar_url_for(event)
-    if event.kind_of? Train or event.kind_of? ImprintGroup
+    if event.kind_of? Train or event.is_a? ImprintGroup
       show_train_path(event)
     else
       url_for(event)
