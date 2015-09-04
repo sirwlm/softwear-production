@@ -10,7 +10,7 @@ feature 'Prints' do
 
     scenario "I can transition a print state", js: true, story_909: true
     
-    context 'when a print requires manager sign off', js: trued
+    context 'when a print requires manager sign off', js: true
 
   end
 

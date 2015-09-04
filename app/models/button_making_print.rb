@@ -1,5 +1,7 @@
 class ButtonMakingPrint < Imprint
-  train_type :production 
+  include Train
+
+  train_type :production
   train  initial: :pending_approval, final: :complete do 
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }

@@ -204,6 +204,7 @@ module Train
   end
 
   def train_machine
+    byebug
     self.class.train_machine
   end
 

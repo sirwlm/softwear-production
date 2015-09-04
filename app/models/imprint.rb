@@ -9,7 +9,6 @@ class Imprint < ActiveRecord::Base
   include ColorUtils
   include PublicActivity::Model
   include Schedulable
-  include Train
 
   tracked only: [:transition]
 

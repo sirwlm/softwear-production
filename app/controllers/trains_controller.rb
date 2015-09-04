@@ -47,7 +47,6 @@ class TrainsController < ApplicationController
   def transition
     @object = fetch_object
     @event  = params[:event].to_sym
-
     unless @object.train_events.include?(@event)
       @error = "Invalid transition: #{@event} => "\
         "#{@object.send(@object.train_machine.attribute)}"

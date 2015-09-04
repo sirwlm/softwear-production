@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :blank_imprint, class: Imprint do
     name 'An Imprint'
     description 'An Imprint Description'
-    type 'Print' 
+    type 'Print'
 
     factory :imprint do
       scheduled_at Time.now
@@ -13,9 +13,33 @@ FactoryGirl.define do
       factory :print, class: Print do
         type 'Print'
       end
-      
+
+      factory :button_making_print, class: ScreenPrint do
+        type 'ScreenPrint'
+      end
+
+      factory :digital_print, class: DigitalPrint do
+        type 'DigitalPrint'
+      end
+
+      factory :embroidery_print, class: EmbroideryPrint do
+        type 'EmbroideryPrint'
+      end
+
+      factory :equipment_cleaning_print, class: EquipmentCleaningPrint do
+        type 'EquipmentCleaningPrint'
+      end
+
       factory :screen_print, class: ScreenPrint do
         type 'ScreenPrint'
+      end
+
+      factory :transfer_making_print, class: TransferMakingPrint do
+        type 'TransferMakingPrint'
+      end
+
+      factory :transfer_print, class: TransferPrint do
+        type 'TransferPrint'
       end
     end
   end

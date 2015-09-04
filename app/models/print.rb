@@ -1,4 +1,6 @@
 class Print < Imprint
+  include Train
+  
   before_save :transition_to_ready_to_print_if_just_scheduled
 
   train_type :production

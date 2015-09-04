@@ -1,4 +1,6 @@
 class TransferMakingPrint < Imprint
+  include Train
+  
   train_type :production
   train initial: :pending_approval, final: :complete do 
     success_event :approve do

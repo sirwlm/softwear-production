@@ -1,4 +1,5 @@
 class ScreenPrint < Imprint
+  include Train
 
   train_type :production
   train initial: :pending_approval, final: :complete do
@@ -43,16 +44,21 @@ class ScreenPrint < Imprint
     end
 
     success_event :final_test_print_printed do
-      transition :pending_final_test_print => :in_production, if: ->(i) { i.require_manager_signoff == false }
+      transition :pending_final_test_print => :in_production, unless: ->(i) { i.require_manager_signoff == true }
       transition :pending_final_test_print => :pending_production_manager_approval
     end
 
-    success_event :production_manager_approved do
+      success_event :production_manager_approved,
+        public_activity: { manager: -> { [""] << User.all.map { |u| [u.full_name] } } } do
       transition :pending_production_manager_approval => :in_production
     end
 
     success_event :printing_complete do
-      transition :in_production => :numbers_confirmed
+      transition :in_production => :numbers_pending_confirmation
+    end
+
+    success_event :numbers_confirmed do
+      transition :numbers_pending_confirmation => :numbers_confirmed
     end
 
     success_event :teardown do

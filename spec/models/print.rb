@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Imprint, imprint_spec: true do
+describe Print, print_spec: true do
   describe 'complete?' do
     context "state is 'complete'" do 
       subject(:print) { build_stubbed(:print, state: :complete) }

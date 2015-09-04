@@ -1,4 +1,6 @@
 class EmbroideryPrint < Imprint
+  include Train
+  
   train_type :production
   train :state, initial: :pending_approval, final: :complete do 
     success_event :approve do
