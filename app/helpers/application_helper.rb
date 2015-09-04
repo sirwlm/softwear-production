@@ -69,4 +69,12 @@ module ApplicationHelper
     end
     text_field_tag(*args)
   end
+
+  def calendar_url_for(event)
+    if event.kind_of? Train or event.kind_of? ImprintGroup
+      show_train_path(event)
+    else
+      url_for(event)
+    end
+  end
 end

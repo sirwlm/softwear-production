@@ -1,6 +1,6 @@
 module TrainHelper
   def train_state_of(object)
-    object.class.train_machine.states.match!(object)
+    object.train_machine.states.match!(object)
   end
 
   def field_name_for(object, field)
@@ -19,6 +19,10 @@ module TrainHelper
 
   def train_entry(object, &block)
     render 'trains/entry', object: object, block: block
+  end
+
+  def js_train_entry(object, &block)
+    j train_entry(object, &block)
   end
 
   def transition_train_path(object, event)

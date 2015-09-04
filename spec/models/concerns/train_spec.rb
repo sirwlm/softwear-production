@@ -4,6 +4,7 @@ describe Train do
   describe 'a model including `Train`', story_735: true do
     subject { TestTrain.new(state: :first) }
     let(:state_machine) { StateMachines::Machine.find_or_create(TestTrain, :state) }
+
     let(:record_with_test_trains) { double('Record with test_trains', test_trains: []) }
     let(:record_with_test_train) { double('Record with test_train', test_train: TestTrain.new) }
     let(:record_with_nil_test_train) { double('Record with nil test_train', test_train: nil) }
@@ -138,7 +139,7 @@ describe Train do
       end
     end
 
-    describe '::available_trains_of_type', story_736: true do
+    describe '::available_trains_of_type', story_736: true, pending: 'this is no longer how this stuff works' do
       let!(:train_types) { { preproduction: [TestTrain] } }
       before do
         allow(Train).to receive(:train_types).and_return train_types

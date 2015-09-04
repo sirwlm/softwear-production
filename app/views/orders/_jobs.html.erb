@@ -19,14 +19,12 @@
 
       <h4>Production</h4>
 
-      <div class='imprints clearfix clear-after'>
+      <div class='trains production_trains clearfix clear-after'>
         <% job.imprints.each do |imprint| %>
-          <div id='imprint-<%= imprint.id %>'>
-            <% if imprint.part_of_group? %>
-              <%= render 'imprint_part_of_group', imprint: imprint %>
-            <% else %>
-              <%= render 'imprint', imprint: imprint %>
-            <% end %>
+          <div id="imprint-<%= imprint.id %>">
+          <%= train_entry(imprint) do  %>
+              <%= render 'shared/imprint_details', object: imprint %>
+          <% end %>
           </div>
         <% end %>
       </div>

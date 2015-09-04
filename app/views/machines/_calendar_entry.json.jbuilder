@@ -1,6 +1,6 @@
 json.id          event.event_id
 json.title       event.display
-json.url         url_for(event)
+json.url         calendar_url_for(event)
 json.start       fullcalendar_format event.scheduled_at
 json.end         fullcalendar_format event.estimated_end_at
 json.allDay      false

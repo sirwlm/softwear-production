@@ -123,21 +123,13 @@ class Imprint < ActiveRecord::Base
     self.order.deadline.strftime('%a %m/%d') rescue 'No Deadline'
   end
 
-  def train_type
-    :production
-  end
-
-  def train_class
-    'imprint'
-  end
-
   def train_state
     state
   end
 
-  def state_type
-    state.to_sym == :complete ? :complete : :success
-  end
+#  def state_type
+#    state.to_sym == :complete ? :complete : :success
+#  end
 
   def details
     {
@@ -158,6 +150,10 @@ class Imprint < ActiveRecord::Base
       }
         .merge(options)
     )
+  end
+
+  def scheduled?
+    part_of_group? ? imprint_group.scheduled? : super
   end
 
   private

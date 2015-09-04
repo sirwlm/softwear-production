@@ -25,7 +25,7 @@ feature 'Orders' do
     click_button 'Create Order'
     sleep 1
     expect(page).to have_content 'Test Order'
-    within('.imprints') do
+    within('.production_trains') do
       click_link "Show Full Details"
     end
     sleep 1
@@ -220,7 +220,7 @@ feature 'Orders' do
     end
   end
 
-  describe 'imprint groups', js: true, story_768: true do
+  describe 'imprint groups', js: true, story_768: true  do
     given(:imprint_group) { create(:imprint_group, order_id: order.id) }
     given(:imprint_1) { job_1.imprints.first.tap { |i| i.update_attributes name: 'Imprint 1' } }
     given(:imprint_2) { job_2.imprints.first { |i| i.update_attributes name: 'Imprint 2' } }
@@ -304,7 +304,7 @@ feature 'Orders' do
       expect(imprint_1.reload.imprint_group_id).to be_nil
     end
 
-    scenario 'I can remove an imprint group, purging it of its imprints', rm_imprint_group: true do
+    scenario 'I can remove an imprint group, purging it of its imprints', current: true,  rm_imprint_group: true do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id
 
@@ -325,7 +325,7 @@ feature 'Orders' do
       expect(page).to_not have_selector "#imprint-group-#{imprint_group.id}"
     end
 
-    scenario 'I can edit an imprint group', edit_imprint_group: true do
+    scenario 'I can edit an imprint group', edit_imprint_group: true, retry: 2 do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id
 

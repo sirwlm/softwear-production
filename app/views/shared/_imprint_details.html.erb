@@ -1,31 +1,40 @@
+
+<% if object.require_manager_signoff? %>
+  <p class="alert alert-warning flash-notice col-xs-12">
+  This Imprint Requires Signoff
+  </p>
+<% end %>
+<% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
+  <h4>(Group #<%= object.imprint_group.id %>) <%= object.name %></h4>
+<% end %>
 <dl>
   <dt>Description</dt>
-  <dd><%= imprint.description %></dd>
-  <% if imprint.scheduled? %>
+  <dd><%= object.description %></dd>
+  <% if object.scheduled? %>
       <dt>Scheduled At</dt>
-      <dd><%= imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= imprint.estimated_time %>hrs</dd>
+      <dd><%= object.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= object.estimated_time %>hrs</dd>
   <% else %>
       <dt>Unscheduled</dt>
   <% end %>
-  <% if current_user.admin? && imprint.respond_to?(:softwear_crm_id) %>
+  <% if current_user.admin? && object.respond_to?(:softwear_crm_id) %>
     <dt>SoftWEAR-CRM ID</dt>
-    <dd><%= editable imprint, :softwear_crm_id %></dd>
+    <dd><%= editable object, :softwear_crm_id %></dd>
   <% end %>
   <dt>
     Machine
   </dt>
   <dd>
     <% if current_user.admin? %>
-      <%= editable imprint, :machine_id, type: :select, data: { source: Machine.all.map { |m| { m.id => m.name } } } %>
+      <%= editable object, :machine_id, type: :select, data: { source: Machine.all.map { |m| { m.id => m.name } } } %>
     <% else %>
-      <%= imprint.machine_name %>
+      <%= object.machine_name %>
     <% end %>
   </dd>
   <dt>Type</dt>
-  <dd><%= imprint.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>
+  <dd><%= object.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>
   <dt>Count</dt>
-  <dd><%= imprint.count %></dd>
+  <dd><%= object.count %></dd>
 </dl>
-<% if imprint.completed? %>
-  <%= render 'imprints/completed_info', imprint: imprint %>
+<% if object.completed? %>
+  <%= render 'imprints/completed_info', imprint: object %>
 <% end %>

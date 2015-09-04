@@ -12,7 +12,9 @@ else {
 
   <% if @imprint.valid? %>
     $('#imprint-<%= @imprint.id %>').html(
-      "<%=j render partial: 'orders/' + (@imprint.part_of_group? ? 'imprint_part_of_group' : 'imprint'), locals: { imprint: @imprint } %>"
+        "<%= js_train_entry(@imprint) do %>
+              <%= render 'shared/imprint_details', object: @imprint %>
+          <% end -%>"
     );
     $('#imprint-group-<%= imprint_group.id %>').html(
       "<%=j render 'orders/imprint_group', imprint_group: imprint_group %>"

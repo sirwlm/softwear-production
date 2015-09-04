@@ -59,16 +59,17 @@ class TrainsController < ApplicationController
 
     if @error
       @object.try(
-        :issue_warning, 'State Transition',
-        "Error transitioning states: #{@error}"
+          :issue_warning, 'State Transition',
+          "Error transitioning states: #{@error}"
       )
     else
-      @object.train_machine.events.fetch(@event).fire(@object)
+      target = @object.try(:event_target) || @object
+      @object.train_machine.events.fetch(@event).fire(target)
       if @object.respond_to?(:create_activity)
         @object.create_activity(
-          action:     :transition,
-          parameters: public_activity_params,
-          owner:      public_activity_owner
+            action:     :transition,
+            parameters: public_activity_params,
+            owner:      public_activity_owner
         )
       end
 

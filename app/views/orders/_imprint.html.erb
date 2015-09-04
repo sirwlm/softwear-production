@@ -9,9 +9,9 @@
       <dd><%= imprint.state.humanize %></dd>
     </dl>
 
-    <%= render 'shared/imprint_details', imprint: imprint %>
+    <%= render 'shared/imprint_details', object: imprint %>
     <p>
-      <%= link_to "Show Full Details", imprint_path(imprint), class: 'btn btn-primary' %>
+      <%= link_to "Show Full Details", show_train_path(imprint), class: 'btn btn-primary' %>
       </p>
     </div>
   </div>
