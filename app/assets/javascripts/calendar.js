@@ -200,7 +200,7 @@ function dropOutside(matcher, options) {
 
         $.ajax({
           type: 'PUT',
-          url: event_path(eventObject.type, eventObject.id),
+          url: event_path(eventObject),
           dataType: 'json',
           data: {
             event: imprintObject,
