@@ -12,7 +12,11 @@
   <dd><%= object.description %></dd>
   <% if object.scheduled? %>
       <dt>Scheduled At</dt>
-      <dd><%= object.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= object.estimated_time %>hrs</dd>
+      <% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
+        <dd><%= object.imprint_group.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= object.imprint_group.estimated_time %>hrs</dd>
+      <% else %>
+        <dd><%= object.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= object.estimated_time %>hrs</dd>
+      <% end %>
   <% else %>
       <dt>Unscheduled</dt>
   <% end %>

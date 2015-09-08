@@ -156,10 +156,6 @@ class Imprint < ActiveRecord::Base
     part_of_group? ? imprint_group.scheduled? : super
   end
 
-  def scheduled_at
-    part_of_group? ? imprint_group.scheduled_at : super
-  end
-
   private
 
   def schedule_conflict?
