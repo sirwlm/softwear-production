@@ -74,7 +74,7 @@ class Imprint < ActiveRecord::Base
   def calendar_color
     return 'white' if !approved?
     return 'rgb(58, 135, 173)' if machine.blank?
-    return 'rgb(204, 204, 204)' if completed?
+    return 'rgb(204, 204, 204)' if complete?
 
     machine.color
   end
@@ -126,10 +126,6 @@ class Imprint < ActiveRecord::Base
   def train_state
     state
   end
-
-#  def state_type
-#    state.to_sym == :complete ? :complete : :success
-#  end
 
   def details
     {
