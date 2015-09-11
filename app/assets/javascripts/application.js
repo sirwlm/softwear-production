@@ -25,9 +25,10 @@
 //= require jquery_nested_form
 //= require jquery-tablesorter
 //= require twitter/typeahead
+//= require bootstrap-wysihtml5
+//= require bootstrap-wysihtml5/locales/en-US
 
 //= require_tree .
-
 
 function datetimepickerInit() {
   $('.datetimepicker-standard').datetimepicker({
@@ -56,18 +57,33 @@ function typeaheadInit() {
         source: data.ttAdapter()
       });
 
-      console.log('typeahead! with '+$(this).data('suggestions'));
     } catch(e) {
       console.log('WHAT! ' + e);
     }
   });
-  console.log('==================================');
+}
+
+function wysihtmlInit() {
+  $('.edit_preproduction_notes_train textarea').each(function() {
+    $(this).wysihtml5({
+      toolbar: {
+        color: true,
+        emphasis: {
+          small: false
+        },
+        link: false,
+        blockquote: false,
+        'font-styles': false
+      }
+    });
+  });
 }
 
 $( document ).ready(function() {
   datetimepickerInit();
   datepickerInit();
   typeaheadInit();
+  wysihtmlInit();
   $(document).on('nested:fieldAdded', datetimepickerInit);
 
   $('.colorpicker').colorpicker()
