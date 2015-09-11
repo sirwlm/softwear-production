@@ -1,12 +1,14 @@
 require 'spec_helper'
 
-feature 'Preproduction notes', js: true do
+feature 'Preproduction notes', story_821: true, js: true do
+  given(:order) { create(:order_with_print) }
+  given(:job) { order.jobs.first }
 
   context 'As a non-manager user' do
     include_context 'logged_in_as_user'
 
     given!(:admin) { create(:admin) }
-    given!(:preproduction_notes) { create(:preproduction_notes_train, state: :pending_review) }
+    given!(:preproduction_notes) { create(:preproduction_notes_train, job: job, state: :pending_review) }
 
     background do
       admin.password = 'theAdminP4ssword'
