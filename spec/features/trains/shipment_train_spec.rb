@@ -7,6 +7,7 @@ feature 'Shipment Train' do
     
     given(:manager) { create(:admin) }
     given(:shipment_train) { create(:shipment_train) }
+    given(:order) { create(:order) }
 
     scenario 'The trains successful stations are Labels Staged, Labels Printed', story_868: true do
       
@@ -37,7 +38,16 @@ feature 'Shipment Train' do
 
     end
 
-    scenario 'I can add a shipment train to an order'
+    scenario 'I can add a shipment train to an order' do 
+      visit order_path(order)
+      within("#order-post-production .post_production_trains") do 
+        click_link("+")
+      end
+      sleep(1)
+      select("ShipmentTrain", from: 'train_class')
+      click_button("Create Train")
+      expect(page).to have_content "Shipment train"
+    end
 
   end
 end
