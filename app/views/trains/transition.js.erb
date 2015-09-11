@@ -1,6 +1,6 @@
 var e = $('#train-<%= @object.model_name.element %>-<%= @object.id %>');
-<% if @error %>
-  e.find('.transition-error').html("<%=j @error %>").show();
+<% if @error || @errors %>
+  e.find('.transition-error').html("<%=j @error || @errors.join(', ') %>").show();
 <% else %>
   e.find('.transition-error').hide();
   e.find('.current-state').text("<%=j train_state_of(@object).human_name.titleize %>");

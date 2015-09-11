@@ -36,7 +36,7 @@ module Train
     Train.train_types[type].select do |train_class|
       record.class.reflect_on_all_associations.any? do |assoc|
         next false unless train_class == assoc.klass || assoc.klass.descendants.include?(train_class)
-        next false if !assoc.collection? && record.send(assoc.name).nil?
+        next false if !assoc.collection? && !record.send(assoc.name).nil?
         true
       end
     end
@@ -95,6 +95,8 @@ module Train
         event_categories[category.to_sym] += args.reject { |a| a.is_a?(Hash) }.map(&:to_sym)
 
         event(*args, &block)
+      elsif owner_class.respond_to?(name)
+        owner_class.send(name, *args, &block)
       else
         super
       end
@@ -135,6 +137,7 @@ module Train
 
   included do
     cattr_accessor :train_machine
+    cattr_accessor :train_public_activity_blacklist
 
     def self.train_type(type)
       key = type.to_sym
@@ -159,7 +162,6 @@ module Train
     end
 
     def self.train(*args, &block)
-
       final_state = args.last.try(:delete, :final)
 
       self.train_machine = StateMachines::Machine.find_or_create(self, *args)
@@ -201,6 +203,11 @@ module Train
           complete? ? :complete : train_state_type(#{train_machine.attribute})
         end
       RUBY
+    end
+
+    def self.dont_track(*fields)
+      self.train_public_activity_blacklist ||= []
+      self.train_public_activity_blacklist += fields
     end
   end
 

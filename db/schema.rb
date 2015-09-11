@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901200040) do
+ActiveRecord::Schema.define(version: 20150910211835) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -166,6 +166,16 @@ ActiveRecord::Schema.define(version: 20150901200040) do
     t.boolean  "has_imprint_groups"
   end
 
+  create_table "preproduction_notes_trains", force: :cascade do |t|
+    t.text     "decoration_placement", limit: 65535
+    t.text     "print_order",          limit: 65535
+    t.text     "special_instructions", limit: 65535
+    t.integer  "job_id",               limit: 4
+    t.string   "state",                limit: 255
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name", limit: 255
   end
@@ -179,6 +189,12 @@ ActiveRecord::Schema.define(version: 20150901200040) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
+  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
+  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
+  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
+  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
 
   create_table "train_autocompletes", force: :cascade do |t|
     t.string   "field",      limit: 255
