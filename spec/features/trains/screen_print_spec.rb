@@ -62,7 +62,7 @@ feature 'Screen Print Trains', js: true do
       
       context 'that requires manager signoff' do 
         
-        let(:manager) { create(:admin) }
+        given(:manager) { create(:admin) }
         
         before(:each) do 
           imprint.update_attribute(:require_manager_signoff, true)

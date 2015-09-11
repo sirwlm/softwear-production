@@ -16,6 +16,10 @@ class FbaLabelTrain < ActiveRecord::Base
     success_event :labels_staged do
       transition :labels_printed => :labels_staged
     end
+    
+    state :pending_labels, type: :success
+    state :labels_printed, type: :success
+    state :labels_staged, type: :success
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901200040) do
+ActiveRecord::Schema.define(version: 20150911175205) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -178,6 +178,18 @@ ActiveRecord::Schema.define(version: 20150901200040) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "shipment_trains", force: :cascade do |t|
+    t.string   "state",         limit: 255
+    t.integer  "shipped_by_id", limit: 4
+    t.datetime "shipped_at"
+    t.string   "carrier",       limit: 255
+    t.string   "service",       limit: 255
+    t.string   "tracking",      limit: 255
+    t.integer  "order_id",      limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "train_autocompletes", force: :cascade do |t|
