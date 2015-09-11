@@ -177,26 +177,7 @@ module Train
         end
 
         def #{train_machine.attribute}_events(*args)
-          train_machine = self.class.train_machine
-
-          if args.first.is_a?(Symbol)
-            category = args.first
-            options  = args.last.is_a?(Hash) ? args.last : {}
-
-            if train_machine.event_categories[category].nil?
-              raise "No event category :"+category.to_s+" exists"
-            end
-
-            train_machine.events.valid_for(self, options).map(&:name).select do |event|
-              train_machine.event_categories[category.to_sym].include?(event.to_sym)
-            end
-          else
-            train_machine.events.valid_for(self, *args).map(&:name)
-          end
-        end
-
-        def train_events(*args)
-          #{train_machine.attribute}_events(*args)
+          train_events(*args)
         end
 
         def #{train_machine.attribute}_type
@@ -211,8 +192,24 @@ module Train
     end
   end
 
+  def train_events(*args)
+    if args.first.is_a?(Symbol)
+      category = args.first
+      options  = args.last.is_a?(Hash) ? args.last : {}
+
+      if train_machine.event_categories[category].nil?
+        raise "No event category :"+category.to_s+" exists"
+      end
+
+      train_machine.events.valid_for(self, options).map(&:name).select do |event|
+        train_machine.event_categories[category.to_sym].include?(event.to_sym)
+      end
+    else
+      train_machine.events.valid_for(self, *args).map(&:name)
+    end
+  end
+
   def train_machine
-    byebug
     self.class.train_machine
   end
 
