@@ -1,0 +1,11 @@
+<%= bootstrap_form_for preproduction_notes_train, remote: in_modal do |f| %>
+
+  <%= f.text_area :decoration_placement %>
+  <hr />
+  <%= f.text_area :print_order %>
+  <hr />
+  <%= f.text_area :special_instructions %>
+  <hr />
+
+  <%= f.submit %>
+<% end %>

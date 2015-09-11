@@ -64,11 +64,15 @@ class TrainsController < ApplicationController
       )
     else
       target = @object.try(:event_target) || @object
-      @object.train_machine.events.fetch(@event).fire(target)
+
+      unless @object.train_machine.events.fetch(@event).fire(target)
+        @errors = @object.errors.full_messages
+      end
+
       if @object.respond_to?(:create_activity)
         @object.create_activity(
             action:     :transition,
-            parameters: public_activity_params,
+            parameters: public_activity_params(@errors),
             owner:      public_activity_owner
         )
       end
@@ -113,11 +117,12 @@ class TrainsController < ApplicationController
     @object.model_name.element
   end
 
-  def public_activity_params
+  def public_activity_params(errors = nil)
     return @public_activity_params unless @public_activity_params.nil?
 
     @public_activity_params = {}
     @public_activity_params[:event] = @event.to_s
+
     if params[:public_activity]
       if extra = @object.train_machine.event_public_activity[@event.to_sym]
         extra.each do |key, type|
@@ -126,12 +131,20 @@ class TrainsController < ApplicationController
         end
       end
     end
+
     if attrs = permitted_attributes
       attrs.each do |key, type|
+        next if @object.class.train_public_activity_blacklist.try(:include?, key.to_sym)
+
         val = attrs[key]
         @public_activity_params[key.to_sym] = val if val
       end
     end
+
+    if !errors.blank?
+      @public_activity_params[:errors] = errors.join(', ')
+    end
+
     @public_activity_params
   end
 

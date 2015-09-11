@@ -129,6 +129,28 @@ describe TrainsController, type: :controller do
           format: :js
       end
 
+      context 'when there is a blacklisted param' do
+        before do
+          allow(TestTrain).to receive(:train_public_activity_blacklist).and_return [:winner_id]
+        end
+
+        it 'does not use it for public activity' do
+          expect(object).to receive(:create_activity)
+            .with(
+              action: :transition,
+              parameters: { event: 'won', user_id: 2 },
+              owner: anything
+            )
+          patch :transition,
+            model_name: 'test_train',
+            id: 1,
+            event: :won,
+            public_activity: { user_id: 2 },
+            test_train: { winner_id: 3 },
+            format: :js
+        end
+      end
+
       it 'creates an autocomplete entry for any text field params', story_875: true do
         patch :transition,
           model_name: 'test_train',

@@ -1,14 +1,18 @@
 <div class='input-group'>
   <%= label_tag field %>
 
-  <% case it = type.respond_to?(:call) ? call_ignore_arity(type, object) : type %>
+  <% case it = type.respond_to?(:call) ? call_ignore_arity(type, object, self) : type %>
   <% when Array %>
     <%= select_tag field_name, options_for_select(it), class: "select2 event-field-#{category} event-select-field select-field-#{category} form-control" %>
+
   <% when :check_box %>
     <%= check_box_tag field_name, 'true', false, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category}" %>
+
   <% when :text_field %>
     <%= send :text_field_tag, field_name, nil, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category} typeahead", data: { suggestions: TrainAutocomplete.suggestions_for(object, field_name) } %>
+
   <% else %>
     <%= send "#{it}_tag", field_name, nil, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category}" %>
+
   <% end %>
 </div>

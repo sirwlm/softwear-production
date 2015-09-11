@@ -36,7 +36,7 @@ module Train
     Train.train_types[type].select do |train_class|
       record.class.reflect_on_all_associations.any? do |assoc|
         next false unless train_class == assoc.klass || assoc.klass.descendants.include?(train_class)
-        next false if !assoc.collection? && record.send(assoc.name).nil?
+        next false if !assoc.collection? && !record.send(assoc.name).nil?
         true
       end
     end
@@ -95,6 +95,8 @@ module Train
         event_categories[category.to_sym] += args.reject { |a| a.is_a?(Hash) }.map(&:to_sym)
 
         event(*args, &block)
+      elsif owner_class.respond_to?(name)
+        owner_class.send(name, *args, &block)
       else
         super
       end
@@ -135,6 +137,7 @@ module Train
 
   included do
     cattr_accessor :train_machine
+    cattr_accessor :train_public_activity_blacklist
 
     def self.train_type(type)
       key = type.to_sym
@@ -159,7 +162,6 @@ module Train
     end
 
     def self.train(*args, &block)
-
       final_state = args.last.try(:delete, :final)
 
       self.train_machine = StateMachines::Machine.find_or_create(self, *args)
@@ -175,26 +177,7 @@ module Train
         end
 
         def #{train_machine.attribute}_events(*args)
-          train_machine = self.class.train_machine
-
-          if args.first.is_a?(Symbol)
-            category = args.first
-            options  = args.last.is_a?(Hash) ? args.last : {}
-
-            if train_machine.event_categories[category].nil?
-              raise "No event category :"+category.to_s+" exists"
-            end
-
-            train_machine.events.valid_for(self, options).map(&:name).select do |event|
-              train_machine.event_categories[category.to_sym].include?(event.to_sym)
-            end
-          else
-            train_machine.events.valid_for(self, *args).map(&:name)
-          end
-        end
-
-        def train_events(*args)
-          #{train_machine.attribute}_events(*args)
+          train_events(*args)
         end
 
         def #{train_machine.attribute}_type
@@ -202,10 +185,31 @@ module Train
         end
       RUBY
     end
+
+    def self.dont_track(*fields)
+      self.train_public_activity_blacklist ||= []
+      self.train_public_activity_blacklist += fields
+    end
+  end
+
+  def train_events(*args)
+    if args.first.is_a?(Symbol)
+      category = args.first
+      options  = args.last.is_a?(Hash) ? args.last : {}
+
+      if train_machine.event_categories[category].nil?
+        raise "No event category :"+category.to_s+" exists"
+      end
+
+      train_machine.events.valid_for(self, options).map(&:name).select do |event|
+        train_machine.event_categories[category.to_sym].include?(event.to_sym)
+      end
+    else
+      train_machine.events.valid_for(self, *args).map(&:name)
+    end
   end
 
   def train_machine
-    byebug
     self.class.train_machine
   end
 

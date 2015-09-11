@@ -53,6 +53,13 @@ GIT
     select2-rails (3.5.9.3)
       thor (~> 0.14)
 
+GIT
+  remote: git://github.com/nerian/bootstrap-wysihtml5-rails.git
+  revision: a4b413aa1c9d5f614a33c3c1f5731ed8bc6302de
+  specs:
+    bootstrap-wysihtml5-rails (0.3.3.7)
+      railties (>= 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -444,6 +451,7 @@ DEPENDENCIES
   bootstrap-colorpicker-rails
   bootstrap-kaminari-views
   bootstrap-sass (~> 3.2.0)
+  bootstrap-wysihtml5-rails!
   bootstrap3-datetimepicker-rails (= 4.7.14)
   bootstrap_form
   byebug
@@ -513,3 +521,6 @@ DEPENDENCIES
   whenever
   with_model
   x-editable-rails
+
+BUNDLED WITH
+   1.10.6
