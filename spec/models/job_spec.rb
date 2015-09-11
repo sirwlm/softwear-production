@@ -43,6 +43,7 @@ describe Job, job_spec: true do
     let!(:job) { create(:job) }
     let(:complete_imprintable_train) { create(:imprintable_train, state: :staged) }
     let(:incomplete_imprintable_train) { create(:imprintable_train, state: :ready_to_order) }
+    let(:complete_preproduction_notes_train) { create(:preproduction_notes_train, state: :acknowledged) }
     let(:imprint_1) { create(:print, state: :pending_approval) }
     let(:imprint_2) { create(:print, state: :pending_approval) }
 
@@ -62,6 +63,7 @@ describe Job, job_spec: true do
         imprint_2.update_attribute(:state, :complete)
         job.imprints = [imprint_1, imprint_2]
         job.imprintable_train = complete_imprintable_train
+        job.preproduction_notes_train = complete_preproduction_notes_train
       end
       it { is_expected.to eq 'Complete' }
     end
