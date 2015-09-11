@@ -39,7 +39,7 @@ module TrainHelper
     if lamb.arity < args.size
       lamb.call(*args[0...(lamb.arity - args.size)])
     else
-      lamb.cal(*args)
+      lamb.call(*args)
     end
   end
 end
