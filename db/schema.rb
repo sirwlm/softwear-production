@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150916154241) do
+ActiveRecord::Schema.define(version: 20150916164617) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -214,6 +214,18 @@ ActiveRecord::Schema.define(version: 20150916154241) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+
+  create_table "stage_for_pickup_trains", force: :cascade do |t|
+    t.string   "state",      limit: 255
+    t.string   "location",   limit: 255
+    t.integer  "order_id",   limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "stage_for_pickup_trains", ["location"], name: "index_stage_for_pickup_trains_on_location", using: :btree
+  add_index "stage_for_pickup_trains", ["order_id"], name: "index_stage_for_pickup_trains_on_order_id", using: :btree
+  add_index "stage_for_pickup_trains", ["state"], name: "index_stage_for_pickup_trains_on_state", using: :btree
 
   create_table "store_delivery_trains", force: :cascade do |t|
     t.string   "state",           limit: 255
