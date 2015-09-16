@@ -9,6 +9,7 @@ class Order < ActiveRecord::Base
   has_one :fba_label_train, dependent: :destroy
   has_one :shipment_train, dependent: :destroy
   has_one :store_delivery_train, dependent: :destroy
+  has_one :local_delivery_train, dependent: :destroy
 
   validates :name, :jobs,  presence: true
   validates :softwear_crm_id, uniqueness: true, unless: -> { softwear_crm_id.blank? }
