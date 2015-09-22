@@ -83,4 +83,8 @@ module Schedulable
   def machine_name
     machine.try(:name) || 'Not Assigned'
   end
+
+  def mark_completed_at
+    self.update_attribute(:completed_at, Time.now) 
+  end
 end

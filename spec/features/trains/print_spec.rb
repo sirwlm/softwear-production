@@ -52,6 +52,7 @@ feature 'Generic Print Trains', print_spec: true, js: true do
         end
         
         expect(imprint.reload.complete?).to be_truthy
+        expect(imprint.completed_at).not_to be_nil
       end
     
     end
