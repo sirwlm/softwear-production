@@ -11,14 +11,6 @@ describe Job, job_spec: true do
     # it { is_expected.to validate_presence_of :imprintable_train }
   end
 
-  describe 'Callbacks' do
-    let(:job) { create(:job) }
-
-    it 'creates an imprintable train', story_104: true do
-      expect(job.imprintable_train).to_not be_nil
-    end
-  end
-
   describe '#imprint_state', story_876: true do
     let!(:job) { create(:job) }
     let(:complete_imprint_1) { create(:print, state: :complete, completed_at: 2.days.ago) }

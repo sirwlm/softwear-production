@@ -8,11 +8,9 @@ class Job < ActiveRecord::Base
   has_many :imprints, dependent: :destroy
   belongs_to :order
 
-  validates :imprintable_train, presence: true
-
   accepts_nested_attributes_for :imprints, allow_destroy: true
+  accepts_nested_attributes_for :imprintable_train, allow_destroy: true
 
-  before_validation :assign_imprintable_train
   after_save :assign_preproduction_notes_train
 
   def full_name
@@ -37,10 +35,6 @@ class Job < ActiveRecord::Base
   end
 
   private
-
-  def assign_imprintable_train
-    self.imprintable_train ||= ImprintableTrain.new(state: 'ready_to_order')
-  end
 
   def assign_preproduction_notes_train
     self.preproduction_notes_train ||= PreproductionNotesTrain.new

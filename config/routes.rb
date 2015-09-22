@@ -68,7 +68,14 @@ SoftwearProduction::Application.routes.draw do
   get '/:model_name/:id/new_train/:train_type', to: 'trains#new', as: :new_train
   get '/:model_name/:id/train', to: 'trains#show', as: :show_train
 
-  namespace :api do 
-    resources :orders
+  namespace :api do
+    resources :orders, :jobs, :imprints, :imprintable_trains
+    namespace :trains do
+      get    '/:train_class',     to: 'api/trains#index'
+      get    '/:train_class/:id', to: 'api/trains#show'
+      post   '/:train_class',     to: 'api/trains#create'
+      put    '/:train_class/:id', to: 'api/trains#update'
+      delete '/:train_class/:id', to: 'api/trains#destroy'
+    end
   end
 end
