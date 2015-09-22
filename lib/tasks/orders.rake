@@ -33,7 +33,7 @@ namespace :orders do
 
     orders.each do |o|
       # close order preproduction trains
-      o.fba_label_train.state.update_attribute(:state, o.fba_label_train.train_machine.complete_state) unless o.fba_label_train.blank?
+      o.fba_label_train.update_attribute(:state, o.fba_label_train.train_machine.complete_state) unless o.fba_label_train.blank?
       
       # close order postproduction trains
       o.fba_bagging_train.update_attribute(:state, o.fba_bagging_train.train_machine.complete_state) unless o.fba_bagging_train.blank?
