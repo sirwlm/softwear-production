@@ -1,5 +1,21 @@
 namespace :orders do
 
+  task :mark_completed_at, [:start_date, :end_date] => :environment  do |t, args| 
+    args.with_defaults(start_date: '2015-09-01', end_date: '2015-10-01')
+    
+    ImprintGroup.where("created_at > ? and created_at < ?", args.start_date, args.end_date).each do |i|
+      if i.state == i.train_machine.complete_state.to_s && i.completed_at.nil?
+        i.update_attribute(:completed_at, i.activities.last.created_at) 
+      end
+    end
+    
+    #Imprint.where("created_at > ? and created_at < ?", args.start_date, args.end_date).each do |i|
+    #  if  
+    #end
+
+  end
+
+
   task :complete_old, [:date] => :environment do |t, args|
     args.with_defaults(date: '2015-08-01')
     date = args.date
