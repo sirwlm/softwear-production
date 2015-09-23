@@ -7,6 +7,7 @@ class Order < ActiveRecord::Base
   has_many :imprint_groups, dependent: :destroy
   has_one :fba_bagging_train, dependent: :destroy
   has_one :fba_label_train, dependent: :destroy
+  has_one :stage_for_fba_bagging_train, dependent: :destroy
   has_one :shipment_train, dependent: :destroy
   has_one :store_delivery_train, dependent: :destroy
   has_one :local_delivery_train, dependent: :destroy
