@@ -85,6 +85,12 @@ module Schedulable
   end
 
   def mark_completed_at
-    self.update_attribute(:completed_at, Time.now) 
+    if self.respond_to?(:imprint_group) && !self.imprint_group.nil?
+      time = Time.now
+      self.update_attribute(:completed_at, time)
+      self.imprint_group.imprints.each{|i| update_attribute(:completed_at, time)}
+    else
+      self.update_attribute(:completed_at, Time.now) 
+    end
   end
 end

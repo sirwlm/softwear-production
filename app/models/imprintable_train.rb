@@ -37,6 +37,9 @@ class ImprintableTrain < ActiveRecord::Base
     time(:expected_arrival_date) { |i| i.expected_arrival_date.try(:to_date) }
     time :created_at
     integer :job_id
+    boolean :complete do 
+      self.complete?
+    end
   end
 
   before_save :check_solution

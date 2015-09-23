@@ -10,6 +10,7 @@ class ImprintGroup < ActiveRecord::Base
   belongs_to :machine
 
   before_destroy :remove_imprints
+  before_save :mark_completed_at, if: -> {self.state.to_s == self.train_machine.complete_state && self.completed_at.nil? }
 
   alias_method :complete?, :completed?
 
@@ -97,5 +98,12 @@ class ImprintGroup < ActiveRecord::Base
   
   def order_deadline_day
     self.order.deadline.strftime('%a %m/%d') rescue 'No Deadline'
+  end
+  
+  def mark_completed_at
+    byebug
+    time = Time.now
+    self.update_attribute(:completed_at, time)
+    self.imprints.each{|i| update_attribute(:completed_at, time)}
   end
 end
