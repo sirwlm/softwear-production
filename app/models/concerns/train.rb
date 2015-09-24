@@ -138,7 +138,7 @@ module Train
   included do
     cattr_accessor :train_machine
     cattr_accessor :train_public_activity_blacklist
-    after_save :touch_order
+    try :after_save, :touch_order
 
     def self.train_type(type)
       key = type.to_sym
