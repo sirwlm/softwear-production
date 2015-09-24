@@ -32,7 +32,7 @@ feature 'Orders' do
     expect(page).to have_content "An imprint"
   end
 
-  scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true, 
+  scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true,
     js: true, story_676: true do
     job = Job.create(name: 'Test Job')
     job.imprints = [create(:imprint, name: 'The Imprint')]

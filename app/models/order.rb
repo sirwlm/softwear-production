@@ -74,12 +74,12 @@ class Order < ActiveRecord::Base
     jobs.all? { |j| j.imprint_state == 'Printed' } ? 'Printed' : 'Pending'
   end
 
-  def production_state 
+  def production_state
     (order_production_state == 'Complete' && jobs_production_state == 'Complete') ? 'Complete' : 'Pending'
   end
 
   def order_production_state
-    trains.all?(&:complete?) ? 'Complete' : 'Pending' 
+    trains.all?(&:complete?) ? 'Complete' : 'Pending'
   end
 
   def jobs_production_state

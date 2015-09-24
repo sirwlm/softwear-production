@@ -46,7 +46,7 @@ class ImprintGroup < ActiveRecord::Base
 
   def calendar_color
     return 'rgb(58, 135, 173)' if machine.blank?
-    return 'rgb(204, 204, 204)' if completed?
+    return 'rgb(204, 204, 204)' if complete?
 
     machine.color
   end

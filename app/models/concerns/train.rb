@@ -138,6 +138,7 @@ module Train
   included do
     cattr_accessor :train_machine
     cattr_accessor :train_public_activity_blacklist
+    after_save :touch_order
 
     def self.train_type(type)
       key = type.to_sym
@@ -266,5 +267,12 @@ module Train
       end
 
     fields
+  end
+
+  def touch_order
+    return if try(:order).nil?
+
+    # Weird but intentional - properly reindexes order in Sunspot.
+    order.reload.save
   end
 end
