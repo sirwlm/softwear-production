@@ -7,6 +7,7 @@ class Order < ActiveRecord::Base
   has_many :imprint_groups, dependent: :destroy
   has_one :fba_bagging_train, dependent: :destroy
   has_one :fba_label_train, dependent: :destroy
+  has_one :stage_for_fba_bagging_train, dependent: :destroy
   has_one :shipment_train, dependent: :destroy
   has_one :store_delivery_train, dependent: :destroy
   has_one :local_delivery_train, dependent: :destroy
@@ -27,6 +28,7 @@ class Order < ActiveRecord::Base
     time :created_at
     time :earliest_scheduled_date
     time :latest_scheduled_date
+    time :deadline
     string :imprint_state
     string :production_state
   end
@@ -42,7 +44,7 @@ class Order < ActiveRecord::Base
   end
 
   def complete?
-    imprints.all?(&:completed?)
+    imprint_state == 'Printed' && production_state == 'Complete'
   end
 
   def scheduled?
@@ -72,7 +74,15 @@ class Order < ActiveRecord::Base
     jobs.all? { |j| j.imprint_state == 'Printed' } ? 'Printed' : 'Pending'
   end
 
-  def production_state
+  def production_state 
+    (order_production_state == 'Complete' && jobs_production_state == 'Complete') ? 'Complete' : 'Pending'
+  end
+
+  def order_production_state
+    trains.all?(&:complete?) ? 'Complete' : 'Pending' 
+  end
+
+  def jobs_production_state
     jobs.all? { |j| j.production_state == 'Complete' } ? 'Complete' : 'Pending'
   end
 end

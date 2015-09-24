@@ -13,7 +13,10 @@ class OrdersController < InheritedResources::Base
         with :complete,  q[:complete]  == 'true' unless q[:complete].blank?
         with :scheduled, q[:scheduled] == 'true' unless q[:scheduled].blank?
 
-        order_by :created_at, :desc
+        order_by :deadline, :asc
+      else
+        with :complete, false
+        order_by :deadline, :asc
       end
 
       paginate page: params[:page] || 1

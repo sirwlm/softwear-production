@@ -50,6 +50,7 @@ feature 'Equipment Cleaning Prints', equipment_cleaning_print: true, js: true do
         end
 
         expect(imprint.reload.complete?).to be_truthy
+        expect(imprint.reload.completed_at).not_to be_nil
       end
     end
   end

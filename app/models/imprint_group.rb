@@ -33,8 +33,9 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def full_name
-    "#{order.name}: Group including #{imprint_names.join(', ')} (#{count})"
+    "#{order_deadline_day} #{order.name}: Group including #{imprint_names.join(', ')} (#{count})"
   end
+
   def display
     "#{'(COMPLETE)' if complete?} #{full_name}"
   end
@@ -44,7 +45,6 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def calendar_color
-    # return 'white' if !approved?
     return 'rgb(58, 135, 173)' if machine.blank?
     return 'rgb(204, 204, 204)' if completed?
 
@@ -94,4 +94,9 @@ class ImprintGroup < ActiveRecord::Base
       send("#{field}=", imprint.send(field)) if send(field).nil?
     end
   end
+  
+  def order_deadline_day
+    self.order.deadline.strftime('%a %m/%d') rescue 'No Deadline'
+  end
+  
 end

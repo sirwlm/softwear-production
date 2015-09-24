@@ -18,8 +18,12 @@ describe Order do
     let(:incomplete_imprint) { double('Imprint', completed?: false) }
     subject { order.complete? }
 
-    context 'when all imprints are complete' do
-      before { allow(order).to receive(:imprints).and_return [completed_imprint] * 3 }
+    context 'when all imprints and trains are complete' do
+      before(:each) do  
+        allow(order).to receive(:imprint_state).and_return 'Printed'
+        allow(order).to receive(:order_production_state).and_return 'Complete'
+        allow(order).to receive(:jobs_production_state).and_return 'Complete'
+      end
 
       it { is_expected.to eq true }
     end

@@ -5,6 +5,9 @@ class EquipmentCleaningPrint < Imprint
 
   train_type :production
   train initial: :pending_approval, final: :complete do
+    
+    after_transition on: :repacked_bag, do: :mark_completed_at
+
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
       transition :pending_approval => :ready_to_dry

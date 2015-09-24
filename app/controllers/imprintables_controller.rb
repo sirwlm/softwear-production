@@ -13,6 +13,8 @@ class ImprintablesController < ApplicationController
         with :job_imprint_state, q[:job_imprint_state] unless q[:job_imprint_state].blank?
 
         order_by :created_at, :desc
+      else
+        with :complete, false
       end
 
       without :job_id, nil
