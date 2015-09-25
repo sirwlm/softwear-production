@@ -9,6 +9,8 @@ describe AssignedScreen, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of :screen }
+    it { is_expected.to validate_presence_of :screen_train }
+    it { is_expected.to validate_presence_of :screen_request }
   end
 
   describe '#is_doubled_up?' do 

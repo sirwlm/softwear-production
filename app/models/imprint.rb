@@ -30,6 +30,9 @@ class Imprint < ActiveRecord::Base
 
   belongs_to :job
   belongs_to :imprint_group
+  belongs_to :screen_train
+  has_many :assigned_screens, through: :screen_train
+  has_many :screens, through: :assigned_screens
   has_one :order, through: :job
 
   searchable do

@@ -16,6 +16,6 @@ class CreateScreenTrains < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_column :imprint, :screen_train_id, :integer, index: :true
+    add_column :imprints, :screen_train_id, :integer, index: :true
   end
 end

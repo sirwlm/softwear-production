@@ -24,8 +24,8 @@ describe Imprint, imprint_spec: true, story_110: true do
     it { is_expected.to belong_to(:job) }
     it { is_expected.to have_one(:order).through(:job) }
     it { is_expected.to belong_to(:screen_train) }
-    it { is_expected.to have_many(:screen_requests).through(:screen_train) }
-    it { is_expected.to have_many(:screens).through(:screen_requests) }
+    it { is_expected.to have_many(:assigned_screens).through(:screen_train) }
+    it { is_expected.to have_many(:screens).through(:assigned_screens) }
   end
 
   describe 'Validations' do

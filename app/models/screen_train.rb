@@ -8,7 +8,8 @@ class ScreenTrain < ActiveRecord::Base
   has_many :jobs, through: :imprints
   has_many :screen_requests
 
-  
+  validates :order, presence: true
+
   def proof_request_data_complete?
     return false if order.blank?
     return false if assigned_screens.empty?
