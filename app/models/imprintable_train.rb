@@ -68,6 +68,10 @@ class ImprintableTrain < ActiveRecord::Base
       transition all - :imprintable_changed => :imprintable_changed
     end
 
+    success_event :reset_state_machine do
+      transition [:partially_ordered] => :ready_to_order
+    end
+
     state :imprintable_changed, type: :delay
   end
 
