@@ -267,12 +267,6 @@ ActiveRecord::Schema.define(version: 20150925124659) do
     t.datetime "updated_at"
   end
 
-  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
-  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
-  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
-  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
-  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
-
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",         limit: 255
     t.integer  "shipped_by_id", limit: 4

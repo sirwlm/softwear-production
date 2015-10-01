@@ -1,0 +1,67 @@
+
+<h3>Screen Pre-Production Dashboard</h3>
+
+<div class="container screen-train-search">
+  <%=  render 'search' %>
+</div>
+
+<%= paginate @screen_trains, theme: 'twitter-bootstrap-3' %>
+
+  <table class="table table-hover table-striped table-sortable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Order</th>
+        <th>Details</th>
+        <th>State</th>
+        <th>Sep Deadline</th>
+        <th>Order Deadline</th>
+        <th>Location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @screen_trains.each do |st| %>
+        <tr>
+          <td><%= st.id %></td>
+          <td><%= link_to st.order.name, order_path(st.order) %></td>
+          <td>
+            <dl>
+              <dt>Imprint(s)</dt>
+              <dd class="screen-train-imprints"><%= st.imprints.map{|x| x.name }.join(", ")  %>
+              </dd>
+              <dt>Total Imprint Count</dt>
+              <dd class='screen-train-count'><%= st.imprint_count %>
+              </dd>
+              <dt>New Sep?</dt>
+              <dd class='screen-train-new-separation'><%= st.new_separation? ? 'yes' : 'no' %>
+              </dd>
+              <dt>Fba?</dt>
+              <dd class='screen-train-fba'><%= st.fba? ? 'yes' : 'no' %>
+              </dd>
+              <dt>Artwork Location</dt>
+              <dd class="screen-train-artwork-location"><%= st.artwork_location %>
+              </dd>
+              <dt>Print Type</dt>
+              <dd class="screen-train-print-type"><%= st.print_type %>
+              </dd>
+            </dl>
+          </td>
+          <td><%= st.human_state_name %></td>
+          <td><%= st.due_at.try(:strftime, '%a, %b %d, %Y ') rescue 'not set' %></td>
+          <td><%= st.order.deadline.strftime("%a, %b %d, %Y") %></td>
+          <td><%= st.assigned_to.full_name rescue 'unassigned' %></td>
+          <td>
+            <%= link_to show_train_path(st), class: 'btn btn-primary btn-sm', remote: true do %>
+              <i class='glyphicon glyphicon-eye-open'></i>
+            <% end %>
+            <%= link_to edit_screen_train_path(st), class: 'btn btn-warning btn-sm', remote: true do %>
+              <i class='glyphicon glyphicon-pencil'></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<%= paginate @screen_trains, theme: 'twitter-bootstrap-3' %>

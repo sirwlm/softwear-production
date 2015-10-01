@@ -43,6 +43,7 @@ SoftwearProduction::Application.routes.draw do
 
   resources :api_settings
   resources :jobs
+  resources :screen_trains
 
   resources :screens do
     collection do

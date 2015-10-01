@@ -193,5 +193,4 @@ feature 'Screen Features', js: true do
     end
 
   end
-
 end

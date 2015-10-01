@@ -4,6 +4,7 @@ class Order < ActiveRecord::Base
 
   has_many :jobs, dependent: :destroy
   has_many :imprints, through: :jobs
+  has_many :screen_trains, dependent: :destroy
   has_many :imprint_groups, dependent: :destroy
   has_one :fba_bagging_train, dependent: :destroy
   has_one :fba_label_train, dependent: :destroy

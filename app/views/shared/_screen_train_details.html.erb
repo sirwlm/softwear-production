@@ -1,0 +1,26 @@
+<h2>Screen Train Details</h2>
+
+<dl>
+  <dt>Imprint(s)</dt>
+  <dd class="screen-train-imprints"><%= object.imprints.map{|x| x.name }.join(", ")  %>
+  </dd>
+  <dt>Total Imprint Count</dt>
+  <dd class='screen-train-count'><%= object.imprint_count %>
+  </dd>
+  <dt>New Sep?</dt>
+  <dd class='screen-train-new-separation'><%= object.new_separation? ? 'yes' : 'no' %>
+  </dd>
+  <dt>Fba?</dt>
+  <dd class='screen-train-fba'><%= object.fba? ? 'yes' : 'no' %>
+  </dd>
+  <dt>Artwork Location</dt>
+  <dd class="screen-train-artwork-location">
+  </dd>
+  <dt>Print Type</dt>
+  <dd class="screen-train-print-type"><%= object.print_type %>
+  </dd>
+</dl>
+
+<%= link_to edit_screen_train_path(object), class: 'btn btn-warning btn-sm', remote: true do %>
+  <i class='glyphicon glyphicon-pencil'></i>
+<% end %>
