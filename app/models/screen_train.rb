@@ -53,9 +53,7 @@ class ScreenTrain < ActiveRecord::Base
   def proof_request_data_complete?
     return false if order.blank?
     return false if imprints.empty?
-    # return false if screen_requests.empty?
     return false if due_at.blank?
-    return false if assigned_to.nil?
     return false if garment_material.blank?
     return false if garment_weight.blank?
     return false if artwork_location.blank?
@@ -63,9 +61,12 @@ class ScreenTrain < ActiveRecord::Base
     return true
   end
 
+  def screen_inks
+    screen_requests.group(:ink).map(&:ink)
+  end
+
   def all_screens_assigned?
-    # one screen for every color
-    return false
+    screen_inks.count == assigned_screens.count
   end
 
   def fba?

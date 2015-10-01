@@ -6,5 +6,14 @@ class ScreenRequest < ActiveRecord::Base
   validates :mesh_type, presence: true, inclusion: { in: Screen::MESH_TYPES }
   validates :dimensions, presence: true, inclusion: { in: Screen::DIMENSIONS }
   validates :lpi, presence: true
+  validates :ink, presence: true
+
+  before_save :there_can_only_be_one_primary
+
+  private
+
+  def there_can_only_be_one_primary
+      self.screen_train.where(ink: self.ink).update_all(primary: false) if self.primary?
+  end
 
 end
