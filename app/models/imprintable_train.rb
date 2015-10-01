@@ -43,7 +43,7 @@ class ImprintableTrain < ActiveRecord::Base
   attr_accessor :ordering_complete
 
   train_type :pre_production
-  train initial: :ready_to_order, final: :staged do
+  train initial: :ready_to_order, final: :inventoried do
     success_event :ordered, params: { expected_arrival_date: :date_field } do
       transition :ready_to_order => :ordered
     end
@@ -59,7 +59,7 @@ class ImprintableTrain < ActiveRecord::Base
     success_event :resolved_changes,
         params: { solution: SOLUTIONS.keys.map { |k| [k.to_s.humanize, k] } } do
       SOLUTIONS.each do |solution, state|
-        transition :imprintable_changed => state, if: ->(i) { byebug; i.solution == solution.to_sym }
+        transition :imprintable_changed => state, if: ->(i) { i.solution == solution.to_sym }
       end
       transition :imprintable_changed => same
     end

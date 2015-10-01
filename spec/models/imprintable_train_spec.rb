@@ -8,8 +8,11 @@ describe ImprintableTrain, story_94: true do
     describe '#resolved_changes' do
       context 'with solution=need_to_order' do
         it 'sets state to "ready_to_order"' do
-          imprintable_train.update_column :state, :imprintable_changed
-          imprintable_train.update_attributes!(solution: :need_to_order)
+          imprintable_train.update_attributes!(
+            state:    :imprintable_changed,
+            solution: :need_to_order
+          )
+          imprintable_train.resolved_changes
           expect(imprintable_train.reload.state).to eq 'ready_to_order'
         end
       end

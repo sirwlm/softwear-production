@@ -33,7 +33,7 @@ describe Job, job_spec: true do
 
   describe '#production_state', story_876: true do
     let!(:job) { create(:job) }
-    let(:complete_imprintable_train) { create(:imprintable_train, state: :staged) }
+    let(:complete_imprintable_train) { create(:imprintable_train, state: :inventoried) }
     let(:incomplete_imprintable_train) { create(:imprintable_train, state: :ready_to_order) }
     let(:complete_preproduction_notes_train) { create(:preproduction_notes_train, state: :acknowledged) }
     let(:imprint_1) { create(:print, state: :pending_approval) }
