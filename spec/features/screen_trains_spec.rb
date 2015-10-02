@@ -52,11 +52,63 @@ feature "ScreenTrains", type: :feature, js: true do
      
     end
 
+    context 'given a screen is pending_screens or complete' do 
+      background(:each) { screen_train.update_attribute(:state, :pending_screens) }
+    
+      scenario 'I can delay it due to a bad_separation', current: true do 
+        visit show_train_path(:screen_train, screen_train)
+        within('.train-category-delay') do
+          expect(page).to have_selector('button', text: 'Bad separation')
+        end
+
+        success_transition :screens_assigned
+        within('.train-category-delay') do
+          expect(page).to have_selector('button', text: 'Bad separation')
+        end
+        
+        fill_in("public_activity_reason", with: 'Bad Sep' )
+        delay_transition :bad_separation
+        expect(page).to have_text 'Pending Separation'
+
+      end  
+    end
+
+    context 'given a screen is complete' do 
+      background(:each) { screen_train.update_attribute(:state, :complete) }
+    
+      scenario 'I can delay it due to a bad_burnout', current: true do 
+        visit show_train_path(:screen_train, screen_train)
+
+        within('.train-category-delay') do
+          expect(page).to have_selector('button', text: 'Bad burnout')
+        end
+        
+        delay_transition :bad_burnout
+        expect(page).to have_text 'Pending Screens'
+
+      end  
+    end
+    context 'given a screen is pending_screens or complete' do 
+      background(:each) { screen_train.update_attribute(:state, :pending_screens) }
+    
+      scenario 'I can delay it due to a bad_separation' do 
+        visit show_train_path(:screen_train, screen_train)
+        within('.train-category-delay') do
+          expect(page).to have_selector('button', text: 'Bad separation')
+        end
+
+        success_transition :screens_assigned
+        within('.train-category-delay') do
+          expect(page).to have_selector('button', text: 'Bad separation')
+        end
+      end  
+    end
+
     context 'given a screen is ready to transition to complete but screens arent assigned' do 
       
       background(:each) { screen_train.update_attribute(:state, :pending_screens) }
       
-      scenario 'I cannot transition it to complete', current: true do 
+      scenario 'I cannot transition it to complete'  do 
         visit show_train_path(:screen_train, screen_train)
         within('.train-category-success') do 
           expect(page).to have_no_selector('button')

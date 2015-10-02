@@ -45,8 +45,20 @@ class ScreenTrain < ActiveRecord::Base
     success_event :screens_assigned do 
       transition :pending_screens => :complete, if: -> (s) { s.all_screens_assigned? }
     end
+    
+    delay_event :bad_separation, 
+      public_activity: { reason: :text_field } do 
+      transition [:pending_screens, :complete] => :pending_separation
+    end
+
+    delay_event :bad_burnout do 
+      transition :complete => :pending_screens
+    end
 
     state :pending_sep_request, type: :success
+    state :pending_separation, type: :success
+    state :pending_approval, type: :success
+    state :pending_screens, type: :success
     state :complete, type: :success
   end
 
