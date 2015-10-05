@@ -10,15 +10,18 @@ class ScreenTrain < ActiveRecord::Base
 
   belongs_to :assigned_to, foreign_key: :assigned_to_id, class_name: 'User'  
   belongs_to :order
-  has_many :assigned_screens
+  has_many :assigned_screens, dependent: :destroy
   has_many :screens, through: :assigned_screens
   has_many :imprints
   has_many :machines, through: :imprints
   has_many :jobs, through: :imprints
-  has_many :screen_requests
+  has_many :screen_requests, -> { order(ink: :asc) },  dependent: :destroy
 
   validates :order, presence: true
   validates :print_type, inclusion: { in: PRINT_TYPES }, unless: -> { self.print_type.blank? }
+  
+  accepts_nested_attributes_for :assigned_screens, allow_destroy: true
+  accepts_nested_attributes_for :screen_requests, allow_destroy: true
   
   train_type :pre_production
   train initial: :pending_sep_request, final: :complete do
@@ -88,5 +91,9 @@ class ScreenTrain < ActiveRecord::Base
   def imprint_count 
     imprints.sum(:count)
   end
-  
+
+  def machines
+    imprints.map{|x| x.machine.name }.uniq
+  end
+
 end

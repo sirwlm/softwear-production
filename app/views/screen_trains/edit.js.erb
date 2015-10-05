@@ -2,6 +2,7 @@
 $('#contentModal .modal-title').html("Edit Screen Train");
 $('#contentModal .modal-body').html("<%=j render('screen_trains/form', screen_train: @screen_train) %>");
 $('#contentModal .modal-dialog').css('width', '90%');
+$('#contentModalSaveChanges').hide();
 $('#contentModal').modal('show');
 $('.select2').select2();
 datetimepickerInit();

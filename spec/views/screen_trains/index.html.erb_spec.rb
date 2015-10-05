@@ -7,7 +7,7 @@ describe "screen_trains/index", type: :view do
   it "has a table with order, imprints, order deadline, separation deadline"\
           " state, new?, FBA?, artwork_location, print_type, machine, quantity, garment weight"\
           " garment_material, comments, screen_requests, assigned_Screensi, assigned_to"\
-          " signed_off_by" do 
+          " signed_off_by", pending: true do 
     render
     expect(rendered).to have_css(:td, text: screen_train.order.name)
     expect(rendered).to have_css('dd.screen-train-count', text: '0')

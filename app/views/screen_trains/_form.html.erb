@@ -1,13 +1,35 @@
-<%= bootstrap_form_for screen_train do |f| %>
+<%= render('shared/errors', record: screen_train) unless screen_train.errors.empty? %>
+
+<%= nested_form_for screen_train, role: 'form', builder: BootstrapForm::FormBuilder, remote: true  do |f| %>
   <%= f.text_field :due_at, class: 'form-control datetimepicker-standard', value: screen_train.due_at, help: 'When does the separation need to be completed by' %>
   <%= f.form_group :new_separation, label: { text: "New Separation" }, help: "Has this separation been created before?" do %>
     <%= f.radio_button :new_separation, 0, label: "No", checked: !screen_train.new_separation? %>
     <%= f.radio_button :new_separation, 1, label: "Yes",  checked: screen_train.new_separation? %>
   <% end %>
   <%= f.text_field :artwork_location, placeholder: 'The location on the network where the artwork resides' %>
-  <%= f.select :print_type, [""] + ScreenTrain::PRINT_TYPES.map{|x| [x.humanize, x] } %>
+  <%= f.select :print_type, [""] + ScreenTrain::PRINT_TYPES.map{|x| [x.humanize, x] }, {}, class: 'select2' %>
   <%= f.text_field :garment_material %>
   <%= f.text_field :garment_weight %>
   <%= f.select :imprint_ids, f.object.order.imprints.map{|x| [x.name, x.id]}, {}, { class: 'select2', multiple: true  } %>
+
+  <h3>Screen Requests</h3>
+
+  <div id="screen-train-screen-requests"> 
+    <%= f.fields_for :screen_requests do |ff| %>
+      <%= render 'screen_requests/screen_request_form', f: ff %>
+    <% end %>
+    <%= f.link_to_add "New Screen Request", :screen_requests, class: 'btn btn-primary' %>
+  </div>
+
+  <h3>Assigned Screens</h3>
+  <div>
+  <div id="screen-train-assigned-screens"> 
+    <%= f.fields_for :assigned_screens do |ff| %>
+      <%= render 'assigned_screens/assigned_screen_form', f: ff %>
+    <% end %>
+    <%= f.link_to_add "Assign A Screen", :assigned_screens, class: 'btn btn-primary' %>
+  </div>
+  
+  
   <%= f.submit %>
 <% end %>

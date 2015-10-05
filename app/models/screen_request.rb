@@ -10,10 +10,16 @@ class ScreenRequest < ActiveRecord::Base
 
   before_save :there_can_only_be_one_primary
 
+  def name
+    n = "#{ink}, #{mesh_type}mesh, #{frame_type} #{dimensions}in, #{lpi}lpi"
+    n = "#{n}*" if primary?
+    n 
+  end
+
   private
 
   def there_can_only_be_one_primary
-      self.screen_train.where(ink: self.ink).update_all(primary: false) if self.primary?
+      self.screen_train.screen_requests.where(ink: self.ink).update_all(primary: false) if self.primary?
   end
 
 end

@@ -104,4 +104,21 @@ describe ScreenTrain, type: :model do
     end
   end
 
+  describe '#machines' do 
+    context 'imprints are assigned and scheduled' do 
+      let(:imprint) { build(:imprint) }
+      before(:each) { screen_train.imprints << imprint }
+      
+      it 'returns an array of machines onto which the imprints are scheduled' do 
+        expect(screen_train.machines).to eq([imprint.machine.name])
+      end
+    end
+    
+    context 'no imprints are assigned' do 
+      it 'returns an empty array' do 
+        expect(screen_train.machines).to eq([])
+      end
+    end
+  end
+
 end

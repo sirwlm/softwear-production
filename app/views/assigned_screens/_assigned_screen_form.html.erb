@@ -1,0 +1,18 @@
+<div class="row clear clearfix">
+  <div class="col-xs-8">
+    <%= f.select :screen_request_id, @screen_train.screen_requests.map{|x| [x.name, x.id] } %>
+  </div>
+  <div class="col-xs-4"> 
+    <%= f.link_to_remove class: 'btn btn-danger' do %>
+      <i class="glyphicon glyphicon-remove-circle"></i> Remove
+    <% end %>
+  </div>
+</div>  
+<div class="row clear clearfix">
+  <div class="col-xs-4">
+    <%= f.text_field :screen_id %>
+  </div>  
+  <div class="col-xs-4">
+    <%= f.select :double_position, ["", "A", "B"] %> 
+  </div>
+</div>

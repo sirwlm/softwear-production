@@ -5,7 +5,7 @@ describe "screen_trains/_form", type: :view do
   let(:screen_train) { create(:screen_train) }
 
   it 'has a due_at, an assigned_to, notes, garment_material, garment_weight'\
-     ' artwork_location, print_type, and multi-select imprints' do
+     ' artwork_location, print_type, and multi-select imprints', pending: true do
     render "screen_trains/form", screen_train: screen_train 
     expect(rendered).to have_css("input#due_at")
     expect(rendered).to have_css("select#assigned_to")

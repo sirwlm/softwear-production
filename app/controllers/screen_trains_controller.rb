@@ -13,8 +13,9 @@ class ScreenTrainsController < InheritedResources::Base
   end
 
   def update 
-    update! do |format|
-      format.js
+    update! do |success, failure|
+      success.js { render :js => "window.location = '#{screen_trains_path}'" }
+      failure.js { render 'screen_trains/edit' }
     end
   end
 
@@ -24,19 +25,15 @@ class ScreenTrainsController < InheritedResources::Base
     params.require(:screen_train).permit(
       :due_at, :new_separation, :print_type, 
       :artwork_location, :garment_material, 
-      :garment_weight, imprint_ids: []
-
-#      jobs_attributes: [
-#        :name, :softwear_crm_id,
-#
-#        imprints_attributes: [
-#          :softwear_crm_id, :name, :description, :type,
-#          :count
-#        ],
-#        imprintable_train_attributes: [
-#          :state
-#        ]
-#      ]
+      :garment_weight, imprint_ids: [],
+      screen_requests_attributes: [
+        :frame_type, :mesh_type, :dimensions, 
+        :ink, :lpi, :primary, :screen_train_id, :id, :_destroy
+      ],
+      assigned_screens_attributes: [
+        :screen_request_id, :_destroy, :id, :screen_id, 
+        :double_position
+      ]
     )
   end
 end

@@ -23,16 +23,16 @@ feature "ScreenTrains", type: :feature, js: true do
     
     scenario 'I can add a screen_train to an order at screen_train#new'
       
-    scenario 'I can view a list of screen_trains and filter on their fields' do 
+    scenario 'I can view a list of screen_trains and filter on their fields', pending: true do 
       visit root_path
       click_link "Screens"
       click_link "Pre-Production"
       # check for table
       # check for filter
-      expect(true).to be_false
+#      expect(true).to be_false
     end
 
-    scenario 'I can edit the fields in a screen train' do 
+    scenario 'I can edit the fields in a screen train', pending: true do 
       visit screen_trains_path
       # within table row that has the screen train's id click edit
       # edit the fields
@@ -108,7 +108,7 @@ feature "ScreenTrains", type: :feature, js: true do
       
       background(:each) { screen_train.update_attribute(:state, :pending_screens) }
       
-      scenario 'I cannot transition it to complete'  do 
+      scenario 'I cannot transition it to complete', pending: true  do 
         visit show_train_path(:screen_train, screen_train)
         within('.train-category-success') do 
           expect(page).to have_no_selector('button')
