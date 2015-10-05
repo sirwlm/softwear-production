@@ -1,0 +1,9 @@
+<div class="alert alert-dismissible alert-danger" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3>There were <%= pluralize record.errors.count, 'error' %> keeping your <%= record.class.name.humanize %> from being saved</h3> 
+    <ul>
+      <% record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+</div>

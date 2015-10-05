@@ -42,6 +42,20 @@ ActiveRecord::Schema.define(version: 20151001201939) do
 
   add_index "api_settings", ["slug"], name: "index_api_settings_on_slug", unique: true, using: :btree
 
+  create_table "assigned_screens", force: :cascade do |t|
+    t.integer  "screen_request_id", limit: 4
+    t.integer  "screen_train_id",   limit: 4
+    t.integer  "screen_id",         limit: 4
+    t.string   "double_position",   limit: 255
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "assigned_screens", ["double_position"], name: "index_assigned_screens_on_double_position", using: :btree
+  add_index "assigned_screens", ["screen_id"], name: "index_assigned_screens_on_screen_id", using: :btree
+  add_index "assigned_screens", ["screen_request_id"], name: "index_assigned_screens_on_screen_request_id", using: :btree
+  add_index "assigned_screens", ["screen_train_id"], name: "index_assigned_screens_on_screen_train_id", using: :btree
+
   create_table "custom_ink_color_trains", force: :cascade do |t|
     t.string   "state",         limit: 255
     t.integer  "job_id",        limit: 4
@@ -124,6 +138,7 @@ ActiveRecord::Schema.define(version: 20151001201939) do
     t.integer  "count",                   limit: 4
     t.boolean  "require_manager_signoff"
     t.integer  "imprint_group_id",        limit: 4
+    t.integer  "screen_train_id",         limit: 4
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
@@ -192,6 +207,55 @@ ActiveRecord::Schema.define(version: 20151001201939) do
   create_table "roles", force: :cascade do |t|
     t.string "name", limit: 255
   end
+
+  create_table "screen_requests", force: :cascade do |t|
+    t.integer  "screen_train_id", limit: 4
+    t.string   "frame_type",      limit: 255
+    t.string   "mesh_type",       limit: 255
+    t.string   "dimensions",      limit: 255
+    t.string   "ink",             limit: 255
+    t.string   "lpi",             limit: 255
+    t.boolean  "primary"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "screen_requests", ["dimensions"], name: "index_screen_requests_on_dimensions", using: :btree
+  add_index "screen_requests", ["frame_type"], name: "index_screen_requests_on_frame_type", using: :btree
+  add_index "screen_requests", ["ink"], name: "index_screen_requests_on_ink", using: :btree
+  add_index "screen_requests", ["lpi"], name: "index_screen_requests_on_lpi", using: :btree
+  add_index "screen_requests", ["mesh_type"], name: "index_screen_requests_on_mesh_type", using: :btree
+  add_index "screen_requests", ["primary"], name: "index_screen_requests_on_primary", using: :btree
+  add_index "screen_requests", ["screen_train_id"], name: "index_screen_requests_on_screen_train_id", using: :btree
+
+  create_table "screen_trains", force: :cascade do |t|
+    t.string   "state",            limit: 255
+    t.integer  "order_id",         limit: 4
+    t.decimal  "separation_time",                precision: 10, scale: 2
+    t.boolean  "new_separation"
+    t.datetime "due_at"
+    t.integer  "signed_off_by_id", limit: 4
+    t.integer  "assigned_to_id",   limit: 4
+    t.text     "notes",            limit: 65535
+    t.string   "garment_material", limit: 255
+    t.string   "garment_weight",   limit: 255
+    t.string   "artwork_location", limit: 255
+    t.string   "print_type",       limit: 255
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+  end
+
+  add_index "screen_trains", ["artwork_location"], name: "index_screen_trains_on_artwork_location", using: :btree
+  add_index "screen_trains", ["assigned_to_id"], name: "index_screen_trains_on_assigned_to_id", using: :btree
+  add_index "screen_trains", ["due_at"], name: "index_screen_trains_on_due_at", using: :btree
+  add_index "screen_trains", ["garment_material"], name: "index_screen_trains_on_garment_material", using: :btree
+  add_index "screen_trains", ["garment_weight"], name: "index_screen_trains_on_garment_weight", using: :btree
+  add_index "screen_trains", ["new_separation"], name: "index_screen_trains_on_new_separation", using: :btree
+  add_index "screen_trains", ["order_id"], name: "index_screen_trains_on_order_id", using: :btree
+  add_index "screen_trains", ["print_type"], name: "index_screen_trains_on_print_type", using: :btree
+  add_index "screen_trains", ["separation_time"], name: "index_screen_trains_on_separation_time", using: :btree
+  add_index "screen_trains", ["signed_off_by_id"], name: "index_screen_trains_on_signed_off_by_id", using: :btree
+  add_index "screen_trains", ["state"], name: "index_screen_trains_on_state", using: :btree
 
   create_table "screens", force: :cascade do |t|
     t.string   "frame_type", limit: 255
