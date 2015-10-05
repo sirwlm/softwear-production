@@ -27,6 +27,7 @@ feature "ScreenTrains", type: :feature, js: true do
       visit root_path
       click_link "Screens"
       click_link "Pre-Production"
+      expect(true).to be_falsy
       # check for table
       # check for filter
 #      expect(true).to be_false
@@ -34,6 +35,7 @@ feature "ScreenTrains", type: :feature, js: true do
 
     scenario 'I can edit the fields in a screen train', pending: true do 
       visit screen_trains_path
+      expect(true).to be_falsy
       # within table row that has the screen train's id click edit
       # edit the fields
       # save it
