@@ -39,7 +39,8 @@ class ScreenTrain < ActiveRecord::Base
   train initial: :pending_sep_request, final: :complete do
     
     success_event :sep_request_complete do
-      transition :pending_sep_request => :pending_sep_assignment, if: -> (s) { s.new_separation? && s.proof_request_data_complete? }
+      transition :pending_sep_request => :pending_sep_assignment, if: -> (s) { s.new_separation? && s.proof_request_data_complete? && s.assigned_to_id.blank? }
+      transition :pending_sep_request => :pending_separation, if: -> (s) { s.new_separation? && s.proof_request_data_complete? && !s.assigned_to_id.blank? }
       transition :pending_sep_request => :pending_approval, if: -> (s) { !s.new_separation? && s.proof_request_data_complete? }
     end
 
@@ -93,7 +94,7 @@ class ScreenTrain < ActiveRecord::Base
   end
 
   def all_screens_assigned?
-    screen_inks.count == assigned_screens.count
+    screen_requests.count > 0 && screen_inks.count == assigned_screens.count
   end
 
   def fba?

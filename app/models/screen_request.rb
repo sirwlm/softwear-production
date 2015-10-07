@@ -11,7 +11,7 @@ class ScreenRequest < ActiveRecord::Base
   before_save :there_can_only_be_one_primary
 
   def name
-    n = "#{ink}, #{mesh_type}mesh, #{frame_type} #{dimensions}in, #{lpi}lpi"
+    n = "#{ink} #{mesh_type} - #{dimensions} - #{lpi}lpi"
     n = "#{n}*" if primary?
     n 
   end

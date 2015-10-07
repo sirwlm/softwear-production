@@ -39,8 +39,8 @@ class ScreenTrainsController < InheritedResources::Base
 
   def screen_train_params
     params.require(:screen_train).permit(
-      :due_at, :new_separation, :print_type, 
-      :artwork_location, :garment_material, 
+      :due_at, :new_separation, :print_type, :notes, 
+      :artwork_location, :garment_material, :assigned_to_id, 
       :garment_weight, imprint_ids: [],
       screen_requests_attributes: [
         :frame_type, :mesh_type, :dimensions, 

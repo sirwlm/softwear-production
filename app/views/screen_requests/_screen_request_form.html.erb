@@ -16,13 +16,13 @@
 </div>
 <div class="row clear clearfix" style="border-bottom: solid 1px #ccc; margin-bottom: 5px;">
   <div class="col-sm-3">
-    <%= f.select :frame_type, Screen::FRAME_TYPES, {}, {class: 'select2' } %> 
+    <%= f.select :frame_type, Screen::FRAME_TYPES, {include_blank: true}, {class: 'select2' } %> 
   </div>
   <div class="col-sm-3">
-    <%= f.select :mesh_type, Screen::MESH_TYPES, {}, {class: 'select2' } %> 
+    <%= f.select :mesh_type, Screen::MESH_TYPES, {include_blank: true}, {class: 'select2' } %> 
   </div>
   <div class='col-sm-3'>
-    <%= f.select :dimensions, Screen::DIMENSIONS, {}, {class: 'select2' } %> 
+    <%= f.select :dimensions,  Screen::DIMENSIONS, {include_blank: true}, {class: 'select2' } %> 
   </div> 
 </div>
 

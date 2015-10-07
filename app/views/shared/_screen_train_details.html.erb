@@ -4,24 +4,44 @@
   <dt>Imprint(s)</dt>
   <dd class="screen-train-imprints"><%= object.imprints.map{|x| x.name }.join(", ")  %>
   </dd>
+  <dt>Artwork Location</dt>
+  <dd class="screen-train-artwork-location"><%= object.artwork_location %>
+  </dd>
+<% unless (object.screen_requests.empty? || object.all_screens_assigned?) %>
+    <dt>Screen Requests
+    </dt>
+    <dd><%= object.screen_requests.map(&:name).join(", ") %>
+    </dd>
+<% else %>
+    <dt>Assigned Screens
+    </dt>
+    <dd><%= object.assigned_screens.map(&:name).join(", ") %>
+    </dd>
+<% end %>
+    <dt>Notes</dt>
+    <dd><%= object.notes %>
+    <dt>Machine(s)</dt>
+    <dd class="screen-train-print-type"><%= object.machines.join(', ') %>
+</dl>
+
+<div class="row clear clearfix">
+<dl class="col-xs-6">
   <dt>Total Imprint Count</dt>
   <dd class='screen-train-count'><%= object.imprint_count %>
   </dd>
   <dt>New Sep?</dt>
   <dd class='screen-train-new-separation'><%= object.new_separation? ? 'yes' : 'no' %>
   </dd>
+</dl>
+<dl class="col-xs-6">
   <dt>Fba?</dt>
   <dd class='screen-train-fba'><%= object.fba? ? 'yes' : 'no' %>
   </dd>
-  <dt>Artwork Location</dt>
-  <dd class="screen-train-artwork-location">
   </dd>
   <dt>Print Type</dt>
   <dd class="screen-train-print-type"><%= object.print_type %>
-  </dd>
-  <dt>Machine(s)</dt>
-  <dd class="screen-train-print-type"><%= object.machines %>
 </dl>
+</div>
 
 <%= link_to edit_screen_train_path(object), class: 'btn btn-warning btn-sm', remote: true do %>
   <i class='glyphicon glyphicon-pencil'></i>
