@@ -28,7 +28,11 @@ class ScreenTrain < ActiveRecord::Base
     string :state
     integer :assigned_to_id, :signed_off_by_id
     time :due_at
+    time :created_at
     boolean :new_separation
+    boolean :complete do 
+      self.complete?
+    end
   end
 
   train_type :pre_production
