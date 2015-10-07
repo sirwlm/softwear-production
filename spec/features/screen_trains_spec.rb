@@ -90,7 +90,8 @@ feature "ScreenTrains", type: :feature, js: true do
 
       end  
     end
-    context 'given a screen is pending_screens or complete' do 
+    context 'given a screen is pending_screens or complete and has assigned screens' do 
+      background { allow_any_instance_of(ScreenTrain).to receive(:all_screens_assigned?).and_return(true) }
       background(:each) { screen_train.update_attribute(:state, :pending_screens) }
     
       scenario 'I can delay it due to a bad_separation' do 

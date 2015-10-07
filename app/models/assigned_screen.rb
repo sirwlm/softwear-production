@@ -27,6 +27,7 @@ class AssignedScreen < ActiveRecord::Base
   end
 
   def there_can_only_be_one_assigned_screen_per_color
+    return if screen.nil? || screen_request.nil?
     assigned_screen_for_color = screen_train.assigned_screens.joins(:screen_request).find_by(screen_requests: {ink: self.screen_request.ink})
     errors.add(:screen_request_id, 'There is already a screen assigned for this ink') unless (assigned_screen_for_color.nil? || assigned_screen_for_color == self)
   end
