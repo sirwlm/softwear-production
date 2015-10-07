@@ -22,7 +22,15 @@ class ScreenTrain < ActiveRecord::Base
   
   accepts_nested_attributes_for :assigned_screens, allow_destroy: true
   accepts_nested_attributes_for :screen_requests, allow_destroy: true
-  
+ 
+  searchable do 
+    text :human_state_name, :due_at, :artwork_location, :job_names, :imprint_names, :order_name
+    string :state
+    integer :assigned_to_id, :signed_off_by_id
+    time :due_at
+    boolean :new_separation
+  end
+
   train_type :pre_production
   train initial: :pending_sep_request, final: :complete do
     
@@ -96,4 +104,29 @@ class ScreenTrain < ActiveRecord::Base
     imprints.map{|x| x.machine.name }.uniq
   end
 
+  private
+
+  def imprint_names
+    imprints.pluck(:name).join(' ')
+  end
+
+  def order_name
+    order.try(:name)
+  end
+
+  def job_names
+    jobs.pluck(:name).join(' ')
+  end
+
+  def order_deadline
+    ordr.try(:deadline) 
+  end
+
+  def earliest_scheduled_date
+    imprints.pluck(:scheduled_at).compact.min
+  end
+
+  def latest_scheduled_date
+    imprints.pluck(:scheduled_at).compact.max
+  end
 end

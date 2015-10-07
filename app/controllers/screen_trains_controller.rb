@@ -3,7 +3,19 @@ class ScreenTrainsController < InheritedResources::Base
 
   def index
     assign_fluid_container
-    @screen_trains = ScreenTrain.page(params[:page])
+    q = params[:q]
+    @screen_trains = ScreenTrain.search do
+      if q
+        fulltext q[:text] unless q[:text].blank?
+        
+        order_by :created_at, :desc
+      else
+        with :complete, false
+      end
+
+      paginate page: params[:page] || 1
+    end
+      .results
   end
 
   def edit 
