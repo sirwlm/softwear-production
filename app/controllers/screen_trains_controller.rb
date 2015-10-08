@@ -3,7 +3,23 @@ class ScreenTrainsController < InheritedResources::Base
 
   def index
     assign_fluid_container
-    @screen_trains = ScreenTrain.page(params[:page])
+    q = params[:q]
+    @screen_trains = ScreenTrain.search do
+      if q
+        fulltext q[:text] unless q[:text].blank?  
+        with :assigned_to_id, q[:assigned_to_id] unless q[:assigned_to_id].blank?
+        with(:due_at).greater_than(q[:due_at_after]) unless q[:due_at_after].blank?
+        with(:due_at).less_than(q[:due_at_before])     unless q[:due_at_before].blank?
+        with :order_state, q[:order_state] unless q[:order_state].blank?
+        with :order_imprint_state, q[:order_imprint_state] unless q[:order_imprint_state].blank?
+        order_by :created_at, :desc
+      else
+        with :complete, false
+      end
+
+      paginate page: params[:page] || 1
+    end
+      .results
   end
 
   def edit 
@@ -23,8 +39,8 @@ class ScreenTrainsController < InheritedResources::Base
 
   def screen_train_params
     params.require(:screen_train).permit(
-      :due_at, :new_separation, :print_type, 
-      :artwork_location, :garment_material, 
+      :due_at, :new_separation, :print_type, :notes, 
+      :artwork_location, :garment_material, :assigned_to_id, 
       :garment_weight, imprint_ids: [],
       screen_requests_attributes: [
         :frame_type, :mesh_type, :dimensions, 

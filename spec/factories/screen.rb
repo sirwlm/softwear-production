@@ -1,10 +1,9 @@
 FactoryGirl.define do
   factory :blank_screen, class: Screen do
-
     factory :screen do
-      frame_type 'Panel'
-      dimensions '23x21'
-      mesh_type '110'
+      frame_type Screen::FRAME_TYPES.first
+      dimensions Screen::DIMENSIONS.first
+      mesh_type Screen::MESH_TYPES.first
       state 'in_production'
       deleted_at nil
       created_at "2015-04-30 14:13:40"

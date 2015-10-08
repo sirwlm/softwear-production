@@ -54,17 +54,19 @@ feature "ScreenTrains", type: :feature, js: true do
      
     end
 
-    context 'given a screen is pending_screens or complete' do 
+    context 'given a screen is pending_screens or complete without assigned screens', current: true do 
       background(:each) { screen_train.update_attribute(:state, :pending_screens) }
     
-      scenario 'I can delay it due to a bad_separation', current: true do 
+      scenario 'I can delay it due to a bad_separation'  do 
         visit show_train_path(:screen_train, screen_train)
         within('.train-category-delay') do
           expect(page).to have_selector('button', text: 'Bad separation')
         end
+        
+       # byebug 
 
-        success_transition :screens_assigned
-        within('.train-category-delay') do
+       # success_transition :screens_assigned
+         within('.train-category-delay') do
           expect(page).to have_selector('button', text: 'Bad separation')
         end
         
@@ -78,7 +80,7 @@ feature "ScreenTrains", type: :feature, js: true do
     context 'given a screen is complete' do 
       background(:each) { screen_train.update_attribute(:state, :complete) }
     
-      scenario 'I can delay it due to a bad_burnout', current: true do 
+      scenario 'I can delay it due to a bad_burnout' do 
         visit show_train_path(:screen_train, screen_train)
 
         within('.train-category-delay') do
@@ -90,15 +92,24 @@ feature "ScreenTrains", type: :feature, js: true do
 
       end  
     end
-    context 'given a screen is pending_screens or complete' do 
-      background(:each) { screen_train.update_attribute(:state, :pending_screens) }
+    
+    context 'given a screen is pending_screens or complete and has assigned screens' do 
+      background(:each) do 
+        s = build(:screen)
+        sr = create(:screen_request, 
+                    mesh_type: s.mesh_type,
+                    frame_type: s.frame_type,
+                    dimensions: s.dimensions, 
+                    screen_train_id: screen_train.id)
+        as = create(:assigned_screen, screen_train_id: screen_train.id, screen_request_id: sr.id)
+        screen_train.update_attribute(:state, :pending_screens)
+      end
     
       scenario 'I can delay it due to a bad_separation' do 
         visit show_train_path(:screen_train, screen_train)
         within('.train-category-delay') do
           expect(page).to have_selector('button', text: 'Bad separation')
         end
-
         success_transition :screens_assigned
         within('.train-category-delay') do
           expect(page).to have_selector('button', text: 'Bad separation')
@@ -110,7 +121,7 @@ feature "ScreenTrains", type: :feature, js: true do
       
       background(:each) { screen_train.update_attribute(:state, :pending_screens) }
       
-      scenario 'I cannot transition it to complete', pending: true  do 
+      scenario 'I cannot transition it to complete' do 
         visit show_train_path(:screen_train, screen_train)
         within('.train-category-success') do 
           expect(page).to have_no_selector('button')

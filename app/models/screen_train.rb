@@ -22,12 +22,25 @@ class ScreenTrain < ActiveRecord::Base
   
   accepts_nested_attributes_for :assigned_screens, allow_destroy: true
   accepts_nested_attributes_for :screen_requests, allow_destroy: true
-  
+ 
+  searchable do 
+    text :human_state_name, :due_at, :artwork_location, :job_names, :imprint_names, :order_name
+    string :state
+    integer :assigned_to_id, :signed_off_by_id
+    time :due_at
+    time :created_at
+    boolean :new_separation
+    boolean :complete do 
+      self.complete?
+    end
+  end
+
   train_type :pre_production
   train initial: :pending_sep_request, final: :complete do
     
     success_event :sep_request_complete do
-      transition :pending_sep_request => :pending_sep_assignment, if: -> (s) { s.new_separation? && s.proof_request_data_complete? }
+      transition :pending_sep_request => :pending_sep_assignment, if: -> (s) { s.new_separation? && s.proof_request_data_complete? && s.assigned_to_id.blank? }
+      transition :pending_sep_request => :pending_separation, if: -> (s) { s.new_separation? && s.proof_request_data_complete? && !s.assigned_to_id.blank? }
       transition :pending_sep_request => :pending_approval, if: -> (s) { !s.new_separation? && s.proof_request_data_complete? }
     end
 
@@ -81,7 +94,7 @@ class ScreenTrain < ActiveRecord::Base
   end
 
   def all_screens_assigned?
-    screen_inks.count == assigned_screens.count
+    screen_requests.count > 0 && screen_inks.count == assigned_screens.count
   end
 
   def fba?
@@ -96,4 +109,29 @@ class ScreenTrain < ActiveRecord::Base
     imprints.map{|x| x.machine.name }.uniq
   end
 
+  private
+
+  def imprint_names
+    imprints.pluck(:name).join(' ')
+  end
+
+  def order_name
+    order.try(:name)
+  end
+
+  def job_names
+    jobs.pluck(:name).join(' ')
+  end
+
+  def order_deadline
+    ordr.try(:deadline) 
+  end
+
+  def earliest_scheduled_date
+    imprints.pluck(:scheduled_at).compact.min
+  end
+
+  def latest_scheduled_date
+    imprints.pluck(:scheduled_at).compact.max
+  end
 end

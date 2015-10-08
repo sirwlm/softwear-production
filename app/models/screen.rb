@@ -50,14 +50,13 @@ class Screen < ActiveRecord::Base
     'Bad Washout - stencil not completely washed out',
     'Bad Washout - stencil damaged'
     ]
-
+  
   has_many :assigned_screens
   has_many :imprints, through: :assigned_screens
 
   validates :dimensions, :frame_type, :state, presence: true
   validates :mesh_type, presence: true, unless: -> {"state == 'new'"}
   validates :id, uniqueness: true
-
 
   after_initialize :assign_id
 
@@ -116,6 +115,10 @@ class Screen < ActiveRecord::Base
         end
       end
     end
+  end
+  
+  def current_imprints
+    imprints.reject{ |x| x.complete? }
   end
 
   private
