@@ -4,7 +4,7 @@ FactoryGirl.define do
       frame_type Screen::FRAME_TYPES.first
       dimensions Screen::DIMENSIONS.first
       mesh_type Screen::MESH_TYPES.first
-      state :ready_to_expose
+      state 'in_production'
       deleted_at nil
       created_at "2015-04-30 14:13:40"
       updated_at "2015-06-05 15:31:15"

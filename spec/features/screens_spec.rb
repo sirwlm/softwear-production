@@ -56,7 +56,7 @@ feature 'Screen Features', js: true do
 
       scenario 'can transition a screen and still sort' do 
         within(:xpath, "//table/tbody/tr[1]/td") do
-          expect(page).to have_content('Panel')
+          expect(page).to have_content('Roller')
         end
         scan_barcode('screen-id', s1.id)
         click_link 'Removed from production'
@@ -117,19 +117,18 @@ feature 'Screen Features', js: true do
         end
       end
       
-      scenario 'can filter and unfilter' do
+      scenario 'can filter and unfilter', current: true do
         visit status_screens_path
         select2_tag("Static", from: 'Frame Type')
-        select2_tag("Panel", from: 'Frame Type')
+        select2_tag("Roller", from: 'Frame Type')
         click_button 'Filter'
-        expect(page).to have_content('Panel')
+        expect(page).to have_content('Roller')
         expect(page).to have_content('Static')
-        expect(page).not_to have_content('Roller')
+        expect(page).not_to have_content('Panel')
 
         page.first(".select2-search-choice-close").click
         page.first(".select2-search-choice-close").click
         click_button 'Filter'
-        expect(page).to have_content('Panel')
         expect(page).to have_content('Static')
         expect(page).to have_content('Roller')
       end
@@ -137,7 +136,7 @@ feature 'Screen Features', js: true do
       scenario 'can sort columns', story_691: true do
         visit status_screens_path
         within(:xpath, "//table/tbody/tr[1]/td") do
-          expect(page).to have_content('Panel')
+          expect(page).to have_content('Roller')
         end
         page.find('th.tablesorter-header').click
         page.find('th.tablesorter-header').click
