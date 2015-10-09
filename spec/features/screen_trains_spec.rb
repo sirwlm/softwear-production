@@ -18,7 +18,7 @@ feature "ScreenTrains", type: :feature, js: true do
       sleep(1)
       select("ScreenTrain", from: 'train_class')
       click_button("Create Train")
-      expect(page).to have_content "Screen train"
+      expect(page).to have_content "Screen Train"
     end
     
     scenario 'I can add a screen_train to an order at screen_train#new'

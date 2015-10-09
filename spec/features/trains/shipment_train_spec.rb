@@ -46,7 +46,7 @@ feature 'Shipment Train' do
       sleep(1)
       select("ShipmentTrain", from: 'train_class')
       click_button("Create Train")
-      expect(page).to have_content "Shipment train"
+      expect(page).to have_content "Shipment Train"
     end
 
   end

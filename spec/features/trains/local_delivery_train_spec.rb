@@ -39,7 +39,7 @@ feature 'Local Delivery Train' do
       sleep(1)
       select("LocalDeliveryTrain", from: 'train_class')
       click_button("Create Train")
-      expect(page).to have_content "Local delivery train"
+      expect(page).to have_content "Local Delivery Train"
     end
 
   end
