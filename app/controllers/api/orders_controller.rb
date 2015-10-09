@@ -22,6 +22,27 @@ module Api
       super + ['jobs']
     end
 
+    def permitted_params
+      params.permit(
+        order: [
+          :softwear_crm_id, :deadline,
+          :name, :fba, :has_imprint_groups,
+
+          jobs_attributes: [
+            :name, :softwear_crm_id,
+
+            imprints_attributes: [
+              :softwear_crm_id, :name, :description, :type,
+              :count
+            ],
+            imprintable_train_attributes: [
+              :state
+            ]
+          ]
+        ]
+      )
+    end
+
     def order_params
       params.require(:order).permit(
         :softwear_crm_id, :deadline,
