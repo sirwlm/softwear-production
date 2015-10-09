@@ -2,17 +2,18 @@ class Order < ActiveRecord::Base
   include CrmCounterpart
   include TrainStation
 
-  has_many :jobs, dependent: :destroy
-  has_many :imprints, through: :jobs
-  has_many :screen_trains, dependent: :destroy
-  has_many :imprint_groups, dependent: :destroy
-  has_one :fba_bagging_train, dependent: :destroy
-  has_one :fba_label_train, dependent: :destroy
+  has_many :jobs,                       dependent: :destroy
+  has_many :screen_trains,              dependent: :destroy
+  has_many :imprint_groups,             dependent: :destroy
+  has_many :digitization_trains,        dependent: :destroy
+  has_one :fba_bagging_train,           dependent: :destroy
+  has_one :fba_label_train,             dependent: :destroy
   has_one :stage_for_fba_bagging_train, dependent: :destroy
-  has_one :shipment_train, dependent: :destroy
-  has_one :store_delivery_train, dependent: :destroy
-  has_one :local_delivery_train, dependent: :destroy
-  has_one :stage_for_pickup_train, dependent: :destroy
+  has_one :shipment_train,              dependent: :destroy
+  has_one :store_delivery_train,        dependent: :destroy
+  has_one :local_delivery_train,        dependent: :destroy
+  has_one :stage_for_pickup_train,      dependent: :destroy
+  has_many :imprints, through: :jobs
 
   validates :name, :jobs,  presence: true
   validates :softwear_crm_id, uniqueness: true, unless: -> { softwear_crm_id.blank? }

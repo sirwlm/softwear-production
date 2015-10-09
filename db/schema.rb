@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001201939) do
+ActiveRecord::Schema.define(version: 20151009155018) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -63,6 +63,18 @@ ActiveRecord::Schema.define(version: 20151001201939) do
     t.string   "volume",        limit: 255
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+  end
+
+  create_table "digitization_trains", force: :cascade do |t|
+    t.string   "state",                       limit: 255
+    t.string   "artwork_location",            limit: 255
+    t.string   "third_party_name",            limit: 255
+    t.integer  "digitization_assigned_to_id", limit: 4
+    t.integer  "approved_by_id",              limit: 4
+    t.integer  "order_id",                    limit: 4
+    t.text     "notes",                       limit: 65535
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
   create_table "fba_bagging_trains", force: :cascade do |t|
@@ -266,12 +278,6 @@ ActiveRecord::Schema.define(version: 20151001201939) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
-  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
-  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
-  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
-  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
 
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",         limit: 255

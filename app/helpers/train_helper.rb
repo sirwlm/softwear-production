@@ -42,4 +42,32 @@ module TrainHelper
       lamb.call(*args)
     end
   end
+
+  def class_of_field(object, field)
+    object_class = case object
+    when Class  then object
+    when String then object.constantize
+    else object.class
+    end
+
+    object_class.reflect_on_all_associations.each do |assoc|
+      if assoc.name.to_sym == field.to_sym || assoc.foreign_key.to_sym == field.to_sym
+        return assoc.klass
+      end
+    end
+
+    nil
+  end
+
+  def display_model(model, id)
+    record = model.find_by(id: id)
+    if record
+      record.try(:activity_display) ||
+        record.try(:name) ||
+        record.try(:email) ||
+        "#{model.name} ##{id}"
+    else
+      "Unknown #{model.name}"
+    end
+  end
 end

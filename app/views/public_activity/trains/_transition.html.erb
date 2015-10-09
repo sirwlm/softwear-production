@@ -14,8 +14,11 @@
     <% unless key.to_sym == :event %>
       <div class="col-xs-2">
         <%= key.to_s.humanize.titleize %>:
+
         <% if val.blank? %>
           &lt;EMPTY&gt;
+        <% elsif /(?<field>\w+)_id$/ =~ key.to_s && model = class_of_field(activity.trackable_type, key) %>
+          <%= display_model(model, val) %>
         <% else %>
           <%= val.humanize.titleize %>
         <% end %>

@@ -12,7 +12,7 @@ module RequireManagerSignoff
     def self.requires_manager_signoff
       {
         params: {
-          manager_id: -> { User.managers.map { |u| [u.email, u.id] } },
+          manager_id: -> { User.managers.pluck(:email, :id) },
           manager_password: :password_field
         }
       }

@@ -1,0 +1,15 @@
+<%= bootstrap_destroy_button(object) %>
+
+<hr />
+<%= bootstrap_form_for object, remote: in_modal do |f| %>
+
+  <%= f.text_area :notes %>
+
+  <%= f.submit %>
+<% end %>
+
+<% if in_modal %>
+  <%= link_to 'Full view', show_train_path(object), class: 'btn btn-primary' %>
+<% else %>
+  <%= link_to 'Order', order_path(object.order), class: 'btn btn-primary' %>
+<% end %>
