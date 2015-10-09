@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151009155018) do
+ActiveRecord::Schema.define(version: 20151009180518) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -41,6 +41,15 @@ ActiveRecord::Schema.define(version: 20151009155018) do
   end
 
   add_index "api_settings", ["slug"], name: "index_api_settings_on_slug", unique: true, using: :btree
+
+  create_table "ar3_trains", force: :cascade do |t|
+    t.string   "state",            limit: 255
+    t.integer  "order_id",         limit: 4
+    t.string   "artwork_location", limit: 255
+    t.text     "notes",            limit: 65535
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
 
   create_table "assigned_screens", force: :cascade do |t|
     t.integer  "screen_request_id", limit: 4

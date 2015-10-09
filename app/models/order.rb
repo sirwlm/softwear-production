@@ -6,6 +6,7 @@ class Order < ActiveRecord::Base
   has_many :screen_trains,              dependent: :destroy
   has_many :imprint_groups,             dependent: :destroy
   has_many :digitization_trains,        dependent: :destroy
+  has_many :ar3_trains,                 dependent: :destroy
   has_one :fba_bagging_train,           dependent: :destroy
   has_one :fba_label_train,             dependent: :destroy
   has_one :stage_for_fba_bagging_train, dependent: :destroy

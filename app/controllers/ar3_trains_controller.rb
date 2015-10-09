@@ -1,9 +1,9 @@
-class DigitizationTrainsController < InheritedResources::Base
+class Ar3TrainsController < InheritedResources::Base
   def update
     update! do |success, failure|
-      @object = @digitization_train
-      if @digitization_train.valid?
-        @digitization_train.create_activity(
+      @object = @ar3_train
+      if @ar3_train.valid?
+        @ar3_train.create_activity(
           action: :update,
           owner: current_user
         )
@@ -19,14 +19,14 @@ class DigitizationTrainsController < InheritedResources::Base
         flash[:notice] = "Updated notes"
 
         redirect_to show_train_path(
-          :digitization_train,
-          @digitization_train.id
+          :ar3_train,
+          @ar3_train.id
         )
       end
 
       failure.js do
         flash[:notice] = "Error updating notes: " +
-          @digitization_train.errors.full_messages.join(', ')
+          @ar3_train.errors.full_messages.join(', ')
 
         render template: 'trains/show'
       end
@@ -34,15 +34,15 @@ class DigitizationTrainsController < InheritedResources::Base
   end
 
   def destroy
-    @order_id = DigitizationTrain.where(id: params[:id]).pluck(:order_id).first
-    DigitizationTrain.where(id: params[:id]).destroy_all
+    @order_id = Ar3Train.where(id: params[:id]).pluck(:order_id).first
+    Ar3Train.where(id: params[:id]).destroy_all
     redirect_to order_path(@order_id)
   end
 
   private
 
-  def digitization_train_params
-    params.require(:digitization_train).permit(
+  def ar3_train_params
+    params.require(:ar3_train).permit(
       [:notes]
     )
   end
