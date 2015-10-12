@@ -275,4 +275,17 @@ module Train
     # Weird but intentional - properly reindexes order in Sunspot.
     order.reload.save
   end
+
+  def touch_job
+    return if try(:job).nil?
+
+    # Weird but intentional - properly reindexes job in Sunspot.
+    job.reload.save
+  end
+
+  def force_complete
+    update_attribute :state,  self.train_machine.complete_state
+    touch_job
+    touch_order
+  end
 end

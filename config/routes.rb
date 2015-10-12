@@ -15,6 +15,9 @@ SoftwearProduction::Application.routes.draw do
   end
 
   resources :orders do
+    member do 
+      get :force_complete, to: 'orders#force_complete', as: :force_complete
+    end
     resources :jobs do
       resources :imprints
     end

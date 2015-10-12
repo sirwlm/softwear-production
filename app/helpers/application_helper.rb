@@ -2,7 +2,7 @@ module ApplicationHelper
 
   def alert_class_from_flash_type(flash_type)
     return 'alert-danger' if flash_type == 'error' || flash_type == 'alert'
-    return 'alert-success' if flash_type == 'notice'
+    return 'alert-success' if flash_type == 'notice' || flash_type == 'success'
   end
 
   def alert_text_from_flash_type(flash_type)

@@ -24,6 +24,12 @@ class OrdersController < InheritedResources::Base
       .results
   end
 
+  def force_complete
+    @order = Order.find_by(params[:id])
+    @order.force_complete
+    redirect_to orders_path, flash: {notice: "Successfully force completed order ##{@order.id}, #{@order.name} " } 
+  end
+
   private
 
   def permitted_params

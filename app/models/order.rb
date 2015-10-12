@@ -88,4 +88,35 @@ class Order < ActiveRecord::Base
   def jobs_production_state
     jobs.all? { |j| j.production_state == 'Complete' } ? 'Complete' : 'Pending'
   end
+
+  def force_complete
+    
+    pre_production_trains.each do |t|
+      t.force_complete
+    end
+    
+    production_trains.each do |t|
+      t.force_complete
+    end
+    
+    post_production_trains.each do |t|
+      t.force_complete
+    end
+  
+    jobs.each do |j|
+      j.pre_production_trains.each do |t|
+        t.force_complete
+      end
+      
+      j.production_trains.each do |t|
+        t.force_complete
+      end
+      
+      j.post_production_trains.each do |t|
+        t.force_complete
+      end
+    end
+
+  end
+
 end
