@@ -96,6 +96,18 @@ class Order < ActiveRecord::Base
     end
     
     production_trains.each do |t|
+      unless t.imprint_group.blank?
+        if t.imprint_group.scheduled_at.blank?
+          next
+        end
+        
+        if t.imprint_group.completed_at.blank?
+          t.imprint_group.update_attribute(:completed_at, t.imprint_group.scheduled_at + t.imprint_group.estimated_time.hours)
+        end
+
+        t.update_column(:scheduled_at, t.imprint_group.scheduled_at)
+        t.update_column(:completed_at, t.imprint_group.completed_at)
+      end
       t.force_complete
     end
     
