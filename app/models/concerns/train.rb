@@ -283,9 +283,8 @@ module Train
     job.reload.save
   end
 
-  def force_complete
-    update_attribute :state,  self.train_machine.complete_state
-    touch_job
-    touch_order
+  def force_complete(skip_sunspot = true)
+    update_column :state,  self.train_machine.complete_state if skip_sunspot
+    update_attribute :state, self.train_machine.complete_state unless skip_sunspot
   end
 end

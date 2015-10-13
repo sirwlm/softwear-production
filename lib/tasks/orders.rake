@@ -50,6 +50,7 @@ namespace :orders do
         end
 
         j.imprints.each do |i|
+          next if i.scheduled_at.blank?
           if !i.completed? || i.state != i.train_machine.complete_state
             puts "Updating #{i.id} with state #{i.train_machine.complete_state}"
             i.update_column(:state, i.train_machine.complete_state)
