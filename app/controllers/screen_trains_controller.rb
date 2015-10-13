@@ -9,7 +9,7 @@ class ScreenTrainsController < InheritedResources::Base
 
   def update 
     update! do |success, failure|
-      success.js { render :js => "window.location = '#{screen_trains_path}'" }
+      success.js { render :js => "window.location = '#{pre_production_art_dashboard_path}'" }
       failure.js { render 'screen_trains/edit' }
     end
   end

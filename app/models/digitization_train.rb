@@ -16,6 +16,9 @@ class DigitizationTrain < ActiveRecord::Base
     integer :assigned_to_id, :signed_off_by_id
     time :due_at
     time :created_at
+    string :train_type do 
+      self.class.name
+    end
     boolean :complete do 
       self.complete?
     end
