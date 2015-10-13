@@ -38,12 +38,12 @@
             <% unless (st.screen_requests.empty? || st.all_screens_assigned?) %>
                 <dt>Screen Requests
                 </dt>
-                <dd><%= st.screen_requests.map(&:name).join(", ") %>
+                <dd><%= st.screen_requests.map(&:name).join(", ") unless st.screen_requests.empty? %>
                 </dd>
             <% else %>
                 <dt>Assigned Screens
                 </dt>
-                <dd><%= st.assigned_screens.map(&:name).join(", ") %>
+                <dd><%= st.assigned_screens.map(&:name).join(", ") unless st.assigned_screens.empty? %>
                 </dd>
             <% end %>
             <% unless st.machines.empty? %>

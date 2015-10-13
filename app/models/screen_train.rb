@@ -82,8 +82,6 @@ class ScreenTrain < ActiveRecord::Base
     return false if order.blank?
     return false if imprints.empty?
     return false if due_at.blank?
-    return false if garment_material.blank?
-    return false if garment_weight.blank?
     return false if artwork_location.blank?
     return false if print_type.blank?
     return true
@@ -106,7 +104,7 @@ class ScreenTrain < ActiveRecord::Base
   end
 
   def machines
-    imprints.map{|x| x.machine.name }.uniq
+    imprints.map{|x| x.machine.name rescue nil }.uniq.compact
   end
 
   private
