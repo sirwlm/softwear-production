@@ -5,9 +5,22 @@ class DigitizationTrain < ActiveRecord::Base
   tracked only: [:transition]
 
   belongs_to :order
+  has_many :imprints
+  has_many :jobs, through: :imprints
   belongs_to :approved_by, class_name: User
   belongs_to :digitization_assigned_to, class_name: User
 
+  searchable do 
+    text :human_state_name, :due_at, :artwork_location, :order_name
+    string :state
+    integer :assigned_to_id, :signed_off_by_id
+    time :due_at
+    time :created_at
+    boolean :complete do 
+      self.complete?
+    end
+  end
+  
   train_type :pre_production
   train initial: :pending_digital_artwork, final: :complete do
     success_event :artwork_sent, params: { artwork_location: :text_field } do
@@ -35,5 +48,18 @@ class DigitizationTrain < ActiveRecord::Base
     success_event :guides_made_and_sent_to_machine do
       transition :pending_guides => :complete
     end
+  end
+  
+  def fba?
+    order.fba?
+  end
+  
+  def assigned_to_id; return nil; end
+  def due_at; return order.deadline - 2.days; end
+  
+  private
+  
+  def order_name
+    order.try(:name)
   end
 end
