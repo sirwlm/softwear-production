@@ -30,7 +30,7 @@ class ScreenTrain < ActiveRecord::Base
     time :due_at
     time :created_at
     boolean :new_separation
-    string :train_type do 
+    string :class_name do 
       self.class.name
     end
     boolean :complete do 

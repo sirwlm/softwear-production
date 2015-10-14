@@ -6,8 +6,8 @@
         <%= text_field_tag 'q[text]', params[:q] ? params[:q][:text] : '', placeholder: 'Terms', class: 'form-control' %>
       </div>
       <div class="col-sm-2">
-        <%= label_tag 'q[train_type]', 'Train Type' %>
-        <%= select_tag 'q[train_type]', options_for_select(["ScreenTrain", "Ar3Train", "Digitization"], params[:q] ? params[:q][:train_type] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
+        <%= label_tag 'q[class_name]', 'Train Type' %>
+        <%= select_tag 'q[class_name]', options_for_select(["ScreenTrain", "Ar3Train", "Digitization"], params[:q] ? params[:q][:class_name] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
       </div>
       <div class="col-sm-3">
         <%= label_tag 'q[due_at_before]', 'Due At Before' %>
