@@ -3,6 +3,8 @@ module RemoteModel
 
   included do
     class << self
+      attr_accessor :api_settings_slug
+
       def api_settings_slug=(slug)
         @api_settings_slug = slug
         
@@ -11,7 +13,7 @@ module RemoteModel
         end
 
         begin
-          self.site = @api_settings.try(:endpoint) || "http://invalid-#{slug}.com/api"
+          self.site = api_settings.try(:endpoint) || "http://invalid-#{slug}.com/api"
         rescue ActiveRecord::StatementInvalid => e
           puts "WARNING: *********************************************"
           puts e.message
@@ -22,17 +24,17 @@ module RemoteModel
 
       unless Rails.env.test?
         def headers
-          if @api_settings.nil?
+          if api_settings.nil?
             raise(
-              "Please assign api_settings_slug in the model #{self.class.name} " +
+              "Please assign api_settings_slug in the model #{name} " +
               "or add an api setting with slug #{@api_settings_slug}."
             )
           end
 
-          prefix = @api_settings.slug.camelize
+          prefix = api_settings.slug.camelize
           (super or {}).merge(
-            "#{prefix}-User-Token" => @api_settings.auth_token,
-            "#{prefix}-User-Email" => @api_settings.auth_email
+            "#{prefix}-User-Token" => api_settings.auth_token,
+            "#{prefix}-User-Email" => api_settings.auth_email
           )
         end
       end
