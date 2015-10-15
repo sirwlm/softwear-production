@@ -1,0 +1,8 @@
+<dl>
+  <dt>State</dt>
+  <dd><%= object.human_state_name %></dd>
+  <dt>Delivered By</dt>
+  <dd><%= object.delivered_by.full_name rescue "n/a" %></dd>
+  <dt>Delivered To</dt>
+  <dd><%= object.delivered_to_name %></dd>
+</dl>

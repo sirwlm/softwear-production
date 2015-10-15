@@ -4,6 +4,7 @@ class LocalDeliveryTrain < ActiveRecord::Base
 
   tracked only: [:transition]
 
+  belongs_to :delivered_by, class_name: 'User', foreign_key: :delivered_by_id
   belongs_to :order
 
   train_type :post_production
@@ -15,7 +16,7 @@ class LocalDeliveryTrain < ActiveRecord::Base
 
     success_event :out_for_delivery, 
         params: {
-          delivered_by_id: -> { [""] + User.all.map(&:full_name) } 
+          delivered_by_id: -> { [""] + User.all.map{|x| [x.full_name, x.id] } } 
         } do 
       transition :ready_for_delivery => :out_for_delivery
     end

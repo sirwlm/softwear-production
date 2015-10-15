@@ -1,0 +1,8 @@
+<dl>
+  <dt>State</dt>
+  <dd><%= object.human_state_name %></dd>
+  <dt>Store</dt>
+  <dd><%= object.store_name %></dd>
+  <dt>Delivered By</dt>
+  <dd><%= object.delivered_by.full_name rescue "n/a" %></dd>
+</dl>
