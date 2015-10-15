@@ -1,6 +1,6 @@
 module CrmHelper
   def crm_image_tag(path, options = {})
-    image_tag "#{ApiSetting.crm.homepage}#{path}", options
+    image_tag "#{path}", options
   end
 
   def proof_status_panel(proof)

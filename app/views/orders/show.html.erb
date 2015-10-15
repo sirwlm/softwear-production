@@ -1,11 +1,12 @@
-<h1 class="pull-left">Order: <%= @order.name %></h1>
+<h1 class="pull-left"><%= @order.name %></h1>
 <%= render 'nav' %>
 <br clear="all" />
 <h2>Deadline: <%= @order.try(:deadline).try(:strftime, '%F') %></h2>
-<h2>Proofs:</h2>
-
+<div class="col-xs-12">
 <% if @order.softwear_crm_id.blank? %>
-  Assign a SoftWEAR-CRM ID to this order to see proofs
+  <p class="alert alert-danger">
+    Assign a SoftWEAR-CRM ID to this order to see proofs
+  </p>
 <% else %>
   <% begin %>
     <%= render 'proofs', order: @order.crm %>
@@ -16,6 +17,7 @@
     <% end %>
   <% end %>
 <% end %>
+</div>
 
 <div class="col-xs-12">
   <div id='order-pre-production' class='row clear-after'>

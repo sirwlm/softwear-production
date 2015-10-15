@@ -1,19 +1,25 @@
 <div class='order-proofs row'>
   <% if order.proofs.empty? %>
-    None
+    <p class='alert alert-danger col-xs-12'>
+        There doesn't appear to be any proofs within SoftWEAR-CRM for Order #<%= order.id %>
+      </p>
+
   <% end %>
   <% order.proofs.each do |proof| %>
-    <div class='col-sm-6'>
+    <div class='col-xs-12'>
       <div class='panel <%= proof_status_panel(proof) %>'>
         <div class='panel-heading'>Status: <strong><%= proof.status %></strong></div>
         <div class='panel-body'>
+          <% proof.mockup_paths.each do |mockup_path| %>
+            <div class="col-sm-6">
+              <%= link_to crm_image_tag(mockup_path, class: 'img img-responsive'), mockup_path, target: "_blank" %>
+            </div>
+          <% end %>
+          
           <% proof.artwork_paths.each do |artwork_path| %>
-            <%= crm_image_tag artwork_path %>
+            <%= crm_image_tag artwork_path, class: 'img img-responsive' %>
           <% end %>
 
-          <% proof.mockup_paths.each do |mockup_path| %>
-            <%= crm_image_tag mockup_path %>
-          <% end %>
         </div>
       </div>
     </div>
