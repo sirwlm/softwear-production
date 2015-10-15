@@ -49,6 +49,7 @@ SoftwearProduction::Application.routes.draw do
   resources :api_settings
   resources :jobs
   resources :screen_trains
+  get 'pre_production_art_dashboard' => 'pre_production#art_dashboard'
 
   resources :screens do
     collection do

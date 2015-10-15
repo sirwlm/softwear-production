@@ -1,9 +1,13 @@
 <div class='search-fields'>
-  <%= form_tag screen_trains_path, method: :get do %>
+  <%= form_tag pre_production_art_dashboard_path, method: :get do %>
     <div class='row'>
-      <div class='col-sm-6'>
+      <div class='col-sm-4'>
         <%= label_tag 'q[text]', 'Search Terms' %>
         <%= text_field_tag 'q[text]', params[:q] ? params[:q][:text] : '', placeholder: 'Terms', class: 'form-control' %>
+      </div>
+      <div class="col-sm-2">
+        <%= label_tag 'q[class_name]', 'Train Type' %>
+        <%= select_tag 'q[class_name]', options_for_select(["ScreenTrain", "Ar3Train", "Digitization"], params[:q] ? params[:q][:class_name] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
       </div>
       <div class="col-sm-3">
         <%= label_tag 'q[due_at_before]', 'Due At Before' %>
@@ -17,8 +21,8 @@
 
     <div class='row'>
       <div class="col-sm-4">
-        <%= label_tag 'q[state]', 'Screen Train State' %>
-        <%= select_tag 'q[state]', options_for_select(ScreenTrain.train_machine.states.map { |s| [s.name.to_s.humanize, s.name] }, params[:q] ? params[:q][:state] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
+        <%= label_tag 'q[state]', 'Pre Production Train State' %>
+        <%= select_tag 'q[state]', options_for_select(@train_states, params[:q] ? params[:q][:state] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
       </div>
 
       <div class="col-sm-3">

@@ -347,5 +347,13 @@ feature 'Orders' do
 
       expect(page).to have_content machine.name
     end
+
+    scenario "I can force complete an order which will advance all of it's associated trains to their complete state", story_970: true, pending: true do 
+      visit order_path(order)
+      expect(false).to be_truthy
+      within("#order-nav") do 
+        find("i.glyphicon-ok").click
+      end 
+    end
   end
 end

@@ -16,11 +16,7 @@
     <div class="col-sm-4">
     <%= f.select :print_type, [""] + ScreenTrain::PRINT_TYPES.map{|x| [x.humanize, x] }, {}, class: 'select2' %>
     </div>
-    <div class="col-sm-4">
-    <%= f.text_field :garment_material %>
-    </div>
-    <div class="col-sm-4">
-    <%= f.text_field :garment_weight %>
+    <div class="col-sm-8">
     </div>
     <div class="col-sm-12">
       <%= f.text_field :artwork_location, help: 'The location on the network where the artwork resides' %>
