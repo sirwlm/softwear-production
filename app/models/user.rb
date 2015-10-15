@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :user_roles
   has_many :roles, through: :user_roles
 
+  default_scope  { order(first_name: :asc) }
   scope :managers, -> { joins(:roles).where(roles: { name: 'Admin' })  }
 
   # Include default devise modules. Others available are:
@@ -18,13 +19,8 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def admin
-    self.roles.where(name: "Admin").exists?
-  end
-
   def admin?
     self.roles.where(name: "Admin").exists?
   end
-
 
 end

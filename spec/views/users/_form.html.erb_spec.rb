@@ -12,7 +12,6 @@ describe 'users/_form.html.erb', user_spec: true, story_116: true do
       expect(rendered).to have_css('input#user_first_name')
       expect(rendered).to have_css('input#user_last_name')
       expect(rendered).to have_css('input#user_email')
-      expect(rendered).to have_css('input#user_admin')
       expect(rendered).to have_css('input#user_password')
       expect(rendered).to have_css('input#user_password_confirmation')
     end
@@ -25,7 +24,6 @@ describe 'users/_form.html.erb', user_spec: true, story_116: true do
       expect(rendered).to have_css('input#user_first_name')
       expect(rendered).to have_css('input#user_last_name')
       expect(rendered).to have_css('input#user_email')
-      expect(rendered).to have_css('input#user_admin')
     end
   end
 end

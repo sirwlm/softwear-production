@@ -14,7 +14,7 @@
           <td><%= user.full_name %></td>
           <td><%= user.email %></td>
           <!-- TODO: refactor this probably -->
-          <td><%= human_boolean(user.admin) %></td>
+          <td><%= human_boolean(user.admin?) %></td>
           <td>
             <div class="btn-group btn-group-xs">
               <%= link_to edit_user_path(user),

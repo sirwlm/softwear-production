@@ -1,4 +1,4 @@
-<% if current_user.admin  %>
+<% if current_user.admin?  %>
   <div class="row">
     <%= form_tag(report_path("imprint_count"), method: :get) do %>
       <div class="col-xs-6 col-sm-4">

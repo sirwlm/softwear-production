@@ -2,7 +2,10 @@
 
 <hr />
 <%= bootstrap_form_for object, remote: in_modal do |f| %>
-  <%= f.text_field :artwork_location %>
+  
+  <%= f.text_field :carrier %>
+  <%= f.text_field :service %>
+  <%= f.text_field :tracking %>
   <%= f.text_area :notes %>
 
   <%= f.submit %>

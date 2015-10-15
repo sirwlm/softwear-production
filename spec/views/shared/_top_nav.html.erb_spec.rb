@@ -27,6 +27,5 @@ describe 'shared/_top_nav.html.erb' do
   it 'doesn\'t allow peons to mess with other people shit', story_116: true do
     expect(rendered).to_not have_css 'a[href="/users"]'
     expect(rendered).to_not have_css 'a[href="/machines"]'
-    expect(rendered).not_to have_css 'a[href="/maintenances"]'
   end
 end
