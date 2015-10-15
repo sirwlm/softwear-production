@@ -3,10 +3,10 @@
 <hr />
 <%= bootstrap_form_for object, remote: in_modal do |f| %>
   
+  <%= f.select :shipped_by_id, User.all.map{|u| [u.full_name, u.id] }, include_blank: true %>
   <%= f.text_field :carrier %>
   <%= f.text_field :service %>
   <%= f.text_field :tracking %>
-  <%= f.text_area :notes %>
 
   <%= f.submit %>
 <% end %>

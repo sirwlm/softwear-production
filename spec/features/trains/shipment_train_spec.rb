@@ -6,7 +6,7 @@ feature 'Shipment Train' do
     include_context 'logged_in_as_admin'
     
     given(:manager) { create(:admin) }
-    given(:shipment_train) { create(:shipment_train) }
+    given(:shipment_train) { create(:shipment_train, order: order) }
     given(:order) { create(:order) }
 
     scenario 'The trains successful stations are Labels Staged, Labels Printed', story_868: true do

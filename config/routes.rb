@@ -43,6 +43,7 @@ SoftwearProduction::Application.routes.draw do
   resources :fba_bagging_trains, only: [:show, :update, :destroy]
   resources :custom_ink_color_trains, only: [:show, :update, :destroy]
   resources :preproduction_notes_trains, only: [:show, :update]
+  resources :shipment_trains, only: [:show, :update]
   resources :digitization_trains, only: [:show, :update, :destroy]
   resources :ar3_trains, only: [:show, :update, :destroy]
 
