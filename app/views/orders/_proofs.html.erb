@@ -10,15 +10,18 @@
       <div class='panel <%= proof_status_panel(proof) %>'>
         <div class='panel-heading'>Status: <strong><%= proof.status %></strong></div>
         <div class='panel-body'>
+          <div class="col-sm-6">
+          <h4>Mockups</h4>
           <% proof.mockup_paths.each do |mockup_path| %>
-            <div class="col-sm-6">
-              <%= link_to crm_image_tag(mockup_path, class: 'img img-responsive'), mockup_path, target: "_blank" %>
-            </div>
+              <%= link_to crm_image_tag(mockup_path[0], class: 'img img-responsive'), mockup_path[1], target: "_blank" %>
           <% end %>
-          
-          <% proof.artwork_paths.each do |artwork_path| %>
-            <%= crm_image_tag artwork_path, class: 'img img-responsive' %>
+        </div>
+        <div class="col-sm-6">
+          <h4>Artwork</h4>
+          <% proof.artworks.each do |artwork| %>
+              <%= link_to crm_image_tag(artwork.thumbnail_path, class: 'img img-responsive'), artwork.path, target: "_blank" %>
           <% end %>
+        </div>
 
         </div>
       </div>
