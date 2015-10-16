@@ -1,7 +1,8 @@
 class ShipmentTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
-
+  include TrainSearch
+  
   CARRIERS = %w(USPS UPS FedEx Freight)
 
   tracked only: [:transition]

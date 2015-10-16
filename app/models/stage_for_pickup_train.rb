@@ -1,6 +1,7 @@
 class StageForPickupTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
+  include TrainSearch
 
   tracked only: [:transition]
 
@@ -23,6 +24,10 @@ class StageForPickupTrain < ActiveRecord::Base
     state :pending_packing, type: :success
     state :ready_to_stage, type: :success
     state :staged, type: :success
+  end
+
+  def due_at
+    order.deadline
   end
 
 end

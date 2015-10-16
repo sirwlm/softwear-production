@@ -1,0 +1,19 @@
+<div class="row">
+  <dl class="col-xs-6">
+    <dt>Fba?</dt>
+    <dd class='screen-train-fba'><%= train.fba? ? 'yes' : 'no' %>
+    <dt>Shipped By</dt>
+    <dd><%= train.shipped_by.full_name rescue 'n/a' %></dd>
+    <dt>Shipped At</dt>
+    <dd><%= train.shipped_at.try(:strftime, '%a, %b %d, %Y ') rescue 'not set' %></dd>
+  </dl>  
+  <dl class="col-xs-6">
+    <dt>Carrier</dt>
+    <dd><%= train.carrier.blank? ? "n/a" : train.carrier %></dd>
+    <dt>Service</dt>
+    <dd><%= train.service.blank? ? "n/a" : train.service %></dd>
+    <dt>Tracking</dt>
+    <dd><%= train.tracking.blank? ? "n/a" : train.tracking %></dd>
+    </dd>
+  </dl>
+</div>

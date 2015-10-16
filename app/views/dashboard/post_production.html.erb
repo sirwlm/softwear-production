@@ -1,0 +1,46 @@
+
+<h3>Post-Production Dashboard</h3>
+
+<div class="container screen-train-search">
+  <%=  render 'post_prod_search' %>
+</div>
+
+<%= paginate @trains, theme: 'twitter-bootstrap-3' %>
+
+  <table class="table table-hover table-striped table-sortable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Train Type</th>
+        <th>Order & Details</th>
+        <th>State</th>
+        <th>Preprod Deadline</th>
+        <th>Order Deadline</th>
+        <th>Preprod Assigned To</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @trains.each do |train| %>
+        <tr>
+          <td><%= train.id %></td>
+          <td><%= train.class.name %></td>
+          <td>
+            <%= link_to train.order.name, order_path(train.order) %>
+            <%= render "dashboard/table_row_#{train.class.name.underscore}", train: train %>  
+          </td>
+          <td><%= train.human_state_name %></td>
+          <td><%= train.due_at.try(:strftime, '%a, %b %d, %Y ') rescue 'not set' %></td>
+          <td><%= train.order.deadline.strftime("%a, %b %d, %Y") %></td>
+          <td><%= train.assigned_to.full_name rescue 'unassigned' %></td>
+          <td>
+            <%= link_to show_train_path(train), class: 'btn btn-primary btn-sm', remote: true do %>
+              <i class='glyphicon glyphicon-eye-open'></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<%= paginate @trains, theme: 'twitter-bootstrap-3' %>

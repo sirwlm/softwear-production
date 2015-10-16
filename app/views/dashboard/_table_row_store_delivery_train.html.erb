@@ -1,0 +1,10 @@
+<div class="row">
+  <dl class="col-xs-6">
+    <dt>Fba?</dt>
+    <dd class='screen-train-fba'><%= train.fba? ? 'yes' : 'no' %>
+    <dt>Delivered By</dt>
+    <dd><%= train.delivered_by.full_name rescue 'n/a' %></dd>
+    <dt>Store Name</dt>
+    <dd><%= train.store_name.blank? ? "n/a" : train.store_name %></dd>
+  </dl>  
+</div>

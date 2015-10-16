@@ -1,6 +1,7 @@
 class StoreDeliveryTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
+  include TrainSearch
 
   STORES = ['Ann Arbor', 'Ypsilanti']
 

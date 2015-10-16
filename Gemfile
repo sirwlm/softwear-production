@@ -47,6 +47,7 @@ gem 'public_activity', github: 'AnnArborTees/public_activity'
 gem 'bootstrap-kaminari-views'
 gem 'twitter-typeahead-rails'
 gem 'bootstrap-wysihtml5-rails', github: 'nerian/bootstrap-wysihtml5-rails'
+gem 'progress_bar'
 
 # === BEGIN SOFTWEAR LIB GEMS === #
 
