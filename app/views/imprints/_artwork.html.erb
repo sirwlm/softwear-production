@@ -2,19 +2,31 @@
   <p class='alert alert-danger'>There are no proofs associated with this imprint in SoftWEAR-CRM.</p>
 <% else %>
   <% imprint.proofs.each do |proof| %>
-    <div>
-      <div>
+    <div class='col-xs-12'>
+      <div class='panel <%= proof_status_panel(proof) %>'>
+        <div class='panel-heading'>Status: <strong><%= proof.status %></strong></div>
+        <div class='panel-body'>
         <% if proof.status == 'Rejected' %>
           <p class='alert alert-danger'>This proof was rejected.</p>
         <% elsif proof.status != 'Approved' %>
           <p class='alert alert-danger'>This proof is not yet approved.</p>
         <% end %>
-      </div>
+          <div class="col-sm-6">
+          <h4>Mockups</h4>
+          <% proof.mockup_paths.each do |mockup_path| %>
+              <%= link_to crm_image_tag(mockup_path[0], class: 'img img-responsive'), mockup_path[1], target: "_blank" %>
+          <% end %>
+        </div>
+        <div class="col-sm-6">
+          <h4>Artwork</h4>
+          <% proof.artworks.each do |artwork| %>
+              <%= link_to crm_image_tag(artwork.thumbnail_path, class: 'img img-responsive'), artwork.path, target: "_blank" %>
+          <% end %>
+        </div>
 
-      <% proof.artwork_thumbnail_paths.each_with_index do |thumb, i| %>
-        <%= link_to(proof.artwork_paths[i], target: '_blank') { image_tag thumb, class: 'img-thumbnail' } %>
-      <% end %>
+        </div>
+      </div>
     </div>
-    <hr />
   <% end %>
 <% end %>
+<br clear="all" />

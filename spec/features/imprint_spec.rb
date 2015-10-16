@@ -68,7 +68,7 @@ feature 'Imprints' do
         end
       end
 
-      context 'with proofs' do
+      context 'with proofs', js: true, current: true do
         given!(:crm_imprint) { create(:crm_imprint_with_proofs) }
 
         context 'that are rejected' do
