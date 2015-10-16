@@ -120,16 +120,21 @@ feature 'Orders' do
 
     context 'and there is a matching crm order' do
       given!(:crm_order) { create(:crm_order_with_proofs) }
-      given(:proofs) { crm_order.proofs artwork_paths: [Rails.root.join('spec/fixtures/images/capybara1.JPG')] }
-
+    
       background do
+        crm_order.proofs.first.artworks =[
+          OpenStruct.new({
+            path: Rails.root.join('spec/fixtures/images/capybara1.JPG'), 
+            thumbnail_path: Rails.root.join('spec/fixtures/images/capybara1.JPG')
+          })
+        ]
         order.softwear_crm_id = crm_order.id
         order.save!
       end
 
-      scenario 'I can see the proofs from crm', story_864: true do
+      scenario 'I can see the proofs from crm', current: true, story_864: true do
         visit order_path(order)
-
+        
         expect(page).to have_content 'Status: Pending'
       end
     end
@@ -304,7 +309,7 @@ feature 'Orders' do
       expect(imprint_1.reload.imprint_group_id).to be_nil
     end
 
-    scenario 'I can remove an imprint group, purging it of its imprints', current: true,  rm_imprint_group: true do
+    scenario 'I can remove an imprint group, purging it of its imprints',  rm_imprint_group: true do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id
 
