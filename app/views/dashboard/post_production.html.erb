@@ -13,7 +13,8 @@
         <th>ID</th>
         <th>Train Type</th>
         <th>Order & Details</th>
-        <th>State</th>
+        <th>Train State</th>
+        <th>Order Complete?</th>
         <th>Preprod Deadline</th>
         <th>Order Deadline</th>
         <th>Preprod Assigned To</th>
@@ -30,6 +31,7 @@
             <%= render "dashboard/table_row_#{train.class.name.underscore}", train: train %>  
           </td>
           <td><%= train.human_state_name %></td>
+          <td><%= human_boolean train.order_complete?  %></td>
           <td><%= train.due_at.try(:strftime, '%a, %b %d, %Y ') rescue 'not set' %></td>
           <td><%= train.order.deadline.strftime("%a, %b %d, %Y") %></td>
           <td><%= train.assigned_to.full_name rescue 'unassigned' %></td>

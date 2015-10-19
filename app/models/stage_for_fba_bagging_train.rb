@@ -1,6 +1,7 @@
 class StageForFbaBaggingTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
+  include TrainSearch
 
   tracked only: [:transition]
 

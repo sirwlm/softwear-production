@@ -29,8 +29,12 @@ class DashboardController < ApplicationController
       if q
         fulltext q[:text] unless q[:text].blank?  
         with :class_name, q[:class_name] unless q[:class_name].blank?
-        with :order_state, q[:order_state] unless q[:order_state].blank?
-        with :order_imprint_state, q[:order_imprint_state] unless q[:order_imprint_state].blank?
+        with(:due_at).greater_than(q[:due_at_after]) unless q[:due_at_after].blank?
+        with(:due_at).less_than(q[:due_at_before]) unless q[:due_at_before].blank?
+        with :complete, q[:complete] unless q[:complete].blank?
+        with(:order_complete, q[:order_complete] == 'true') unless q[:order_complete].blank?
+        with(:order_deadline).greater_than(q[:order_deadline_after]) unless q[:order_deadline_after].blank?
+        with(:order_deadline).less_than(q[:order_deadline_before]) unless q[:order_deadline_before].blank?
         order_by :created_at, :desc
       else
         with :complete, false
@@ -45,6 +49,7 @@ class DashboardController < ApplicationController
 
   def initialize_post_prod_train_classes 
     @post_production_train_classes = Train.train_types[:post_production].map{|x| x.to_s.constantize }
+    @post_production_train_class_name_options = @post_production_train_classes.map(&:to_s)
   end
 
 end
