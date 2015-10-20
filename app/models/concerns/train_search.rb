@@ -1,8 +1,8 @@
 module TrainSearch
   extend ActiveSupport::Concern
-
+  
   included do 
-    #unless Rails.env.test?
+    if respond_to? :searchable
       searchable do 
         text :human_state_name, :order_name
         string :state
@@ -28,7 +28,7 @@ module TrainSearch
           self.complete?
         end
       end
-    #end
+    end
   end
 
   def order_complete?
