@@ -32,9 +32,8 @@ module TrainSearch
   end
 
   def order_complete?
-    return if job.nil? || job.order.nil?
-    return job.order.complete? if respond_to? :job
-    order.complete?
+    return job.try(:order).try(:complete?) if respond_to? :job
+    order.try(:complete?)
   end
   
   def due_at
@@ -43,21 +42,18 @@ module TrainSearch
   end
 
   def order_deadline
-    return if job.nil? || job.order.nil?
-    return job.order.deadline if respond_to? :job
-    order.deadline
+    return job.try(:order).try(:deadline) if respond_to? :job
+    order.try(:deadline)
   end
 
   def order_name
-    return if job.nil? || job.order.nil?
-    return job.order.name if respond_to? :job
-    order.name
+    return job.try(:order).try(:name) if respond_to? :job
+    order.try(:name)
   end
 
   def fba?
-    return if job.nil? || job.order.nil?
-    return job.order.fba? if respond_to? :job
-    order.fba? 
+    return job.try(:order).try(:fba?) if respond_to? :job
+    order.try(:fba?)
   end
 
 end
