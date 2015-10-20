@@ -10,12 +10,12 @@
         <%= select_tag 'q[class_name]', options_for_select(["ScreenTrain", "Ar3Train", "Digitization"], params[:q] ? params[:q][:class_name] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
       </div>
       <div class="col-sm-3">
-        <%= label_tag 'q[due_at_before]', 'Due At Before' %>
-        <%= text_field_tag 'q[due_at_before]', params[:q] ? params[:q][:due_at_before] : '', class: 'form-control datepicker-standard'  %>
-      </div>
-      <div class="col-sm-3">
         <%= label_tag 'q[due_at_after]', 'Due At After' %>
         <%= text_field_tag 'q[due_at_after]', params[:q] ? params[:q][:due_at_after] : '', class: 'form-control datepicker-standard'  %>
+      </div>
+      <div class="col-sm-3">
+        <%= label_tag 'q[due_at_before]', 'Due At Before' %>
+        <%= text_field_tag 'q[due_at_before]', params[:q] ? params[:q][:due_at_before] : '', class: 'form-control datepicker-standard'  %>
       </div>
     </div>
 
@@ -26,15 +26,9 @@
       </div>
 
       <div class="col-sm-3">
-        <%= label_tag 'q[order_state]', 'Order State' %>
-        <%= select_tag 'q[order_state]', options_for_select(['Pending', 'Complete', ''], params[:q] ? params[:q][:order_state] : ''), class: 'form-control select2', data: { width: '100%' }  %>
+        <%= label_tag 'q[order_complete]', 'Order Complete?' %>
+        <%= select_tag 'q[order_complete]', options_for_select([['No', false], ['Yes', true], ['', '']], params[:q] ? params[:q][:order_complete] : ''), class: 'form-control select2', data: { width: '100%' }  %>
       </div>
-
-      <div class="col-sm-2">
-        <%= label_tag 'q[order_imprint_state]', 'Order Imprint State' %>
-        <%= select_tag 'q[order_imprint_state]', options_for_select(['Pending', 'Printed', ''], params[:q] ? params[:q][:order_imprint_state] : ''), class: 'form-control select2', data: { width: '100%' }  %>
-      </div>
-
 
       <div class="col-sm-3">
         <%= label_tag 'q[assigned_to_id]', 'Assigned To' %>

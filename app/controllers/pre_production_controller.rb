@@ -12,13 +12,11 @@ class PreProductionController < ApplicationController
         with(:due_at).less_than(q[:due_at_before])     unless q[:due_at_before].blank?
         with :class_name, q[:class_name] unless q[:class_name].blank?
         with :state, q[:state] unless q[:state].blank?
-        with :order_state, q[:order_state] unless q[:order_state].blank?
-        with :order_imprint_state, q[:order_imprint_state] unless q[:order_imprint_state].blank?
-        order_by :created_at, :desc
+        with(:order_complete, q[:order_complete] == 'true') unless q[:order_complete].blank?
       else
         with :complete, false
       end
-
+      order_by :due_at, :asc
       paginate page: params[:page] || 1
     end
       .results

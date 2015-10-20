@@ -1,6 +1,7 @@
 class DigitizationTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
+  include TrainSearch 
 
   tracked only: [:transition]
 
@@ -11,17 +12,8 @@ class DigitizationTrain < ActiveRecord::Base
   belongs_to :digitization_assigned_to, class_name: User
 
   searchable do 
-    text :human_state_name, :due_at, :artwork_location, :order_name
-    string :state
+    text :artwork_location
     integer :assigned_to_id, :signed_off_by_id
-    time :due_at
-    time :created_at
-    string :class_name do 
-      self.class.name
-    end
-    boolean :complete do 
-      self.complete?
-    end
   end
   
   train_type :pre_production

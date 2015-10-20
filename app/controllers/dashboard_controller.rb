@@ -35,11 +35,11 @@ class DashboardController < ApplicationController
         with(:order_complete, q[:order_complete] == 'true') unless q[:order_complete].blank?
         with(:order_deadline).greater_than(q[:order_deadline_after]) unless q[:order_deadline_after].blank?
         with(:order_deadline).less_than(q[:order_deadline_before]) unless q[:order_deadline_before].blank?
-        order_by :created_at, :desc
       else
         with :complete, false
       end
 
+      order_by :due_at, :asc
       paginate page: params[:page] || 1
     end
       .results

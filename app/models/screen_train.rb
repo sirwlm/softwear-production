@@ -1,7 +1,8 @@
 class ScreenTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
-  
+  include TrainSearch
+
   PRINT_TYPES = [
     "spot", "process", "simulated process"
   ]
@@ -24,18 +25,9 @@ class ScreenTrain < ActiveRecord::Base
   accepts_nested_attributes_for :screen_requests, allow_destroy: true
  
   searchable do 
-    text :human_state_name, :due_at, :artwork_location, :job_names, :imprint_names, :order_name
-    string :state
+    text :artwork_location, :job_names, :imprint_names
     integer :assigned_to_id, :signed_off_by_id
-    time :due_at
-    time :created_at
     boolean :new_separation
-    string :class_name do 
-      self.class.name
-    end
-    boolean :complete do 
-      self.complete?
-    end
   end
 
   train_type :pre_production
