@@ -47,9 +47,9 @@ feature 'Imprints' do
 
   context 'as a user' do
     include_context 'logged_in_as_user'
-
     given!(:admin) { create(:admin) }
-
+    background(:each) { print.job = order.jobs.first }
+  
     context 'when there is a CRM imprint', story_864: true do
       given!(:crm_imprint) { create(:crm_imprint) }
 

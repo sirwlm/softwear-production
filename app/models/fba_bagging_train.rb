@@ -3,7 +3,6 @@ class FbaBaggingTrain < ActiveRecord::Base
   include Train
   include Schedulable
   include ColorUtils
-  include TrainSearch
   
   tracked only: [:transition]
 

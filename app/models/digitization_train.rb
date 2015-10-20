@@ -1,7 +1,6 @@
 class DigitizationTrain < ActiveRecord::Base
-  include Train
   include PublicActivity::Model
-  include TrainSearch 
+  include Train
 
   tracked only: [:transition]
 

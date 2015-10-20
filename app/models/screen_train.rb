@@ -1,7 +1,6 @@
 class ScreenTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
-  include TrainSearch
 
   PRINT_TYPES = [
     "spot", "process", "simulated process"
@@ -90,10 +89,6 @@ class ScreenTrain < ActiveRecord::Base
     screen_requests.count > 0 && screen_inks.count == assigned_screens.count
   end
 
-  def fba?
-    order.fba?
-  end
-
   def imprint_count 
     imprints.sum(:count)
   end
@@ -108,16 +103,8 @@ class ScreenTrain < ActiveRecord::Base
     imprints.pluck(:name).join(' ')
   end
 
-  def order_name
-    order.try(:name)
-  end
-
   def job_names
     jobs.pluck(:name).join(' ')
-  end
-
-  def order_deadline
-    ordr.try(:deadline) 
   end
 
   def earliest_scheduled_date

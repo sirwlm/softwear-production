@@ -15,6 +15,7 @@ end
 
 module Train
   extend ActiveSupport::Concern
+  include TrainSearch
 
   def self.train_types
     Thread.main[:train_types] ||= {}

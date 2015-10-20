@@ -1,6 +1,8 @@
 class TestTrain
   include ActiveModel::Model
   include ActiveModel::Serialization
+  include ActiveRecord::Callbacks
+  include Sunspot::Rails::Searchable
   include Train
 
   cattr_accessor :column_names
@@ -9,6 +11,8 @@ class TestTrain
     self.column_names += args.map(&:to_s)
     super
   end
+
+  define_callbacks :save
 
   attr_accessor :state
   attr_accessor :winner_id

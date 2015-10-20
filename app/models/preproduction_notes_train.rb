@@ -1,7 +1,7 @@
 class PreproductionNotesTrain < ActiveRecord::Base
+  include PublicActivity::Model
   include Train
   include RequireManagerSignoff
-  include PublicActivity::Model
 
   tracked only: [:transition]
 

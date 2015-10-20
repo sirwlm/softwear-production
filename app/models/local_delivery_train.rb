@@ -1,8 +1,7 @@
 class LocalDeliveryTrain < ActiveRecord::Base
-  include Train
   include PublicActivity::Model
-  include TrainSearch
-
+  include Train
+  
   tracked only: [:transition]
 
   belongs_to :delivered_by, class_name: 'User', foreign_key: :delivered_by_id

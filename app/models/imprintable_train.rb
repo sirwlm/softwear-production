@@ -1,6 +1,6 @@
 class ImprintableTrain < ActiveRecord::Base
-  include Train
   include PublicActivity::Model
+  include Train
 
   SOLUTIONS = {
     need_to_order:           :ready_to_order,
@@ -17,8 +17,7 @@ class ImprintableTrain < ActiveRecord::Base
   has_many :imprints, through: :job
 
   searchable do
-    text :job_name, :imprint_names, :order_name, :human_state_name, :location
-    string :state
+    text :job_name, :imprint_names, :location
     string :order_imprint_state do
       order.try(:imprint_state)
     end
@@ -34,9 +33,6 @@ class ImprintableTrain < ActiveRecord::Base
     time(:expected_arrival_date) { |i| i.expected_arrival_date.try(:to_date) }
     time :created_at
     integer :job_id
-    boolean :complete do
-      self.complete?
-    end
   end
 
   attr_reader :solution

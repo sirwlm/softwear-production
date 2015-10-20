@@ -1,7 +1,6 @@
 class Ar3Train < ActiveRecord::Base
-  include Train
   include PublicActivity::Model
-  include TrainSearch
+  include Train
 
   tracked only: [:transition]
 
