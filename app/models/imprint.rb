@@ -14,6 +14,7 @@ class Imprint < ActiveRecord::Base
 
   scope :scheduled, -> { Schedulable.scheduled_scope(self).where(imprint_group_id: nil) }
   scope :unscheduled, -> { Schedulable.unscheduled_scope(self).where(imprint_group_id: nil) }
+  scope :machineless, -> { Schedulable.machineless_scope(self).where(imprint_group_id: nil) }
   scope :ready_to_schedule, -> { Schedulable.ready_to_schedule_scope(self).where(imprint_group_id: nil) }
 
   validates :machine, presence: { message: 'must be selected in order to schedule a print',  allow_blank: false }, if: proc { scheduled? && !part_of_group? }
