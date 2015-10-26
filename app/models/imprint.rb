@@ -111,7 +111,11 @@ class Imprint < ActiveRecord::Base
   end
 
   def job_name
-    self.job.name rescue 'n/a'
+    if job.blank?
+      'n/a'
+    else
+      self.job.full_name rescue 'n/a'
+    end
   end
 
   def order_name
@@ -119,7 +123,7 @@ class Imprint < ActiveRecord::Base
   end
 
   def full_name
-    "#{order_deadline_day} - #{order_name} -#{job_name} - #{name} (#{count})"
+    "#{order_deadline_day} - #{job_name} - #{name} (#{count})"
   end
 
   def order_deadline_day

@@ -14,7 +14,11 @@ class Job < ActiveRecord::Base
   after_save :assign_preproduction_notes_train
 
   def full_name
-    "#{order.name} - #{name}" rescue name
+    if softwear_crm_id.blank?
+      "#{order.name} - #{name}" rescue name
+    else
+      "#{order.name} - #{name} - CRMJob ##{softwear_crm_id}" rescue name 
+    end
   end
 
   # TODO Remove this override when converting imprints to proper trains

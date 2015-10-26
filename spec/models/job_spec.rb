@@ -31,6 +31,19 @@ describe Job, job_spec: true do
     end
   end
 
+  describe '#full_name' do 
+    
+    let(:job) { build(:job, order: build(:order), softwear_crm_id: 123) }
+
+    context 'softwear_crm_id is not' do 
+      it 'returns order name, job name, and the crm id' do 
+        expect(job.full_name).to eq("#{job.order.name} - #{job.name} - CRMJob ##{job.softwear_crm_id}")
+      end
+    end
+
+  end
+
+
   describe '#production_state', story_876: true do
     let!(:job) { create(:job) }
     let(:complete_imprintable_train) { create(:imprintable_train, state: :inventoried) }

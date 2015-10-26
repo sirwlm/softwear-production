@@ -27,7 +27,9 @@ class TrainsController < ApplicationController
 
   def show
     @object = fetch_object
-    if @object.respond_to?(:name)
+    if @object.respond_to?(:full_name)
+      @title = @object.full_name
+    elsif @object.respond_to?(:name)
       @title = @object.name
     else
       @title = @object.model_name.element.humanize

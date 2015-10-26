@@ -187,7 +187,7 @@ describe Imprint, imprint_spec: true, story_110: true do
     let(:imprint) { order.imprints.first }
 
     it 'returns the contatenated deadline weekday, order, job, and imprint name and quantity' do
-      expect(imprint.full_name).to eq("#{imprint.order_deadline_day} - #{imprint.order_name} -#{imprint.job.name} - #{imprint.name} (#{imprint.count})")
+      expect(imprint.full_name).to eq("#{imprint.order_deadline_day} - #{imprint.order_name} - #{imprint.job.name} - #{imprint.name} (#{imprint.count})")
     end
 
   end
