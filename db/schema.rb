@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151009180518) do
+ActiveRecord::Schema.define(version: 20151026233315) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -213,6 +213,7 @@ ActiveRecord::Schema.define(version: 20151009180518) do
     t.string   "name",               limit: 255
     t.boolean  "fba"
     t.boolean  "has_imprint_groups"
+    t.string   "customer_name",      limit: 255
   end
 
   create_table "preproduction_notes_trains", force: :cascade do |t|
@@ -287,12 +288,6 @@ ActiveRecord::Schema.define(version: 20151009180518) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
-  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
-  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
-  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
-  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
 
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",         limit: 255

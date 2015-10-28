@@ -14,6 +14,25 @@ describe Order do
     it { is_expected.to validate_presence_of :name }
   end
 
+  describe "#full_name" do
+    context 'order has customer name' do
+      let(:order) { create(:order, customer_name: 'Rick James') }
+
+      it 'returns customer_name - order_name' do 
+        expect(order.full_name).to eq("#{order.customer_name} - #{order.name}")
+      end
+    end
+    
+    context 'order has customer name' do
+      let(:order) { create(:order) }
+
+      it 'returns customer_name - order_name' do 
+        expect(order.full_name).to eq("#{order.name}")
+      end
+    end
+
+  end
+
   describe '#complete?' do
     let(:completed_imprint) { double('Imprint', completed?: true) }
     let(:incomplete_imprint) { double('Imprint', completed?: false) }

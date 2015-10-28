@@ -35,7 +35,7 @@ class OrdersController < InheritedResources::Base
 
   def permitted_params
     params.permit(order: [
-      :name, :softwear_crm_id, :deadline, :fba, :has_imprint_groups,
+      :name, :customer_name, :softwear_crm_id, :deadline, :fba, :has_imprint_groups,
       jobs_attributes: [
         :name, :id, :_destroy,
         imprints_attributes: [

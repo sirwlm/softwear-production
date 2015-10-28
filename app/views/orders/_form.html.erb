@@ -21,6 +21,7 @@
           <%= f.check_box :has_imprint_groups %>
         <% end %>
         <%= f.text_field :name, class: 'form-control' %>
+        <%= f.text_field :customer_name, class: 'form-control' %>
         <%= f.text_field :deadline, class: 'form-control datetimepicker-standard', value: order.deadline %>
         <%= f.text_field :softwear_crm_id, class: 'form-control', type: :integer, label: 'SoftWEAR-CRM ID' %>
         <div class='order-jobs'>

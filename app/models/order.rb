@@ -24,7 +24,7 @@ class Order < ActiveRecord::Base
   after_save :add_fba_bagging_train
 
   searchable do
-    text :name, :job_names, :imprint_names, :imprint_descriptions
+    text :name, :job_names, :imprint_names, :imprint_descriptions, :customer_name
 
     boolean(:complete) { complete? }
     boolean(:scheduled) { scheduled? }
@@ -34,6 +34,11 @@ class Order < ActiveRecord::Base
     time :deadline
     string :imprint_state
     string :production_state
+  end
+
+  def full_name
+    return "#{customer_name} - #{name}" unless customer_name.blank?
+    return name
   end
 
   %w(job_names imprint_names imprint_descriptions).each do |name|
