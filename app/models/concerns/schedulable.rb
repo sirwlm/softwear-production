@@ -17,16 +17,35 @@ module Schedulable
   end
 
   def self.scheduled_scope(context)
-    context.where.not(scheduled_at: nil).where.not(scheduled_at: '')
+    if context.method_defined?(:imprint_group_id)
+      context.where.not(scheduled_at: nil).where.not(scheduled_at: '').where(imprint_group: nil)
+    else
+      context.where.not(scheduled_at: nil).where.not(scheduled_at: '')
+    end
   end
+
   def self.unscheduled_scope(context)
-    context.where(scheduled_at: nil)
+    if context.method_defined?(:imprint_group_id)
+      context.where(scheduled_at: nil).where(imprint_group_id: nil)
+    else
+      context.where(scheduled_at: nil)
+    end
   end
+  
   def self.machineless_scope(context)
-    context.where(machine_id: nil)
+    if context.method_defined?(:imprint_group_id)
+      context.where(machine_id: nil).where(imprint_group_id: nil)
+    else
+      context.where(machine_id: nil)
+    end
   end
+
   def self.ready_to_schedule_scope(context)
-    context.where(scheduled_at: nil).where.not(estimated_time: nil)
+    if context.method_defined?(:imprint_group_id)
+      context.where(scheduled_at: nil).where.not(estimated_time: nil).where(imprint_group_id: nil)
+    else
+      context.where(scheduled_at: nil).where.not(estimated_time: nil)
+    end
   end
 
   included do
