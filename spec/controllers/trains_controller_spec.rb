@@ -163,4 +163,45 @@ describe TrainsController, type: :controller do
       end
     end
   end
+
+  describe "DELETE #destroy", current: true do 
+    class TestObject
+      include ActiveModel::Model
+      attr_accessor :id
+      attr_accessor :test_trains
+    end
+    let(:object_test_trains) { [ object ] }
+    let(:test_object) { TestObject.new(test_trains: object_test_trains, id: 1) }
+    
+    before do
+      allow(object).to receive(:order) { create(:order) }
+      allow(object).to receive(:remove_from_test_object) { test_object.test_trains = [] }
+    end
+   
+    context 'user is not an admin' do
+      it 'redirects them to the root with a notice' do 
+        delete :destroy, model_name: 'test_train', id: 1
+        expect(response).to redirect_to(root_path)  
+      end 
+    end
+
+    context 'user is an admin' do
+      
+      before do 
+        allow_any_instance_of(User).to receive(:admin?) { true } 
+      end
+       
+      it 'destroys the train' do
+        expect{
+          delete :destroy, model_name: 'test_train', id: 1
+        }.to change{ test_object.test_trains.size }.from(1).to(0)
+      end
+
+      it 'redirects them to the order' do  
+        delete :destroy, model_name: 'test_train', id: 1
+        expect(response.status).to eq(302)  
+      end
+    end
+  end
+
 end

@@ -60,6 +60,11 @@ class TestTrain
     save
   end
 
+  def destroy
+    remove_from_test_object
+    return self   
+  end
+
   def id
     1
   end
