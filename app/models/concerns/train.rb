@@ -44,12 +44,17 @@ module Train
   end
 
   def self.each_train(record, &block)
+    already_sent_classes = {}
+
     Train.train_types.values.flatten.each do |train_class|
       record.class.reflect_on_all_associations.each do |assoc|
         next unless train_class == assoc.klass || assoc.klass.descendants.include?(train_class)
 
         result = record.send(assoc.name)
         next if result.blank?
+
+        next if already_sent_classes[result.class.name]
+        already_sent_classes[result.class.name] = true
 
         if assoc.collection?
           result.each(&block)
@@ -63,12 +68,17 @@ module Train
   def self.each_train_of_type(type, record, &block)
     return unless Train.train_types.key?(type)
 
+    already_sent_classes = {}
+
     Train.train_types[type].each do |train_class|
       record.class.reflect_on_all_associations.each do |assoc|
         next unless train_class == assoc.klass || assoc.klass.descendants.include?(train_class)
 
         result = record.send(assoc.name)
         next if result.blank?
+
+        next if already_sent_classes[result.class.name]
+        already_sent_classes[result.class.name] = true
 
         if assoc.collection?
           result.each(&block)
