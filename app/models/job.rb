@@ -17,13 +17,8 @@ class Job < ActiveRecord::Base
     if softwear_crm_id.blank?
       "#{order.name} - #{name}" rescue name
     else
-      "#{order.name} - #{name} - CRMJob ##{softwear_crm_id}" rescue name 
+      "#{order.name} - #{name} - CRMJob ##{softwear_crm_id}" rescue name
     end
-  end
-
-  # TODO Remove this override when converting imprints to proper trains
-  def production_trains
-    (super rescue []) + imprints
   end
 
   def imprint_state
