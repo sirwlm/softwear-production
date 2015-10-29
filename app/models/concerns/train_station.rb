@@ -4,13 +4,13 @@ module TrainStation
   def trains_of_type(type)
     t = []
     Train.each_train_of_type(type, self, &t.method(:<<))
-    t
+    return_uniq t
   end
 
   def trains
     t = []
     Train.each_train(self, &t.method(:<<))
-    t
+    return_uniq t
   end
 
   %i(pre_production production post_production).each do |train_type|
@@ -19,5 +19,11 @@ module TrainStation
         trains_of_type(:#{train_type})
       end
     RUBY
+  end
+
+  private
+
+  def return_uniq(list)
+    list.uniq { |t| "#{t.class.name}##{t.id}" }
   end
 end
