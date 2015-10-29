@@ -4,13 +4,13 @@ module TrainStation
   def trains_of_type(type)
     t = []
     Train.each_train_of_type(type, self, &t.method(:<<))
-    t
+    t.uniq
   end
 
   def trains
     t = []
     Train.each_train(self, &t.method(:<<))
-    t
+    t.uniq
   end
 
   %i(pre_production production post_production).each do |train_type|
