@@ -68,6 +68,10 @@ class ImprintableTrain < ActiveRecord::Base
       transition [:partially_ordered] => :ready_to_order
     end
 
+    success_event :moved_inventory, params: { location: :text_field } do
+      transition :inventoried => :inventoried
+    end
+
     state :imprintable_changed, type: :delay
   end
 
