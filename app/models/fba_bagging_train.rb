@@ -23,6 +23,8 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   train_type :post_production
   train initial: :ready_to_bag, final: :bagged do
+    after_transition on: :bagging_complete, do: :mark_completed_at
+
     success_event :bagging_started do 
       transition :ready_to_bag => :bagging_in_progress
     end
@@ -69,7 +71,7 @@ class FbaBaggingTrain < ActiveRecord::Base
     end
   end
 
-  def completed_at
+  def old_completed_at
     # NOTE this assumes that the only transition is 'Bagged'
     activities.where("`activities`.`key` LIKE '%transition'").pluck(:created_at).first
   end
