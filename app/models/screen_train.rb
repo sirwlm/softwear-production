@@ -81,6 +81,10 @@ class ScreenTrain < ActiveRecord::Base
     return true
   end
 
+  def lpi
+    super.blank? ? '45' : super
+  end
+
   def screen_inks
     screen_requests.group(:ink).map(&:ink)
   end

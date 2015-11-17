@@ -1,14 +1,11 @@
 <div class="row clear clearfix">
-  <div class="col-sm-3">
+  <div class="col-sm-4">
     <%= f.select :primary, [["Yes", true], ["No", false]], {}, {class: 'select2' } %> 
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-4">
     <%= f.text_field :ink %> 
   </div> 
-  <div class="col-sm-3">
-    <%= f.text_field :lpi %> 
-  </div> 
-  <div class="col-sm-3">
+  <div class="col-sm-4">
     <%= f.link_to_remove class: 'btn btn-danger' do %>
       <i class="glyphicon glyphicon-remove-circle"></i> Remove
     <% end %>

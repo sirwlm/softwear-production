@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112183533) do
+ActiveRecord::Schema.define(version: 20151117170405) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -237,7 +237,6 @@ ActiveRecord::Schema.define(version: 20151112183533) do
     t.string   "mesh_type",       limit: 255
     t.string   "dimensions",      limit: 255
     t.string   "ink",             limit: 255
-    t.string   "lpi",             limit: 255
     t.boolean  "primary"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
@@ -246,7 +245,6 @@ ActiveRecord::Schema.define(version: 20151112183533) do
   add_index "screen_requests", ["dimensions"], name: "index_screen_requests_on_dimensions", using: :btree
   add_index "screen_requests", ["frame_type"], name: "index_screen_requests_on_frame_type", using: :btree
   add_index "screen_requests", ["ink"], name: "index_screen_requests_on_ink", using: :btree
-  add_index "screen_requests", ["lpi"], name: "index_screen_requests_on_lpi", using: :btree
   add_index "screen_requests", ["mesh_type"], name: "index_screen_requests_on_mesh_type", using: :btree
   add_index "screen_requests", ["primary"], name: "index_screen_requests_on_primary", using: :btree
   add_index "screen_requests", ["screen_train_id"], name: "index_screen_requests_on_screen_train_id", using: :btree
@@ -266,6 +264,7 @@ ActiveRecord::Schema.define(version: 20151112183533) do
     t.string   "print_type",       limit: 255
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
+    t.string   "lpi",              limit: 255
   end
 
   add_index "screen_trains", ["artwork_location"], name: "index_screen_trains_on_artwork_location", using: :btree

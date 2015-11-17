@@ -10,7 +10,6 @@ describe ScreenRequest, type: :model do
     it { is_expected.to validate_presence_of :frame_type } 
     it { is_expected.to validate_presence_of :mesh_type }
     it { is_expected.to validate_presence_of :dimensions }
-    it { is_expected.to validate_presence_of :lpi }
     it { is_expected.to validate_presence_of :ink }
   end
  
