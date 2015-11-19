@@ -1,6 +1,7 @@
 class DigitizationTrain < ActiveRecord::Base
   include PublicActivity::Model
   include Train
+  include Deadlines
 
   tracked only: [:transition]
 
@@ -49,7 +50,7 @@ class DigitizationTrain < ActiveRecord::Base
   end
   
   def assigned_to_id; return nil; end
-  def due_at; return order.deadline - 2.days; end
+  alias_method :due_at, :production_deadline
   
   private
   

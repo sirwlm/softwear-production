@@ -37,8 +37,13 @@ module TrainSearch
   end
 
   def due_at
-    return super if has_attribute?(:due_at)
-    (order.try(:deadline) || Time.now) - 1.day
+    if has_attribute?(:due_at)
+      super
+    elsif respond_to?(:production_deadline)
+      production_deadline
+    else
+      (order.try(:deadline) || Time.now) - 1.day
+    end
   end
 
   def order_deadline

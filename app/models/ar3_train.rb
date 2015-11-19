@@ -1,6 +1,7 @@
 class Ar3Train < ActiveRecord::Base
   include PublicActivity::Model
   include Train
+  include Deadlines
 
   tracked only: [:transition]
 
@@ -30,7 +31,7 @@ class Ar3Train < ActiveRecord::Base
   end
   
   def assigned_to_id; return nil; end
-  def due_at; return order.deadline - 1.day; end
+  alias_method :due_at, :production_deadline
   # def sign_id; return nil; end
 
   private
