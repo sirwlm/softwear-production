@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119202833) do
+ActiveRecord::Schema.define(version: 20151119214532) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -289,17 +289,24 @@ ActiveRecord::Schema.define(version: 20151119202833) do
     t.datetime "updated_at"
   end
 
+  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
+  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
+  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
+  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
+  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
+
   create_table "shipment_trains", force: :cascade do |t|
-    t.string   "state",           limit: 255
-    t.integer  "shipped_by_id",   limit: 4
+    t.string   "state",                limit: 255
+    t.integer  "shipped_by_id",        limit: 4
     t.datetime "shipped_at"
-    t.string   "carrier",         limit: 255
-    t.string   "service",         limit: 255
-    t.string   "tracking",        limit: 255
-    t.integer  "order_id",        limit: 4
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
-    t.decimal  "time_in_transit",             precision: 10, scale: 2
+    t.string   "carrier",              limit: 255
+    t.string   "service",              limit: 255
+    t.string   "tracking",             limit: 255
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.decimal  "time_in_transit",                  precision: 10, scale: 2
+    t.integer  "shipment_holder_id",   limit: 4
+    t.string   "shipment_holder_type", limit: 255
   end
 
   create_table "stage_for_fba_bagging_trains", force: :cascade do |t|

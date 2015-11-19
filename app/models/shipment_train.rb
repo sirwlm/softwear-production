@@ -7,7 +7,7 @@ class ShipmentTrain < ActiveRecord::Base
 
   tracked only: [:transition]
 
-  belongs_to :order
+  belongs_to :shipment_holder, polymorphic: true
 
   train_type :post_production
   train initial: :pending_packing, final: :shipped do
@@ -30,6 +30,10 @@ class ShipmentTrain < ActiveRecord::Base
     state :pending_packing, type: :success
     state :pending_shipment, type: :success
     state :shipped, type: :success
+  end
+
+  def order
+    shipment_holder if shipment_holder_type == 'Order'
   end
 
 end
