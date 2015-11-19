@@ -56,6 +56,17 @@ describe Imprint, imprint_spec: true, story_110: true do
   end
 
   describe 'Before save' do
+    context 'if completed_at is not set, but state is complete', fix_completion: true do
+      let!(:print) { create(:print) }
+
+      it 'sets completed_at to Time.now' do
+        print.state = 'complete'
+        expect(print.completed_at).to be_nil
+        print.save!
+        expect(print.completed_at).to_not be_nil
+      end
+    end
+
     context 'when type is changed' do
       let(:print) { create(:print) }
 

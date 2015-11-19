@@ -27,6 +27,7 @@ class Imprint < ActiveRecord::Base
   before_save :assign_estimated_end_at
   before_save :reset_state_when_type_changed
   before_save :synchronize_with_group, if: :part_of_group?
+  before_save :set_completed_at_if_necessary
   after_commit :populate_group_fields
 
   belongs_to :job
@@ -193,5 +194,12 @@ class Imprint < ActiveRecord::Base
     self.state           = state if state
     self.completed_at    = imprint_group.completed_at
     self.completed_by_id = imprint_group.completed_by_id
+  end
+
+  def set_completed_at_if_necessary
+    return if completed_at
+    return if state.to_sym != train_machine.complete_state.to_sym
+
+    self.completed_at = Time.now
   end
 end
