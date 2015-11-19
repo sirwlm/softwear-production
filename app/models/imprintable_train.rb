@@ -45,7 +45,7 @@ class ImprintableTrain < ActiveRecord::Base
     end
 
     success_event :partially_inventoried, params: { location: :text_field } do
-      transition [:ordered, :partially_inventoried] => :inventoried
+      transition [:ordered, :partially_inventoried] => :partially_inventoried
     end
 
     success_event :inventoried, params: { location: :text_field } do
