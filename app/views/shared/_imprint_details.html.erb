@@ -24,9 +24,9 @@
     <dt>SoftWEAR-CRM ID</dt>
     <dd><%= editable object, :softwear_crm_id %></dd>
   <% end %>
-  <dt>
-    Machine
-  </dt>
+  <dt>Production Deadline</dt>
+  <dd><%= object.production_deadline || 'Unsure' %></dd>
+  <dt>Machine</dt>
   <dd>
     <% if current_user.admin? %>
       <%= editable object, :machine_id, type: :select, data: { source: Machine.all.map { |m| { m.id => m.name } } } %>

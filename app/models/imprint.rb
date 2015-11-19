@@ -71,11 +71,6 @@ class Imprint < ActiveRecord::Base
     save!
   end
 
-  def deadline
-    # TODO This should be crm_imprint.order.in_hand_by or something.
-    Time.now + (1..10).sample.days
-  end
-
   def calendar_color
     return 'white' if !approved?
     return 'rgb(58, 135, 173)' if machine.blank?
