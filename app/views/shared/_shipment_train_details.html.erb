@@ -7,6 +7,14 @@
   <%= f.text_field :carrier %>
   <%= f.text_field :service %>
   <%= f.text_field :tracking %>
+  <%= f.label :time_in_transit %>
+  <div class="input-group">
+    <%= f.text_field :time_in_transit, hide_label: true %>
+
+    <span class="input-group-addon">
+      days
+    </span>
+  </div>
 
   <%= f.submit %>
 <% end %>

@@ -1,7 +1,7 @@
 class ShipmentTrainsController < InheritedResources::Base
   def update
     update! do |success, failure|
-      @object = @preproduction_notes_train
+      @object = @shipment_train
 
       success.js do
         flash[:notice] = "Updated Shipment Train"
@@ -28,8 +28,8 @@ class ShipmentTrainsController < InheritedResources::Base
   private
 
   def shipment_train_params
-    params.require(:preproduction_notes_train).permit(
-      [:shipped_by_id, :carrier, :service, :tracking]
+    params.require(:shipment_train).permit(
+      [:shipped_by_id, :carrier, :service, :tracking, :time_in_transit]
     )
   end
 end
