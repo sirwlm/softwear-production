@@ -198,6 +198,7 @@ class Imprint < ActiveRecord::Base
 
   def set_completed_at_if_necessary
     return if completed_at
+    return unless respond_to?(:train_machine)
     return if state.to_sym != train_machine.complete_state.to_sym
 
     self.completed_at = Time.now
