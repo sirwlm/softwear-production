@@ -18,7 +18,7 @@ module Deadlines
           offset = job.order.try(:shipment_train).try(:time_in_transit)
         end
       elsif order_ok
-        offset = order.shipment_train.time_in_transit
+        offset = order.shipment_train.try(:time_in_transit)
       end
       return in_hand_by if offset.nil?
 
