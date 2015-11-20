@@ -9,7 +9,7 @@ describe Deadlines do
       let!(:shipment_train) { create(:shipment_train, shipment_holder: order, time_in_transit: 2) }
 
       it "returns order's deadline minus that shipment train's time_in_transit" do
-        expect(subject.production_deadline).to eq (Date.today - 2.days).to_time
+        expect(subject.production_deadline.to_date).to eq (Date.today - 2.days)
       end
     end
 
@@ -20,7 +20,7 @@ describe Deadlines do
       let!(:shipment_train) { create(:shipment_train, shipment_holder: job, time_in_transit: 1) }
 
       it "returns the job's order deadline minus its shipment train time_in_transit" do
-        expect(subject.production_deadline).to eq (Date.today - 1.day).to_time
+        expect(subject.production_deadline.to_date).to eq (Date.today - 1.day)
       end
     end
 
@@ -30,7 +30,7 @@ describe Deadlines do
       let!(:shipment_train) { create(:shipment_train, shipment_holder: order, time_in_transit: 3) }
 
       it "returns the job's order deadline minus the order's shipment train time_in_transit" do
-        expect(subject.production_deadline).to eq (Date.today - 3.days).to_time
+        expect(subject.production_deadline.to_date).to eq (Date.today - 3.days)
       end
     end
 
@@ -40,7 +40,7 @@ describe Deadlines do
       let!(:my_shipment_train) { create(:shipment_train, time_in_transit: 2) }
 
       it "returns the order's deadline minus the shipment train's time_in_transit" do
-        expect(subject.production_deadline).to eq (Date.today - 2.days).to_time
+        expect(subject.production_deadline.to_date).to eq (Date.today - 2.days)
       end
     end
 
@@ -49,7 +49,7 @@ describe Deadlines do
       let!(:my_shipment_train) { create(:shipment_train, time_in_transit: 2) }
 
       it "returns deadline - shipment train time in transit" do
-        expect(subject.production_deadline).to eq (Date.today - 2.days).to_time
+        expect(subject.production_deadline.to_date).to eq (Date.today - 2.days)
       end
     end
   end
