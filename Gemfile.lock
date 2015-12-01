@@ -536,6 +536,7 @@ DEPENDENCIES
   sidekiq-status
   simple_token_authentication
   simplecov
+  sinatra
   softwear-lib (~> 1.3.6)
   state_machines-activemodel
   state_machines-activerecord

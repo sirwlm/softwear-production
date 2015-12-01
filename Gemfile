@@ -52,6 +52,7 @@ gem 'progress_bar'
 gem 'sidekiq'
 gem 'sidekiq-status'
 gem 'sidekiq-failures', github: 'AnnArborTees/sidekiq-failures'
+gem 'sinatra', require: false
 
 # === BEGIN SOFTWEAR LIB GEMS === #
 
