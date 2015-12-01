@@ -54,6 +54,7 @@ gem 'sidekiq-status'
 gem 'sidekiq-failures', github: 'AnnArborTees/sidekiq-failures'
 gem 'sinatra', require: false
 gem 'redis-namespace'
+gem 'cap-ec2', group: :development
 
 # === BEGIN SOFTWEAR LIB GEMS === #
 

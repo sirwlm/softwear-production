@@ -114,6 +114,9 @@ GEM
     autoprefixer-rails (5.2.1.1)
       execjs
       json
+    aws-sdk-v1 (1.66.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -135,6 +138,11 @@ GEM
     byebug (5.0.0)
       columnize (= 0.9.0)
     cancan (1.6.10)
+    cap-ec2 (1.0.0)
+      aws-sdk-v1
+      capistrano (>= 3.0)
+      colorize
+      terminal-table
     capistrano (3.2.1)
       i18n
       rake (>= 10.0.0)
@@ -428,6 +436,7 @@ GEM
       rails (>= 3)
       sunspot (= 2.2.0)
     sunspot_solr (2.2.0)
+    terminal-table (1.5.2)
     test_after_commit (0.4.1)
       activerecord (>= 3.2)
     thin (1.5.1)
@@ -482,6 +491,7 @@ DEPENDENCIES
   bootstrap_form
   byebug
   cancan
+  cap-ec2
   capistrano (~> 3.2.0)
   capistrano-bundler!
   capistrano-rails
