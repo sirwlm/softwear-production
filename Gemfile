@@ -53,6 +53,7 @@ gem 'sidekiq'
 gem 'sidekiq-status'
 gem 'sidekiq-failures', github: 'AnnArborTees/sidekiq-failures'
 gem 'sinatra', require: false
+gem 'redis-namespace'
 
 # === BEGIN SOFTWEAR LIB GEMS === #
 
