@@ -19,6 +19,7 @@ set :branch, 'master'
 
 server 'production.softwearcrm.com', user: 'ubuntu', roles: %w{web app}, my_property: :my_value
 
+set :linked_files, fetch(:linked_files) + %w{config/sidekiq.yml}
 
 # Custom SSH Options
 # ==================

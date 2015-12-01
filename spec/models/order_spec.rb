@@ -54,6 +54,38 @@ describe Order do
     end
   end
 
+  describe 'when the order becomes complete', update_crm_production_status: true do
+    let!(:completed_imprint) { create(:print, state: 'complete') }
+    let!(:incomplete_imprint) { create(:print, state: 'in_production') }
+    let!(:imprints) { [completed_imprint, incomplete_imprint] }
+    let!(:crm_order) { double('crm order', production_state: 'in_production', save!: true) }
+
+    before do
+      completed_imprint.update_attributes state: 'complete'
+      incomplete_imprint.update_attributes state: 'in_production'
+
+      allow(order).to receive(:imprints).and_return imprints
+      allow(order).to receive(:jobs_production_state).and_return 'Complete'
+      allow(order).to receive(:imprint_state).and_return 'Printed'
+
+      imprints.each do |imprint|
+        allow(imprint).to receive(:order).and_return(order)
+      end
+
+      allow(order).to receive(:crm).and_return crm_order
+      # bypass sidekiq delay
+      allow(order).to receive(:delay).and_return order
+    end
+
+    it 'updates crm production status to "complete"' do
+      expect(crm_order).to receive(:production_state=).with('complete')
+      expect(order.complete?).to eq false
+      incomplete_imprint.printing_complete
+      incomplete_imprint.save!
+      expect(order.reload.complete?).to eq true
+    end
+  end
+
   describe 'fba_bagging_train' do
     let(:not_fba) { create(:order, fba: false, jobs: [create(:job)]) }
 
