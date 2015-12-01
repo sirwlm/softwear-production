@@ -30,6 +30,7 @@ group :test do
   gem 'state_machines-activemodel'
   gem 'capybara-select2'
   gem 'test_after_commit'
+  gem 'fakeredis', :require => 'fakeredis/rspec'
 end
 
 gem 'nested_form'
@@ -48,6 +49,9 @@ gem 'bootstrap-kaminari-views'
 gem 'twitter-typeahead-rails'
 gem 'bootstrap-wysihtml5-rails', github: 'nerian/bootstrap-wysihtml5-rails'
 gem 'progress_bar'
+gem 'sidekiq'
+gem 'sidekiq-status'
+gem 'sidekiq-failures', github: 'AnnArborTees/sidekiq-failures'
 
 # === BEGIN SOFTWEAR LIB GEMS === #
 
