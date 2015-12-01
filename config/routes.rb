@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 SoftwearProduction::Application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
   mount ActsAsWarnable::Engine => '/'
@@ -88,5 +90,9 @@ SoftwearProduction::Application.routes.draw do
       put    '/:train_class/:id', to: 'api/trains#update'
       delete '/:train_class/:id', to: 'api/trains#destroy'
     end
+  end
+
+  authenticate :user do
+    mount Sidekiq::Web => '/sidekiq'
   end
 end
