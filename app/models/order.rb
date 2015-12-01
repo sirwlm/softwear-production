@@ -94,6 +94,15 @@ class Order < ActiveRecord::Base
     jobs.all? { |j| j.production_state == 'Complete' } ? 'Complete' : 'Pending'
   end
 
+  def update_crm_production_status!
+    return unless complete?
+    return if crm.nil?
+    return if crm.production_state == 'complete'
+    crm.production_state = 'complete'
+    crm.save!
+    clear_crm
+  end
+
   def force_complete
     
     pre_production_trains.each do |t|

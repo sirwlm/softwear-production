@@ -180,6 +180,10 @@ module Train
       train_machine.instance_eval { extend Train::StateMachine }
       train_machine.instance_eval(&block)
       train_machine.complete_state = final_state.to_sym if final_state
+      train_machine.after_transition(
+        train_machine.send(:any) => train_machine.complete_state,
+        do: :update_order_completion_status
+      )
 
       class_eval <<-RUBY, __FILE__, __LINE__
         if defined? searchable
@@ -235,6 +239,13 @@ module Train
 
   def complete?
     send(train_machine.attribute).to_sym == train_machine.complete_state
+  end
+
+  # This happens after_transition any => complete
+  def update_order_completion_status
+    return if try(:order).nil?
+    return unless order.respond_to?(:delay)
+    order.delay.update_crm_production_status! if order.complete?
   end
 
   def usual_fields
