@@ -40,6 +40,9 @@ class Imprint < ActiveRecord::Base
   searchable do
     text :full_name, :description
     integer :completed_by_id
+    string :imprint_group_or_imprint_id_str do
+      imprint_group_or_imprint_id_str
+    end
     boolean :complete  do
       completed?
     end
@@ -49,6 +52,10 @@ class Imprint < ActiveRecord::Base
       !scheduled_at.nil?
     end
     integer :machine_id
+  end
+
+  def imprint_group_or_imprint_id_str
+    imprint_group.nil? ? id.to_s : imprint_group_id.to_s
   end
 
   def part_of_group?
@@ -156,6 +163,30 @@ class Imprint < ActiveRecord::Base
     part_of_group? ? imprint_group.scheduled? : super
   end
 
+  def completed_by
+    return super unless completed_by_id.nil?
+    return nil if completed_at.nil?
+    update_column(:completed_by_id, get_completed_by_id_from_activities)
+    super
+  end
+
+  def started_at
+    update_column(:started_at, get_started_at_from_activity) if read_attribute(:started_at).blank?
+    read_attribute(:started_at)
+  end
+
+  def actual_time
+    (completed_at - started_at)/60.0
+  end
+
+  def activities
+    if imprint_group.nil?
+      super
+    else
+      imprint_group.activities
+    end
+  end
+
   private
 
   def schedule_conflict?
@@ -197,5 +228,55 @@ class Imprint < ActiveRecord::Base
     return if state.to_sym != train_machine.complete_state.to_sym
 
     self.completed_at = Time.now
+  end
+
+  def start_activity
+    case type
+      when "Print"
+        return activities.where("parameters like '%event%at_the_press%'").first
+      when "ScreenPrint"
+        return activities.where("parameters like '%event%final_test_print_printed%'").first unless require_manager_signoff?
+        return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
+      when "DigitalPrint"
+        return activities.where("parameters like '%event%start_printing%'").first
+      when "EmbroideryPrint"
+        return activities.where("parameters like '%event%start_printing%'").first unless require_manager_signoff?
+        return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
+      when "EquipmentCleaningPrint"
+        return activities.where("parameters like '%event%put_equipment_in_dryer%'").first
+      when "TransferMakingPrint"
+        return activities.where("parameters like '%event%final_test_print_printed%'").first unless require_manager_signoff?
+        return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
+      when "TransferPrint"
+        return activities.where("parameters like '%event%final_test_print_printed%'").first unless require_manager_signoff?
+        return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
+    end
+  end
+
+  def get_started_at_from_activity
+    start_activity.created_at rescue nil
+  end
+
+  def completion_activity
+    case type
+      when "Print"
+        return activities.where("parameters like '%event%printing_complete%'").first
+      when "ScreenPrint"
+        return activities.where("parameters like '%event%printing_complete%'").first
+      when "DigitalPrint"
+        return activities.where("parameters like '%event%completed%'").first
+      when "EmbroideryPrint"
+        return activities.where("parameters like '%event%completed%'").first
+      when "EquipmentCleaningPrint"
+        return activities.where("parameters like '%event%repacked_bag%'").first
+      when "TransferMakingPrint"
+        return activities.where("parameters like '%event%completed%'").first
+      when "TransferPrint"
+        return activities.where("parameters like '%event%completed%'").first
+    end
+  end
+
+  def get_completed_by_id_from_activities
+    completion_activity.owner_id rescue nil
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119214532) do
+ActiveRecord::Schema.define(version: 20151202174510) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20151119214532) do
     t.string   "type",                    limit: 255
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
+    t.datetime "started_at"
   end
 
   create_table "imprintable_trains", force: :cascade do |t|
@@ -161,6 +162,7 @@ ActiveRecord::Schema.define(version: 20151119214532) do
     t.boolean  "require_manager_signoff"
     t.integer  "imprint_group_id",        limit: 4
     t.integer  "screen_train_id",         limit: 4
+    t.datetime "started_at"
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
@@ -288,6 +290,12 @@ ActiveRecord::Schema.define(version: 20151119214532) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
+  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
+  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
+  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
+  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
 
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",                limit: 255
