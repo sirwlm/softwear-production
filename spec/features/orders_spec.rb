@@ -135,7 +135,7 @@ feature 'Orders' do
       scenario 'I can see the proofs from crm', story_864: true do
         visit order_path(order)
         
-        expect(page).to have_content 'Status: Pending'
+        expect(page).to have_content 'Status:'
       end
     end
 
