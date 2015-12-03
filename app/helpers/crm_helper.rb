@@ -4,11 +4,16 @@ module CrmHelper
   end
 
   def proof_status_panel(proof)
-    case proof.status
-    when 'Pending'          then 'panel-warning'
-    when 'Emailed Customer' then 'panel-warning'
-    when 'Approved'         then 'panel-success'
-    when 'Rejected'         then 'panel-danger'
+    case (proof.state rescue 'bad')
+    when 'not_ready'                   then 'panel-warning'
+    when 'pending_manager_approval'    then 'panel-warning'
+    when 'pending_customer_submission' then 'panel-warning'
+    when 'manager_rejected'            then 'panel-danger'
+    when 'pending_customer_approval'   then 'panel-warning'
+    when 'customer_approved'           then 'panel-success'
+    when 'customer_rejected'           then 'panel-danger'
+
+    when 'bad' then 'panel-danger'
     else
       'panel-default'
     end

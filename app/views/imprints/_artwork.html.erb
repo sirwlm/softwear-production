@@ -6,9 +6,9 @@
       <div class='panel <%= proof_status_panel(proof) %>'>
         <div class='panel-heading'>Status: <strong><%= proof.status %></strong></div>
         <div class='panel-body'>
-        <% if proof.status == 'Rejected' %>
+        <% if proof.state.include?('rejected') %>
           <p class='alert alert-danger'>This proof was rejected.</p>
-        <% elsif proof.status != 'Approved' %>
+        <% elsif !proof.state.include?('approved') %>
           <p class='alert alert-danger'>This proof is not yet approved.</p>
         <% end %>
           <div class="col-sm-6">
