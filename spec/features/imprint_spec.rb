@@ -70,10 +70,13 @@ feature 'Imprints' do
 
       context 'with proofs', js: true, current: true do
         given!(:crm_imprint) { create(:crm_imprint_with_proofs) }
+        background do
+          allow_any_instance_of(Crm::Proof).to receive(:state).and_return 'not_ready'
+        end
 
         context 'that are rejected' do
           background do
-            allow_any_instance_of(Crm::Proof).to receive(:status).and_return 'Rejected'
+            allow_any_instance_of(Crm::Proof).to receive(:state).and_return 'customer_rejected'
           end
 
           scenario 'an alert box tells me that they are rejected' do
