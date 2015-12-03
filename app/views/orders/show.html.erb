@@ -11,6 +11,10 @@
   <% begin %>
     <%= render 'proofs', order: @order.crm %>
   <% rescue StandardError => e %>
+
+    <% Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (orders/show) ****\n#{e.class.name}: #{e.message}" %>
+    <% Rails.logger.error e.backtrace.join("\n") %>
+
     <span class='text-danger'>There was an issue retrieving proof information from crm.</span>
     <%= content_tag :code do %>
       <%=j "#{e.class.name}: #{e.message}" %>
