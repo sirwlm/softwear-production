@@ -17,7 +17,8 @@ role :db,  %w{ubuntu@production.softwearcrm.com}
 
 set :branch, 'master'
 
-server 'production.softwearcrm.com', user: 'ubuntu', roles: %w{web app}, my_property: :my_value
+server 'production.softwearcrm.com', user: 'ubuntu', roles: %w{web app}
+server '50.19.126.7', user: 'ubuntu', roles: %w{web app redis}
 
 set :linked_files, fetch(:linked_files) + %w{config/sidekiq.yml}
 
