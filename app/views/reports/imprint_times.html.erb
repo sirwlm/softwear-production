@@ -1,0 +1,73 @@
+<% if current_user.admin?  %>
+  <div class="row">
+    <%= form_tag(report_path("imprint_times"), method: :get) do %>
+      <div class="col-xs-4 col-sm-3">
+        <%= label_tag :start_date, "Start Date" %>
+        <%= text_field_tag :start_date, params[:start_date], class: 'form-control datepicker-standard', required: true %>
+      </div>
+      <div class='col-xs-4 col-sm-3'>
+        <%= label_tag :end_date, "End Date" %>
+        <%= text_field_tag :end_date, params[:end_date], class: 'form-control datepicker-standard', required: true %>
+      </div>
+        <div class='col-xs-4 col-sm-3'>
+          <%= label_tag :machine_ids, "Machine" %>
+          <%= select_tag :machine_ids, options_for_select(Machine.all.map{|x|[x.name, x.id]}, params[:machine_ids]), required: true, class: 'select2', multiple: true %>
+        </div>
+      <div class="col-xs-12 col-sm-3">
+        <br />
+        <%= submit_tag "Run Report", class: 'btn btn-primary col-xs-12' %>
+      </div>
+    <% end %>
+  </div>
+  <% if @report_data %>
+
+    <h2>Print Time Report</h2>
+    <h3>Start Date: <%= @report_data[:start_date] %>, End Date: <%= @report_data[:end_date] %></h3>
+    <table class='table table-striped'>
+      <thead>
+        <th>ID</th>
+        <th>Machine</th>
+        <th>Print Type</th>
+        <th>Order</th>
+        <th>Job</th>
+        <th>Imprint</th>
+        <th>Started At</th>
+        <th>Completed At</th>
+        <th>Estimated Print Time</th>
+        <th>Actual Print Time</th>
+        <th>Completed By</th>
+      </thead>
+      <tbody>
+      <% @report_data[:machines].each do |machine, imprints| %>
+        <% imprints.each do |imprint| %>
+        <% imprint = imprint.imprint_group unless imprint.imprint_group.nil? %>
+        <tr>
+          <td><% if imprint.is_a? ImprintGroup %>G:<% end %><%= imprint.id %>
+          </td>
+          <td><%= imprint.type %>
+          </td>
+          <td><%= machine %>
+          </td>
+          <td><%= imprint.order.name rescue "n/a" %>
+          </td>
+          <td><%= imprint.job.name rescue "n/a" %>
+          </td>
+          <td><%= imprint.name %>
+          </td>
+          <td><%= imprint.started_at.strftime('%F %T') rescue 'n/a' %>
+          </td>
+          <td><%= imprint.completed_at.strftime('%F %T') %><br />
+          </td>
+          <td><%= (imprint.estimated_time * 60).round %> min
+          </td>
+          <td><%= "#{imprint.actual_time.round(2)} min" rescue "n/a" %>
+          </td>
+          <td><%= imprint.completed_by.full_name rescue "Unassigned" %>
+          </td>
+        </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>
