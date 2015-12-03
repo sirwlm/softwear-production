@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202174510) do
+ActiveRecord::Schema.define(version: 20151203214225) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -43,12 +43,13 @@ ActiveRecord::Schema.define(version: 20151202174510) do
   add_index "api_settings", ["slug"], name: "index_api_settings_on_slug", unique: true, using: :btree
 
   create_table "ar3_trains", force: :cascade do |t|
-    t.string   "state",            limit: 255
-    t.integer  "order_id",         limit: 4
-    t.string   "artwork_location", limit: 255
-    t.text     "notes",            limit: 65535
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "state",                  limit: 255
+    t.integer  "order_id",               limit: 4
+    t.string   "artwork_location",       limit: 255
+    t.text     "notes",                  limit: 65535
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.integer  "crm_artwork_request_id", limit: 4
   end
 
   create_table "assigned_screens", force: :cascade do |t|
@@ -84,6 +85,7 @@ ActiveRecord::Schema.define(version: 20151202174510) do
     t.text     "notes",                       limit: 65535
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
+    t.integer  "crm_artwork_request_id",      limit: 4
   end
 
   create_table "fba_bagging_trains", force: :cascade do |t|
@@ -252,21 +254,22 @@ ActiveRecord::Schema.define(version: 20151202174510) do
   add_index "screen_requests", ["screen_train_id"], name: "index_screen_requests_on_screen_train_id", using: :btree
 
   create_table "screen_trains", force: :cascade do |t|
-    t.string   "state",            limit: 255
-    t.integer  "order_id",         limit: 4
-    t.decimal  "separation_time",                precision: 10, scale: 2
+    t.string   "state",                  limit: 255
+    t.integer  "order_id",               limit: 4
+    t.decimal  "separation_time",                      precision: 10, scale: 2
     t.boolean  "new_separation"
     t.datetime "due_at"
-    t.integer  "signed_off_by_id", limit: 4
-    t.integer  "assigned_to_id",   limit: 4
-    t.text     "notes",            limit: 65535
-    t.string   "garment_material", limit: 255
-    t.string   "garment_weight",   limit: 255
-    t.string   "artwork_location", limit: 255
-    t.string   "print_type",       limit: 255
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
-    t.string   "lpi",              limit: 255
+    t.integer  "signed_off_by_id",       limit: 4
+    t.integer  "assigned_to_id",         limit: 4
+    t.text     "notes",                  limit: 65535
+    t.string   "garment_material",       limit: 255
+    t.string   "garment_weight",         limit: 255
+    t.string   "artwork_location",       limit: 255
+    t.string   "print_type",             limit: 255
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.string   "lpi",                    limit: 255
+    t.integer  "crm_artwork_request_id", limit: 4
   end
 
   add_index "screen_trains", ["artwork_location"], name: "index_screen_trains_on_artwork_location", using: :btree
@@ -290,12 +293,6 @@ ActiveRecord::Schema.define(version: 20151202174510) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
-  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
-  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
-  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
-  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
 
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",                limit: 255
