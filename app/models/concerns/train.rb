@@ -245,7 +245,7 @@ module Train
   def update_order_completion_status
     return if try(:order).nil?
     return unless order.respond_to?(:delay)
-    order.delay.update_crm_production_status! if order.complete?
+    Order.delay.update_crm_production_status(order.id) if order.complete?
   end
 
   def usual_fields

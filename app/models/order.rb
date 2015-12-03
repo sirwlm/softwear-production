@@ -94,6 +94,9 @@ class Order < ActiveRecord::Base
     jobs.all? { |j| j.production_state == 'Complete' } ? 'Complete' : 'Pending'
   end
 
+  def self.update_crm_production_status(order_id)
+    Order.find(order_id).update_crm_production_status!
+  end
   def update_crm_production_status!
     return unless complete?
     return if crm.nil?

@@ -64,6 +64,7 @@ describe Order do
       completed_imprint.update_attributes state: 'complete'
       incomplete_imprint.update_attributes state: 'in_production'
 
+      allow(Order).to receive(:find).and_return order
       allow(order).to receive(:imprints).and_return imprints
       allow(order).to receive(:jobs_production_state).and_return 'Complete'
       allow(order).to receive(:imprint_state).and_return 'Printed'
@@ -75,6 +76,7 @@ describe Order do
       allow(order).to receive(:crm).and_return crm_order
       # bypass sidekiq delay
       allow(order).to receive(:delay).and_return order
+      allow(Order).to receive(:delay).and_return Order
     end
 
     it 'updates crm production status to "complete"' do
