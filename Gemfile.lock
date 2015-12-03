@@ -61,6 +61,16 @@ GIT
       thor (~> 0.14)
 
 GIT
+  remote: git://github.com/mperham/sidekiq.git
+  revision: 98aa23e4aeb5cb073308c17114271124598d3524
+  specs:
+    sidekiq (4.0.2)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      json (~> 1.0)
+      redis (~> 3.2, >= 3.2.1)
+
+GIT
   remote: git://github.com/nerian/bootstrap-wysihtml5-rails.git
   revision: a4b413aa1c9d5f614a33c3c1f5731ed8bc6302de
   specs:
@@ -384,11 +394,6 @@ GEM
       websocket (~> 1.0)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
-    sidekiq (4.0.1)
-      concurrent-ruby (~> 1.0)
-      connection_pool (~> 2.2, >= 2.2.0)
-      json (~> 1.0)
-      redis (~> 3.2, >= 3.2.1)
     sidekiq-status (0.5.4)
       sidekiq (>= 2.7)
     simple_token_authentication (1.10.0)
@@ -544,7 +549,7 @@ DEPENDENCIES
   select2-rails!
   selenium-webdriver
   shoulda-matchers
-  sidekiq
+  sidekiq!
   sidekiq-failures!
   sidekiq-status
   simple_token_authentication
@@ -564,3 +569,6 @@ DEPENDENCIES
   whenever
   with_model
   x-editable-rails
+
+BUNDLED WITH
+   1.10.6

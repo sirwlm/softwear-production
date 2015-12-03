@@ -49,7 +49,7 @@ gem 'bootstrap-kaminari-views'
 gem 'twitter-typeahead-rails'
 gem 'bootstrap-wysihtml5-rails', github: 'nerian/bootstrap-wysihtml5-rails'
 gem 'progress_bar'
-gem 'sidekiq'
+gem 'sidekiq', github: 'mperham/sidekiq'
 gem 'sidekiq-status'
 gem 'sidekiq-failures', github: 'AnnArborTees/sidekiq-failures'
 gem 'sinatra', require: false
