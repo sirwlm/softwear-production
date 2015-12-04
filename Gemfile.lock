@@ -412,7 +412,7 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
-    softwear-lib (1.3.12)
+    softwear-lib (1.3.13)
       activesupport
     sprockets (3.2.0)
       rack (~> 1.0)
