@@ -16,3 +16,5 @@ Sidekiq.configure_server do |config|
   end
   config.redis = { namespace: 'softwear-production', url: redis_url }
 end
+
+SafeYAML::OPTIONS[:default_mode] = :unsafe
