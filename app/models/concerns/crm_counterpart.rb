@@ -6,7 +6,11 @@ module CrmCounterpart
   end
 
   def crm
-    @crm_record ||= "Crm::#{model_name.name}".constantize.find(softwear_crm_id)
+    @crm_record ||= begin
+      "Crm::#{model_name.name}".constantize.find(softwear_crm_id)
+    rescue ActiveResource::ResourceNotFound => e
+      nil
+    end
   end
 
   def clear_crm
