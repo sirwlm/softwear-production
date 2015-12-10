@@ -36,7 +36,7 @@ class MachinesController < InheritedResources::Base
     end
 
     @calendar_events = Sunspot.search(*Schedulable.schedulable_classes) do
-      with :scheduled_at, time_start..time_end
+      with :scheduled_at, Time.parse(time_start)..Time.parse(time_end)
       with :machine_id, machine_id
       paginate page: 1, per_page: 5000
     end
