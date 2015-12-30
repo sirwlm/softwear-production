@@ -23,7 +23,13 @@
       <% @imprintable_trains.each do |it| %>
         <tr>
           <td><%= it.id %></td>
-          <td><%= it.job.order.try(:name) %></td>
+          <td>
+            <% if it.job.order %>
+              <%= link_to it.job.order.name, order_path(it.job.order) %>
+            <% else %>
+              &lt;No order&gt;
+            <% end %>
+          </td>
           <td><%= it.job.name %></td>
 
           <td>

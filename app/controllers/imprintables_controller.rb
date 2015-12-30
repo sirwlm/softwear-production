@@ -21,6 +21,16 @@ class ImprintablesController < ApplicationController
       paginate page: params[:page] || 1
     end
       .results
+
+    # We can't index on multiple values (scheduled dates of imprints) so we have to process the
+    # scheduled_at query parameter manually.
+    if q && !q[:scheduled_at].blank?
+      wanted_date = q[:scheduled_at].to_date
+
+      @imprintable_trains.select! do |imprintable_train|
+        imprintable_train.imprints.pluck(:scheduled_at).any? { |sched| sched.to_date == wanted_date }
+      end
+    end
   end
 
 end

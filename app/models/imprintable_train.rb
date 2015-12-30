@@ -52,8 +52,7 @@ class ImprintableTrain < ActiveRecord::Base
       transition [:ordered, :partially_inventoried] => :inventoried
     end
 
-    success_event :resolved_changes,
-        params: { solution: SOLUTIONS.keys.map { |k| [k.to_s.humanize, k] } } do
+    success_event :resolved_changes, params: { solution: SOLUTIONS.keys.map { |k| [k.to_s.humanize, k] } } do
       SOLUTIONS.each do |solution, state|
         transition :imprintable_changed => state, if: ->(i) { i.solution == solution.to_sym }
       end

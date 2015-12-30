@@ -13,9 +13,14 @@
     </div>
 
     <div class='row'>
-      <div class="col-sm-4">
+      <div class="col-sm-2">
         <%= label_tag 'q[state]', 'Imprintable Train State' %>
         <%= select_tag 'q[state]', options_for_select(ImprintableTrain.train_machine.states.map { |s| [s.name.to_s.humanize, s.name] }, params[:q] ? params[:q][:state] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
+      </div>
+
+      <div class="col-sm-2">
+        <%= label_tag 'q[scheduled_at]', 'Imprints Scheduled At' %>
+        <%= text_field_tag 'q[scheduled_at]', params[:q] ? params[:q][:scheduled_at] : '', class: 'form-control datepicker-standard'  %>
       </div>
 
       <div class="col-sm-2">

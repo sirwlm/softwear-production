@@ -37,6 +37,6 @@ set :linked_files, %w{config/database.yml config/application.yml config/sunspot.
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
-# set :keep_releases, 5
+set :keep_releases, 10
 
 Softwear::Lib.capistrano(self)
