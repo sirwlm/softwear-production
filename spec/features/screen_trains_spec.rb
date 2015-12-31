@@ -5,8 +5,8 @@ feature "ScreenTrains", type: :feature, js: true do
   context 'when logged in as a user' do
 
     given!(:manager) { create(:admin) }
-    given(:order) { create(:order) }
     given!(:screen_train) { create(:screen_train) }
+    given(:order) { create(:order, screen_trains: [screen_train]) }
 
     include_context 'logged_in_as_user'
 
@@ -127,6 +127,24 @@ feature "ScreenTrains", type: :feature, js: true do
           expect(page).to have_no_selector('button')
         end
       end 
+    end
+
+    context 'from an order', orders: true do
+      scenario 'I can edit a screen train and it does not move me away from the order page' do
+        visit order_path(order)
+        first('a', text: 'Show Full Details').click
+        sleep 2
+
+        within '#contentModal' do
+          find('a[href$=edit]').click
+        end
+        fill_in 'Notes', with: 'Hello it is me'
+        click_button 'Update Screen train'
+        sleep 1
+
+        expect(page).to have_content 'successfully updated'
+        expect(current_path).to eq order_path(order)
+      end
     end
 
     context 'given a screen train has all of the proof request data and all screens assigned' do 

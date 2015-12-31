@@ -1,1 +1,18 @@
+try {
+  if (window.location.pathname.includes('/orders/')) {
+    var onHide = function() {
+      <%= render template: 'trains/show.js' %>
 
+      $('#contentModal').off('hidden.bs.modal', onHide);
+    };
+
+    $('#contentModal').on('hidden.bs.modal', onHide);
+    $('#contentModal').modal('hide');
+  }
+  else {
+    window.location = "<%= pre_production_art_dashboard_path %>";
+  }
+}
+catch (e) {
+  console.log(e);
+}
