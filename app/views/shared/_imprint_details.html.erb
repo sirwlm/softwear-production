@@ -38,6 +38,10 @@
   <dd><%= object.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>
   <dt>Count</dt>
   <dd><%= object.count %></dd>
+  <% if object.try(:triloc_result) %>
+    <dt>Triloc</dt>
+    <dd><%= object.triloc_result %></dd>
+  <% end %>
 </dl>
 <% if object.completed? %>
   <%= render 'imprints/completed_info', imprint: object %>
