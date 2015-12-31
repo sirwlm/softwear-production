@@ -1,6 +1,8 @@
 class ScreenPrint < Imprint
   include Train
 
+  TRILOC_RESULTS = ['Success', 'Failure', 'Close', 'N/A']
+
   before_save :transition_to_ready_to_print_if_just_scheduled
 
   train_type :production
@@ -37,7 +39,7 @@ class ScreenPrint < Imprint
       transition :ready_to_print => :pending_press_set_up
     end
 
-    success_event :press_set_up do
+    success_event :press_set_up, params: { triloc_result: TRILOC_RESULTS } do
       transition :pending_press_set_up => :pending_registration
     end
 
