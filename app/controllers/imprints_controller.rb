@@ -134,7 +134,7 @@ class ImprintsController < InheritedResources::Base
 
     params.require(:imprint).permit(
       :name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at, :job_id,
-      :type, :count, :require_manager_signoff, :imprint_group_id, :softwear_crm_id
+      :type, :count, :require_manager_signoff, :imprint_group_id, :softwear_crm_id, :revolved
     )
   end
 

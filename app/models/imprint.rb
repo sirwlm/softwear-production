@@ -54,6 +54,10 @@ class Imprint < ActiveRecord::Base
     integer :machine_id
   end
 
+  def revolved
+    super || false
+  end
+
   def imprint_group_or_imprint_id_str
     imprint_group.nil? ? id.to_s : imprint_group_id.to_s
   end

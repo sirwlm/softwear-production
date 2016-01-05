@@ -36,6 +36,17 @@
   </dd>
   <dt>Type</dt>
   <dd><%= object.type.try(:underscore).try(:humanize) || 'Imprint' %></dd>
+  <% if object.type == 'ScreenPrint' %>
+    <dt>Revolved?</dt>
+    <dd>
+      <% if current_user.admin? %>
+        <%= editable object, :revolved %>
+      <% else %>
+        <%= object.revolved? ? 'Yes' : 'No' %>
+      <% end %>
+    </dd>
+  <% end %>
+
   <dt>Count</dt>
   <dd><%= object.count %></dd>
   <% if object.try(:triloc_result) %>

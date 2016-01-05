@@ -3,6 +3,15 @@
 <%= f.text_field :softwear_crm_id, label: 'SoftWEAR-CRM ID' %>
 <%= f.select :machine_id, @machines.collect{ |machine| [machine.name, machine.id] }, { include_blank: 'Select Machine' }, disabled: imprint.part_of_group? %>
 <%= f.select :type, options_for_select(Imprint::TYPES.map{|x| [x, x.gsub(" ", "")]}, f.object.type), include_blank: 'Select Imprint Type' %>
+
+<div class='screen-print-revolved'
+<% if imprint.new_record? || imprint.type != 'ScreenPrint' %>
+    style='display: none;'
+<% end %>
+  >
+  <%= f.check_box :revolved, label: 'Revolved?' %>
+</div>
+
 <%= f.number_field :estimated_time, step: 'any', label: 'Estimated Time in Hours', disabled: imprint.part_of_group? %>
 <%= f.number_field :count, step: 'any', label: 'Machine Print Count' %>
 <%= f.form_group :require_manager_signoff, label: { text: "Require manager signoff?" }, disabled: imprint.part_of_group? do %>

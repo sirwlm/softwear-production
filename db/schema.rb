@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151231184737) do
+ActiveRecord::Schema.define(version: 20160105165437) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 20151231184737) do
     t.integer  "screen_train_id",         limit: 4
     t.datetime "started_at"
     t.string   "triloc_result",           limit: 255
+    t.boolean  "revolved"
   end
 
   add_index "imprints", ["machine_id"], name: "index_imprints_on_machine_id", using: :btree
