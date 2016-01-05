@@ -62,7 +62,7 @@
             <% if imprint.estimated_time %>
               <%= (imprint.estimated_time * 60).round %> min
             <% else %>
-              &lt;missing&gt;
+              <%= 'n/a' %>
             <% end %>
           </td>
           <td><%= "#{imprint.actual_time.round(2)} min" rescue "n/a" %>

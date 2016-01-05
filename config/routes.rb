@@ -83,13 +83,11 @@ SoftwearProduction::Application.routes.draw do
 
   namespace :api do
     resources :orders, :jobs, :imprints, :imprintable_trains
-    namespace :trains do
-      get    '/:train_class',     to: 'api/trains#index'
-      get    '/:train_class/:id', to: 'api/trains#show'
-      post   '/:train_class',     to: 'api/trains#create'
-      put    '/:train_class/:id', to: 'api/trains#update'
-      delete '/:train_class/:id', to: 'api/trains#destroy'
-    end
+    get    '/trains/:train_class',     to: 'trains#index'
+    get    '/trains/:train_class/:id', to: 'trains#show'
+    post   '/trains/:train_class',     to: 'trains#create'
+    put    '/trains/:train_class/:id', to: 'trains#update'
+    delete '/trains/:train_class/:id', to: 'trains#destroy'
   end
 
   authenticate :user do
