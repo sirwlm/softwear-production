@@ -58,7 +58,12 @@
           </td>
           <td><%= imprint.completed_at.strftime('%F %T') %><br />
           </td>
-          <td><%= (imprint.estimated_time * 60).round %> min
+          <td>
+            <% if imprint.estimated_time %>
+              <%= (imprint.estimated_time * 60).round %> min
+            <% else %>
+              &lt;missing&gt;
+            <% end %>
           </td>
           <td><%= "#{imprint.actual_time.round(2)} min" rescue "n/a" %>
           </td>
