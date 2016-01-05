@@ -3,7 +3,11 @@
   <td><%= train.id %></td>
   <td><%= train.class.name.underscore.humanize %></td>
   <td>
-    <%= link_to train.order.name, order_path(train.order) %>
+    <% if train.order.nil? %>
+      No order
+    <% else %>
+      <%= link_to train.order.name, order_path(train.order) %>
+    <% end %>
     <div class="row">
       <dl class="col-xs-6">
         <dt>Fba?</dt>
@@ -16,7 +20,11 @@
   <td><%= train.human_state_name %></td>
   <td><%= human_boolean train.order_complete? %></td>
   <td><%= train.due_at.try(:strftime, '%a, %b %d, %Y ') rescue 'not set' %></td>
-  <td><%= train.order.deadline.strftime("%a, %b %d, %Y") %></td>
+  <% if train.order.nil? %>
+    <td>No order</td>
+  <% else %>
+    <td><%= train.order.deadline.strftime("%a, %b %d, %Y") %></td>
+  <% end %>
   <td><%= train.assigned_to.full_name rescue 'unassigned' %></td>
   <td>
     <%= link_to show_train_path(train), class: 'btn btn-primary btn-sm', remote: true do %>

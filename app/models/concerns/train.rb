@@ -150,6 +150,7 @@ module Train
     cattr_accessor :train_machine
     cattr_accessor :train_public_activity_blacklist
     try :after_save, :touch_order
+    try :after_validation, :update_previous_state, if: :state_changed?
 
     def self.train_type(type)
       key = type.to_sym
@@ -309,5 +310,13 @@ module Train
     update = method(skip_sunspot ? :update_column : :update_attribute)
     update[:state, train_machine.complete_state]
     update_column :completed_at, Time.now if is_a?(Schedulable)
+  end
+
+  def update_previous_state
+    try(:previous_state=, state_was)
+  end
+
+  def can_undo?
+    respond_to?(:previous_state) && !previous_state.nil? && previous_state != state
   end
 end

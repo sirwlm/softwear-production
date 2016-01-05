@@ -12,7 +12,7 @@
 
             <div class='well well-sm train-category'>
               <%= form_tag transition_train_path(object, event), remote: true, method: :patch do %>
-                <% # HACK This comes from trains/show.js.erb so that we can retain whether or not we're in a modal when re-rendering the details partial. %>
+                <% # HACK This @in_modal variable comes from trains/show.js.erb so that we can retain whether or not we're in a modal when re-rendering the details partial. %>
                 <%= hidden_field_tag :in_modal, @in_modal %>
 
                 <% object.train_machine.event_public_activity.try(:[], event).try(:each) do |field, type| %>

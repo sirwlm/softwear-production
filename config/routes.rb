@@ -17,7 +17,7 @@ SoftwearProduction::Application.routes.draw do
   end
 
   resources :orders do
-    member do 
+    member do
       get :force_complete, to: 'orders#force_complete', as: :force_complete
     end
     resources :jobs do
@@ -77,6 +77,7 @@ SoftwearProduction::Application.routes.draw do
 
   resources :trains, only: :create
   patch '/:model_name/:id/transition_to/:event', to: 'trains#transition', as: :transition_train
+  patch '/:model_name/:id/undo', to: 'trains#undo', as: :train_undo
   get '/:model_name/:id/new_train/:train_type', to: 'trains#new', as: :new_train
   get '/:model_name/:id/train', to: 'trains#show', as: :show_train
   delete '/:model_name/:id/train', to: 'trains#destroy', as: :train

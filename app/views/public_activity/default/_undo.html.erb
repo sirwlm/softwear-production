@@ -1,0 +1,16 @@
+<div class="col-xs-12 train-public-activity-entry">
+  <hr />
+  <div class="col-xs-3">
+    <%= activity.created_at.strftime('%F %T') %>
+  </div>
+  <div class="col-xs-9">
+    <% if activity.parameters['attempt'] %>
+      <%= activity.owner.try(:email) || '(unknown user)' %> attempted to undo
+    <% else %>
+      UNDO by <%= activity.owner.try(:email) || '(unknown user)' %>:
+      <%= activity.parameters['to'] || '(unknown state)' %>
+      &lt;=
+      <%= activity.parameters['from'] || '(unknown state)' %>
+    <% end %>
+  </div>
+</div>

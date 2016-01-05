@@ -83,6 +83,27 @@ class TrainsController < ApplicationController
     end
   end
 
+  def undo
+    @object = fetch_object
+    if @object.can_undo?
+      @object.create_activity(
+        action: :undo,
+        parameters: { from: @object.state, to: @object.previous_state },
+        owner:      current_user
+      )
+      @object.update_column :state, @object.previous_state
+    else
+      @object.create_activity(
+        action: :undo,
+        parameters: { attempt: true },
+        owner:      current_user
+      )
+      @error = "Cannot undo"
+    end
+
+    render 'transition'
+  end
+
   def destroy
     respond_to do |format|
       format.html do
