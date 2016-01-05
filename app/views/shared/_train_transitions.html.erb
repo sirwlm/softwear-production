@@ -8,7 +8,7 @@
     </b>
     <%= "(Complete!)" if object.complete? %>
 
-    <div class='pull-right train-undo-container' style="<%= 'display: none;' unless @object.can_undo? %>">
+    <div class='pull-right train-undo-container' style="<%= 'display: none;' unless object.can_undo? %>">
       <%= link_to train_undo_path(object.model_name.element, object.id), class: 'btn btn-warning btn-xs train-undo', remote: true, method: :patch do %>
         <i class='glyphicon glyphicon-backward'></i> UNDO
       <% end %>
