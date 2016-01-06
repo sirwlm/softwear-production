@@ -20,11 +20,7 @@
   <td><%= train.human_state_name %></td>
   <td><%= human_boolean train.order_complete? %></td>
   <td><%= train.due_at.try(:strftime, '%a, %b %d, %Y ') rescue 'not set' %></td>
-  <% if train.order.nil? %>
-    <td>No order</td>
-  <% else %>
-    <td><%= train.order.deadline.strftime("%a, %b %d, %Y") %></td>
-  <% end %>
+  <td><%= train.display_order_deadline %></td>
   <td><%= train.assigned_to.full_name rescue 'unassigned' %></td>
   <td>
     <%= link_to show_train_path(train), class: 'btn btn-primary btn-sm', remote: true do %>

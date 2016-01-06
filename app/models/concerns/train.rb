@@ -294,6 +294,18 @@ module Train
     fields
   end
 
+  def display_order_deadline
+    if try(:order).try(:deadline).respond_to?(:strftime)
+      order.deadline.strftime("%a, %b %d, %Y")
+    else
+      'None'
+    end
+  end
+
+  def display_order_name
+    try(:order).try(:name) || 'No order'
+  end
+
   def touch_order
     return if try(:order).nil?
 
