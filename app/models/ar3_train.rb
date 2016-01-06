@@ -27,7 +27,7 @@ class Ar3Train < ActiveRecord::Base
   end
 
   def fba?
-    order.fba?
+    order.try(:fba?)
   end
   
   def assigned_to_id; return nil; end
