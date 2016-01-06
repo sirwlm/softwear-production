@@ -3,7 +3,6 @@ require 'spec_helper'
 feature 'Digital Prints', digital_print: true, js: true do
 
   context 'as an admin' do
-
     include_context 'logged_in_as_admin'
     let(:machine) { create(:machine) }
 
@@ -32,9 +31,11 @@ feature 'Digital Prints', digital_print: true, js: true do
     context 'given an order with an imprint that is a digital print'  do
       given(:order) { create(:order, jobs: [ create(:job_with_digital_print) ]) }
       given(:imprint) { order.jobs.first.imprints.first }
+      given!(:user_1) { create(:user, first_name: 'User', last_name: 'One') }
+      given!(:user_2) { create(:user, first_name: 'User', last_name: 'Two') }
 
 
-      scenario 'I can transition a print state to completion', story_909: true  do
+      scenario 'I can transition a print state to completion', story_1099: true, story_909: true  do
         visit order_path(order)
         within("#imprint-#{imprint.id}") do
           click_link 'Show Full Details'
@@ -44,6 +45,7 @@ feature 'Digital Prints', digital_print: true, js: true do
         success_transition :preproduction_complete
         success_transition :final_test_print_printed
         success_transition :start_printing
+        select_from_select2 'User One', 'User Two'
         success_transition :completed
 
         within('.train-category-success') do
@@ -51,6 +53,8 @@ feature 'Digital Prints', digital_print: true, js: true do
         end
 
         expect(imprint.reload.complete?).to be_truthy
+        expect(imprint.completers - [user_1, user_2]).to be_empty
+        expect(page).to have_content 'Completed by User One, User Two'
       end
 
       context 'that requires manager signoff' do
@@ -70,9 +74,11 @@ feature 'Digital Prints', digital_print: true, js: true do
           sleep(1)
 
           success_transition :final_test_print_printed
-          select(manager.full_name, from: 'public_activity_manager' )
+          select_from_select2 manager.full_name
           success_transition :production_manager_approved
           success_transition :start_printing
+          find('.select2-container-multi').click
+          first('.select2-result-selectable').click
           success_transition :completed
 
           within('.train-category-success') do

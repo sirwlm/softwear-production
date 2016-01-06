@@ -67,7 +67,7 @@
           </td>
           <td><%= "#{imprint.actual_time.round(2)} min" rescue "n/a" %>
           </td>
-          <td><%= imprint.completed_by.full_name rescue "Unassigned" %>
+          <td><%= imprint.display_completed_by %>
           </td>
         </tr>
         <% end %>

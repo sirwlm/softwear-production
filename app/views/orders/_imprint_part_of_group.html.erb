@@ -4,8 +4,8 @@
     <dd><%= imprint.state.humanize %></dd>
   <% if imprint.completed? %>
     <dt>Completed by</dt>
-    <dd><%= imprint.completed_by.full_name %></dd>
+    <dd><%= imprint.display_completed_by %></dd>
     <dt>Completed at</dt>
-    <dd><%= imprint.completed_at.strftime('%Y-%m-%d %I:%M%P') %></dd>
+    <dd><%= imprint.completed_at.try(:strftime, '%Y-%m-%d %I:%M%P') || 'unknown' %></dd>
   <% end %>
   </dl>

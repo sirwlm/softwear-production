@@ -2,7 +2,7 @@
   <dl>
     <dt>Completed by</dt>
     <dd>
-      <%= imprint.completed_by.try(:full_name) || 'someone' %>
+      <%= imprint.display_completed_by %>
     </dd>
     <dt>Completed At</dt>
     <dd>

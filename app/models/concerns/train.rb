@@ -247,6 +247,8 @@ module Train
     return if try(:order).nil?
     return unless order.respond_to?(:delay)
     Order.delay.update_crm_production_status(order.id) if order.complete?
+
+  rescue StandardError => e
   end
 
   def usual_fields

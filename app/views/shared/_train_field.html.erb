@@ -1,9 +1,16 @@
 <div class='input-group'>
   <%= label_tag field %>
+  <div class='clearfix'></div>
 
   <% case it = type.respond_to?(:call) ? call_ignore_arity(type, object, self) : type %>
   <% when Array %>
-    <%= select_tag field_name, options_for_select(it), class: "select2 event-field-#{category} event-select-field select-field-#{category} form-control" %>
+    <% extra_options = options_from_array(it) %>
+    <%= select_tag field_name, options_for_select(it), {
+      class: "select2 event-field-#{category} event-select-field select-field-#{category} form-control",
+      'data-width' => '200px'
+    }
+      .merge(extra_options)
+    %>
 
   <% when :check_box %>
     <%= check_box_tag field_name, 'true', false, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category}" %>

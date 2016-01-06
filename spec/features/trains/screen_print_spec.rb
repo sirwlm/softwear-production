@@ -76,7 +76,7 @@ feature 'Screen Print Trains', js: true do
           end
           sleep(1)
           success_transition :final_test_print_printed
-          select(manager.full_name, from: "public_activity_manager" )
+          select_from_select2 manager.full_name
           success_transition :production_manager_approved
           success_transition :printing_complete
           success_transition :numbers_confirmed

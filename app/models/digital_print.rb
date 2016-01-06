@@ -1,10 +1,18 @@
 class DigitalPrint < Imprint
   include Train
 
+  has_many :digital_print_users
+  has_many :completers, through: :digital_print_users, source: :user
+
+  validate :has_completers, if: :complete?
+
   before_save :transition_to_ready_to_print_if_just_scheduled
+  after_save :commit_completers
+
+  attr_accessor :pending_completer_ids
 
   train_type :production
-  train  initial: :pending_approval, final: :complete do
+  train initial: :pending_approval, final: :complete do
 
     after_transition on: :completed, do: :mark_completed_at
 
@@ -27,8 +35,9 @@ class DigitalPrint < Imprint
       transition :pending_final_test_print => :pending_production_manager_approval
     end
 
-    success_event :production_manager_approved,
-                  public_activity: { manager: -> { [""] + User.all.map { |u| u.full_name } } } do
+    success_event :production_manager_approved, public_activity: {
+      manager: -> { [""] + User.all.map { |u| u.full_name } }
+    } do
       transition :pending_production_manager_approval => :ready_for_printing
     end
 
@@ -36,7 +45,9 @@ class DigitalPrint < Imprint
       transition :ready_for_printing => :printing_in_progress
     end
 
-    success_event :completed do
+    success_event :completed, params: {
+      completed_by: -> { User.all.map { |u| [u.full_name, u.id] } << { multiple: true } }
+    } do
       transition :printing_in_progress => :complete
     end
 
@@ -50,6 +61,15 @@ class DigitalPrint < Imprint
     state :complete, type: :success
   end
 
+  def completed_by=(by)
+    if by.nil?
+      @pending_completer_ids = []
+    else
+      return super unless by.is_a?(Array)
+      @pending_completer_ids = by
+    end
+  end
+
   def self.model_name
     Imprint.model_name
   end
@@ -58,7 +78,39 @@ class DigitalPrint < Imprint
     Imprint.model_name
   end
 
+  def modify_permitted_params(permitted_params)
+    permitted_params.delete('completed_by')
+    permitted_params << { 'completed_by' => [] }
+  end
+
+  def display_completed_by
+    if completers.blank?
+      'nobody'
+    else
+      completers.map(&:full_name).join(', ')
+    end
+  end
+
   private
+
+  def commit_completers
+    return if @pending_completer_ids.nil?
+    # Set this field to alleviate any edge cases regarding completed_by_id that might arise
+    update_column :completed_by_id, @pending_completer_ids.first
+
+    @pending_completer_ids.each do |user_id|
+      digital_print_users.find_or_create_by!(user_id: user_id)
+    end
+  end
+
+  # validation (if complete)
+  def has_completers
+    if completers.reload.empty? && @pending_completer_ids.blank?
+      errors.add(:completed_by, 'must be filled out')
+    else
+      true
+    end
+  end
 
   def transition_to_ready_to_print_if_just_scheduled
     if scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling

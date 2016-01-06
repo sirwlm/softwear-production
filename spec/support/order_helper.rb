@@ -44,6 +44,23 @@ module OrderUtils
     end
   end
 
+  def last(*args)
+    all(*args).last
+  end
+
+  def select_from_select2(*args)
+    if args.last.is_a?(Hash)
+      options = args.pop
+    else
+      options = {}
+    end
+    finder = method(options[:finder] || :find)
+
+    args.each do |arg|
+      finder.call('.select2-container').click
+      find('.select2-result', text: arg).click
+    end
+  end
 end
 
 RSpec.configure do |c|

@@ -174,6 +174,10 @@ class Imprint < ActiveRecord::Base
     super
   end
 
+  def display_completed_by
+    completed_by.try(:full_name) || 'someone'
+  end
+
   def started_at
     update_column(:started_at, get_started_at_from_activity) if read_attribute(:started_at).blank?
     read_attribute(:started_at)

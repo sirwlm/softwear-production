@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105212107) do
+ActiveRecord::Schema.define(version: 20160105230207) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -76,6 +76,16 @@ ActiveRecord::Schema.define(version: 20160105212107) do
     t.datetime "updated_at",                 null: false
     t.string   "previous_state", limit: 255
   end
+
+  create_table "digital_print_users", force: :cascade do |t|
+    t.integer  "user_id",          limit: 4
+    t.integer  "digital_print_id", limit: 4
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "digital_print_users", ["digital_print_id"], name: "index_digital_print_users_on_digital_print_id", using: :btree
+  add_index "digital_print_users", ["user_id"], name: "index_digital_print_users_on_user_id", using: :btree
 
   create_table "digitization_trains", force: :cascade do |t|
     t.string   "state",                       limit: 255

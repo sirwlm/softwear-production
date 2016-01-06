@@ -20,9 +20,9 @@ feature 'Store Delivery Train' do
       end
 
       expect(page).to have_css('.alert-info', text: 'Ready For Delivery')
+      select_from_select2 StoreDeliveryTrain::STORES.last, finder: :first
+      select_from_select2 manager.full_name, finder: :last
       within('.train-category-success') do 
-        select(manager.full_name, from: "store_delivery_train_delivered_by_id" )
-        select(StoreDeliveryTrain::STORES.last, from: "store_delivery_train_store_name" )
         click_button 'Out for delivery'
         sleep(1.5)
       end

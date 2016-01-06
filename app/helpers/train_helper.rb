@@ -70,4 +70,12 @@ module TrainHelper
       "Unknown #{model.name}"
     end
   end
+
+  def options_from_array(arr)
+    if arr.last.is_a?(Hash)
+      arr.pop
+    else
+      {}
+    end
+  end
 end

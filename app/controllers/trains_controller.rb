@@ -87,14 +87,14 @@ class TrainsController < ApplicationController
     @object = fetch_object
     if @object.can_undo?
       @object.create_activity(
-        action: :undo,
+        action:     :undo,
         parameters: { from: @object.state, to: @object.previous_state },
         owner:      current_user
       )
       @object.update_column :state, @object.previous_state
     else
       @object.create_activity(
-        action: :undo,
+        action:     :undo,
         parameters: { attempt: true },
         owner:      current_user
       )
@@ -143,13 +143,15 @@ class TrainsController < ApplicationController
   end
 
   def permitted_attributes
-    p = if params[model_name]
-          params.permit(model_name =>
-            @object.train_machine.event_params[@event].try(:keys)
-          )
-        else
-          { model_name => {} }
-        end
+    if params[model_name]
+      params_to_permit = @object.train_machine.event_params[@event].try(:keys)
+      @object.try(:modify_permitted_params, params_to_permit)
+
+      p = params.permit(model_name => params_to_permit)
+    else
+      p = { model_name => {} }
+    end
+
     p[model_name]
   end
 

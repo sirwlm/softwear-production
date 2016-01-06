@@ -70,7 +70,7 @@ feature 'Button Making Prints', button_making_print: true, js: true do
           sleep(1)
 
           success_transition :final_test_print_printed
-          select(manager.full_name, from: 'public_activity_manager' )
+          select_from_select2 manager.full_name
           success_transition :production_manager_approved
           success_transition :start_printing
           success_transition :completed

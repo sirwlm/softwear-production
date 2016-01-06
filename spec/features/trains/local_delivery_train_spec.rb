@@ -17,7 +17,7 @@ feature 'Local Delivery Train' do
       success_transition :packed
 
       expect(page).to have_css('.alert-info', text: 'Ready For Delivery')
-      select(manager.full_name, from: "local_delivery_train_delivered_by_id" )
+      select_from_select2 manager.full_name
       success_transition :out_for_delivery
 
       expect(page).to have_css('.alert-info', text: 'Out For Delivery')
