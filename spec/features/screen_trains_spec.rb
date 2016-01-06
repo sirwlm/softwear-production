@@ -198,7 +198,7 @@ feature "ScreenTrains", type: :feature, js: true do
           success_transition :separated
 
           expect(page).to have_css('.alert-info', text: 'Pending Approval')
-          select(manager.full_name, from: "screen_train_signed_off_by_id" )
+          select_from_select2 manager.full_name
           success_transition :approved
           
           expect(page).to have_css('.alert-info', text: 'Pending Screens')
