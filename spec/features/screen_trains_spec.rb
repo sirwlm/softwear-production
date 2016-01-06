@@ -163,7 +163,7 @@ feature "ScreenTrains", type: :feature, js: true do
           success_transition :sep_request_complete
 
           expect(page).to have_css('.alert-info', text: 'Pending Approval')
-          select(manager.full_name, from: "screen_train_signed_off_by_id" )
+          select_from_select2 manager.full_name
           success_transition :approved
           
           expect(page).to have_css('.alert-info', text: 'Pending Screens')
@@ -191,7 +191,7 @@ feature "ScreenTrains", type: :feature, js: true do
           success_transition :sep_request_complete
           
           expect(page).to have_css('.alert-info', text: 'Pending Sep Assignment')
-          select(manager.full_name, from: "screen_train_assigned_to_id" )
+          select_from_select2 manager.full_name
           success_transition :assigned
           
           expect(page).to have_css('.alert-info', text: 'Pending Separation')
