@@ -14,7 +14,7 @@ $(document).ready(function() {
     imprintCalendarOn('#machine-calendar', {
       events: Routes.calendar_events_machines_path({ machine: machineId }),
       dropData: { machine_id: machineId }
-    });
+    }, 'agendaThreeDay');
   }
 
   setInterval(

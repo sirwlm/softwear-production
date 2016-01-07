@@ -1,4 +1,4 @@
-function imprintCalendarOn(matcher, options) {
+function imprintCalendarOn(matcher, options, calendarAgenda) {
   window.calendarMatcher = matcher;
 
   $(matcher).fullCalendar({
@@ -7,7 +7,7 @@ function imprintCalendarOn(matcher, options) {
       center: 'title',
       right: 'agendaDay,agendaThreeDay,agendaWeek'
     },
-    defaultView: 'agendaDay',
+    defaultView: calendarAgenda || 'agendaDay',
     events: options.events,
     editable: true,
     droppable: true,
