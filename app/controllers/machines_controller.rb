@@ -25,8 +25,8 @@ class MachinesController < InheritedResources::Base
   end
 
   def calendar_events
-    time_start = params[:start]
-    time_end   = params[:end]
+    time_start = Time.parse(params[:start])
+    time_end   = Time.parse(params[:end]) + 5.hours
     if params[:machine]
       machine_id = params[:machine]
     elsif session[:show_machines] && session[:show_machines].respond_to?(:keys)
@@ -36,7 +36,7 @@ class MachinesController < InheritedResources::Base
     end
 
     @calendar_events = Sunspot.search(*Schedulable.schedulable_classes) do
-      with :scheduled_at, Time.parse(time_start)..Time.parse(time_end)
+      with :scheduled_at, time_start..time_end
       with :machine_id, machine_id
       paginate page: 1, per_page: 5000
     end
