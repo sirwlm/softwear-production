@@ -32,12 +32,12 @@ class MachinesController < InheritedResources::Base
     elsif session[:show_machines] && session[:show_machines].respond_to?(:keys)
       machine_id = session[:show_machines].keys
     else
-      machine_id = []
+      machine_id = nil
     end
 
     @calendar_events = Sunspot.search(*Schedulable.schedulable_classes) do
       with :scheduled_at, time_start..time_end
-      with :machine_id, machine_id
+      with :machine_id, machine_id if machine_id
       paginate page: 1, per_page: 5000
     end
       .results

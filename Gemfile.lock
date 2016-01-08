@@ -23,10 +23,10 @@ GIT
 
 GIT
   remote: git://github.com/AnnArborTees/endpoint_stub.git
-  revision: bbf299799368c6f690aada1e2e9e2ea8574d04ee
+  revision: f6a80603042d0599941cccf45fc1f0a1ce3f4bfc
   branch: develop
   specs:
-    endpoint_stub (1.4.5)
+    endpoint_stub (1.5.4)
 
 GIT
   remote: git://github.com/AnnArborTees/public_activity.git
