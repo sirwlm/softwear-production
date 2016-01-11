@@ -27,12 +27,12 @@ feature 'Calendar', js: true do
       expect(page).to have_content 'Close'
     end
 
-    scenario 'A user can drag an imprint to change its scheduled time' do
+    scenario 'A user can drag an imprint to change its scheduled time', no_ci: true do
       visit dashboard_calendar_path
       find('a', text: scheduled_imprint.name).drag_to find('tr', text: '1pm')
       sleep 0.5
       # This is kind of arbitrary
-      expect(scheduled_imprint.reload.scheduled_at.strftime('%I%p')).to eq ENV['CI'] ? '03PM' : '02PM'
+      expect(scheduled_imprint.reload.scheduled_at.strftime('%I%p')).to eq  '02PM'
     end
 
     scenario "A user can select a machine and unschedule the imprint by dragging it to the dock" do
