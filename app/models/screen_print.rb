@@ -87,7 +87,7 @@ class ScreenPrint < Imprint
   def transition_to_ready_to_print_if_just_scheduled
     if scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling
       self.approve
-    elsif scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling
+    elsif scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_rescheduling
       self.rescheduled
     end
   end
