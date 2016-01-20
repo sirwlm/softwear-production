@@ -289,6 +289,14 @@ class Imprint < ActiveRecord::Base
   end
 
   def unschedule
-    update_attribute(:scheduled_at, nil)
+    update_attribute(:scheduled_at, nil) unless part_of_group?
+    if part_of_group?
+      imprint_group.update_attribute(:scheduled_at, nil)
+      imprint_group.imprints.each{|i| i.update_attribute(:scheduled_at, nil)}
+
+      # Weird but intentional - properly reindexes imprint in Sunspot.
+      imprint_group.reload.save
+      imprint_group.imprints.each{|i| i.reload.save }
+    end
   end
 end

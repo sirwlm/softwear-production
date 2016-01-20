@@ -60,7 +60,7 @@ feature 'Screen Print Trains', js: true do
         end
         sleep(1)
         success_transition :approve
-        delay_transition :postpone
+        failure_transition :postpone_order
         expect(imprint.reload.scheduled_at).to be_nil
         expect(imprint.reload.state.to_s).to eq('pending_rescheduling')
       end

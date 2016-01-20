@@ -25,22 +25,29 @@ module OrderUtils
 
   def success_transition(trans)
     within('.train-category-success') do
-     click_button trans.to_s.humanize 
+     click_button trans.to_s.humanize
     end
     sleep(1)
   end
 
   def delay_transition(trans)
     within('.train-category-delay') do
-     click_button trans.to_s.humanize 
+     click_button trans.to_s.humanize
     end
     sleep(1)
   end
-  
+
+  def failure_transition(trans)
+    within('.train-category-failure') do
+      click_button trans.to_s.humanize
+    end
+    sleep(1)
+  end
+
   def sign_off_transition(trans, user)
     within('.train-category-success') do
       # select user.full_name, from: ''
-      click_button trans.to_s.humanize 
+      click_button trans.to_s.humanize
     end
   end
 

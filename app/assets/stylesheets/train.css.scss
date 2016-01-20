@@ -6,11 +6,22 @@
 
 .train-category-delay {
   .panel-heading {
-    background-color: #FFDA82;
+    background-color: #f0ad4e;
   }
 
   .btn-delay {
-    background-color: #F2C096;
+    background-color: #f0ad4e;
+    color: white;
+  }
+}
+
+.train-category-failure {
+  .panel-heading {
+    background-color: #d9534f;
+  }
+
+  .btn-failure {
+    background-color: #d9534f;
     color: white;
   }
 }

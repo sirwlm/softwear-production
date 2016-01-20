@@ -9,7 +9,7 @@ class ScreenPrint < Imprint
   train initial: :pending_approval, final: :complete do
 
     after_transition on: :print_complete, do: :mark_completed_at
-    after_transition on: :postponed, do: :unschedule
+    after_transition on: :postpone_order, do: :unschedule
 
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
@@ -36,7 +36,8 @@ class ScreenPrint < Imprint
       transition :pending_production_manager_approval => :pending_print_start
     end
 
-    success_event :print_started do
+    success_event :print_started,
+      params: { revolved: -> { [['No', false], ['Yes', true]] } } do
       transition :pending_print_start => :printing
     end
 
@@ -44,11 +45,7 @@ class ScreenPrint < Imprint
       transition :printing => :complete
     end
 
-    delay_event :postponed,
-                public_activity: { reason: :text_field } do
-      transition [:pending_setup, :setting_up, :pending_print_start, :pending_production_manager_approval,
-                 :pending_print_start, :printing] => :pending_rescheduling
-    end
+
 
     delay_event :delayed,
                 public_activity: { reason: :text_field } do
@@ -57,6 +54,15 @@ class ScreenPrint < Imprint
       transition :pending_print_start => :print_setup_delay
       transition :pending_production_manager_approval => :manager_approval_delay
       transition :printing => :print_delay
+    end
+
+    failure_event :postpone_order,
+                public_activity: { reason: :text_field } do
+      transition [:pending_setup, :setting_up, :pending_print_start,
+                  :pending_production_manager_approval, :pending_print_start, :printing,
+                  :preproduction_delay, :setup_delay, :print_setup_delay, :manager_approval_delay,
+                  :print_delay
+                 ] => :pending_rescheduling
     end
 
     success_event :delay_resolved,
