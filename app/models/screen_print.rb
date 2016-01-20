@@ -9,6 +9,7 @@ class ScreenPrint < Imprint
   train initial: :pending_approval, final: :complete do
 
     after_transition on: :print_complete, do: :mark_completed_at
+    after_transition on: :postponed, do: :unschedule
 
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
@@ -43,9 +44,34 @@ class ScreenPrint < Imprint
       transition :printing => :complete
     end
 
-    # delay_event :postponed do
-    #
-    # end
+    delay_event :postponed,
+                public_activity: { reason: :text_field } do
+      transition [:pending_setup, :setting_up, :pending_print_start, :pending_production_manager_approval,
+                 :pending_print_start, :printing] => :pending_rescheduling
+    end
+
+    delay_event :delayed,
+                public_activity: { reason: :text_field } do
+      transition :pending_setup => :preproduction_delay
+      transition :setting_up => :setup_delay
+      transition :pending_print_start => :print_setup_delay
+      transition :pending_production_manager_approval => :manager_approval_delay
+      transition :printing => :print_delay
+    end
+
+    success_event :delay_resolved,
+                public_activity: { how: :text_field } do
+      transition :preproduction_delay => :pending_setup
+      transition :setup_delay => :setting_up
+      transition :print_setup_delay => :pending_print_start
+      transition :manager_approval_delay => :pending_production_manager_approval
+      transition :print_delay => :printing
+    end
+
+    success_event :rescheduled,
+      params: { scheduled_at: :datetime_field } do
+      transition :pending_rescheduling => :pending_setup
+    end
   end
 
   def self.model_name
@@ -61,6 +87,8 @@ class ScreenPrint < Imprint
   def transition_to_ready_to_print_if_just_scheduled
     if scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling
       self.approve
+    elsif scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling
+      self.rescheduled
     end
   end
 end

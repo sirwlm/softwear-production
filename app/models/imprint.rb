@@ -287,4 +287,8 @@ class Imprint < ActiveRecord::Base
   def get_completed_by_id_from_activities
     completion_activity.owner_id rescue nil
   end
+
+  def unschedule
+    update_attribute(:scheduled_at, nil)
+  end
 end

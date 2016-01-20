@@ -53,6 +53,40 @@ feature 'Screen Print Trains', js: true do
         expect(imprint.reload.complete?).to be_truthy
       end
 
+      scenario "I can postpone a screen print", story_1101: true do
+        visit order_path(order)
+        within("#imprint-#{imprint.id}") do
+          click_link 'Show Full Details'
+        end
+        sleep(1)
+        success_transition :approve
+        delay_transition :postpone
+        expect(imprint.reload.scheduled_at).to be_nil
+        expect(imprint.reload.state.to_s).to eq('pending_rescheduling')
+      end
+
+      context 'that is postponed' do
+        before(:each) do
+          imprint.update_attribute(:scheduled_at, nil)
+          imprint.update_column(:state, :pending_rescheduling)
+        end
+
+        scenario "I can reschedule a postponed screen print", story_1101: true do
+          visit order_path(order)
+          within("#imprint-#{imprint.id}") do
+            click_link 'Show Full Details'
+          end
+          sleep(1)
+          within('.train-category-success') do
+            fill_in "imprint_scheduled_at", with: Time.now.strftime("%F %T")
+            find("#imprint_scheduled_at").native.send_keys(:enter)
+          end
+          success_transition :rescheduled
+          expect(imprint.reload.scheduled_at).to_not be_nil
+          expect(imprint.reload.state.to_s).to eq('pending_setup')
+        end
+      end
+
       context 'that requires manager signoff' do
 
         given(:manager) { create(:admin) }
@@ -62,7 +96,7 @@ feature 'Screen Print Trains', js: true do
           imprint.update_column(:state, :setting_up)
         end
 
-        scenario "I can transition a print state to completion", story_909: true, current: true do
+        scenario "I can transition a print state to completion", story_909: true do
           visit order_path(order)
           within("#imprint-#{imprint.id}") do
             click_link 'Show Full Details'
