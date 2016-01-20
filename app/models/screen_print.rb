@@ -12,6 +12,7 @@ class ScreenPrint < Imprint
 
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
+      transition :pending_approval => :pending_setup, unless: ->(i) { i.scheduled_at.nil? }
       transition :pending_scheduling => :pending_setup, if: ->(i) { i.scheduled? }
     end
 
@@ -19,11 +20,12 @@ class ScreenPrint < Imprint
       transition :pending_scheduling => :pending_setup
     end
 
-    success_event :start_set_up do
+    success_event :start_setup do
       transition :pending_setup => :setting_up
     end
 
-    success_event :set_up_complete do
+    success_event :setup_complete,
+      params: { triloc_result: -> { TRILOC_RESULTS } } do
       transition :setting_up => :pending_print_start, unless: ->(i) { i.require_manager_signoff == true }
       transition :setting_up => :pending_production_manager_approval, if: ->(i) { i.require_manager_signoff == true }
     end
@@ -40,6 +42,10 @@ class ScreenPrint < Imprint
     success_event :print_complete do
       transition :printing => :complete
     end
+
+    # delay_event :postponed do
+    #
+    # end
   end
 
   def self.model_name

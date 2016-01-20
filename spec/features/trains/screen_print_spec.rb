@@ -28,7 +28,7 @@ feature 'Screen Print Trains', js: true do
       expect(page).to have_css('dd', text: 'Screen print')
     end
 
-    context 'given an order with an imprint that is a screen print'  do
+    context 'given an order with an imprint that is a screen print' do
       given(:order) { create(:order, jobs: [ create(:job_with_screen_print) ]) }
       given(:imprint) { order.jobs.first.imprints.first }
 
@@ -40,8 +40,9 @@ feature 'Screen Print Trains', js: true do
         end
         sleep(1)
         success_transition :approve
-        success_transition :start_set_up
-        success_transition :set_up_complete
+        success_transition :start_setup
+        select_from_select2 ScreenPrint::TRILOC_RESULTS.first
+        success_transition :setup_complete
         success_transition :print_started
         success_transition :print_complete
 
@@ -67,7 +68,8 @@ feature 'Screen Print Trains', js: true do
             click_link 'Show Full Details'
           end
           sleep(1)
-          success_transition :set_up_complete
+          select_from_select2 ScreenPrint::TRILOC_RESULTS.last
+          success_transition :setup_complete
           select_from_select2 manager.full_name
           success_transition :production_manager_approved
           success_transition :print_started
