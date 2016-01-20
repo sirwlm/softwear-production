@@ -243,7 +243,7 @@ class Imprint < ActiveRecord::Base
       when "Print"
         return activities.where("parameters like '%event%at_the_press%'").first
       when "ScreenPrint"
-        return activities.where("parameters like '%event%final_test_print_printed%'").first unless require_manager_signoff?
+        return activities.where("parameters like '%event%print_started%'").first unless require_manager_signoff?
         return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
       when "DigitalPrint"
         return activities.where("parameters like '%event%start_printing%'").first
@@ -270,7 +270,7 @@ class Imprint < ActiveRecord::Base
       when "Print"
         return activities.where("parameters like '%event%printing_complete%'").first
       when "ScreenPrint"
-        return activities.where("parameters like '%event%printing_complete%'").first
+        return activities.where("parameters like '%event%print_complete%'").first
       when "DigitalPrint"
         return activities.where("parameters like '%event%completed%'").first
       when "EmbroideryPrint"
