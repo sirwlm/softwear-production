@@ -32,6 +32,15 @@ class ImprintGroup < ActiveRecord::Base
     imprints.first.send(name, *args, &block)
   end
 
+  class << self
+    def respond_to?(name)
+      super || Imprint.respond_to?(name)
+    end
+    def method_missing(name, *args, &block)
+      Imprint.send(name, *args, &block)
+    end
+  end
+
   def full_name
     "#{order_deadline_day} #{order.name}: Group including #{imprint_names.join(', ')} (#{count})"
   end
