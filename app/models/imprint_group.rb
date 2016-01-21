@@ -23,9 +23,9 @@ class ImprintGroup < ActiveRecord::Base
     integer :completed_by_id
   end
 
-  def respond_to?(name)
+  def respond_to?(*args)
     return super if imprints.empty?
-    super || imprints.first.respond_to?(name)
+    super || imprints.first.respond_to?(*args)
   end
   def method_missing(name, *args, &block)
     return super if imprints.empty?
@@ -33,8 +33,8 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   class << self
-    def respond_to?(name)
-      super || Imprint.respond_to?(name)
+    def respond_to?(*args)
+      super || Imprint.respond_to?(*args)
     end
     def method_missing(name, *args, &block)
       Imprint.send(name, *args, &block)
