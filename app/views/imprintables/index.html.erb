@@ -25,7 +25,7 @@
           <td><%= it.id %></td>
           <td>
             <% if it.job.order %>
-              <%= link_to it.job.order.name, order_path(it.job.order) %>
+              <%= link_to it.job.order.tagged_name(self), order_path(it.job.order) %>
             <% else %>
               &lt;No order&gt;
             <% end %>

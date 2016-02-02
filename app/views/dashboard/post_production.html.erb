@@ -27,7 +27,7 @@
           <td><%= train.id %></td>
           <td><%= train.class.name %></td>
           <td>
-            <%= link_to train.order.name, order_path(train.order) rescue "No order" %><br/>
+            <%= link_to train.order.tagged_name(self), order_path(train.order) rescue "No order" %><br/>
             <%= render("dashboard/table_row_#{train.class.name.underscore}", train: train) rescue "No Details Configured" %>  
           </td>
           <td><%= train.human_state_name %></td>

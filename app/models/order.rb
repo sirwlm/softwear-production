@@ -51,6 +51,17 @@ class Order < ActiveRecord::Base
     RUBY
   end
 
+  def tagged_name(view = nil)
+    if fba?
+      if view
+        return (view.content_tag(:span, "FBA", class: "label label-warning") + name).html_safe
+      else
+        "(FBA) #{name}"
+      end
+    end
+    name
+  end
+
   def complete?
     imprint_state == 'Printed' && production_state == 'Complete'
   end

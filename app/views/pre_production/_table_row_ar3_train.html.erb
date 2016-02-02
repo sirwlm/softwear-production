@@ -4,7 +4,7 @@
   <td><%= train.class.name.underscore.humanize %></td>
   <td>
     <% if train.order %>
-      <%= link_to train.order.name, order_path(train.order) %>
+      <%= link_to train.order.tagged_name(self), order_path(train.order) %>
     <% else %>
       No order
     <% end %>

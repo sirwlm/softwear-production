@@ -20,7 +20,7 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <td><%= link_to order.name, order %></td>
+        <td><%= link_to order.tagged_name(self), order %></td>
         <td><%= order.earliest_scheduled_date.try(:strftime, '%c') || 'Not set' %></td>
         <td><%= order.deadline.try(:strftime, '%c') || 'Not set' %></td>
         <td>

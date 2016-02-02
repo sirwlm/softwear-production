@@ -48,7 +48,7 @@
           </td>
           <td><%= machine %>
           </td>
-          <td><%= imprint.order.name rescue "n/a" %>
+          <td><%= imprint.order.tagged_name(self) rescue "n/a" %>
           </td>
           <td><%= imprint.job.name rescue "n/a" %>
           </td>

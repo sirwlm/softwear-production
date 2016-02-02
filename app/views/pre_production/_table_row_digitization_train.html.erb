@@ -6,7 +6,7 @@
     <% if train.order.nil? %>
       No order
     <% else %>
-      <%= link_to train.order.name, order_path(train.order) %>
+      <%= link_to train.order.tagged_name(self), order_path(train.order) %>
     <% end %>
     <div class="row">
       <dl class="col-xs-6">

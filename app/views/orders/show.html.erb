@@ -1,4 +1,7 @@
-<h1 class="pull-left"><%= @order.name %></h1>
+<h1 class="pull-left">
+  <% if @order.fba? %><span class="label label-warning">FBA</span><% end %>
+  <%= @order.name %>
+</h1>
 <%= render 'nav' %>
 <br clear="all" />
 <h2>Deadline: <%= @order.try(:deadline).try(:strftime, '%F') %></h2>
