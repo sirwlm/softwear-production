@@ -24,11 +24,11 @@ class ScreensController < InheritedResources::Base
     end
 
     if params[:expected_state] && params[:expected_state] != @screen.state
-      flash[:alert] = "Screen was not in the expected state. You expected screen ##{@screen.id} "\
+      flash.now[:alert] = "Screen was not in the expected state. You expected screen ##{@screen.id} "\
         "to be in state #{params[:expected_state]} but was in state #{@screen.state}"
 
     else
-      flash[:notice] = "Screen state was successfully updated"
+      flash.now[:notice] = "Screen state was successfully updated"
       @screen.fire_state_event(params[:transition])
       @screen.create_activity(action: :transition, parameters: transition_parameters, owner: owner)
     end
