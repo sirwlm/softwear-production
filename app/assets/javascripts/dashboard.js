@@ -1,6 +1,13 @@
 var mouseDown = false;
 
+function setPeriscopeChartsHeight() {
+    parent.document.getElementById('periscope_charts').style.height = document['body'].offsetHeight + 'px';
+}
+
+
 $(document).ready(function() {
+    setPeriscopeChartsHeight();
+
   $(document).mousedown(function() {
     mouseDown = true;
   });
