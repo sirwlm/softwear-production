@@ -33,7 +33,10 @@ class ShipmentTrain < ActiveRecord::Base
   end
 
   def order
-    shipment_holder if shipment_holder_type == 'Order'
+    case shipment_holder_type
+    when 'Order' then shipment_holder
+    when 'Job'   then shipment_holder.try(:order)
+    end
   end
 
 end
