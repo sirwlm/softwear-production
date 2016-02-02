@@ -12,6 +12,29 @@
     <div class='col-xs-8'>
       <% if flash[:notice] %><p class="alert alert-success flash-notice"><%= flash[:notice] %></p><% end %>
 
+      <% if @object.try(:require_manager_signoff?) %>
+        <p class="alert alert-warning flash-notice col-xs-12">
+        This Imprint Requires Signoff
+        </p>
+      <% end %>
+
+      <% if @object.kind_of?(Imprint) %>
+        <% unless @object.softwear_crm_id.blank? %>
+          <% begin %>
+            <%= render 'imprints/artwork', imprint: @object.crm %>
+          <% rescue StandardError => e %>
+
+            <% Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (imprints/_view) ****\n#{e.class.name}: #{e.message}" %>
+            <% Rails.logger.error e.backtrace.join("\n") %>
+
+            <span class='text-danger'>There was an issue retrieving proof information from crm.</span>
+            <%= content_tag :code do %>
+              <%= "#{e.class.name}: #{e.message}" %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
       <div id='transition-state' class='row'>
         <%= render 'shared/train_transitions', object: @object %>
       </div>
