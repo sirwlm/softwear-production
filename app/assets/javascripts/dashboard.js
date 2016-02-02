@@ -1,7 +1,7 @@
 var mouseDown = false;
 
 function setPeriscopeChartsHeight() {
-    parent.document.getElementById('periscope_charts').style.height = document['body'].offsetHeight + 'px';
+    $("#periscope_charts").css('height', document['body'].offsetHeight + 'px');
 }
 
 
