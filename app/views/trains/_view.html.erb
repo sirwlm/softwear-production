@@ -18,7 +18,7 @@
         </p>
       <% end %>
 
-      <% if @object.kind_of?(Imprint) %>
+      <% if @object.kind_of?(Imprint) || @object.kind_of?(ImprintGroup) %>
         <% unless @object.softwear_crm_id.blank? %>
           <% begin %>
             <%= render 'imprints/artwork', imprint: @object.crm %>
