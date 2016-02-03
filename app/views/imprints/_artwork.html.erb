@@ -20,7 +20,7 @@
         <div class="col-sm-6">
           <h4>Artwork</h4>
           <% proof.try(:artwork_paths).try(:each) do |artwork_path| %>
-              <%= link_to crm_image_tag(artwork_path[0], class: 'img img-responsive'), artwork_path[1], target: "_blank" %>
+              <%= link_to crm_image_tag(artwork_path[0], class: 'img img-responsive'), artwork_path[1], target: "_blank", style: "background-color: #{artwork_path[2]};" %>
           <% end %>
         </div>
 
