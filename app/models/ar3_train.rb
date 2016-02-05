@@ -7,6 +7,8 @@ class Ar3Train < ActiveRecord::Base
 
   belongs_to :order
 
+  after_save :die, unless: :order
+
   searchable do 
     text :artwork_location
     integer :assigned_to_id, :signed_off_by_id
@@ -38,6 +40,10 @@ class Ar3Train < ActiveRecord::Base
 
   def order_name
     order.try(:name)
+  end
+
+  def die
+    destroy
   end
 
 end
