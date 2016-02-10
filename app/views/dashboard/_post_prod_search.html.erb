@@ -38,6 +38,11 @@
         <%= label_tag 'q[order_deadline_before]', 'Order Deadline Before' %>
         <%= text_field_tag 'q[order_deadline_before]', params[:q] ? params[:q][:order_deadline_before] : '', class: 'form-control datepicker-standard'  %>
       </div>
+    
+      <div class="col-sm-3">
+        <%= label_tag 'q[fba]', 'FBA?' %>
+        <%= select_tag 'q[fba]',  options_for_select([['No', false], ['Yes', true], ['', '']], params[:q] ? params[:q][:fba] : ''), class: 'form-control select2', data: { width: '100%' }  %>
+      </div>
     </div>
     <div>
       <br />

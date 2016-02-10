@@ -306,6 +306,11 @@ module Train
     try(:order).try(:name) || 'No order'
   end
 
+  def fba
+    try(:order).try(:fba?)
+  end
+  alias_method :fba?, :fba
+
   def touch_order
     return if try(:order).nil?
 
@@ -320,10 +325,14 @@ module Train
     job.reload.save
   end
 
-  def force_complete(skip_sunspot = true)
-    update = method(skip_sunspot ? :update_column : :update_attribute)
+  def force_complete(skip_callbacks = true)
+    update = method(skip_callbacks ? :update_column : :update_attribute)
     update[:state, train_machine.complete_state]
     update_column :completed_at, Time.now if is_a?(Schedulable)
+
+    # Never skip sunspot! (but do skip callbacks)
+    begin; Sunspot.index(self)
+    rescue Sunspot::NoSetupError => _; end
   end
 
   def update_previous_state

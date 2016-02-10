@@ -33,6 +33,7 @@ class ImprintableTrain < ActiveRecord::Base
     time(:expected_arrival_date) { |i| i.expected_arrival_date.try(:to_date) }
     time :created_at
     integer :job_id
+    boolean :fba
   end
 
   attr_reader :solution

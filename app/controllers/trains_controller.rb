@@ -92,6 +92,9 @@ class TrainsController < ApplicationController
         owner:      current_user
       )
       @object.update_column :state, @object.previous_state
+
+      begin; Sunspot.index(@object)
+      rescue Sunspot::NoSetupError => _; end
     else
       @object.create_activity(
         action:     :undo,

@@ -19,6 +19,7 @@ class FbaBaggingTrain < ActiveRecord::Base
       !scheduled_at.nil?
     end
     integer :machine_id
+    boolean :fba
   end
 
   train_type :post_production

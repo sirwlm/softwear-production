@@ -14,6 +14,7 @@ class DigitizationTrain < ActiveRecord::Base
   searchable do 
     text :artwork_location
     integer :assigned_to_id, :signed_off_by_id
+    boolean :fba
   end
   
   train_type :pre_production

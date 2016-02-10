@@ -49,14 +49,15 @@ class DashboardController < ApplicationController
     q = params[:q]
     @trains = Sunspot.search @train_classes do
       if q
-        fulltext q[:text] unless q[:text].blank?  
-        with :class_name, q[:class_name] unless q[:class_name].blank?
-        with(:due_at).greater_than(q[:due_at_after]) unless q[:due_at_after].blank?
-        with(:due_at).less_than(q[:due_at_before]) unless q[:due_at_before].blank?
-        with(:complete, q[:complete] == 'true') unless q[:complete].blank?
-        with(:order_complete, q[:order_complete] == 'true') unless q[:order_complete].blank?
+        fulltext q[:text]                                            unless q[:text].blank?  
+        with :class_name, q[:class_name]                             unless q[:class_name].blank?
+        with(:due_at).greater_than(q[:due_at_after])                 unless q[:due_at_after].blank?
+        with(:due_at).less_than(q[:due_at_before])                   unless q[:due_at_before].blank?
+        with(:complete, q[:complete] == 'true')                      unless q[:complete].blank?
+        with(:order_complete, q[:order_complete] == 'true')          unless q[:order_complete].blank?
         with(:order_deadline).greater_than(q[:order_deadline_after]) unless q[:order_deadline_after].blank?
-        with(:order_deadline).less_than(q[:order_deadline_before]) unless q[:order_deadline_before].blank?
+        with(:order_deadline).less_than(q[:order_deadline_before])   unless q[:order_deadline_before].blank?
+        with(:fba, q[:fba] == 'true')                                unless q[:fba].blank?
       else
         with :complete, false
       end

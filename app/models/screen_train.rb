@@ -27,6 +27,7 @@ class ScreenTrain < ActiveRecord::Base
     text :artwork_location, :job_names, :imprint_names
     integer :assigned_to_id, :signed_off_by_id
     boolean :new_separation
+    boolean :fba
   end
 
   train_type :pre_production
