@@ -158,6 +158,11 @@ class Order < ActiveRecord::Base
       end
     end
 
+    begin
+      update_crm_production_status!
+    rescue StandardError => e
+      Rails.logger.error "ERROR TRANSITIONING STATE ON ORDER FORCE COMPLETE: #{e.class}: #{e.message}"
+    end
   end
 
 end
