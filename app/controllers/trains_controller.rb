@@ -8,6 +8,10 @@ class TrainsController < ApplicationController
 
     @new_train = @train_class.new
 
+    if @new_train.respond_to?(:created_by_id=)
+      @new_train.created_by_id = current_user.id
+    end
+
     if @object.try(name.collection)
       @object.send(name.collection) << @new_train
 

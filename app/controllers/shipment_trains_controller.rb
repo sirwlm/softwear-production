@@ -29,7 +29,7 @@ class ShipmentTrainsController < InheritedResources::Base
 
   def shipment_train_params
     params.require(:shipment_train).permit(
-      [:shipped_by_id, :carrier, :service, :tracking, :time_in_transit]
+      [:shipped_by_id, :carrier, :service, :tracking, :time_in_transit, :created_by_id]
     )
   end
 end

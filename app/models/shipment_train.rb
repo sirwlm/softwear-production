@@ -8,6 +8,7 @@ class ShipmentTrain < ActiveRecord::Base
   tracked only: [:transition]
 
   belongs_to :shipment_holder, polymorphic: true
+  belongs_to :created_by, class_name: 'User'
 
   train_type :post_production
   train initial: :pending_packing, final: :shipped do
