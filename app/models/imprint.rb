@@ -131,7 +131,7 @@ class Imprint < ActiveRecord::Base
   end
 
   def name_with_job
-    "Job ##{job_id || '?'}: #{name}"
+    "Job ##{job.try(:softwear_crm_id) || '?'}: #{name}"
   end
 
   def full_name
