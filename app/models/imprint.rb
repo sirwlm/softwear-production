@@ -130,6 +130,10 @@ class Imprint < ActiveRecord::Base
     self.order.name rescue 'n/a'
   end
 
+  def name_with_job
+    "Job ##{job_id || '?'}: #{name}"
+  end
+
   def full_name
     "#{order_deadline_day} - #{job_name} - #{name} (#{count})"
   end

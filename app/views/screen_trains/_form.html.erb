@@ -25,7 +25,7 @@
       <%= f.text_field :artwork_location, help: 'The location on the network where the artwork resides' %>
     </div>
     <div class="col-sm-12">
-      <%= f.select :imprint_ids, f.object.order.imprints.map{|x| [x.name, x.id]}, {label: 'Imprints', help: 'All the Imprints associated with this Separation'}, { class: 'select2', multiple: true  } %>
+      <%= f.select :imprint_ids, f.object.order.imprints.map{|x| [x.name_with_job, x.id]}, {label: 'Imprints', help: 'All the Imprints associated with this Separation'}, { class: 'select2', multiple: true  } %>
     </div>
   </div>
     <%= f.text_area :notes %>
