@@ -1,26 +1,27 @@
-class User < ActiveRecord::Base
-  acts_as_paranoid
-  acts_as_token_authenticatable
-
+class User < Softwear::Auth::Model
   has_many :user_roles
-  has_many :roles, through: :user_roles
+  has_many :roles, through: :user_roles, source: :role
 
-  default_scope  { order(first_name: :asc) }
-  scope :managers, -> { joins(:roles).where(roles: { name: 'Admin' })  }
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
-
-  validates :email, uniqueness: true, email: true
+  # TODO this is real shitty and should be replaced with softwear-hub roles
+  def self.managers
+    all.select do |user|
+      user.roles.any?(&name_is_admin)
+    end
+  end
 
   def full_name
     "#{first_name} #{last_name}"
   end
 
   def admin?
-    self.roles.where(name: "Admin").exists?
+    roles.any?(&name_is_admin)
+  end
+
+  private
+
+  # 'DRY'
+  def name_is_admin
+    proc { |r| r.name == "Admin" }
   end
 
 end

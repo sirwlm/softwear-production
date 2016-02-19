@@ -2,14 +2,15 @@ class DigitizationTrain < ActiveRecord::Base
   include PublicActivity::Model
   include Train
   include Deadlines
+  include Softwear::Auth::BelongsToUser
 
   tracked only: [:transition]
 
   belongs_to :order
   has_many :imprints
   has_many :jobs, through: :imprints
-  belongs_to :approved_by, class_name: User
-  belongs_to :digitization_assigned_to, class_name: User
+  belongs_to_user_called :approved_by
+  belongs_to_user_called :digitization_assigned_to
 
   searchable do 
     text :artwork_location

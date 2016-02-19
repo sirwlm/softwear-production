@@ -1,13 +1,15 @@
 require 'sidekiq/web'
 
 SoftwearProduction::Application.routes.draw do
-  devise_for :users, controllers: { registrations: 'users/registrations' }
   mount ActsAsWarnable::Engine => '/'
 
   root 'dashboard#index'
   get 'dashboard/index'
   get 'dashboard/calendar'
   post 'dashboard/filter'
+
+  get '/set-session-token', to: 'users#set_session_token', as: :set_session_token
+  get '/clear-user-query-cache', to: 'users#clear_query_cache', as: :clear_user_query_cache
 
   resources :machines do
     get :scheduled

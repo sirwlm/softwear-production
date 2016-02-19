@@ -1,6 +1,7 @@
 class ScreenTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
+  include Softwear::Auth::BelongsToUser
 
   PRINT_TYPES = [
     "spot", "process", "simulated process"
@@ -8,7 +9,7 @@ class ScreenTrain < ActiveRecord::Base
 
   tracked only: [:transition]
 
-  belongs_to :assigned_to, foreign_key: :assigned_to_id, class_name: 'User'  
+  belongs_to_user_called :assigned_to
   belongs_to :order
   has_many :assigned_screens, dependent: :destroy
   has_many :screens, through: :assigned_screens

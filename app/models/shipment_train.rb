@@ -2,13 +2,14 @@ class ShipmentTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
   include TrainSearch
+  include Softwear::Auth::BelongsToUser
   
   CARRIERS = %w(USPS UPS FedEx Freight)
 
   tracked only: [:transition]
 
   belongs_to :shipment_holder, polymorphic: true
-  belongs_to :created_by, class_name: 'User'
+  belongs_to_user_called :created_by
 
   train_type :post_production
   train initial: :pending_packing, final: :shipped do

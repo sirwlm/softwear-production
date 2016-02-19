@@ -1,10 +1,11 @@
 class LocalDeliveryTrain < ActiveRecord::Base
   include PublicActivity::Model
   include Train
+  include Softwear::Auth::BelongsToUser
   
   tracked only: [:transition]
 
-  belongs_to :delivered_by, class_name: 'User', foreign_key: :delivered_by_id
+  belongs_to_user_called :delivered_by
   belongs_to :order
 
   train_type :post_production
