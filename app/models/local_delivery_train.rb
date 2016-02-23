@@ -28,10 +28,10 @@ class LocalDeliveryTrain < ActiveRecord::Base
       transition :out_for_delivery => :delivered
     end
 
-    state :pending_packing, type: :success
+    state :pending_packing,  type: :success
     state :ready_to_deliver, type: :success
     state :out_for_delivery, type: :success
-    state :delivered, type: :success
+    state :delivered,        type: :success
   end
 
 end

@@ -37,6 +37,7 @@ class Job < ActiveRecord::Base
   private
 
   def assign_preproduction_notes_train
-    self.preproduction_notes_train ||= PreproductionNotesTrain.new
+    # TODO ...
+    # self.preproduction_notes_train ||= PreproductionNotesTrain.new
   end
 end
