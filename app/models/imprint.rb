@@ -127,7 +127,7 @@ class Imprint < ActiveRecord::Base
   end
 
   def order_name
-    self.order.name rescue 'n/a'
+    self.order.full_name rescue 'n/a'
   end
 
   def name_with_job
