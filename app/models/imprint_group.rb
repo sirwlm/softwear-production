@@ -42,7 +42,11 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def full_name
-    "#{order_deadline_day} #{order.full_name}: Group including #{imprint_names.join(', ')} (#{count})"
+    if name.blank?
+      "#{order_deadline_day} #{order.full_name}: Group including #{imprint_names.join(', ')} (#{count})"
+    else
+      "#{order_deadline_day} #{order.full_name} - Group #{name} (#{count})"
+    end
   end
 
   def display

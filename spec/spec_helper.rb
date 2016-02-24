@@ -92,4 +92,5 @@ RSpec.configure do |config|
   end
 
   config.include SunspotMatchers
+  config.include Select2, type: :feature
 end

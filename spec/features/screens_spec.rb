@@ -9,10 +9,10 @@ feature 'Screen Features', js: true do
   given!(:s6) { create(:screen, frame_type: 'Static') }
 
   context 'when logged in as a user' do
-    
+
     include_context 'logged_in_as_user'
-    
-    context 'screen status & lookup' do 
+
+    context 'screen status & lookup' do
       before(:each) do
         visit status_screens_path
       end
@@ -54,7 +54,7 @@ feature 'Screen Features', js: true do
         expect(page).to have_content "Screen state was successfully updated"
       end
 
-      scenario 'can transition a screen and still sort' do 
+      scenario 'can transition a screen and still sort' do
         within(:xpath, "//table/tbody/tr[1]/td") do
           expect(page).to have_content('Roller')
         end
@@ -68,9 +68,9 @@ feature 'Screen Features', js: true do
           expect(page).to have_content('Static')
         end
       end
-    
+
       context 'can filter by a single field' do
-       
+
         scenario 'can filter by only Frame Type' do
           visit status_screens_path
           select2_tag("Panel", from: 'Frame Type')
@@ -78,7 +78,7 @@ feature 'Screen Features', js: true do
           expect(page).to have_content('Panel')
           expect(page).not_to have_content('Roller')
         end
-        
+
         scenario 'can filter by only Mesh Type' do
           visit status_screens_path
           select2_tag("160", from: 'Mesh Type')
@@ -86,7 +86,7 @@ feature 'Screen Features', js: true do
           expect(page).to have_content('160')
           expect(page).not_to have_content('110')
         end
-        
+
         scenario 'can filter by only Dimensions' do
           visit status_screens_path
           select2_tag("25x36", from: 'Dimensions')
@@ -94,7 +94,7 @@ feature 'Screen Features', js: true do
           expect(page).to have_content('25x36')
           expect(page).not_to have_content('23x31')
         end
-        
+
         scenario 'can filter by only State' do
           visit status_screens_path
           select2_tag("Ready to coat", from: 'State')
@@ -105,7 +105,7 @@ feature 'Screen Features', js: true do
       end
 
       context 'can filter by multiple fields' do
-        
+
         scenario 'can filter by two frame types' do
           visit status_screens_path
           select2_tag("Static", from: 'Frame Type')
@@ -116,7 +116,7 @@ feature 'Screen Features', js: true do
           expect(page).not_to have_content('Roller')
         end
       end
-      
+
       scenario 'can filter and unfilter', current: true do
         visit status_screens_path
         select2_tag("Static", from: 'Frame Type')
@@ -132,7 +132,7 @@ feature 'Screen Features', js: true do
         expect(page).to have_content('Static')
         expect(page).to have_content('Roller')
       end
-      
+
       scenario 'can sort columns', story_691: true do
         visit status_screens_path
         within(:xpath, "//table/tbody/tr[1]/td") do
@@ -153,8 +153,8 @@ feature 'Screen Features', js: true do
         visit fast_scan_screens_path
       end
 
-      scenario 'selecting an expected current state updates expected transitions' do 
-        select2("coated_and_drying", from: 'Expected Current State') 
+      scenario 'selecting an expected current state updates expected transitions' do
+        select2("coated_and_drying", from: 'Expected Current State')
         sleep 0.5
         select2("dry", from: 'Expected Transition')
       end
@@ -178,7 +178,7 @@ feature 'Screen Features', js: true do
         expect(page).to have_content "Screen was not in the expected state"
       end
 
-      scenario 'can scan and advance two screens back to back without needing to click screen' do 
+      scenario 'can scan and advance two screens back to back without needing to click screen' do
         select2("in_production", from: 'Expected Current State')
         sleep 0.5
         select2("removed_from_production", from: 'Expected Transition')

@@ -1,3 +1,4 @@
+<%= f.text_field :name %>
 <%= f.select :machine_id, Machine.all.collect{ |machine| [machine.name, machine.id] }, { include_blank: 'Select Machine' } %>
 <%= f.number_field :estimated_time, step: 'any', label: 'Estimated Time in Hours' %>
 <%= f.form_group :require_manager_signoff, label: { text: "Require manager signoff?" } do %>
