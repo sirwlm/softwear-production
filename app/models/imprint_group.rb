@@ -1,7 +1,10 @@
 class ImprintGroup < ActiveRecord::Base
+  include CrmCounterpart
   include ColorUtils
   include PublicActivity::Model
   include Schedulable
+
+  self.crm_class = Crm::ArtworkRequest
 
   tracked only: [:transition]
 
@@ -9,6 +12,7 @@ class ImprintGroup < ActiveRecord::Base
   has_many :imprints
   belongs_to :machine
 
+  after_create :set_order_has_imprint_groups_flag
   before_destroy :remove_imprints
 
   alias_method :complete?, :completed?
@@ -176,4 +180,9 @@ class ImprintGroup < ActiveRecord::Base
     completion_activity.owner_id rescue nil
   end
 
+  def set_order_has_imprint_groups_flag
+    if order && !order.has_imprint_groups
+      order.update_column :has_imprint_groups, true
+    end
+  end
 end
