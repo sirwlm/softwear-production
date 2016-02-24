@@ -3,10 +3,8 @@ module Api
 
     private
 
-=begin
     def permitted_attributes
-      super + ['imprintable_train_attributes', 'imprints_attributes']
+      super + ['at_initial_state']
     end
-=end
   end
 end

@@ -94,6 +94,7 @@ module Train
     attr_accessor :event_params
     attr_accessor :event_public_activity
     attr_accessor :complete_state
+    attr_accessor :first_state
     attr_accessor :state_types
 
     # -- So that:
@@ -176,11 +177,13 @@ module Train
 
     def self.train(*args, &block)
       final_state = args.last.try(:delete, :final)
+      initial_state = args.last.try(:[], :initial)
 
       self.train_machine = StateMachines::Machine.find_or_create(self, *args)
       train_machine.instance_eval { extend Train::StateMachine }
       train_machine.instance_eval(&block)
       train_machine.complete_state = final_state.to_sym if final_state
+      train_machine.first_state = initial_state.to_sym if initial_state
       train_machine.after_transition(
         train_machine.send(:any) => train_machine.complete_state,
         do: :update_order_completion_status
@@ -238,6 +241,18 @@ module Train
     self.class.name.underscore
   end
 
+  def first_state
+    train_machine.first_state
+  end
+
+  def complete_state
+    train_machine.complete_state
+  end
+
+  def at_initial_state
+    state.to_s == first_state.to_s
+  end
+
   def complete?
     send(train_machine.attribute).to_sym == train_machine.complete_state
   end
@@ -248,7 +263,7 @@ module Train
     return unless order.respond_to?(:delay)
     Order.delay.update_crm_production_status(order.id) if order.complete?
 
-  rescue StandardError => e
+  rescue StandardError => _
   end
 
   def usual_fields

@@ -83,7 +83,7 @@ SoftwearProduction::Application.routes.draw do
   delete '/:model_name/:id/train', to: 'trains#destroy', as: :train
 
   namespace :api do
-    resources :orders, :jobs, :imprints, :imprintable_trains
+    resources :orders, :jobs, :imprints, :imprintable_trains, :imprint_groups
     get    '/trains/:train_class',     to: 'trains#index'
     get    '/trains/:train_class/:id', to: 'trains#show'
     post   '/trains/:train_class',     to: 'trains#create'

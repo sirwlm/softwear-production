@@ -161,7 +161,7 @@ class Imprint < ActiveRecord::Base
     super(
       {
         only: [:state, :id, :created_at, :update, :scheduled_at, :estimated_time, :estimated_end_at],
-        methods: [:train_type, :train_class, :state_type, :details]
+        methods: [:train_type, :train_class, :state_type, :details, :at_initial_state]
       }
         .merge(options)
     )

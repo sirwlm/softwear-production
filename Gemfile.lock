@@ -555,7 +555,7 @@ DEPENDENCIES
   simple_token_authentication
   simplecov
   sinatra
-  softwear-lib (~> 1.5.17)
+  softwear-lib (~> 1.5.18)
   state_machines-activemodel
   state_machines-activerecord
   sunspot_matchers
