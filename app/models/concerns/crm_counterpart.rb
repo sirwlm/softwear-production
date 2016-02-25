@@ -13,7 +13,7 @@ module CrmCounterpart
 
   def crm
     @crm_record ||= begin
-      self.class.crm_class.find(softwear_crm_id)
+      self.class.crm_class.find(softwear_crm_id) if softwear_crm_id
     rescue ActiveResource::ResourceNotFound => _
       nil
     end

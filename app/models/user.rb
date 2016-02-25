@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   default_scope  { order(first_name: :asc) }
   scope :managers, -> { joins(:roles).where(roles: { name: 'Admin' })  }
+  scope :for_select, ->(options={}) { (options[:include_blank] ? [''] : []) + map { |u| [u.full_name, u.id] } }
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

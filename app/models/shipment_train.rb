@@ -2,6 +2,10 @@ class ShipmentTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
   include TrainSearch
+  include CrmCounterpart
+  include Softwear::Lib::Enqueue
+
+  self.crm_class = Crm::Shipment
   
   CARRIERS = %w(USPS UPS FedEx Freight)
 
@@ -10,20 +14,23 @@ class ShipmentTrain < ActiveRecord::Base
   belongs_to :shipment_holder, polymorphic: true
   belongs_to :created_by, class_name: 'User'
 
+  enqueue :update_tracking_in_crm, queue: 'api'
+
   train_type :post_production
   train initial: :pending_packing, final: :shipped do
-    
+    after_transition on: :shipped, do: :enqueue_update_tracking_in_crm
+
     success_event :packed do
       transition :pending_packing => :pending_shipment
     end
 
     success_event :shipped, 
         params: {
-          carrier:    CARRIERS.map {|c| c },
+          carrier:    CARRIERS,
           service:    :text_field,
           tracking:   :text_field, 
           shipped_at: :date_field,
-          shipped_by_id: -> { [""] + User.all.map(&:full_name) } 
+          shipped_by_id: -> { User.all.for_select(include_blank: true) } 
         } do 
       transition :pending_shipment => :shipped
     end
@@ -40,4 +47,10 @@ class ShipmentTrain < ActiveRecord::Base
     end
   end
 
+  def update_tracking_in_crm
+    return if tracking.blank? || !crm? || crm.tracking_number == tracking
+
+    crm.tracking_number = tracking
+    crm.save!
+  end
 end

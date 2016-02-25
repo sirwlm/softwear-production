@@ -1,6 +1,9 @@
 class LocalDeliveryTrain < ActiveRecord::Base
   include PublicActivity::Model
   include Train
+  include CrmCounterpart
+
+  self.crm_class = Crm::Shipment
   
   tracked only: [:transition]
 

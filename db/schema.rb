@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223202102) do
+ActiveRecord::Schema.define(version: 20160224210923) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -205,6 +205,7 @@ ActiveRecord::Schema.define(version: 20160223202102) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "previous_state",    limit: 191
+    t.integer  "softwear_crm_id",   limit: 4
   end
 
   add_index "local_delivery_trains", ["delivered_by_id"], name: "index_local_delivery_trains_on_delivered_by_id", using: :btree
@@ -317,12 +318,6 @@ ActiveRecord::Schema.define(version: 20160223202102) do
     t.datetime "updated_at"
   end
 
-  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
-  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
-  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
-  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
-  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
-
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",                limit: 191
     t.integer  "shipped_by_id",        limit: 4
@@ -337,6 +332,7 @@ ActiveRecord::Schema.define(version: 20160223202102) do
     t.string   "shipment_holder_type", limit: 191
     t.string   "previous_state",       limit: 191
     t.integer  "created_by_id",        limit: 4
+    t.integer  "softwear_crm_id",      limit: 4
   end
 
   create_table "stage_for_fba_bagging_trains", force: :cascade do |t|
