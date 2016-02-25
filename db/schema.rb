@@ -12,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20160224210923) do
-
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
     t.string   "trackable_type", limit: 191
@@ -149,6 +148,7 @@ ActiveRecord::Schema.define(version: 20160224210923) do
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
     t.datetime "started_at"
+    t.string   "name",                    limit: 191
     t.integer  "softwear_crm_id",         limit: 4
   end
 

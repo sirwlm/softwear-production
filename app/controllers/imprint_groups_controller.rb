@@ -111,7 +111,7 @@ class ImprintGroupsController < InheritedResources::Base
   def permitted_params
     params.permit(
       imprint_group: calendar_event_params(
-        :machine_id, :estimated_time, :require_manager_signoff, :order_id
+        :machine_id, :estimated_time, :require_manager_signoff, :order_id, :name
       )
     )
   end
