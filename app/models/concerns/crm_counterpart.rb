@@ -11,6 +11,10 @@ module CrmCounterpart
     end
   end
 
+  def crm?
+    !softwear_crm_id.nil?
+  end
+
   def crm
     @crm_record ||= begin
       self.class.crm_class.find(softwear_crm_id) if softwear_crm_id

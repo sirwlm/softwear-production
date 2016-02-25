@@ -18,7 +18,7 @@ class ShipmentTrain < ActiveRecord::Base
 
   train_type :post_production
   train initial: :pending_packing, final: :shipped do
-    after_transition on: :shipped, do: :enqueue_update_tracking_in_crm
+    after_transition(on: :shipped) { |t| t.enqueue_update_tracking_in_crm }
 
     success_event :packed do
       transition :pending_packing => :pending_shipment

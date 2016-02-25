@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
 
   default_scope  { order(first_name: :asc) }
   scope :managers, -> { joins(:roles).where(roles: { name: 'Admin' })  }
-  scope :for_select, ->(options={}) { (options[:include_blank] ? [''] : []) + map { |u| [u.full_name, u.id] } }
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -15,6 +14,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   validates :email, uniqueness: true, email: true
+
+  def self.for_select(options = {})
+    (options[:include_blank] ? [''] : []) + all.map { |u| [u.full_name, u.id] }
+  end
 
   def full_name
     "#{first_name} #{last_name}"
