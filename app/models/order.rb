@@ -57,7 +57,7 @@ class Order < ActiveRecord::Base
       if view
         return (view.content_tag(:span, "FBA", class: "label label-warning") + " #{name}").html_safe
       else
-        "(FBA) #{full_name}"
+        return "(FBA) #{full_name}"
       end
     end
     name
