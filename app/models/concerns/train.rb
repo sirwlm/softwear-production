@@ -252,6 +252,11 @@ module Train
   def at_initial_state
     state.to_s == first_state.to_s
   end
+  def at_initial_state=(_value)
+    # NOTE because we send #at_initial_state over via trains_controller, ActiveResource
+    # on CRM's end will send back that value when saving records. This catches that
+    # and does nothing.
+  end
 
   def complete?
     send(train_machine.attribute).to_sym == train_machine.complete_state
