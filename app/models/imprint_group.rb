@@ -57,6 +57,12 @@ class ImprintGroup < ActiveRecord::Base
     "#{'(COMPLETE)' if complete?} #{full_name}"
   end
 
+  # This is used for dispaying proofs
+  # (even though any imprint group should only have one proof on it)
+  def unique_crm_imprint_ids
+    imprints.pluck(:softwear_crm_id).compact.uniq
+  end
+
   def event_target
     imprints.first
   end
