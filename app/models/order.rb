@@ -83,6 +83,7 @@ class Order < ActiveRecord::Base
     return unless fba?
 
     if fba_bagging_train.blank?
+      self.stage_for_fba_bagging_train = StageForFbaBaggingTrain.new
       self.fba_bagging_train = FbaBaggingTrain.new
     end
     if fba_label_train.blank?
