@@ -83,12 +83,14 @@ class Order < ActiveRecord::Base
     return unless fba?
 
     if fba_bagging_train.blank?
-      self.stage_for_fba_bagging_train = StageForFbaBaggingTrain.new
       self.fba_bagging_train = FbaBaggingTrain.new
     end
     if fba_label_train.blank?
       # NOTE The labels are generally complete before the order even gets to production
       self.fba_label_train = FbaLabelTrain.new(state: :labels_staged)
+    end
+    if stage_for_fba_bagging_train.blank?
+      self.stage_for_fba_bagging_train = StageForFbaBaggingTrain.new
     end
   end
 
