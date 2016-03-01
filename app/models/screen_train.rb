@@ -24,7 +24,7 @@ class ScreenTrain < ActiveRecord::Base
   accepts_nested_attributes_for :screen_requests, allow_destroy: true
  
   searchable do 
-    text :artwork_location, :job_names, :imprint_names
+    text :artwork_location, :job_names, :imprint_names, :id
     integer :assigned_to_id, :signed_off_by_id
     boolean :new_separation
     boolean :fba
