@@ -1,5 +1,5 @@
 <div class="col-xs-4">
-    <div class='draggable-imprint panel panel-primary' data-imprint-id="<%= object.id %>">
+  <div class='draggable-imprint panel panel-primary <%= object.model_name.element.dasherize %>-panel' data-imprint-id="<%= object.id %>">
     <div class="panel-heading">
       <% if object.respond_to?(:name) %>
         <%= object.name %>

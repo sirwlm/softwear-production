@@ -1,4 +1,10 @@
 module PublicActivity
+  class Activity
+    include Softwear::Auth::BelongsToUser
+
+    belongs_to_user_called :owner
+  end
+
   module Renderable
     alias_method :super_render, :render
     def render(context, params={})

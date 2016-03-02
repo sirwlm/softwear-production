@@ -77,6 +77,12 @@ GIT
     bootstrap-wysihtml5-rails (0.3.3.7)
       railties (>= 3.0)
 
+PATH
+  remote: ~/r/softwear-lib
+  specs:
+    softwear-lib (1.7.0)
+      activesupport
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -412,8 +418,6 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
-    softwear-lib (1.6.0)
-      activesupport
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -556,7 +560,7 @@ DEPENDENCIES
   simple_token_authentication
   simplecov
   sinatra
-  softwear-lib (~> 1.6.0)
+  softwear-lib!
   state_machines-activemodel
   state_machines-activerecord
   sunspot_matchers
