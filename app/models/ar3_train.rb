@@ -10,7 +10,7 @@ class Ar3Train < ActiveRecord::Base
   after_save :die, unless: :order
 
   searchable do 
-    text :artwork_location
+    text :artwork_location, :id
     integer :assigned_to_id, :signed_off_by_id
     boolean :fba
   end

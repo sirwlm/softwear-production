@@ -26,5 +26,10 @@ module Api
     def resource_class
       @resource_class ||= params[:train_class].singularize.camelize.constantize
     end
+
+    # For create calls
+    def permitted_params
+      params.permit('train' => permitted_attributes)
+    end
   end
 end

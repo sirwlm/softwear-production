@@ -58,6 +58,7 @@ RSpec.configure do |config|
     Endpoint::Stub[Crm::Job]
     Endpoint::Stub[Crm::Imprint]
     Endpoint::Stub[Crm::Proof]
+    Endpoint::Stub[Crm::Shipment]
   end
 
   config.before(:each) do
@@ -92,4 +93,5 @@ RSpec.configure do |config|
   end
 
   config.include SunspotMatchers
+  config.include Select2, type: :feature
 end

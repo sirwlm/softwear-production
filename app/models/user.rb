@@ -9,6 +9,10 @@ class User < Softwear::Auth::Model
     end
   end
 
+  def self.for_select(options = {})
+    (options[:include_blank] ? [''] : []) + all.map { |u| [u.full_name, u.id] }
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end

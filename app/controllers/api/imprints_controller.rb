@@ -3,10 +3,17 @@ module Api
 
     private
 
-=begin
     def permitted_attributes
-      super + ['imprintable_train_attributes', 'imprints_attributes']
+      super + ['at_initial_state']
     end
-=end
+
+    def permitted_params
+      params.permit(
+        imprint: [
+          :softwear_crm_id, :name, :description, :type,
+          :count
+        ]
+      )
+    end
   end
 end

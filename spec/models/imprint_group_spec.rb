@@ -11,7 +11,15 @@ describe ImprintGroup, story_768: true do
 
     subject { imprint_group.full_name }
 
-    it { is_expected.to include "The order: Group including 'first job imprint1', 'second job imprint2'" }
+    context "the imprint group doesn't have a name specified" do
+      it { is_expected.to include "The order: Group including 'first job imprint1', 'second job imprint2'" }
+    end
+
+    context "the imprint group has a name specified" do
+      before{ imprint_group.name = 'Name Here' }
+
+      it { is_expected.to include " - Group Name Here" }
+    end
   end
 
   describe 'when destroyed' do

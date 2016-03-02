@@ -58,6 +58,11 @@ class Imprint < ActiveRecord::Base
     super || false
   end
 
+  # This is used for dispaying proofs
+  def unique_crm_imprint_ids
+    [softwear_crm_id].compact
+  end
+
   def imprint_group_or_imprint_id_str
     imprint_group.nil? ? id.to_s : imprint_group_id.to_s
   end
@@ -127,7 +132,7 @@ class Imprint < ActiveRecord::Base
   end
 
   def order_name
-    self.order.name rescue 'n/a'
+    self.order.full_name rescue 'n/a'
   end
 
   def name_with_job
@@ -161,7 +166,7 @@ class Imprint < ActiveRecord::Base
     super(
       {
         only: [:state, :id, :created_at, :update, :scheduled_at, :estimated_time, :estimated_end_at],
-        methods: [:train_type, :train_class, :state_type, :details]
+        methods: [:train_type, :train_class, :state_type, :details, :at_initial_state]
       }
         .merge(options)
     )

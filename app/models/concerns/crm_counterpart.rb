@@ -2,13 +2,23 @@ module CrmCounterpart
   extend ActiveSupport::Concern
 
   included do
+    cattr_accessor :crm_class
     after_save :clear_crm
+
+    begin
+      self.crm_class = "Crm::#{name}".constantize
+    rescue NameError => _
+    end
+  end
+
+  def crm?
+    !softwear_crm_id.nil?
   end
 
   def crm
     @crm_record ||= begin
-      "Crm::#{model_name.name}".constantize.find(softwear_crm_id)
-    rescue ActiveResource::ResourceNotFound => e
+      self.class.crm_class.find(softwear_crm_id) if softwear_crm_id
+    rescue ActiveResource::ResourceNotFound => _
       nil
     end
   end

@@ -1,7 +1,10 @@
 class ImprintGroup < ActiveRecord::Base
+  include CrmCounterpart
   include ColorUtils
   include PublicActivity::Model
   include Schedulable
+
+  self.crm_class = Crm::ArtworkRequest
 
   tracked only: [:transition]
 
@@ -9,6 +12,7 @@ class ImprintGroup < ActiveRecord::Base
   has_many :imprints
   belongs_to :machine
 
+  after_create :set_order_has_imprint_groups_flag
   before_destroy :remove_imprints
 
   alias_method :complete?, :completed?
@@ -42,11 +46,21 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def full_name
-    "#{order_deadline_day} #{order.name}: Group including #{imprint_names.join(', ')} (#{count})"
+    if name.blank?
+      "#{order_deadline_day} #{order.full_name}: Group including #{imprint_names.join(', ')} (#{count})"
+    else
+      "#{order_deadline_day} #{order.full_name} - Group #{name} (#{count})"
+    end
   end
 
   def display
     "#{'(COMPLETE)' if complete?} #{full_name}"
+  end
+
+  # This is used for dispaying proofs
+  # (even though any imprint group should only have one proof on it)
+  def unique_crm_imprint_ids
+    imprints.pluck(:softwear_crm_id).compact.uniq
   end
 
   def event_target
@@ -176,4 +190,9 @@ class ImprintGroup < ActiveRecord::Base
     completion_activity.owner_id rescue nil
   end
 
+  def set_order_has_imprint_groups_flag
+    if order && !order.has_imprint_groups
+      order.update_column :has_imprint_groups, true
+    end
+  end
 end

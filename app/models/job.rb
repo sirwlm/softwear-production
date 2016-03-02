@@ -16,9 +16,9 @@ class Job < ActiveRecord::Base
 
   def full_name
     if softwear_crm_id.blank?
-      "#{order.name} - #{name}" rescue name
+      "#{order.full_name} - #{name}" rescue name
     else
-      "#{order.name} - #{name} - CRMJob ##{softwear_crm_id}" rescue name
+      "#{order.full_name} - #{name} - CRMJob ##{softwear_crm_id}" rescue name
     end
   end
 
@@ -37,6 +37,7 @@ class Job < ActiveRecord::Base
   private
 
   def assign_preproduction_notes_train
-    self.preproduction_notes_train ||= PreproductionNotesTrain.new
+    # TODO ...
+    # self.preproduction_notes_train ||= PreproductionNotesTrain.new
   end
 end

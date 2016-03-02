@@ -13,7 +13,7 @@ class DigitizationTrain < ActiveRecord::Base
   belongs_to_user_called :digitization_assigned_to
 
   searchable do 
-    text :artwork_location
+    text :artwork_location, :id
     integer :assigned_to_id, :signed_off_by_id
     boolean :fba
   end

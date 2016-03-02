@@ -13,10 +13,10 @@ class OrdersController < InheritedResources::Base
         with :complete,  q[:complete]  == 'true' unless q[:complete].blank?
         with :scheduled, q[:scheduled] == 'true' unless q[:scheduled].blank?
 
-        order_by :deadline, :asc
+        order_by :deadline, :desc
       else
         with :complete, false
-        order_by :deadline, :asc
+        order_by :deadline, :desc
       end
 
       paginate page: params[:page] || 1
@@ -28,7 +28,7 @@ class OrdersController < InheritedResources::Base
     @order = Order.find(params[:id])
     @order.force_complete
     @order.reload.save
-    redirect_to orders_path, flash: {notice: "Successfully force completed order ##{@order.id}, #{@order.name} " } 
+    redirect_to orders_path, flash: {notice: "Successfully force completed order ##{@order.id}, #{@order.name} " }
   end
 
   private

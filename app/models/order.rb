@@ -37,6 +37,7 @@ class Order < ActiveRecord::Base
   end
 
   def full_name
+    return "FBA - #{name}" if fba?
     return "#{customer_name} - #{name}" unless customer_name.blank?
     return name
   end
@@ -54,9 +55,9 @@ class Order < ActiveRecord::Base
   def tagged_name(view = nil)
     if fba?
       if view
-        return (view.content_tag(:span, "FBA", class: "label label-warning") + name).html_safe
+        return (view.content_tag(:span, "FBA", class: "label label-warning") + " #{name}").html_safe
       else
-        "(FBA) #{name}"
+        return "(FBA) #{full_name}"
       end
     end
     name
@@ -87,6 +88,9 @@ class Order < ActiveRecord::Base
     if fba_label_train.blank?
       # NOTE The labels are generally complete before the order even gets to production
       self.fba_label_train = FbaLabelTrain.new(state: :labels_staged)
+    end
+    if stage_for_fba_bagging_train.blank?
+      self.stage_for_fba_bagging_train = StageForFbaBaggingTrain.new
     end
   end
 
@@ -119,17 +123,16 @@ class Order < ActiveRecord::Base
   end
 
   def force_complete
-    
     pre_production_trains.each do |t|
       t.force_complete
     end
-    
+
     production_trains.each do |t|
       unless t.imprint_group.blank?
         if t.imprint_group.scheduled_at.blank?
           next
         end
-        
+
         if t.imprint_group.completed_at.blank?
           t.imprint_group.update_attribute(:completed_at, t.imprint_group.scheduled_at + t.imprint_group.estimated_time.hours)
         end
@@ -139,20 +142,20 @@ class Order < ActiveRecord::Base
       end
       t.force_complete
     end
-    
+
     post_production_trains.each do |t|
       t.force_complete
     end
-  
+
     jobs.each do |j|
       j.pre_production_trains.each do |t|
         t.force_complete
       end
-      
+
       j.production_trains.each do |t|
         t.force_complete
       end
-      
+
       j.post_production_trains.each do |t|
         t.force_complete
       end

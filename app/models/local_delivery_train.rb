@@ -2,6 +2,9 @@ class LocalDeliveryTrain < ActiveRecord::Base
   include PublicActivity::Model
   include Train
   include Softwear::Auth::BelongsToUser
+  include CrmCounterpart
+
+  self.crm_class = Crm::Shipment
   
   tracked only: [:transition]
 
@@ -29,10 +32,10 @@ class LocalDeliveryTrain < ActiveRecord::Base
       transition :out_for_delivery => :delivered
     end
 
-    state :pending_packing, type: :success
+    state :pending_packing,  type: :success
     state :ready_to_deliver, type: :success
     state :out_for_delivery, type: :success
-    state :delivered, type: :success
+    state :delivered,        type: :success
   end
 
 end
