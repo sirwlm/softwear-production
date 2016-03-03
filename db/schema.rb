@@ -149,8 +149,8 @@ ActiveRecord::Schema.define(version: 20160224210923) do
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
     t.datetime "started_at"
-    t.integer  "softwear_crm_id",         limit: 4
     t.string   "name",                    limit: 191
+    t.integer  "softwear_crm_id",         limit: 4
   end
 
   create_table "imprintable_trains", force: :cascade do |t|

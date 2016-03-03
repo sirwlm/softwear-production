@@ -1,7 +1,7 @@
 <div class="col-xs-12 train-public-activity-entry">
   <hr />
   <div class="col-xs-3">
-    <%= activity.created_at.strftime('%F %T') %>
+    <%= render 'public_activity/shared/editable_timestamp', activity: activity %>
   </div>
   <div class="col-xs-3">
     <%= activity.owner.email %>
