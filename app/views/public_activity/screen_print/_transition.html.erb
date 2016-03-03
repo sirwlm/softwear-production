@@ -3,7 +3,7 @@
     <%= activity.created_at.strftime('%F %T') %>
   </div>
   <div class="col-xs-3">
-    <%= activity.owner.email %>
+    <%= activity.owner.try(:email) || '<unknown>' %>
   </div>
 
   <div class="col-xs-2">

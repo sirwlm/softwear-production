@@ -3,6 +3,21 @@ module PublicActivity
     include Softwear::Auth::BelongsToUser
 
     belongs_to_user_called :owner
+
+    def owner=(o)
+      self.owner_type = o.class.name
+      if o.is_a?(User)
+        super
+      else
+        self.owner_id = o.id
+      end
+      @owner = o
+    end
+
+    def owner
+      return nil if owner_type.blank? || owner_id.blank?
+      @owner ||= self.owner_type.constantize.find(owner_id)
+    end
   end
 
   module Renderable
