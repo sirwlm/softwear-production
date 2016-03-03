@@ -31,7 +31,7 @@ class ShipmentTrain < ActiveRecord::Base
           service:    :text_field,
           tracking:   :text_field, 
           shipped_at: :date_field,
-          shipped_by_id: -> { User.all.for_select(include_blank: true) } 
+          shipped_by_id: -> { [''] + User.all.map(&:for_select) } 
         } do 
       transition :pending_shipment => :shipped
     end
