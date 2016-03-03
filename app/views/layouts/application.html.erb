@@ -12,6 +12,7 @@
 <% end %>
 
 <div class="<%= layout_container_type(@container_type) %>">
+    <%= auth_server_error_banner %>
     <% flash.each do |key, val| %>
       <%= render 'shared/flash', key: key, val: val %>
     <% end %>
