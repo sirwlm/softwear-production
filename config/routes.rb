@@ -52,7 +52,7 @@ SoftwearProduction::Application.routes.draw do
   resources :api_settings
   resources :jobs
   resources :screen_trains
-  resources :public_activities
+  resources :public_activities, only: [:update]
   get 'pre_production_art_dashboard' => 'pre_production#art_dashboard'
   get 'pre_production_dashboard' => 'dashboard#pre_production'
   get 'post_production_dashboard' => 'dashboard#post_production'

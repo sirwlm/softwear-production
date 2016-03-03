@@ -1,7 +1,9 @@
 <% if @current_user.admin? %>
     <%= editable activity, :created_at,
                  url: public_activity_path(activity),
-                 title: activity.created_at.strftime('%F %I:%M%P')
+                 title: activity.created_at.strftime('%F %I:%M%P'),
+                 value: activity.created_at.strftime('%F %T')
+
     %>
 <% else %>
     <%= activity.created_at.strftime('%F %T') %>
