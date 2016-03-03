@@ -7,7 +7,7 @@
     <%= activity.owner.email %>
   </div>
   <div class="col-xs-2">
-    <%= activity.parameters['event'].to_s.humanize %>
+    <%= activity.parameters['event'].to_s %>
   </div>
 
   <% activity.parameters.each do |key, val| %>
