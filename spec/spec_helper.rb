@@ -15,18 +15,10 @@ CrmHelper.class_eval do
   end
 end
 
-include Softwear::Auth::Spec
-
 RSpec.configure do |config|
   config.color = true
   config.infer_spec_type_from_file_location!
   config.mock_with :rspec
-
-  stub_authentication! config
-
-  config.before(:each) do
-    allow_any_instance_of(User).to receive(:save!).and_return true
-  end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, comment the following line or assign false
@@ -44,8 +36,6 @@ RSpec.configure do |config|
     client.timeout = 360
     Capybara::Selenium::Driver.new(app, browser: :chrome, args: args, http_client: client)
   end
-
-  config.order = 'random'
 
   # A workaround to deal with random failure caused by phantomjs. Turn it on
   # by setting ENV['RSPEC_RETRY_COUNT']. Limit it to features tests where

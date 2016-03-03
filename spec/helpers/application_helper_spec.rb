@@ -66,15 +66,15 @@ describe ApplicationHelper, helper_spec: true do
   describe '#create_or_edit_text', story_116: true do
     context 'object is a new record' do
       it 'returns Create' do
-        expect(create_or_edit_text(Order.new)).to eq('Create')
+        expect(create_or_edit_text(User.new)).to eq('Create')
       end
     end
 
     context 'object is an existing record' do
-      let! (:order) { create(:order) }
+      let! (:user) { create(:user) }
 
       it 'returns Update' do
-        expect(create_or_edit_text(order)).to eq('Update')
+        expect(create_or_edit_text(user)).to eq('Update')
       end
     end
   end

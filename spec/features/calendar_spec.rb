@@ -27,7 +27,7 @@ feature 'Calendar', js: true do
       expect(page).to have_content 'Close'
     end
 
-    scenario 'A user can drag an imprint to change its scheduled time', pending: "This actually works but is nondeterministic", no_ci: true do
+    scenario 'A user can drag an imprint to change its scheduled time', no_ci: true do
       visit dashboard_calendar_path
       find('a', text: scheduled_imprint.name).drag_to find('tr', text: '1pm')
       sleep 0.5

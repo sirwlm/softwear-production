@@ -49,7 +49,6 @@ module Schedulable
   end
 
   included do
-    include Softwear::Auth::BelongsToUser
     include Deadlines
     Schedulable.schedulable_classes.delete_if { |c| c.name == name }
     Schedulable.schedulable_classes << self
@@ -60,7 +59,7 @@ module Schedulable
     scope :ready_to_schedule, -> { Schedulable.ready_to_schedule_scope(self) }
 
     belongs_to :machine
-    belongs_to_user_called :completed_by
+    belongs_to :completed_by, class_name: 'User'
 
     before_save :assign_estimated_end_at
   end

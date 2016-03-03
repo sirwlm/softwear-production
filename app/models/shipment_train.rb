@@ -2,7 +2,6 @@ class ShipmentTrain < ActiveRecord::Base
   include Train
   include PublicActivity::Model
   include TrainSearch
-  include Softwear::Auth::BelongsToUser
   include CrmCounterpart
   include Softwear::Lib::Enqueue
 
@@ -13,7 +12,7 @@ class ShipmentTrain < ActiveRecord::Base
   tracked only: [:transition]
 
   belongs_to :shipment_holder, polymorphic: true
-  belongs_to_user_called :created_by
+  belongs_to :created_by, class_name: 'User'
 
   enqueue :update_tracking_in_crm, queue: 'api'
 
@@ -31,7 +30,7 @@ class ShipmentTrain < ActiveRecord::Base
           service:    :text_field,
           tracking:   :text_field, 
           shipped_at: :date_field,
-          shipped_by_id: -> { [''] + User.all.map(&:for_select) } 
+          shipped_by_id: -> { User.all.for_select(include_blank: true) } 
         } do 
       transition :pending_shipment => :shipped
     end

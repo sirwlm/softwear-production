@@ -1,14 +1,13 @@
 class StoreDeliveryTrain < ActiveRecord::Base
   include PublicActivity::Model
   include Train
-  include Softwear::Auth::BelongsToUser
 
   STORES = ['Ann Arbor', 'Ypsilanti']
 
   tracked only: [:transition]
 
   belongs_to :order
-  belongs_to_user_called :delivered_by
+  belongs_to :delivered_by, class_name: 'User', foreign_key: :delivered_by_id
 
   train_type :post_production
   train initial: :pending_packing, final: :delivered do

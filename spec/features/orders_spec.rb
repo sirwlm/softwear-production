@@ -101,7 +101,7 @@ feature 'Orders' do
 
       sleep 1
 
-      within '#order-post-production .post_production_trains .fba-bagging-train-panel' do
+      within '#order-post-production .post_production_trains' do
         click_link 'Show Full Details'
       end
 
@@ -264,7 +264,7 @@ feature 'Orders' do
       find('.add-imprint-group').click
       sleep 1
       within '.imprint-groups' do
-        expect(page).to have_content(/Group #\d/)
+        expect(page).to have_content /Group #\d/
         expect(page).to have_content 'Drop Imprints Below'
         expect(ImprintGroup.where(order_id: order.id)).to exist
       end
