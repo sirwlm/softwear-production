@@ -7,31 +7,33 @@ class ChangeUserIdsToMatchCrm < ActiveRecord::Migration
 
   def up
     unless Rails.env.test?
-      user_id_fields = Hash[
-        ActiveRecord::Base.descendants.map do |model|
-          [
-            model,
-            model.reflect_on_all_associations
-              .select { |assoc| assoc.is_a?(ActiveRecord::Reflection::BelongsToReflection) }
-              .select { |assoc| assoc.class_name == 'User' }
-              .map(&:foreign_key)
-          ]
-        end
-          .reject { |entry| entry.last.empty? }
-      ]
+      user_id_fields = {"LocalDeliveryTrain"=>[:delivered_by_id], "UserRole"=>["user_id"], "ShipmentTrain"=>["created_by_id"], "DigitizationTrain"=>["approved_by_id", "digitization_assigned_to_id"], "Maintenance"=>["completed_by_id"], "Imprint"=>["completed_by_id"], "ImprintGroup"=>["completed_by_id"], "FbaBaggingTrain"=>["completed_by_id"], "StoreDeliveryTrain"=>[:delivered_by_id], "DigitalPrintUser"=>["user_id"], "ScreenTrain"=>[:assigned_to_id], "EmbroideryPrint"=>["completed_by_id"], "Print"=>["completed_by_id"], "TransferMakingPrint"=>["completed_by_id"], "EquipmentCleaningPrint"=>["completed_by_id"], "ScreenPrint"=>["completed_by_id"], "TransferPrint"=>["completed_by_id"], "DigitalPrint"=>["completed_by_id"], "ButtonMakingPrint"=>["completed_by_id"]}
+
       hub_user_id_mapping = {}
 
       hub_connection = Hub.establish_connection("#{Rails.env}_hub").connection
       result = hub_connection.execute("SELECT * from users")
 
       result.each(as: :hash) do |row|
-        existing_user = User.unscoped.find_by email: row['email']
-        next if existing_user.nil?
-        hub_user_id_mapping[existing_user.id.to_i] = row['id'].to_i
+        existing_users = ActiveRecord::Base.connection.execute(
+          "SELECT id FROM users WHERE email = \"#{row['email']}\""
+        )
+
+        existing_users.each(as: :hash) do |existing_user|
+          old_id = existing_user['id'].to_i
+          new_id = row['id'].to_i
+          next if old_id == new_id
+
+          hub_user_id_mapping[old_id] = new_id
+          next
+        end
       end
 
+      puts "PROD -> HUB mapping:\n#{JSON.pretty_generate(hub_user_id_mapping)}"
+
       ActiveRecord::Base.transaction do
-        user_id_fields.each do |model, user_fields|
+        user_id_fields.each do |model_name, user_fields|
+          model = model_name.constantize
           model.unscoped.find_each do |record|
 
             user_fields.each do |field|
@@ -41,6 +43,7 @@ class ChangeUserIdsToMatchCrm < ActiveRecord::Migration
               next if old_id.nil?
               new_id = hub_user_id_mapping[old_id.to_i]
               next if new_id.nil?
+              next if old_id.to_i == new_id.to_i
 
               record.send("#{field}=", new_id)
             end
@@ -54,14 +57,12 @@ class ChangeUserIdsToMatchCrm < ActiveRecord::Migration
         end
 
         PublicActivity::Activity.unscoped.where(owner_type: 'User').find_each do |activity|
-          activity.owner_id = hub_user_id_mapping[activity.owner_id]
-          activity.save(validate: false)
+          activity.update_column :owner_id, hub_user_id_mapping[activity.owner_id]
         end
         puts "Map ID -> hub ID: PublicActivity::Activity#owner:user"
 
         PublicActivity::Activity.unscoped.where(recipient_type: 'User').find_each do |activity|
-          activity.recipient_id = hub_user_id_mapping[activity.recipient_id]
-          activity.save(validate: false)
+          activity.update_column :recipient_id, hub_user_id_mapping[activity.recipient_id]
         end
         puts "Map ID -> hub ID: PublicActivity::Activity#recipient:user"
       end# of transaction
