@@ -45,10 +45,8 @@ class ChangeUserIdsToMatchCrm < ActiveRecord::Migration
               next if new_id.nil?
               next if old_id.to_i == new_id.to_i
 
-              record.send("#{field}=", new_id)
+              record.update_column field, new_id
             end
-
-            record.save(validate: false)
           end
 
           user_fields.each do |field|
