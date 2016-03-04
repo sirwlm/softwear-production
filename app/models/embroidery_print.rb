@@ -34,6 +34,7 @@ class EmbroideryPrint < Imprint
 
     success_event :start_printing do
       transition :ready_for_printing => :printing_in_progress
+      transition :ready_to_print => :printing_in_progress
     end
 
     success_event :completed do
@@ -45,6 +46,7 @@ class EmbroideryPrint < Imprint
     state :pending_preproduction, type: :success
     state :pending_final_test_print, type: :success
     state :pending_production_manager_approval, type: :success
+    state :ready_to_print, type: :success
     state :ready_for_printing, type: :success
     state :printing_in_progress, type: :success
     state :complete, type: :success
