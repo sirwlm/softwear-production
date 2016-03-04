@@ -2,7 +2,7 @@ class DigitalPrint < Imprint
   include Train
 
   has_many :digital_print_users
-  has_many :completers, through: :digital_print_users, source: :user
+  # has_many :completers, through: :digital_print_users, source: :user
 
   validate :has_completers, if: :complete?
 
@@ -61,6 +61,10 @@ class DigitalPrint < Imprint
     state :complete, type: :success
   end
 
+  def completers
+    digital_print_users.map(&:user)
+  end
+
   def completed_by=(by)
     if by.nil?
       @pending_completer_ids = []
@@ -105,7 +109,7 @@ class DigitalPrint < Imprint
 
   # validation (if complete)
   def has_completers
-    if completers.reload.empty? && @pending_completer_ids.blank?
+    if completers.empty? && @pending_completer_ids.blank?
       errors.add(:completed_by, 'must be filled out')
     else
       true

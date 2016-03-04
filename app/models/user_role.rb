@@ -1,4 +1,6 @@
 class UserRole < ActiveRecord::Base
-  belongs_to :user
+  include Softwear::Auth::BelongsToUser
+
+  belongs_to_user
   belongs_to :role
 end

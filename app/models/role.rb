@@ -1,4 +1,7 @@
 class Role < ActiveRecord::Base
   has_many :user_roles
-  has_many :users, through: :user_roles
+
+  def users
+    user_roles.pluck(:user_id).map(&User.method(:find))
+  end
 end
