@@ -17,10 +17,10 @@
 
         <% if val.blank? %>
           &lt;EMPTY&gt;
-        <% elsif /(?<field>\w+)_id$/ =~ key.to_s && model = class_of_field(activity.trackable_type, key) %>
+        <% elsif /\w+_id$/ =~ key.to_s && model = class_of_field(activity.trackable_type, key) %>
           <%= display_model(model, val) %>
         <% else %>
-          <%= val.humanize.titleize %>
+          <%= val.to_s.humanize.titleize %>
         <% end %>
       </div>
     <% end %>

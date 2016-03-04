@@ -289,21 +289,21 @@ feature 'Orders' do
       end
     end
 
-    scenario 'I can remove an imprint from an imprint group' do
+    scenario 'I can remove an imprint from an imprint group', rmv_ig: true do
       imprint_1; imprint_2; imprint_group
-      imprint_1.update_attributes! imprint_group_id: imprint_group.id
+      imprint_1.update_attributes! imprint_group_id: imprint_group.id, name: 'LeFiRsTiMpRiNt'
 
       visit order_path(order)
 
       within '.imprint-group' do
         find('.remove-imprint-from-group').click
-        expect(page).to_not have_content 'Imprint 1'
+        expect(page).to_not have_content 'LeFiRsTiMpRiNt'
       end
       sleep 1
 
       within "#job-#{job_1.id}" do
-        expect(page).to have_content "Imprint 1"
-        expect(page).to_not have_content "(Group ##{imprint_group.id}) Imprint 1"
+        expect(page).to have_content "LeFiRsTiMpRiNt"
+        expect(page).to_not have_content "(Group ##{imprint_group.id}) LeFiRsTiMpRiNt"
       end
 
       expect(imprint_1.reload.imprint_group_id).to be_nil
