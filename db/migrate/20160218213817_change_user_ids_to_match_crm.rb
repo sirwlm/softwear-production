@@ -7,7 +7,7 @@ class ChangeUserIdsToMatchCrm < ActiveRecord::Migration
 
   def up
     unless Rails.env.test?
-      user_id_fields = {"LocalDeliveryTrain"=>[:delivered_by_id], "UserRole"=>["user_id"], "ShipmentTrain"=>["created_by_id"], "DigitizationTrain"=>["approved_by_id", "digitization_assigned_to_id"], "Maintenance"=>["completed_by_id"], "Imprint"=>["completed_by_id"], "ImprintGroup"=>["completed_by_id"], "FbaBaggingTrain"=>["completed_by_id"], "StoreDeliveryTrain"=>[:delivered_by_id], "DigitalPrintUser"=>["user_id"], "ScreenTrain"=>[:assigned_to_id], "EmbroideryPrint"=>["completed_by_id"], "Print"=>["completed_by_id"], "TransferMakingPrint"=>["completed_by_id"], "EquipmentCleaningPrint"=>["completed_by_id"], "ScreenPrint"=>["completed_by_id"], "TransferPrint"=>["completed_by_id"], "DigitalPrint"=>["completed_by_id"], "ButtonMakingPrint"=>["completed_by_id"]}
+      user_id_fields = {"Imprint"=>["completed_by_id"], "ImprintGroup"=>["completed_by_id"], "FbaBaggingTrain"=>["completed_by_id"], "StoreDeliveryTrain"=>[:delivered_by_id], "DigitalPrintUser"=>["user_id"], "ScreenTrain"=>[:assigned_to_id], "EmbroideryPrint"=>["completed_by_id"], "Print"=>["completed_by_id"], "TransferMakingPrint"=>["completed_by_id"], "EquipmentCleaningPrint"=>["completed_by_id"], "ScreenPrint"=>["completed_by_id"], "TransferPrint"=>["completed_by_id"], "DigitalPrint"=>["completed_by_id"], "ButtonMakingPrint"=>["completed_by_id"]}
 
       hub_user_id_mapping = {}
 
