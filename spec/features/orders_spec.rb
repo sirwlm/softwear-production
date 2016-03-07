@@ -289,7 +289,7 @@ feature 'Orders' do
       end
     end
 
-    scenario 'I can remove an imprint from an imprint group', rmv_ig: true do
+    scenario 'I can remove an imprint from an imprint group', rmv_ig: true, no_ci: true do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id, name: 'LeFiRsTiMpRiNt'
 
