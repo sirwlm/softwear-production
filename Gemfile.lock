@@ -412,7 +412,7 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
-    softwear-lib (1.7.0)
+    softwear-lib (1.7.2)
       activesupport
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
@@ -556,7 +556,7 @@ DEPENDENCIES
   simple_token_authentication
   simplecov
   sinatra
-  softwear-lib (~> 1.7.0)
+  softwear-lib (~> 1.7.2)
   state_machines-activemodel
   state_machines-activerecord
   sunspot_matchers
