@@ -297,6 +297,7 @@ feature 'Orders' do
 
       within '.imprint-group' do
         find('.remove-imprint-from-group').click
+        sleep 2
         expect(page).to_not have_content 'LeFiRsTiMpRiNt'
       end
       sleep 1
