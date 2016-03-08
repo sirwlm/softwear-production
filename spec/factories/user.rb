@@ -6,13 +6,15 @@ FactoryGirl.define do
       first_name 'Test_First'
       sequence(:last_name) { |n| "Test_Last_#{n}" }
       sequence(:email) { |n| "user_email_#{n}@hotmail.com" }
+      roles []
 
       initialize_with do
         new(
           id:         id,
           first_name: first_name,
           last_name:  last_name,
-          email:      email
+          email:      email,
+          roles: roles
         )
       end
 
@@ -20,12 +22,13 @@ FactoryGirl.define do
         first_name 'Uber'
         last_name 'Mensch'
         sequence(:email) { |n| "idol_#{n}@god.com"}
-        after(:create) { |u| UserRole.create(user_id: u.id, role_id: create(:admin_role).id) }
+        roles ['admin', 'manager']
       end
 
       before(:create) do |u|
         u.instance_variable_set(:@persisted, true)
       end
+
       after(:create) do |u|
         spec_users << u if try(:spec_users)
       end

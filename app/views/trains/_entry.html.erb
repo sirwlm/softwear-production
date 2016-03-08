@@ -9,7 +9,7 @@
       <% if object.try(:complete?) %>
         <i class='glyphicon glyphicon-star'></i>
       <% end %>
-      <% if current_user.admin? %>
+      <% if current_user.role?('admin') %>
         <%= link_to train_path(model_name: object.model_name.element, id: object), class: 'pull-right destroy-train-link', style: 'color: #fff', method: :delete,  data: {confirm: "Are you sure you want to destroy this #{object.model_name.element.humanize.titleize}"} do %>
           <i class='glyphicon glyphicon-remove-circle'></i>
         <% end %>

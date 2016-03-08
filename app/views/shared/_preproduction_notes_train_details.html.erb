@@ -1,4 +1,4 @@
-<% if current_user.admin? %>
+<% if current_user.role?('admin') %>
   <%= render 'preproduction_notes_trains/form', preproduction_notes_train: object, in_modal: in_modal %>
 <% else %>
   <%= render 'preproduction_notes_trains/details', preproduction_notes_train: object %>

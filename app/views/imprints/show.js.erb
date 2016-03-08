@@ -4,7 +4,7 @@ $('#contentModal .modal-dialog').css('width', '90%');
 $('#contentModal').modal('show');
 $('#contentModalSaveChanges').hide();
 $('.select2').select2({width: '65%'});
-<% if current_user.admin? %>
+<% if current_user.role?('admin') %>
   $('.editable').editable({
   });
 <% end %>

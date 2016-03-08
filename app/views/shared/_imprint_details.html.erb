@@ -20,7 +20,7 @@
   <% else %>
       <dt>Unscheduled</dt>
   <% end %>
-  <% if current_user.admin? && object.respond_to?(:softwear_crm_id) %>
+  <% if current_user.role?('admin') && object.respond_to?(:softwear_crm_id) %>
     <dt>SoftWEAR-CRM ID</dt>
     <dd><%= editable object, :softwear_crm_id %></dd>
   <% end %>
@@ -28,7 +28,7 @@
   <dd><%= object.production_deadline || 'Unsure' %></dd>
   <dt>Machine</dt>
   <dd>
-    <% if current_user.admin? %>
+    <% if current_user.role?('admin') %>
       <%= editable object, :machine_id, type: :select, data: { source: Machine.all.map { |m| { m.id => m.name } } } %>
     <% else %>
       <%= object.machine_name %>
@@ -39,7 +39,7 @@
   <% if object.type == 'ScreenPrint' %>
     <dt>Revolved?</dt>
     <dd>
-      <% if current_user.admin? %>
+      <% if current_user.role?('admin') %>
         <%= editable object, :revolved %>
       <% else %>
         <%= object.revolved? ? 'Yes' : 'No' %>

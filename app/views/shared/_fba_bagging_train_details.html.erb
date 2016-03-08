@@ -1,4 +1,4 @@
-<% if current_user.admin? %>
+<% if current_user.role?('admin') %>
   <%= render 'fba_bagging_trains/form', fba_bagging_train: object %>
 <% else %>
   <%= render 'fba_bagging_trains/details', fba_bagging_train: object %>
