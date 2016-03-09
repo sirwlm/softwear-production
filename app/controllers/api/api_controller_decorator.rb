@@ -1,3 +1,3 @@
 Softwear::Lib::ApiController.class_eval do
-  token_authenticate User
+  token_authenticate User if Rails.env.production?
 end
