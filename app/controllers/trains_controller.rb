@@ -114,7 +114,7 @@ class TrainsController < ApplicationController
   def destroy
     respond_to do |format|
       format.html do
-        if current_user.admin?
+        if current_user.role?('admin')
           @object = fetch_object
           if @object.destroy
             redirect_to(order_path(@object.order), notice: 'Successfully destroyed train')
@@ -122,7 +122,7 @@ class TrainsController < ApplicationController
             redirect_to(order_path(@object.order), error: 'Could not destroy the train')
           end
         else
-          redirect_to(root_path, notice: "You don't have the proper credentials to destroy a train") unless current_user.admin?
+          redirect_to(root_path, notice: "You don't have the proper credentials to destroy a train") unless current_user.role?('admin')
         end
       end
     end

@@ -1,4 +1,4 @@
-<% if @current_user.admin? %>
+<% if @current_user.role?('admin') %>
     <%= editable activity, :created_at,
                  url: public_activity_path(activity),
                  title: activity.created_at.strftime('%F %I:%M%P'),

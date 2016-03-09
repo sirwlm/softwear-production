@@ -4,15 +4,15 @@ class Ability
   def initialize(user)
     can :manage, :all if user
 
-    cannot [:index, :update, :destroy], Machine unless user.admin?
+    cannot [:index, :update, :destroy], Machine unless user.role?('admin')
 
-    cannot :manage, User unless user.admin?
-    can :manage, user    
+    cannot :manage, User unless user.role?('admin')
+    can :manage, user
 
-    cannot :manage, Maintenance unless user.admin?
+    cannot :manage, Maintenance unless user.role?('admin')
     can :read, Maintenance
 
-    cannot :manage, ApiSetting unless user.admin?
+    cannot :manage, ApiSetting unless user.role?('admin')
 
   end
 end

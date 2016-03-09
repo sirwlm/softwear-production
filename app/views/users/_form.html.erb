@@ -13,7 +13,7 @@
   <div class="form-group">
     <% begin %>
       <%= label_tag "Admin" %><br />
-      <%= check_box_tag "user[role_ids][]", Role.find_by(name: 'Admin').id, checked: user.admin?  %>
+      <%= check_box_tag "user[role_ids][]", Role.find_by(name: 'Admin').id, checked: user.role?('admin')  %>
     <% rescue %>
       No Roles Defined
     <% end %>

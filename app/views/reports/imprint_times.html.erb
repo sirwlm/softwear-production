@@ -1,4 +1,4 @@
-<% if current_user.admin?  %>
+<% if current_user.role?('admin')  %>
   <div class="row">
     <%= form_tag(report_path("imprint_times"), method: :get) do %>
       <div class="col-xs-4 col-sm-3">
