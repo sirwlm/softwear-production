@@ -1,0 +1,22 @@
+<div class="pull-right" id="metric-type-nav">
+  <%= link_to metric_types_path, class: 'btn btn-md btn-primary', data: { toggle: 'tooltip'}, title: "List Metric Types" do %>
+      <i class='glyphicon glyphicon-list'></i>
+  <% end %>
+  <% if @metric_type && controller.action_name == 'edit' %>
+      <%= link_to metric_type_path, class: 'btn btn-md btn-success', data: { toggle: 'tooltip'}, title: "Show Metric Type" do %>
+          <i class='glyphicon glyphicon-eye-open'></i>
+      <% end %>
+  <% elsif @metric_type && controller.action_name == 'show' %>
+      <%= link_to edit_metric_type_path, class: 'btn btn-md btn-warning', data: { toggle: 'tooltip'}, title: "Edit Metric Type" do %>
+          <i class='glyphicon glyphicon-pencil'></i>
+      <% end %>
+      <%= link_to @metric_type, method: :delete, class: 'btn btn-md btn-danger', data: { confirm: 'Are you sure?', toggle: 'tooltip'}, title: "Destroy Metric Type" do %>
+          <i class='glyphicon glyphicon-remove-circle'></i>
+      <% end %>
+  <% end %>
+  <% unless controller.action_name == 'new' %>
+      <%= link_to new_metric_type_path, class: 'btn btn-md btn-success', data: { toggle: 'tooltip'}, title: "New Metric Type" do %>
+          <i class='glyphicon glyphicon-plus'></i>
+      <% end %>
+  <% end %>
+</div>

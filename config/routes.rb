@@ -54,6 +54,11 @@ SoftwearProduction::Application.routes.draw do
   resources :api_settings
   resources :jobs
   resources :screen_trains
+  resources :metric_types do
+    collection do
+      get 'activities_for/:class_name' => 'metric_types#metric_activities_for', as: :metric_activities_for
+    end
+  end
   resources :public_activities, only: [:update]
   get 'pre_production_art_dashboard' => 'pre_production#art_dashboard'
   get 'pre_production_dashboard' => 'dashboard#pre_production'

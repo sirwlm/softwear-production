@@ -1,0 +1,8 @@
+<h1><%= @metric_type.metric_type_class %> <small><%= @metric_type.name %></small></h1>
+
+<%= render 'nav' %>
+
+<br clear="all" />
+
+<%= render 'measurement_details', metric_type: @metric_type %>
+

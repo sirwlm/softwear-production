@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308220713) do
+ActiveRecord::Schema.define(version: 20160309155506) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -232,6 +232,24 @@ ActiveRecord::Schema.define(version: 20160308220713) do
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
   end
+
+  create_table "metric_types", force: :cascade do |t|
+    t.string   "name",              limit: 191
+    t.string   "metric_type_class", limit: 191
+    t.string   "measurement_type",  limit: 191
+    t.string   "activity",          limit: 191
+    t.string   "start_activity",    limit: 191
+    t.string   "end_activity",      limit: 191
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "metric_types", ["activity"], name: "index_metric_types_on_activity", using: :btree
+  add_index "metric_types", ["end_activity"], name: "index_metric_types_on_end_activity", using: :btree
+  add_index "metric_types", ["measurement_type"], name: "index_metric_types_on_measurement_type", using: :btree
+  add_index "metric_types", ["metric_type_class"], name: "index_metric_types_on_metric_type_class", using: :btree
+  add_index "metric_types", ["name"], name: "index_metric_types_on_name", using: :btree
+  add_index "metric_types", ["start_activity"], name: "index_metric_types_on_start_activity", using: :btree
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",                  limit: 191
