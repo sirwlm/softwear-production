@@ -35,7 +35,7 @@ function initializeDraggableImprints() {
   });
 }
 
-$(function() {
+$(document).ready(function() {
   var imprintGroups = $('#imprint-groups-panel');
   if (imprintGroups.length === 0) return;
 
@@ -53,7 +53,6 @@ $(function() {
     if (imprintGroups.height() > $(window).height()) {
       options['overflow'] = 'scroll';
       options['overflow-x'] = 'hidden';
-      console.log("2 big");
     }
     else {
       options['overflow'] = 'inherit';
