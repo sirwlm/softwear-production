@@ -1,0 +1,13 @@
+<div class="col-xs-12" id="metrics">
+  <h2>Metrics</h2>
+<% if object.respond_to?(:metric_types) %>
+    <h2>Metrics <span class="small"><%= link_to 'Generate', metrics_path(object.class.name, object.id), method: :post, remote: true %></span></h2>
+
+    <p>This object has metric types <% object.metric_types.map(&:name).join(', ') %></p>
+    <%= render 'metrics/table', object: object %>
+<% else %>
+    <p class="alert alert-danger">
+      This class is not configured for metrics
+    </p>
+<% end %>
+</div>

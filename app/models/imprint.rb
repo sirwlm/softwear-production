@@ -35,6 +35,7 @@ class Imprint < ActiveRecord::Base
   belongs_to :screen_train
   has_many :assigned_screens, through: :screen_train
   has_many :screens, through: :assigned_screens
+  has_many :metrics, as: :metricable
   has_one :order, through: :job
 
   searchable do
@@ -204,6 +205,17 @@ class Imprint < ActiveRecord::Base
     end
   end
 
+  def create_metrics
+    metrics.destroy_all
+    MetricType.where(metric_type_class: self.class.name).each do |metric_type|
+      Metric.create_by_metric_type_and_object(metric_type, self)
+    end
+  end
+
+  def metric_types
+    MetricType.where(metric_type_class: self.class.name)
+  end
+
   private
 
   def schedule_conflict?
@@ -245,52 +257,6 @@ class Imprint < ActiveRecord::Base
     return if state.to_sym != train_machine.complete_state.to_sym
 
     self.completed_at = Time.now
-  end
-
-  def start_activity
-    case type
-      when "Print"
-        return activities.where("parameters like '%event%at_the_press%'").first
-      when "ScreenPrint"
-        return activities.where("parameters like '%event%print_started%'").first unless require_manager_signoff?
-        return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
-      when "DigitalPrint"
-        return activities.where("parameters like '%event%start_printing%'").first
-      when "EmbroideryPrint"
-        return activities.where("parameters like '%event%start_printing%'").first unless require_manager_signoff?
-        return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
-      when "EquipmentCleaningPrint"
-        return activities.where("parameters like '%event%put_equipment_in_dryer%'").first
-      when "TransferMakingPrint"
-        return activities.where("parameters like '%event%final_test_print_printed%'").first unless require_manager_signoff?
-        return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
-      when "TransferPrint"
-        return activities.where("parameters like '%event%final_test_print_printed%'").first unless require_manager_signoff?
-        return activities.where("parameters like '%event%production_manager_approved%'").first if require_manager_signoff?
-    end
-  end
-
-  def get_started_at_from_activity
-    start_activity.created_at rescue nil
-  end
-
-  def completion_activity
-    case type
-      when "Print"
-        return activities.where("parameters like '%event%printing_complete%'").first
-      when "ScreenPrint"
-        return activities.where("parameters like '%event%print_complete%'").first
-      when "DigitalPrint"
-        return activities.where("parameters like '%event%completed%'").first
-      when "EmbroideryPrint"
-        return activities.where("parameters like '%event%completed%'").first
-      when "EquipmentCleaningPrint"
-        return activities.where("parameters like '%event%repacked_bag%'").first
-      when "TransferMakingPrint"
-        return activities.where("parameters like '%event%completed%'").first
-      when "TransferPrint"
-        return activities.where("parameters like '%event%completed%'").first
-    end
   end
 
   def get_completed_by_id_from_activities

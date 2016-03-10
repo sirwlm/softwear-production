@@ -1,0 +1,9 @@
+<%= bootstrap_form_for(metric_type) do |f| %>
+    <%= f.text_field :name %>
+    <%= f.select :metric_type_class, @metric_type_classes, include_blank: true %>
+    <%= f.select :measurement_type, MetricType::MEASUREMENT_TYPES, include_blank: true %>
+    <%= f.select :activity, @metric_type.activity_options, {include_blank: true}, disabled: !@metric_type.count? %>
+    <%= f.select :start_activity, @metric_type.activity_options, {include_blank: true}, disabled: !@metric_type.timeframe? %>
+    <%= f.select :end_activity, @metric_type.activity_options, {include_blank: true} , disabled: !@metric_type.timeframe? %>
+    <%= f.submit %>
+<% end %>

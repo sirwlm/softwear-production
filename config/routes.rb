@@ -54,6 +54,12 @@ SoftwearProduction::Application.routes.draw do
   resources :api_settings
   resources :jobs
   resources :screen_trains
+  post 'metrics/:object_class/:object_id' => 'metrics#create', as: 'metrics'
+  resources :metric_types do
+    collection do
+      get 'activities_for/:class_name' => 'metric_types#metric_activities_for', as: :metric_activities_for
+    end
+  end
   resources :public_activities, only: [:update]
   get 'pre_production_art_dashboard' => 'pre_production#art_dashboard'
   get 'pre_production_dashboard' => 'dashboard#pre_production'
@@ -66,8 +72,6 @@ SoftwearProduction::Application.routes.draw do
       get :fast_scan, action: :fast_scan
     end
   end
-
-  get '/reports/:report_type/(:start_date...:end_date)' => 'reports#show', as: :report
 
   get '/screens/:id/:transition' =>  'screens#transition', as: :transition_screen
   post '/screens/fast_scan' => 'screens#transition', as: :fast_scan_transition_screen

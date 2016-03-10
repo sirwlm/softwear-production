@@ -1,0 +1,16 @@
+<dl>
+  <dt>Measurement Type</dt>
+  <dd><%= metric_type.measurement_type %></dd>
+  <% if metric_type.count? %>
+      <dt>Activity To Count</dt>
+      <dd>Activities with a key like '%transition' and including the parameters
+        {'event': '<%= metric_type.activity %>'}</dd>
+  <% elsif metric_type.timeframe? %>
+      <dt>Metric Staring Activity</dt>
+      <dd>Activities with a key like '%transition' and including the parameters
+        {'event': '<%= metric_type.start_activity %>'}</dd>
+      <dt>Metric Staring Activity</dt>
+      <dd>Activities with a key like '%transition' and including the parameters
+        {'event': '<%= metric_type.end_activity %>'}</dd>
+  <% end %>
+</dl>
