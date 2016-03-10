@@ -1,7 +1,7 @@
 <% if imprint.proofs.empty? %>
   <p class='alert alert-danger'>There are no proofs associated with this imprint in SoftWEAR-CRM.</p>
 <% else %>
-  <% imprint.proofs.each do |proof| %>
+  <% imprint.proofs.uniq(&:id).each do |proof| %>
     <div class='col-xs-12'>
       <div class='panel <%= proof_status_panel(proof) %>'>
         <div class='panel-heading'>Status: <strong><%= proof.status %></strong></div>
@@ -20,7 +20,7 @@
         <div class="col-sm-6">
           <h4>Artwork</h4>
           <% proof.try(:artwork_paths).try(:each) do |artwork_path| %>
-              <%= link_to crm_image_tag(artwork_path[0], class: 'img img-responsive'), artwork_path[1], target: "_blank", style: "background-color: #{artwork_path[2]};" %>
+              <%= link_to crm_image_tag(artwork_path[0], class: 'img img-responsive', style: "background-color: #{artwork_path[2]};"), artwork_path[1], target: "_blank" %>
           <% end %>
         </div>
 
