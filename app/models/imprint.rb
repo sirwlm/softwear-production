@@ -35,6 +35,7 @@ class Imprint < ActiveRecord::Base
   belongs_to :screen_train
   has_many :assigned_screens, through: :screen_train
   has_many :screens, through: :assigned_screens
+  has_many :metrics, as: :metricable
   has_one :order, through: :job
 
   searchable do
@@ -204,6 +205,17 @@ class Imprint < ActiveRecord::Base
     end
   end
 
+  def create_metrics
+    metrics.destroy_all
+    MetricType.where(metric_type_class: self.class.name).each do |metric_type|
+      Metric.create_by_metric_type_and_object(metric_type, self)
+    end
+  end
+
+  def metric_types
+    MetricType.where(metric_type_class: self.class.name)
+  end
+
   private
 
   def schedule_conflict?
@@ -239,6 +251,13 @@ class Imprint < ActiveRecord::Base
     self.completed_by_id = imprint_group.completed_by_id
   end
 
+  def set_completed_at_if_necessary
+    return if completed_at
+    return unless respond_to?(:train_machine)
+    return if state.to_sym != train_machine.complete_state.to_sym
+
+    self.completed_at = Time.now
+  end
 
   def get_completed_by_id_from_activities
     completion_activity.owner_id rescue nil

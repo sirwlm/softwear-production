@@ -54,6 +54,7 @@ SoftwearProduction::Application.routes.draw do
   resources :api_settings
   resources :jobs
   resources :screen_trains
+  post 'metrics/:object_class/:object_id' => 'metrics#create', as: 'metrics'
   resources :metric_types do
     collection do
       get 'activities_for/:class_name' => 'metric_types#metric_activities_for', as: :metric_activities_for

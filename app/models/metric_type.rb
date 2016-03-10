@@ -5,6 +5,7 @@ class MetricType < ActiveRecord::Base
   validates :name, :metric_type_class, :measurement_type, presence: true
   validates :activity, presence: true, if: :count?
   validates :start_activity, :end_activity, presence: true, if: :timeframe?
+  validates :name, uniqueness: { scope: :metric_type_class }
 
   searchable do
     date :created_at

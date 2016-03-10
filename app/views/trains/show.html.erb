@@ -1,6 +1,8 @@
 <h1><%= @title %></h1>
 
-<%= render partial: 'view', object: @object %>
+<%= render 'view', object: @object %>
+
+<%= render 'metrics/metrics', object: @object %>
 
 <div class="col-xs-12">
   <h2>Activity</h2>

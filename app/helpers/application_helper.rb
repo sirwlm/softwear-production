@@ -77,4 +77,12 @@ module ApplicationHelper
       url_for(event)
     end
   end
+
+  def format_metric(metric)
+    if metric.metric_type.timeframe?
+      Time.at(metric.value).utc.strftime("%khr %Mmin")
+    elsif metric.metric_type.count?
+      pluralize(metric.value, 'times')
+    end
+  end
 end
