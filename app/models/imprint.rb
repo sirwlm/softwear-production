@@ -193,6 +193,10 @@ class Imprint < ActiveRecord::Base
     read_attribute(:started_at)
   end
 
+  def get_started_at_from_activity
+    start_activity.created_at rescue nil
+  end
+
   def actual_time
     (completed_at - started_at)/60.0
   end
