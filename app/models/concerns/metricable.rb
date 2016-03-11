@@ -5,7 +5,6 @@ module Metricable
     has_many :metrics, as: :metricable
   end
 
-
   def create_metrics
     if respond_to?(:imprint_group) && !imprint_group.blank?
       imprint_group.create_imprint_group_metrics
@@ -15,7 +14,6 @@ module Metricable
         Metric.create_by_metric_type_and_object(metric_type, self)
       end
     end
-
   end
 
   def metric_types
