@@ -9,6 +9,7 @@ class Imprint < ActiveRecord::Base
   include ColorUtils
   include PublicActivity::Model
   include Schedulable
+  include Metricable
 
   tracked only: [:transition]
 
@@ -35,7 +36,6 @@ class Imprint < ActiveRecord::Base
   belongs_to :screen_train
   has_many :assigned_screens, through: :screen_train
   has_many :screens, through: :assigned_screens
-  has_many :metrics, as: :metricable
   has_one :order, through: :job
 
   searchable do
@@ -205,16 +205,6 @@ class Imprint < ActiveRecord::Base
     end
   end
 
-  def create_metrics
-    metrics.destroy_all
-    MetricType.where(metric_type_class: self.class.name).each do |metric_type|
-      Metric.create_by_metric_type_and_object(metric_type, self)
-    end
-  end
-
-  def metric_types
-    MetricType.where(metric_type_class: self.class.name)
-  end
 
   private
 

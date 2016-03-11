@@ -20,7 +20,6 @@ class Metric < ActiveRecord::Base
       start_activities = object.activities.select{|a| a.parameters.has_value?(metric_type.start_activity)}
       end_activities = object.activities.select{|a| a.parameters.has_value?(metric_type.end_activity)}
 
-
       if start_activities.count == end_activities.count
         (0..start_activities.count-1).each do |i|
           object.metrics << self.create(
