@@ -1,0 +1,31 @@
+<h1 class="pull-left">Listing Metric Types</h1>
+<%= render 'nav' %>
+<br clear="all" />
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Applies To</th>
+    <th>Measurement</th>˜
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @metric_types.each do |metric_type| %>
+      <tr>
+        <td><%= link_to metric_type.name, metric_type_path(metric_type) %></td>
+        <td><%= metric_type.metric_type_class %></td>
+        <td>
+          <%= render 'measurement_details', metric_type: metric_type %></td>
+        <td>
+        <td>
+          <%= bootstrap_show_button(metric_type) %>
+          <%= bootstrap_edit_button(metric_type) %>
+          <%= bootstrap_destroy_button(metric_type) %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

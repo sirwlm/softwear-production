@@ -34,7 +34,9 @@ feature 'Screen Features', js: true do
         click_link 'Broke'
         sleep 1.0
         select user.email, from: "user_id"
-        select Screen::SCREEN_BREAK_REASONS.last, from: "reason"
+        #select Screen::SCREEN_BREAK_REASONS.last, from: "reason"
+        select "Heating Cabinet Failure", from: "reason"
+        #this should pass. new reason for failure
 
         click_button 'Confirm Break'
         expect(page).to have_content "Mesh"
@@ -146,7 +148,6 @@ feature 'Screen Features', js: true do
         end
       end
     end
-
 
     context 'fast scanning', story_546: true do
       before(:each) do

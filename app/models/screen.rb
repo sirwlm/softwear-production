@@ -38,6 +38,7 @@ class Screen < ActiveRecord::Base
     'Loading/Unloading Squeegee',
     'Careless handling - Dropped screen',
     'Careless handling - bumped into something',
+    'Heating Cabinet Failure',
     'Other'
   ]
 
