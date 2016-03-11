@@ -282,7 +282,7 @@ module Train
   def details
     deets = {}
     (self.class.column_names.map(&:to_sym) - usual_fields).each do |field|
-      deets[field] = send(field)
+      deets[field] = try(field)
     end
     deets
   end
