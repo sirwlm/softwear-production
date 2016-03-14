@@ -6,3 +6,8 @@ job_type :rake, "{ cd #{@current_path || ':path'} > /dev/null; } && RAILS_ENV=:e
 every 1.minute do
   rake "screens:dry"
 end
+
+
+every 1.hour do
+  rake "metrics:generate_for_imprints[7]"
+end
