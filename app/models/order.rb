@@ -22,6 +22,7 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :jobs, allow_destroy: true
 
   after_save :add_fba_bagging_train
+  after_save :cancel_all_trains, if: :just_canceled?
 
   searchable do
     text :name, :job_names, :imprint_names, :imprint_descriptions, :customer_name
@@ -34,6 +35,11 @@ class Order < ActiveRecord::Base
     time :deadline
     string :imprint_state
     string :production_state
+    boolean :canceled
+  end
+
+  def just_canceled?
+    canceled_changed? && canceled? && !canceled_was
   end
 
   def full_name
@@ -165,6 +171,33 @@ class Order < ActiveRecord::Base
       update_crm_production_status!
     rescue StandardError => e
       Rails.logger.error "ERROR TRANSITIONING STATE ON ORDER FORCE COMPLETE: #{e.class}: #{e.message}"
+    end
+  end
+
+  def cancel_all_trains
+    cancel = lambda do |train|
+      target = train.try(:event_target) || train
+
+      if train.train_machine.events.fetch(:cancel).fire(target)
+
+        if train.respond_to?(:create_activity)
+          train.create_activity(
+            action: :transition,
+            parameters: { event: 'cancel', source: 'Order canceled' },
+            owner: nil
+          )
+        end
+      end
+    end
+
+    pre_production_trains.each(&cancel)
+    production_trains.each(&cancel)
+    post_production_trains.each(&cancel)
+
+    jobs.each do |j|
+      j.pre_production_trains.each(&cancel)
+      j.production_trains.each(&cancel)
+      j.post_production_trains.each(&cancel)
     end
   end
 

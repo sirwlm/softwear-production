@@ -175,6 +175,16 @@ module Train
       end
     end
 
+    def self.default_train_events
+      proc do
+        failure_event :cancel do
+          transition any => :canceled
+        end
+
+        state :canceled, type: :failure
+      end
+    end
+
     def self.train(*args, &block)
       final_state = args.last.try(:delete, :final)
       initial_state = args.last.try(:[], :initial)
@@ -182,6 +192,7 @@ module Train
       self.train_machine = StateMachines::Machine.find_or_create(self, *args)
       train_machine.instance_eval { extend Train::StateMachine }
       train_machine.instance_eval(&block)
+      train_machine.instance_eval(&default_train_events) if default_train_events
       train_machine.complete_state = final_state.to_sym if final_state
       train_machine.first_state = initial_state.to_sym if initial_state
       train_machine.after_transition(
@@ -189,13 +200,13 @@ module Train
         do: :update_order_completion_status
       )
 
-      class_eval <<-RUBY, __FILE__, __LINE__
-        if defined? searchable
-          searchable do
-            string :train_type
-          end
+      if defined? searchable
+        searchable do
+          string :train_type
         end
+      end
 
+      class_eval <<-RUBY, __FILE__, __LINE__
         def #{train_machine.attribute}_events(*args)
           train_events(*args)
         end

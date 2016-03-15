@@ -5,6 +5,11 @@ module PublicActivity
     belongs_to_user_called :owner
 
     def owner=(o)
+      if o.nil?
+        @owner = nil
+        return
+      end
+
       self.owner_type = o.class.name
       if o.is_a?(User)
         super

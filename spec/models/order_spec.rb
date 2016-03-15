@@ -33,6 +33,26 @@ describe Order do
 
   end
 
+  describe '#cancel_all_trains', cancel: true do
+    let!(:screen_train) { create(:screen_train) }
+    let(:order) { screen_train.order }
+
+    it 'runs the :cancel event on all trains' do
+      expect(screen_train).to_not be_canceled
+      order.cancel_all_trains
+      expect(screen_train.reload).to be_canceled
+    end
+
+    it 'is called once, when the order initially becomes canceled' do
+      order.canceled = true
+      order.save!
+      expect(screen_train.reload).to be_canceled
+
+      expect(order).to_not receive(:cancel_all_trains)
+      order.save!
+    end
+  end
+
   describe '#complete?' do
     let(:completed_imprint) { double('Imprint', completed?: true) }
     let(:incomplete_imprint) { double('Imprint', completed?: false) }

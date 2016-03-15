@@ -26,7 +26,7 @@ module Api
       params.permit(
         order: [
           :softwear_crm_id, :deadline, :customer_name,
-          :name, :fba, :has_imprint_groups,
+          :name, :fba, :has_imprint_groups, :canceled,
 
           jobs_attributes: [
             :name, :softwear_crm_id,
@@ -46,7 +46,7 @@ module Api
     def order_params
       params.require(:order).permit(
         :softwear_crm_id, :deadline, :customer_name, 
-        :name, :fba, :has_imprint_groups,
+        :name, :fba, :has_imprint_groups, :canceled,
 
         jobs_attributes: [
           :name, :softwear_crm_id,

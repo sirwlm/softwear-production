@@ -47,8 +47,11 @@ describe Train do
       expect(subject.state_events(:success)).to eq [:won]
     end
 
-    specify '#state_events(:failure) returns relevant events defined with failure_event' do
-      expect(subject.state_events(:failure)).to eq [:messed_up]
+    specify '#state_events(:failure) returns relevant events defined with failure_event, including the default :cancel event' do
+      expect(subject.state_events(:failure)).to eq [:messed_up, :cancel]
+    end
+
+    it 'defines #cancel event' do
     end
 
     describe '#complete?', story_767: true do

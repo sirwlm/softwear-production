@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309215642) do
+ActiveRecord::Schema.define(version: 20160315195113) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -304,6 +304,7 @@ ActiveRecord::Schema.define(version: 20160309215642) do
     t.boolean  "fba"
     t.boolean  "has_imprint_groups"
     t.string   "customer_name",      limit: 191
+    t.boolean  "canceled"
   end
 
   create_table "preproduction_notes_trains", force: :cascade do |t|
@@ -377,6 +378,12 @@ ActiveRecord::Schema.define(version: 20160309215642) do
     t.datetime "updated_at"
   end
 
+  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
+  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
+  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
+  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
+  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
+
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",                limit: 191
     t.integer  "shipped_by_id",        limit: 4
@@ -443,33 +450,6 @@ ActiveRecord::Schema.define(version: 20160309215642) do
   end
 
   add_index "train_autocompletes", ["field"], name: "index_train_autocompletes_on_field", using: :btree
-
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 191
-    t.string   "encrypted_password",     limit: 191
-    t.string   "reset_password_token",   limit: 191
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 191
-    t.string   "last_sign_in_ip",        limit: 191
-    t.string   "confirmation_token",     limit: 191
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email",      limit: 191
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "deleted_at"
-    t.string   "first_name",             limit: 191
-    t.string   "last_name",              limit: 191
-    t.string   "authentication_token",   limit: 191
-  end
-
-  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "warning_emails", force: :cascade do |t|
     t.string  "model",     limit: 191
