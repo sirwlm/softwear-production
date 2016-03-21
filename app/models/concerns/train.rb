@@ -24,6 +24,15 @@ module Train
     Thread.main[:train_types] = value
   end
 
+  def self.all(&block)
+    train_classes = train_types.flat_map(&:last)
+    if block_given?
+      train_classes.flat_map(&block)
+    else
+      train_classes.flat_map(&:all)
+    end
+  end
+
   def self.type_of(train_class)
     train_types.each do |type, classes|
       return type if classes.include?(train_class)
@@ -152,6 +161,12 @@ module Train
     cattr_accessor :train_public_activity_blacklist
     try :after_save, :touch_order
     try :after_validation, :update_previous_state, if: :state_changed?
+
+    scope :dangling, -> { where dependent_field => nil }
+
+    def self.dependent_field
+      column_names.include?('job_id') ? :job_id : :order_id
+    end
 
     def self.train_type(type)
       key = type.to_sym
@@ -372,5 +387,9 @@ module Train
 
   def can_undo?
     respond_to?(:previous_state) && !previous_state.nil? && previous_state != state
+  end
+
+  def train_id
+    "#{self.class.name}##{id}"
   end
 end

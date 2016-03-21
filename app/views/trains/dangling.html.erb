@@ -1,0 +1,57 @@
+
+<h3>Dangling Trains</h3>
+
+<%= form_tag dangling_trains_path, method: :get do %>
+  <%= label_tag :filter_type, 'Show only:' %>
+  <%= select_tag 'filter_type', options_for_select(['All'] + @train_types.map(&:name), params[:filter_type]), class: 'form-control select2', data: { width: '100%' }  %>
+  <%= button_tag "Apply", class: 'btn btn-primary' %>
+<% end %>
+
+<%= form_tag dangling_trains_path, method: :delete do %>
+
+  <div class='well'>
+    <div class='col-sm-2'>
+      <h4>Actions:</h4>
+    </div>
+
+    <div class='col-sm-2'>
+      <%= submit_tag "Destroy checked", class: 'btn btn-danger', name: 'destroy_checked' %>
+    </div>
+    <div class='col-sm-2'>
+      <%= submit_tag "Destroy all", class: 'btn btn-danger', name: 'destroy_all' %>
+    </div>
+    <div class='col-sm-4'>
+    </div>
+    <div class='clearfix'></div>
+  </div>
+
+  <%= paginate @trains, theme: 'twitter-bootstrap-3' %>
+  <table class="table table-hover table-striped table-sortable">
+    <thead>
+      <tr>
+        <th><%= check_box_tag "all_dangling_train_ids", '1', params[:all_dangling_train_ids], class: 'form-control' %></th>
+        <th>Train Type</th>
+        <th>ID</th>
+        <th>Train State</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @trains.each do |train| %>
+        <tr>
+          <td><%= check_box_tag "dangling_train_ids[]", train.train_id, params[:dangling_train_ids].try(:include?, train.train_id), class: "form-control dangling-train" %></td>
+          <td><%= train.class.name %></td>
+          <td><%= train.id %></td>
+          <td><%= train.human_state_name %></td>
+          <td>
+            <%= link_to show_train_path(train), class: 'btn btn-primary btn-sm', remote: true do %>
+              <i class='glyphicon glyphicon-eye-open'></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @trains, theme: 'twitter-bootstrap-3' %>
+
+<% end %>

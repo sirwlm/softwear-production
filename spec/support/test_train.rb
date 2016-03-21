@@ -3,7 +3,6 @@ class TestTrain
   include ActiveModel::Serialization
   include ActiveRecord::Callbacks
   include Sunspot::Rails::Searchable
-  include Train
 
   cattr_accessor :column_names
   def self.attr_accessor(*args)
@@ -11,6 +10,28 @@ class TestTrain
     self.column_names += args.map(&:to_s)
     super
   end
+
+  def self.scope(name, block)
+    define_singleton_method name, &block
+  end
+
+  def self.collection
+    proc do |x|
+      def x.destroy_all
+        true
+      end
+    end
+  end
+
+  def self.where(attrs)
+    [].tap(&collection)
+  end
+
+  def self.all
+    [].tap(&collection)
+  end
+
+  include Train
 
   define_callbacks :save
 

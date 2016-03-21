@@ -5,13 +5,16 @@ require 'spec_helper'
 describe TrainsController, type: :controller do
   include_context 'signed_in_as_user'
   let(:other_user) { create(:user) }
-  let(:object) { TestTrain.new(state: :first) }
+  let(:object) do
+    TestTrain.new(state: :first).tap do |t|
+      allow(t).to receive(:create_activity)
+      allow(t).to receive(:save).and_return true
+      allow(t).to receive(:save!).and_return true
+    end
+  end
 
   before do
-    allow(TestTrain).to receive(:find).with('1').and_return object
-    allow(object).to receive(:create_activity)
-    allow(object).to receive(:save).and_return true
-    allow(object).to receive(:save!).and_return true
+    allow(TestTrain).to receive(:find).with('1') { object }
   end
 
   describe 'POST #create', story_736: true do
@@ -160,6 +163,28 @@ describe TrainsController, type: :controller do
           format: :js
 
         expect(TrainAutocomplete.where(field: 'TestTrain#message', value: 'hello there')).to exist
+      end
+    end
+  end
+
+  describe "DELETE #destroy_dangling", dangling: true do
+    let!(:dangling_train) { Ar3Train.create!(order: create(:order)) }
+    let!(:non_dangling_train) { Ar3Train.create!(order: create(:order)) }
+
+    before(:each) do
+      dangling_train.update_column :order_id, nil
+    end
+
+    context '!!params[:destroy_all]' do
+      it 'destroys all trains that lack their dependent field' do
+        expect(Ar3Train.where(id: dangling_train.id)).to exist
+        expect(Ar3Train.where(id: non_dangling_train.id)).to exist
+
+        delete :destroy_dangling, destroy_all: 'Destroy all'
+        expect(response).to redirect_to dangling_trains_path
+
+        expect(Ar3Train.where(id: dangling_train.id)).to_not exist
+        expect(Ar3Train.where(id: non_dangling_train.id)).to exist
       end
     end
   end

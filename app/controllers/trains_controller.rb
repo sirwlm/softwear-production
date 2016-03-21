@@ -50,6 +50,53 @@ class TrainsController < ApplicationController
     end
   end
 
+  def dangling
+    @train_types = []
+
+    params.delete(:filter_type) if params[:filter_type] == 'All'
+    @trains = Kaminari.paginate_array(
+      Train.all do |trains|
+        t = trains.dangling
+        @train_types << trains unless t.empty?
+        if params[:filter_type]
+          next [] unless params[:filter_type] == trains.name
+        end
+        t
+      end
+    )
+      .page(params[:page])
+      .per(40)
+  end
+
+  def destroy_dangling
+    count = 0
+    if params[:destroy_all]
+      Train.all do |trains|
+        count += trains.dangling.size
+        trains.dangling.destroy_all
+      end
+    else
+      ids_for = {}
+      params[:dangling_train_ids].each do |train_id|
+        class_name, id = train_id.split('#')
+        ids_for[class_name] ||= []
+        ids_for[class_name] << id
+      end
+
+      Train.all do |trains|
+        ids = ids_for[trains.name]
+        next if ids.blank?
+
+        t = trains.dangling.where(id: ids)
+        count += t.size
+        t.destroy_all
+      end
+    end
+
+    flash[:success] = "Successfully destroyed #{count} trains."
+    redirect_to dangling_trains_path
+  end
+
   def transition
     @object = fetch_object
     @event  = params[:event].to_sym

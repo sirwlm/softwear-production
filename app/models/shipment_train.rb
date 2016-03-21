@@ -17,6 +17,10 @@ class ShipmentTrain < ActiveRecord::Base
 
   enqueue :update_tracking_in_crm, queue: 'api'
 
+  def self.dependent_field
+    :shipment_holder_id
+  end
+
   train_type :post_production
   train initial: :pending_packing, final: :shipped do
     after_transition(on: :shipped) { |t| t.enqueue_update_tracking_in_crm }

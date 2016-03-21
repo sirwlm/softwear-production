@@ -83,6 +83,8 @@ SoftwearProduction::Application.routes.draw do
   get '/imprintables/dashboard', to: 'imprintables#index', as: :imprintable_dashboard
 
   resources :trains, only: :create
+  get '/trains/dangling', to: 'trains#dangling', as: :dangling_trains
+  delete '/trains/dangling', to: 'trains#destroy_dangling'
   patch '/:model_name/:id/transition_to/:event', to: 'trains#transition', as: :transition_train
   patch '/:model_name/:id/undo', to: 'trains#undo', as: :train_undo
   get '/:model_name/:id/new_train/:train_type', to: 'trains#new', as: :new_train
