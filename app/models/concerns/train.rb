@@ -162,7 +162,7 @@ module Train
     try :after_save, :touch_order
     try :after_validation, :update_previous_state, if: :state_changed?
 
-    scope :dangling, -> { where dependent_field => nil }
+    try :scope, :dangling, -> { where dependent_field => nil }
 
     def self.dependent_field
       column_names.include?('job_id') ? :job_id : :order_id
