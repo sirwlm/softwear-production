@@ -149,8 +149,8 @@ ActiveRecord::Schema.define(version: 20160315195113) do
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
     t.datetime "started_at"
-    t.integer  "softwear_crm_id",         limit: 4
     t.string   "name",                    limit: 191
+    t.integer  "softwear_crm_id",         limit: 4
   end
 
   create_table "imprintable_trains", force: :cascade do |t|
@@ -256,11 +256,11 @@ ActiveRecord::Schema.define(version: 20160315195113) do
     t.string   "name",            limit: 191
     t.integer  "metricable_id",   limit: 4
     t.string   "metricable_type", limit: 191
-    t.integer  "value",           limit: 4
+    t.decimal  "value",                       precision: 10, scale: 2
     t.boolean  "valid_data"
     t.string   "invalid_reason",  limit: 191
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
   end
 
   add_index "metrics", ["metricable_id"], name: "index_metrics_on_metricable_id", using: :btree

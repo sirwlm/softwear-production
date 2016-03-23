@@ -7,6 +7,22 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+
+<div class="hidden-print" id="loading" style="display: none">
+  <div class="loading-inner">
+    <div class="spinner-box text-center">
+      <div class="spinner">
+        <div class="cube1"></div>
+        <div class="cube2"></div>
+      </div>
+      <br />
+      <p>
+        Waiting For Response
+      </p>
+      <p class="small"><a href="#" class="hide-loading-spinner">Click To Hide</a></p>
+    </div>
+  </div>
+</div>
 <% unless current_user.nil? %>
   <%= render 'shared/top_nav', current_user: current_user %>
 <% end %>

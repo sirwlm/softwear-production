@@ -4,13 +4,6 @@ describe ImprintsController, imprint_spec: true, story_113: true do
   include_context 'signed_in_as_user'
   let!(:imprint) { create(:print) }
 
-  describe 'GET #show' do
-    it 'renders show.js.erb' do
-      xhr :get, :show, id: imprint.id, format: 'js'
-      expect(response).to render_template('show')
-    end
-  end
-
   describe 'PUT #update' do
     context 'when machine_id and scheduled_at are set to nil' do
       it 'renders imprint for_calendar' do

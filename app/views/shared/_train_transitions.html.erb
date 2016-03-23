@@ -1,22 +1,16 @@
 <div id='train-<%= object.model_name.element %>-<%= object.id %>'>
   <p class='transition-error alert alert-danger' style='display: none'></p>
 
-  <div class="alert alert-info alert-dismissable transition-alert">
+  <div class="alert alert-info transition-alert alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     Current State:
     <b class='current-state'>
       <%= train_state_of(object).human_name.titleize %>
     </b>
     <%= "(Complete!)" if object.complete? %>
-
-    <div class='pull-right train-undo-container' style="<%= 'display: none;' unless object.can_undo? %>">
-      <%= link_to train_undo_path(object.model_name.element, object.id), class: 'btn btn-warning btn-xs train-undo', remote: true, method: :patch do %>
-        <i class='glyphicon glyphicon-backward'></i> UNDO
-      <% end %>
-    </div>
   </div>
-  <div class='clearfix'></div>
 
-  <div class='row train-categories'>
+  <div class='train-categories'>
     <%= render 'shared/train_categories', object: object %>
   </div>
 </div>
