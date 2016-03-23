@@ -1,6 +1,4 @@
 <div class="row">
-  <div class="col-xs-12">
-
     <% if lookup_context.find_all("shared/_#{@object.model_name.element}_details").any? %>
       <div class='<%= @object.model_name.element %>-details col-xs-4'>
         <%= render "shared/#{@object.model_name.element}_details", object: @object, in_modal: !local_assigns[:in_modal].nil? %>
@@ -39,11 +37,9 @@
         <% end %>
       <% end %>
 
-      <div id='transition-state'>
+      <div id='transition-state' class="clearfix">
         <%= render 'shared/train_transitions', object: @object %>
       </div>
 
     </div>
-  </div>
-
 </div>
