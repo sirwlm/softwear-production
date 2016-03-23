@@ -1,3 +1,16 @@
+
+<% if object.can_undo? %>
+    <div class='train-undo-container text-right'>
+      <%= link_to train_undo_path(object.model_name.element, object.id),
+                  class: 'btn btn-warning btn-xs train-undo',
+                  remote: true, method: :patch,
+                  data: {confirm: "Are you sure you want to revert the state back to #{object.previous_state.humanize rescue 'unavailable'} this?" } do %>
+          <i class='glyphicon glyphicon-backward'></i> Undo
+      <% end %>
+    </div>
+    <br clear="all" />
+<% end %>
+
 <% object.train_machine.event_categories.try(:keys).try(:reverse_each) do |category| %>
   <div class='pull-left train-category-container'>
     <div class="panel panel-default train-events train-category-<%= category %>">
@@ -35,3 +48,4 @@
     </div>
   </div>
 <% end %>
+<br clear="all" />

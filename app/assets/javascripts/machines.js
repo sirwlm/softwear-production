@@ -19,7 +19,9 @@ $(document).ready(function() {
 
   setInterval(
     function() {
-      if (!mouseDown) $('#machine-calendar').fullCalendar('refetchEvents');
+        window.noSpinner = true;
+        if (!mouseDown) $('#machine-calendar').fullCalendar('refetchEvents');
+        window.noSpinner = false;
     },
     30000
   );

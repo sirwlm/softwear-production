@@ -32,7 +32,7 @@ SoftwearProduction::Application.routes.draw do
     end
   end
 
-  resources :imprints, except: [:new, :create] do
+  resources :imprints, only: [:update] do
     member do
       patch ':transition', to: 'imprints#transition', as: :transition
     end

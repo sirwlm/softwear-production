@@ -61,6 +61,8 @@ feature 'Generic Print Trains', print_spec: true, js: true do
         success_transition :at_the_press
         expect(page).to have_content 'Current State: In Production'
         find('.train-undo').click
+        sleep(1)
+        page.driver.browser.switch_to.alert.accept
         expect(page).to have_content 'Current State: Ready To Print'
 
         expect(imprint.reload.state).to eq 'ready_to_print'

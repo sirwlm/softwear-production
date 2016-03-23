@@ -10,13 +10,6 @@ feature 'Imprints' do
 
     given!(:machine) { create(:machine) }
 
-    scenario 'I can search imprints', story_460: true do
-      visit imprints_path
-      fill_in 'q[text]', with: print.name
-      click_button 'Search'
-      expect(Sunspot.session).to be_a_search_for(Imprint)
-    end
-
     scenario "A production manager can require an imprint be signed off on", js: true, story_694: true do
       visit new_order_path
       fill_in 'Name', with: 'Require signoff on order'
@@ -49,23 +42,12 @@ feature 'Imprints' do
     include_context 'logged_in_as_user'
     given!(:admin) { create(:admin) }
     background(:each) { print.job = order.jobs.first }
-  
+
     context 'when there is a CRM imprint', story_864: true do
       given!(:crm_imprint) { create(:crm_imprint) }
 
       background do
         print.update_attributes! softwear_crm_id: crm_imprint.id
-      end
-
-      context 'and something goes wrong in CRM' do
-        background do
-          allow(Crm::Imprint).to receive(:find).and_raise "Oh no - we broke it"
-        end
-
-        scenario 'I am informed of this error' do
-          visit imprint_path(print)
-          expect(page).to have_content 'Oh no - we broke it'
-        end
       end
 
       context 'with proofs', js: true, current: true do
@@ -80,14 +62,14 @@ feature 'Imprints' do
           end
 
           scenario 'an alert box tells me that they are rejected' do
-            visit imprint_path(print)
+            visit show_train_path('print', print.id)
             expect(page).to have_content "This proof was rejected."
           end
         end
 
         context 'that are not approved' do
           scenario 'an alert box tells me that they are not yet approved' do
-            visit imprint_path(print)
+            visit show_train_path('print', print.id)
             expect(page).to have_content "This proof is not yet approved."
           end
         end
@@ -97,7 +79,7 @@ feature 'Imprints' do
         given!(:crm_imprint) { create(:crm_imprint) }
 
         scenario 'an alert box tells me there are no proofs' do
-          visit imprint_path(print)
+          visit show_train_path('print', print.id)
           expect(page).to have_content "There are no proofs associated with this imprint in SoftWEAR-CRM."
         end
       end
