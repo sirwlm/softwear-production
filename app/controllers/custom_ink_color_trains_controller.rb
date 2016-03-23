@@ -35,6 +35,6 @@ class CustomInkColorTrainsController < InheritedResources::Base
   private
 
   def custom_ink_color_train_params
-    params.require(:custom_ink_color_train).permit([:pantone_color, :volume])
+    params.require(:custom_ink_color_train).permit([:pantone_color, :volume, :name, :notes])
   end
 end

@@ -6,7 +6,7 @@ class ChangeUserIdsToMatchCrm < ActiveRecord::Migration
   end
 
   def up
-    unless Rails.env.test?
+    unless Rails.env.test? || Rails.env.development?
       user_id_fields = {"Imprint"=>["completed_by_id"], "ImprintGroup"=>["completed_by_id"], "FbaBaggingTrain"=>["completed_by_id"], "StoreDeliveryTrain"=>[:delivered_by_id], "DigitalPrintUser"=>["user_id"], "ScreenTrain"=>[:assigned_to_id], "EmbroideryPrint"=>["completed_by_id"], "Print"=>["completed_by_id"], "TransferMakingPrint"=>["completed_by_id"], "EquipmentCleaningPrint"=>["completed_by_id"], "ScreenPrint"=>["completed_by_id"], "TransferPrint"=>["completed_by_id"], "DigitalPrint"=>["completed_by_id"], "ButtonMakingPrint"=>["completed_by_id"]}
 
       hub_user_id_mapping = {}

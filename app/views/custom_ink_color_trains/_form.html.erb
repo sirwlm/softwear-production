@@ -1,6 +1,8 @@
 <%= bootstrap_form_for custom_ink_color_train, remote: true do |f| %>
+  <%= f.text_field :name %>
   <%= f.text_field :pantone_color %>
   <%= f.text_field :volume %>
+  <%= f.text_area :notes %>
 
   <%= f.submit %>
 <% end %>

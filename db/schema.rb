@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160315195113) do
+ActiveRecord::Schema.define(version: 20160323185113) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -72,9 +72,11 @@ ActiveRecord::Schema.define(version: 20160315195113) do
     t.integer  "job_id",         limit: 4
     t.string   "pantone_color",  limit: 191
     t.string   "volume",         limit: 191
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.string   "previous_state", limit: 191
+    t.string   "name",           limit: 191
+    t.text     "notes",          limit: 65535
   end
 
   create_table "digital_print_users", force: :cascade do |t|
