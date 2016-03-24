@@ -121,13 +121,13 @@ $( document ).ready(function() {
 
     $(document).ajaxStart(function() {
         if (!window.noSpinner) {
-            return $('#loading').fadeIn(100);
+            return $('#loading').fadeIn(10);
         }
     });
 
     $(document).ajaxStop(function() {
         if (!window.noSpinner) {
-            return $('#loading').fadeOut(100);
+            return $('#loading').fadeOut(10);
         }
     });
 

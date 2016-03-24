@@ -38,6 +38,7 @@ function imprintCalendarOn(matcher, options, calendarAgenda) {
       var droppedElement = $(this);
       var eventType = droppedElement.data('type');
       var eventId   = droppedElement.data('id');
+      window.noSpinner = true;
 
       if (options.removeAfterDrop === undefined || options.removeAfterDrop($(this)))
         $(this).remove();
@@ -58,6 +59,7 @@ function imprintCalendarOn(matcher, options, calendarAgenda) {
         $(matcher).fullCalendar(
           'renderEvent', eventObject, true
         );
+        window.noSpinner = false;
       })
 
       .fail(function() {
@@ -185,6 +187,8 @@ function eventIsWithinElement(event, element) {
 function dropOutside(matcher, options) {
   return function(eventObject, jsEvent) {
     $('.event-receiver').each(function() {
+
+      window.noSpinner = true;
       var receiver = $(this);
 
       if (eventIsWithinElement(jsEvent, receiver)) {
@@ -221,10 +225,12 @@ function dropOutside(matcher, options) {
           var entry = $(data.content);
           receiver.append(entry);
           imprintDraggable(entry);
+          window.noSpinner = false;
         })
 
         .fail(function() {
           alert('Server is either down or messed up.');
+          window.noSpinner = false;
         });
       }
     });
