@@ -320,10 +320,6 @@ ActiveRecord::Schema.define(version: 20160323185113) do
     t.string   "previous_state",       limit: 191
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string "name", limit: 191
-  end
-
   create_table "screen_requests", force: :cascade do |t|
     t.integer  "screen_train_id", limit: 4
     t.string   "frame_type",      limit: 191
@@ -450,13 +446,6 @@ ActiveRecord::Schema.define(version: 20160323185113) do
   end
 
   add_index "train_autocompletes", ["field"], name: "index_train_autocompletes_on_field", using: :btree
-
-  create_table "user_roles", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id",    limit: 4
-    t.integer  "role_id",    limit: 4
-  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 191
