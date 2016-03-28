@@ -42,7 +42,6 @@
 
   <% unless screen_train.state == 'pending_sep_request' or screen_train.screen_requests.count == 0 %>  
     <h3>Assigned Screens</h3>
-    <div>
     <div id="screen-train-assigned-screens"> 
       <%= f.fields_for :assigned_screens do |ff| %>
         <%= render 'assigned_screens/assigned_screen_form', f: ff %>

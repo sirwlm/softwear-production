@@ -1,9 +1,10 @@
 class PreProductionController < ApplicationController
-  before_filter :build_options_for_state, only: :art_dashboard
-
+  before_action :build_options_for_state, only: :art_dashboard
+  
   def art_dashboard
     assign_fluid_container
     q = params[:q]
+
     @trains = Sunspot.search ScreenTrain, Ar3Train, DigitizationTrain do
       if q
         fulltext q[:text] unless q[:text].blank?  

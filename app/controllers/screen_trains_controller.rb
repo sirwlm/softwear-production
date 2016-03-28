@@ -1,7 +1,7 @@
 class ScreenTrainsController < InheritedResources::Base
   respond_to :json, only: [:edit, :update]
 
-  def edit 
+  def edit
     edit! do |format|
       format.js
     end

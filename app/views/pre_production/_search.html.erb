@@ -35,7 +35,6 @@
         <%= select_tag 'q[assigned_to_id]', options_for_select(User.all.map { |s| [s.full_name, s.id] }, params[:q] ? params[:q][:assigned_to_id] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
       </div>
     </div>
-
     <div>
       <br />
       <%= button_tag class: 'btn btn-success' do %>

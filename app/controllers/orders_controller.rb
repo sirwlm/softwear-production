@@ -4,7 +4,7 @@ class OrdersController < InheritedResources::Base
 
   def index
     q = params[:q]
-    @orders = Order.search do
+    @orders = Sunspot.search Order do
       if q
         fulltext q[:text] unless q[:text].blank?
 
