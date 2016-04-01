@@ -37,7 +37,8 @@ class EmbroideryPrint < Imprint
       transition :ready_to_print => :printing_in_progress
     end
 
-    success_event :completed do
+    success_event :completed,
+      params: { completed_by_id: User.train_param } do
       transition :printing_in_progress => :complete
     end
 

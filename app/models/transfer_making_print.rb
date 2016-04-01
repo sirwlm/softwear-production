@@ -36,7 +36,8 @@ class TransferMakingPrint < Imprint
       transition :ready_for_printing => :printing_in_progress
     end
 
-    success_event :completed do
+    success_event :completed,
+      params: { completed_by_id: User.train_param } do
       transition :printing_in_progress => :complete
     end
 

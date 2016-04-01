@@ -18,7 +18,8 @@ class Print < Imprint
       transition :ready_to_print => :in_production
     end
 
-    success_event :printing_complete do
+    success_event :printing_complete,
+      params: { completed_by_id: User.train_param } do
       transition :in_production => :complete
     end
   end

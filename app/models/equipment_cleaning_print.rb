@@ -26,7 +26,8 @@ class EquipmentCleaningPrint < Imprint
       transition :drying => :sanitizing
     end
 
-    success_event :repacked_bag do
+    success_event :repacked_bag,
+      params: { completed_by_id: User.train_param } do
       transition :sanitizing => :complete
     end
 

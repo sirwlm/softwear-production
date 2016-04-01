@@ -41,7 +41,8 @@ class ScreenPrint < Imprint
       transition :pending_print_start => :printing
     end
 
-    success_event :print_complete do
+    success_event :print_complete,
+      params: { completed_by_id: User.train_param } do
       transition :printing => :complete
     end
 
