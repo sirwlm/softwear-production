@@ -104,7 +104,9 @@ $(document).ready(function() {
 
     setInterval(
       function() {
-        if (!mouseDown) $('#calendar').fullCalendar('refetchEvents');
+        if (!mouseDown) {
+          reloadCalendar('#calendar');
+        }
       },
       300000
     );

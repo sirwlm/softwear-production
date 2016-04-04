@@ -20,7 +20,7 @@ $(document).ready(function() {
   setInterval(
     function() {
         window.noSpinner = true;
-        if (!mouseDown) $('#machine-calendar').fullCalendar('refetchEvents');
+        if (!mouseDown) reloadCalendar('#machine-calendar');
         window.noSpinner = false;
     },
     30000

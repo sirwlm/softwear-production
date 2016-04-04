@@ -1,3 +1,8 @@
+function reloadCalendar(calendar) {
+  $(calendar).fullCalendar('removeEvents');
+  $(calendar).fullCalendar('refetchEvents');
+}
+
 function imprintCalendarOn(matcher, options, calendarAgenda) {
   window.calendarMatcher = matcher;
 

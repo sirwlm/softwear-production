@@ -4,7 +4,7 @@
       <%= link_to train_undo_path(object.model_name.element, object.id),
                   class: 'btn btn-warning btn-xs train-undo',
                   remote: true, method: :patch,
-                  data: {confirm: "Are you sure you want to revert the state back to #{object.previous_state.humanize rescue 'unavailable'} this?" } do %>
+                  data: {confirm: "Are you sure you want to revert the state back to #{object.previous_state.humanize rescue 'unavailable'}?" } do %>
           <i class='glyphicon glyphicon-backward'></i> Undo
       <% end %>
     </div>

@@ -163,6 +163,7 @@ module Train
     try :after_validation, :update_previous_state, if: :state_changed?
 
     try :scope, :dangling, -> { where dependent_field => nil }
+    try :scope, :with_bad_state, -> { where.not train_machine.attribute => train_machine.states.map(&:name) }
 
     def self.dependent_field
       column_names.include?('job_id') ? :job_id : :order_id
