@@ -1,7 +1,18 @@
 class DashboardController < ApplicationController
   before_filter :assign_fluid_container, only: [:calendar, :post_production, :pre_production]
+  before_filter :assign_current_view, only: :index
 
   def index
+  end
+
+  def view
+    if params[:view] =~ /Mobile/
+      session[:current_view] = "Mobile"    
+    else
+      session[:current_view] = "Desktop"
+    end
+
+    redirect_to params[:return_to] || root_path
   end
 
   def calendar
@@ -74,5 +85,4 @@ class DashboardController < ApplicationController
     @train_classes = Train.train_types[train_types.to_sym].map{|x| x.to_s.constantize }
     @train_class_name_options = @train_classes.map(&:to_s)
   end
-
 end
