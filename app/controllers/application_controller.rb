@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   def configure_user_parameters
     devise_parameter_sanitizer.for(:sign_up) do |u|
-      u.permit :email, :password, :password_confirmation, :first_name, :last_name
+      u.permit :email, :password, :password_confirmation, :first_name, :last_name, :default_view
     end
   end
 
@@ -37,5 +37,5 @@ class ApplicationController < ActionController::Base
   def xeditable?(*a)
     true
   end
-
+  
 end
