@@ -53,6 +53,11 @@ class FbaBaggingTrain < ActiveRecord::Base
     "#{'(COMPLETE) ' if completed?}FBA BAGGING: #{order.name}"
   end
 
+  def inventory_location
+    location = order.stage_for_fba_bagging_train.location
+    return location.nil? ? "Location not set" : location
+  end
+
   def calendar_color
     return 'white' if machine_id.nil?
     return 'rgb(204, 204, 204)' if completed?

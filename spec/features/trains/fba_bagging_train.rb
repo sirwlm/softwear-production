@@ -4,8 +4,9 @@ feature 'Fba Bagging Train' do
 
   context "as an admin", js: true do
     include_context 'logged_in_as_admin'
-    
-    given(:fba_bagging_train) { create(:fba_bagging_train) }
+   
+    given(:stage_for_fba) { create(:stage_for_fba_bagging_train) } 
+    given(:fba_bagging_train) { create(:fba_bagging_train, order_id: stage_for_fba.order.id) }
 
     scenario 'The trains successful stations are Bagging in Progress, Bagged', story_868: true do
       
@@ -26,7 +27,9 @@ feature 'Fba Bagging Train' do
       expect(page).to have_css('.alert-info', text: 'Bagged')
       within('.train-category-success') do 
         expect(page).to have_no_selector('button')
-      end      
+      end
+
+      expect(page).to have_content("#{stage_for_fba.location}")      
 
     end
     

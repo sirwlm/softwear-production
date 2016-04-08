@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160408185441) do
+ActiveRecord::Schema.define(version: 20160404214409) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -51,7 +51,6 @@ ActiveRecord::Schema.define(version: 20160408185441) do
     t.datetime "updated_at",                              null: false
     t.integer  "crm_artwork_request_id", limit: 4
     t.string   "previous_state",         limit: 191
-    t.string   "final_ar3_location",     limit: 191
   end
 
   create_table "assigned_screens", force: :cascade do |t|
@@ -105,18 +104,17 @@ ActiveRecord::Schema.define(version: 20160408185441) do
   end
 
   create_table "fba_bagging_trains", force: :cascade do |t|
-    t.string   "state",              limit: 191
-    t.integer  "machine_id",         limit: 4
-    t.integer  "completed_by_id",    limit: 4
+    t.string   "state",            limit: 191
+    t.integer  "machine_id",       limit: 4
+    t.integer  "completed_by_id",  limit: 4
     t.datetime "scheduled_at"
-    t.decimal  "estimated_time",                 precision: 10, scale: 2
+    t.decimal  "estimated_time",               precision: 10, scale: 2
     t.datetime "estimated_end_at"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
-    t.integer  "order_id",           limit: 4
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+    t.integer  "order_id",         limit: 4
     t.datetime "completed_at"
-    t.string   "previous_state",     limit: 191
-    t.string   "inventory_location", limit: 191
+    t.string   "previous_state",   limit: 191
   end
 
   create_table "fba_label_trains", force: :cascade do |t|
@@ -404,13 +402,12 @@ ActiveRecord::Schema.define(version: 20160408185441) do
   end
 
   create_table "stage_for_fba_bagging_trains", force: :cascade do |t|
-    t.string   "state",              limit: 191
-    t.string   "location",           limit: 191
-    t.integer  "order_id",           limit: 4
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "previous_state",     limit: 191
-    t.string   "inventory_location", limit: 191
+    t.string   "state",          limit: 191
+    t.string   "location",       limit: 191
+    t.integer  "order_id",       limit: 4
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "previous_state", limit: 191
   end
 
   add_index "stage_for_fba_bagging_trains", ["location"], name: "index_stage_for_fba_bagging_trains_on_location", using: :btree
