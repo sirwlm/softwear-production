@@ -1,6 +1,5 @@
 class DashboardController < ApplicationController
   before_filter :assign_fluid_container, only: [:calendar, :post_production, :pre_production]
-  before_filter :assign_current_view, only: :index
 
   def index
   end
