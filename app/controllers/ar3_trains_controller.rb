@@ -42,8 +42,6 @@ class Ar3TrainsController < InheritedResources::Base
   private
 
   def ar3_train_params
-    params.require(:ar3_train).permit(
-      [:notes]
-    )
+    params.require(:ar3_train).permit(:notes, :artwork_location, :final_ar3_location)
   end
 end

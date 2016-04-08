@@ -412,7 +412,7 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
-    softwear-lib (1.7.11)
+    softwear-lib (1.7.15)
       activesupport
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
@@ -570,3 +570,6 @@ DEPENDENCIES
   whenever
   with_model
   x-editable-rails
+
+BUNDLED WITH
+   1.11.2

@@ -17,7 +17,7 @@
     <% rescue %>
       No Roles Defined
     <% end %>
-    </div>
+  </div>
 
   <% if create_or_edit_text(user) == 'Create' %>
   <div class="form-group"><%= f.label :password %> <% if @validatable %><i>(<%= @minimum_password_length %> characters minimum)</i><% end %><br />
