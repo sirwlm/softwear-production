@@ -8,8 +8,6 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   belongs_to :order
 
-  validates :order, presence: true
-
   before_create :set_default_machine_id
 
   searchable do
