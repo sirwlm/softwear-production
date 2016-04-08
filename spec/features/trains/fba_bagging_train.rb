@@ -29,6 +29,7 @@ feature 'Fba Bagging Train' do
         expect(page).to have_no_selector('button')
       end
 
+      #checks for inventory location
       expect(page).to have_content("#{stage_for_fba.location}")      
 
     end
