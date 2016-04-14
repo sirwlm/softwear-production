@@ -10,6 +10,7 @@ class ScreenTrainsController < InheritedResources::Base
   def update 
     update! do |success, failure|
       success.js do
+        flash[:success] = "Successfully updated"
         @object = @screen_train
         @title  = "Screen train (updated)"
         render 'screen_trains/update'

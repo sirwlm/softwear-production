@@ -8,8 +8,6 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   belongs_to :order
 
-  validates :order, presence: true
-
   before_create :set_default_machine_id
 
   searchable do
@@ -53,6 +51,11 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   def display
     "#{'(COMPLETE) ' if completed?}FBA BAGGING: #{order.name}"
+  end
+
+  def inventory_location
+    location = order.stage_for_fba_bagging_train.location
+    return location.nil? ? "Location not set" : location
   end
 
   def calendar_color

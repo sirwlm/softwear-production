@@ -7,6 +7,7 @@ SoftwearProduction::Application.routes.draw do
   get 'dashboard/index'
   get 'dashboard/calendar'
   post 'dashboard/filter'
+  post 'dashboard/view'
 
   get '/set-session-token', to: 'users#set_session_token', as: :set_session_token
   get '/clear-user-query-cache', to: 'users#clear_query_cache', as: :clear_user_query_cache

@@ -4,6 +4,16 @@ class DashboardController < ApplicationController
   def index
   end
 
+  def view
+    if params[:view] =~ /Mobile/
+      session[:current_view] = "Mobile"    
+    else
+      session[:current_view] = "Desktop"
+    end
+
+    redirect_to params[:return_to] || root_path
+  end
+
   def calendar
   end
 
@@ -74,5 +84,4 @@ class DashboardController < ApplicationController
     @train_classes = Train.train_types[train_types.to_sym].map{|x| x.to_s.constantize }
     @train_class_name_options = @train_classes.map(&:to_s)
   end
-
 end

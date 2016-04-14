@@ -85,4 +85,8 @@ module ApplicationHelper
       pluralize(metric.value, 'times')
     end
   end
+
+  def current_view
+    session[:current_view]
+  end
 end
