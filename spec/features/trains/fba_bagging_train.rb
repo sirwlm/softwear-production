@@ -5,8 +5,7 @@ feature 'Fba Bagging Train' do
   context "as an admin", js: true do
     include_context 'logged_in_as_admin'
    
-    given(:stage_for_fba) { create(:stage_for_fba_bagging_train) } 
-    given(:fba_bagging_train) { create(:fba_bagging_train, order_id: stage_for_fba.order.id) }
+    given(:fba_bagging_train) { create(:fba_bagging_train) }
 
     scenario 'The trains successful stations are Bagging in Progress, Bagged', story_868: true do
       
@@ -28,10 +27,7 @@ feature 'Fba Bagging Train' do
       within('.train-category-success') do 
         expect(page).to have_no_selector('button')
       end
-
-      #checks for inventory location
-      expect(page).to have_content("#{stage_for_fba.location}")      
-
+    
     end
     
     scenario 'The train can delay and restart in the bagging_in_progress state', current: true, story_868: true do
@@ -48,7 +44,7 @@ feature 'Fba Bagging Train' do
         sleep(1)
       end
 
-      within("form[action='#{transition_train_path(:fba_bagging_train, fba_bagging_train, :delayed)}']") do 
+      within(".train-category-delay") do 
         find('#public_activity_reason').set('Delayed Reason')        
         click_button 'Delayed'
         sleep(1)
@@ -67,8 +63,9 @@ feature 'Fba Bagging Train' do
       end
 
       expect(page).to have_css('.alert-info', text: 'Bagged')
-      expect(page).to have_no_selector('button')
-
+      within('.train-category-success') do
+        expect(page).to have_no_selector('button')
+      end
     end
   end
 end

@@ -27,6 +27,10 @@ class StageForFbaBaggingTrain < ActiveRecord::Base
     state :staged, type: :success
   end
 
+  def display
+    "Stage for FBA Bagging Train"
+  end
+
   private
 
   def update_fba_bagging_train_location
