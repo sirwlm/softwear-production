@@ -26,10 +26,14 @@ module Schedulable
 
   def self.unscheduled_scope(context)
     if context.method_defined?(:imprint_group_id)
-      context.where(scheduled_at: nil).where(imprint_group_id: nil)
+      q = context.where(scheduled_at: nil).where(imprint_group_id: nil)
     else
-      context.where(scheduled_at: nil)
+      q = context.where(scheduled_at: nil)
     end
+    if context.method_defined?(:state)
+      q = q.where.not(state: 'canceled')
+    end
+    q
   end
   
   def self.machineless_scope(context)
