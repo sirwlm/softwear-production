@@ -42,6 +42,6 @@ class FbaBaggingTrainsController < InheritedResources::Base
   protected
 
   def fba_bagging_train_params
-    params.require(:fba_bagging_train).permit(calendar_event_params(:machine_id, :estimated_time))
+    params.require(:fba_bagging_train).permit(calendar_event_params(:machine_id, :estimated_time, :inventory_location))
   end
 end

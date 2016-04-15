@@ -38,6 +38,7 @@ feature 'Stage For Pickup Train' do
       expect(page).to have_content "Stage for pickup train"
     end
 
+    # http://api.rubyonrails.org/classes/ActiveModel/Dirty.html
     scenario 'When I enter in the inventory location through the transition it shows up in the FBABaggingTrain', pending: 'Stefan'
     scenario 'When I enter in the inventory location through the Edit Form it shows up in the FBABaggingTrain', pending: 'Stefan'
 
