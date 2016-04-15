@@ -18,4 +18,8 @@ namespace :imprints do
 
     end
   end
+
+  task unschedule_canceled: :environment do
+    Imprint.where(state: 'canceled').where.not(scheduled_at: nil).update_all scheduled_at: nil
+  end
 end
