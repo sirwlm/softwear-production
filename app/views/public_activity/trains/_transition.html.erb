@@ -4,7 +4,7 @@
     <%= render 'public_activity/shared/editable_timestamp', activity: activity %>
   </div>
   <div class="col-xs-3">
-    <%= activity.owner.email %>
+    <%= activity.owner.try(:email) || '??' %>
   </div>
   <div class="col-xs-2">
     <%= activity.parameters['event'].to_s %>

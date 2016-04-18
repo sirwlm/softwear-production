@@ -187,6 +187,10 @@ class Order < ActiveRecord::Base
             owner: nil
           )
         end
+
+        if train.respond_to?(:scheduled_at=) && train.try(:scheduled_at)
+          train.update_column :scheduled_at, nil
+        end
       end
     end
 
