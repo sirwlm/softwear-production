@@ -130,7 +130,7 @@ feature "ScreenTrains", type: :feature, js: true do
     end
 
     context 'from an order', orders: true do
-      scenario 'I can edit a screen train and it does not move me away from the order page' do
+      scenario 'I can edit a screen train and it does not move me away from the order page', retry: 2 do
         visit order_path(order)
         first('a', text: 'Show Full Details').click
         sleep 2
@@ -140,7 +140,7 @@ feature "ScreenTrains", type: :feature, js: true do
         end
         fill_in 'Notes', with: 'Hello it is me'
         click_button 'Update Screen train'
-        sleep 1
+        sleep 3
 
         expect(page).to have_content 'successfully updated'
         expect(current_path).to eq order_path(order)
