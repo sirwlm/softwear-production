@@ -19,6 +19,7 @@ module TrainSearch
         end
 
         time :order_deadline
+        time :scheduled_at
 
         boolean :order_complete do
           self.order_complete?
@@ -49,6 +50,10 @@ module TrainSearch
   def order_deadline
     return job.try(:order).try(:deadline) if respond_to? :job
     order.try(:deadline)
+  end
+
+  def scheduled_at
+    self.scheduled_time
   end
 
   def order_name

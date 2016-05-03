@@ -17,6 +17,7 @@ class ImprintableTrain < ActiveRecord::Base
   has_many :imprints, through: :job
 
   searchable do
+        
     text :job_name, :imprint_names, :location
     string :order_imprint_state do
       order.try(:imprint_state)

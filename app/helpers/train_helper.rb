@@ -1,4 +1,9 @@
 module TrainHelper
+  
+  def formatted_scheduled_time(time)
+    time.strftime('%a, %b %d, %Y') unless time.nil?
+  end
+
   def train_state_of(object)
     object.train_machine.states.match!(object)
   end
