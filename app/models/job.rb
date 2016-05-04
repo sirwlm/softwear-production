@@ -5,7 +5,6 @@ class Job < ActiveRecord::Base
   has_one :imprintable_train, dependent: :destroy
   has_one :preproduction_notes_train, dependent: :destroy
   has_one :shipment_train, as: :shipment_holder, dependent: :destroy
-  has_many :custom_ink_color_trains, dependent: :destroy
   has_many :imprints, dependent: :destroy
   belongs_to :order
 
