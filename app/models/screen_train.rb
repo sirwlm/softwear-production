@@ -18,6 +18,8 @@ class ScreenTrain < ActiveRecord::Base
   has_many :jobs, through: :imprints
   has_many :screen_requests, -> { order(ink: :asc) },  dependent: :destroy
 
+  before_save :transition_screens, if: :was_assigned?
+
   validates :order, presence: true
   validates :print_type, inclusion: { in: PRINT_TYPES }, unless: -> { self.print_type.blank? }
   
@@ -72,6 +74,20 @@ class ScreenTrain < ActiveRecord::Base
     state :pending_approval, type: :success
     state :pending_screens, type: :success
     state :complete, type: :success
+  end
+
+  def was_assigned?
+    (state == "pending_separation" && state_changed?)
+  end
+
+  def transition_screens
+    unless screens.blank?
+      screens.each do |screen|
+        if screen.state == 'ready_to_expose'
+          screen.exposed 
+        end
+      end
+    end
   end
 
   def proof_request_data_complete?

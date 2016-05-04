@@ -4,7 +4,6 @@ class RefactorCustomInkColorTrainAssociation < ActiveRecord::Migration
     
     CustomInkColorTrain.all.each do |ct|
       new_order_id = ct.job.nil? ? nil : ct.job.order_id
-    
       ct.order_id = new_order_id
 
       begin

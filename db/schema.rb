@@ -322,6 +322,10 @@ ActiveRecord::Schema.define(version: 20160504163658) do
     t.string   "previous_state",       limit: 191
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string "name", limit: 191
+  end
+
   create_table "screen_requests", force: :cascade do |t|
     t.integer  "screen_train_id", limit: 4
     t.string   "frame_type",      limit: 191
@@ -401,6 +405,7 @@ ActiveRecord::Schema.define(version: 20160504163658) do
 
   create_table "stage_for_fba_bagging_trains", force: :cascade do |t|
     t.string   "state",              limit: 191
+    t.string   "location",           limit: 191
     t.integer  "order_id",           limit: 4
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
@@ -408,6 +413,7 @@ ActiveRecord::Schema.define(version: 20160504163658) do
     t.string   "inventory_location", limit: 191
   end
 
+  add_index "stage_for_fba_bagging_trains", ["location"], name: "index_stage_for_fba_bagging_trains_on_location", using: :btree
   add_index "stage_for_fba_bagging_trains", ["order_id"], name: "index_stage_for_fba_bagging_trains_on_order_id", using: :btree
   add_index "stage_for_fba_bagging_trains", ["state"], name: "index_stage_for_fba_bagging_trains_on_state", using: :btree
 
@@ -448,6 +454,13 @@ ActiveRecord::Schema.define(version: 20160504163658) do
 
   add_index "train_autocompletes", ["field"], name: "index_train_autocompletes_on_field", using: :btree
 
+  create_table "user_roles", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id",    limit: 4
+    t.integer  "role_id",    limit: 4
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 191
     t.string   "encrypted_password",     limit: 191
@@ -469,6 +482,7 @@ ActiveRecord::Schema.define(version: 20160504163658) do
     t.string   "first_name",             limit: 191
     t.string   "last_name",              limit: 191
     t.string   "authentication_token",   limit: 191
+    t.string   "default_view",           limit: 191
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree

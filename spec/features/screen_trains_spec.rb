@@ -148,6 +148,32 @@ feature "ScreenTrains", type: :feature, js: true do
       end
     end
 
+    context 'Given a screen_train with pending_sep_assignment state and assigned_screens' do
+      context 'If an assigned_screen is in the "ready_to_expose" state' do
+        given!(:screen) { create(:screen, state: "ready_to_expose") }
+        given!(:screen_request) { 
+          create(:screen_request,
+            mesh_type:        screen.mesh_type,
+            frame_type:       screen.frame_type,
+            dimensions:       screen.dimensions,
+            screen_train_id:  screen_train.id
+                )} 
+        given!(:assigned_screen) { 
+          create(:assigned_screen,
+            screen_train_id: screen_train.id,
+            screen_request_id: screen_request.id
+                )}
+       
+        before :each do
+          screen_train.update_attribute(:state, :pending_screens)
+        end
+
+        scenario 'When assigning screen_train, it also transitions the screen(s) with "ready_to_expose" state' do
+          byebug 
+        end
+      end
+    end
+
     context 'given a screen train has all of the proof request data and all screens assigned' do 
 
       background { allow_any_instance_of(ScreenTrain).to receive(:proof_request_data_complete?).and_return(true) }
