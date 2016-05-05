@@ -84,7 +84,8 @@ class ScreenTrain < ActiveRecord::Base
     unless screens.blank?
       screens.each do |screen|
         if screen.state == 'ready_to_expose'
-          screen.exposed 
+          screen.exposed
+          screen.save 
         end
       end
     end
