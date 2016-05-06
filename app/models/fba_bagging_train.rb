@@ -49,6 +49,11 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   end
 
+  def all_production_trains_complete
+    train_statuses = order.production_trains.flat_map{ |t| t.state }.uniq
+    return (train_statuses.count == 1 && train_statuses.first == "complete")
+  end
+
   def display
     "#{'(COMPLETE) ' if completed?}FBA BAGGING: #{order.name}"
   end
