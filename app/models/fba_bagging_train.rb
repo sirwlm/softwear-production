@@ -49,7 +49,11 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   end
 
-  def all_production_trains_complete
+  def printed?
+    production_trains_complete? ? "Yes" : "No"
+  end
+
+  def production_trains_complete?
     train_statuses = order.production_trains.flat_map{ |t| t.state }.uniq
     return (train_statuses.count == 1 && train_statuses.first == "complete")
   end
@@ -59,7 +63,7 @@ class FbaBaggingTrain < ActiveRecord::Base
   end
 
   def inventory_location
-    location = order.stage_for_fba_bagging_train.location
+    location = order.stage_for_fba_bagging_train.inventory_location
     return location.nil? ? "Location not set" : location
   end
 

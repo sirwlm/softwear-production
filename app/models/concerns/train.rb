@@ -211,9 +211,15 @@ module Train
       train_machine.instance_eval(&default_train_events) if default_train_events
       train_machine.complete_state = final_state.to_sym if final_state
       train_machine.first_state = initial_state.to_sym if initial_state
+
       train_machine.after_transition(
         train_machine.send(:any) => train_machine.complete_state,
         do: :update_order_completion_status
+      )
+
+      train_machine.after_transition(
+        train_machine.send(:any) => train_machine.complete_state,
+        do: :try_on_complete
       )
 
       if defined? searchable
@@ -392,5 +398,9 @@ module Train
 
   def train_id
     "#{self.class.name}##{id}"
+  end
+
+  def try_on_complete
+    on_complete if respond_to?(:on_complete)
   end
 end
