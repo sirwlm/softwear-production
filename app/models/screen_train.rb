@@ -89,17 +89,13 @@ class ScreenTrain < ActiveRecord::Base
 
   def unique_jobs
     unique_jobs = []
-    job_ids = imprints.flat_map{ |x| x.job_id }.uniq
+    job_ids = imprints.flat_map{ |i| i.job_id }.uniq
 
     job_ids.each do |id|
       unique_jobs << Job.find(id)
     end
 
     unique_jobs
-  end
-
-  def unique_imprints
-    unique_imprints = []
   end
 
   def screen_inks

@@ -8,6 +8,16 @@
       No order
     <% end %>
     <dl>
+      <% if train.class.name == "ScreenTrain" %>
+        <br />
+        <dt>CRM Order</dt>
+        <dd class="screen-train-imprints">CRM#<%=train.order.softwear_crm_id %> <%= train.order.crm.name%></dd>
+        <dt>CRM Job(s)</dt>
+        <% train.unique_jobs.each do |j| %>
+          <dd class="screen-train-imprints">CRM#<%= j.softwear_crm_id %></dd>
+        <% end %>
+      <% end %>
+      <br />
       <dt>Imprint(s)</dt>
       <dd class="screen-train-imprints"><%= train.imprints.map{|x| x.name }.join(", ")  %>
       </dd>
