@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160504163658) do
+ActiveRecord::Schema.define(version: 20160506165622) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -111,12 +111,13 @@ ActiveRecord::Schema.define(version: 20160504163658) do
     t.datetime "scheduled_at"
     t.decimal  "estimated_time",                 precision: 10, scale: 2
     t.datetime "estimated_end_at"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.datetime "created_at",                                                              null: false
+    t.datetime "updated_at",                                                              null: false
     t.integer  "order_id",           limit: 4
     t.datetime "completed_at"
     t.string   "previous_state",     limit: 191
     t.string   "inventory_location", limit: 191
+    t.boolean  "printed",                                                 default: false
   end
 
   create_table "fba_label_trains", force: :cascade do |t|

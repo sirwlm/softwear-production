@@ -26,6 +26,10 @@
           <dd class="screen-train-imprints">CRM#<%= j.softwear_crm_id %> <%= j.name %></dd>
         <% end %>
       <% end %>
+      <% if object.class.name == "FbaBaggingTrain" %>
+        <dt>Printed</dt>
+        <dd class="screen-train-imprints"><%= object.printed? %></dd>
+      <% end %>
     </dl>
 
     <%= capture(&block) if local_assigns[:block] %>

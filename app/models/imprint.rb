@@ -55,6 +55,13 @@ class Imprint < ActiveRecord::Base
     integer :machine_id
   end
 
+  def on_complete
+    if order.fba?
+      fba_train =  order.fba_bagging_train
+      fba_train.update_attributes(printed: fba_train.production_trains_complete?)
+    end 
+  end
+
   def revolved
     super || false
   end
