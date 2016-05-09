@@ -42,6 +42,11 @@ class Order < ActiveRecord::Base
     canceled_changed? && canceled? && !canceled_was
   end
 
+  def crm_job_and_name(proof)
+    job = self.jobs.where(softwear_crm_id: proof.job_id).first.crm
+    return "#{job.name} - CRM##{job.id}"
+  end
+
   def full_name
     return "FBA - #{name}" if fba?
     return "#{customer_name} - #{name}" unless customer_name.blank?
