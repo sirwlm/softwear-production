@@ -37,6 +37,7 @@ class Imprint < ActiveRecord::Base
   has_many :assigned_screens, through: :screen_train
   has_many :screens, through: :assigned_screens
   has_one :order, through: :job
+  has_one :imprintable_train, through: :job
 
   searchable do
     text :full_name, :description
