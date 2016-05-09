@@ -383,6 +383,12 @@ ActiveRecord::Schema.define(version: 20160506165622) do
     t.datetime "updated_at"
   end
 
+  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
+  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
+  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
+  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
+  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
+
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",                limit: 191
     t.integer  "shipped_by_id",        limit: 4
@@ -402,6 +408,7 @@ ActiveRecord::Schema.define(version: 20160506165622) do
 
   create_table "stage_for_fba_bagging_trains", force: :cascade do |t|
     t.string   "state",              limit: 191
+    t.string   "location",           limit: 191
     t.integer  "order_id",           limit: 4
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
@@ -409,6 +416,7 @@ ActiveRecord::Schema.define(version: 20160506165622) do
     t.string   "inventory_location", limit: 191
   end
 
+  add_index "stage_for_fba_bagging_trains", ["location"], name: "index_stage_for_fba_bagging_trains_on_location", using: :btree
   add_index "stage_for_fba_bagging_trains", ["order_id"], name: "index_stage_for_fba_bagging_trains_on_order_id", using: :btree
   add_index "stage_for_fba_bagging_trains", ["state"], name: "index_stage_for_fba_bagging_trains_on_state", using: :btree
 
@@ -448,33 +456,6 @@ ActiveRecord::Schema.define(version: 20160506165622) do
   end
 
   add_index "train_autocompletes", ["field"], name: "index_train_autocompletes_on_field", using: :btree
-
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 191
-    t.string   "encrypted_password",     limit: 191
-    t.string   "reset_password_token",   limit: 191
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 191
-    t.string   "last_sign_in_ip",        limit: 191
-    t.string   "confirmation_token",     limit: 191
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email",      limit: 191
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "deleted_at"
-    t.string   "first_name",             limit: 191
-    t.string   "last_name",              limit: 191
-    t.string   "authentication_token",   limit: 191
-  end
-
-  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "warning_emails", force: :cascade do |t|
     t.string  "model",     limit: 191
