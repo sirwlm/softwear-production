@@ -16,7 +16,7 @@
               <%= link_to crm_image_tag(mockup_path[0], class: 'img img-responsive'), mockup_path[1], target: "_blank" %>
             <% end %>
             <h4>Job</h4>
-            <%= order.crm_job_and_name(proof) %>
+            <%= order.crm_job_and_name(proof) rescue 'Error retrieving CRM Job Information' %>
         </div>
         <div class="col-sm-6">
           <h4>Artwork</h4>
