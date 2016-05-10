@@ -115,13 +115,18 @@ feature 'Orders' do
   end
 
   describe 'for an existing order', js: true, story_869: true do
-    given(:job) { create(:job) }
-    given(:order) { create(:order, jobs: [job]) }
+    given!(:job) { create(:job) }
+    given!(:order) { create(:order, jobs: [job]) }
 
     context 'and there is a matching crm order' do
-      given!(:crm_order) { create(:crm_order_with_proofs) }
+      given!(:crm_order) { create(:crm_order) }
+      given!(:crm_job) { create(:crm_job, order_id: crm_order.id) }
+      given!(:crm_proof) { create(:crm_proof, job_id: crm_job.id) }
     
       background do
+        crm_order.proofs = []
+        crm_order.proofs << crm_proof
+        crm_order.save!
         crm_order.proofs.first.artworks =[
           OpenStruct.new({
             path: Rails.root.join('spec/fixtures/images/capybara1.JPG'), 
@@ -130,6 +135,8 @@ feature 'Orders' do
         ]
         order.softwear_crm_id = crm_order.id
         order.save!
+        job.softwear_crm_id = crm_job.id
+        job.save!
       end
 
       scenario 'I can see the proofs from crm', story_864: true do
@@ -137,7 +144,14 @@ feature 'Orders' do
         
         expect(page).to have_content 'Status:'
       end
+
+      scenario 'I can see the CRM Job info with the proofs' do
+        visit order_path(order)
+
+        expect(page).to have_content "#{crm_job.name} - CRM##{job.softwear_crm_id}"
+      end
     end
+
 
     scenario 'I can add an embroidery print' do
       visit edit_order_path(order)
