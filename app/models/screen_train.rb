@@ -89,13 +89,18 @@ class ScreenTrain < ActiveRecord::Base
 
   def unique_jobs
     unique_jobs = []
-    job_ids = imprints.flat_map{ |i| i.job_id }.uniq
+    job_ids = self.imprints.flat_map{ |i| i.job_id }.uniq
 
-    job_ids.each do |id|
-      unique_jobs << Job.find(id)
+    job_ids.each do |j_id|
+      unique_jobs << Job.find(j_id)
     end
 
     unique_jobs
+  end
+
+  def self.order_id_and_name(train)
+    crm = train.order.crm
+    return "CRM##{crm.id} - #{crm.name}"
   end
 
   def screen_inks

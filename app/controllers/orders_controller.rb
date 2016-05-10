@@ -22,6 +22,7 @@ class OrdersController < InheritedResources::Base
       paginate page: params[:page] || 1
     end
       .results
+      byebug
   end
 
   def force_complete
