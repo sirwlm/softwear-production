@@ -11,7 +11,7 @@ class ImprintGroup < ActiveRecord::Base
 
   belongs_to :order
   has_many :imprints
-  has_one :imprintable_train, through: :imprints
+  has_one :imprintable_trains, through: :imprints
   belongs_to :machine
 
   after_create :set_order_has_imprint_groups_flag
@@ -61,6 +61,10 @@ class ImprintGroup < ActiveRecord::Base
 
   def display
     "#{'(COMPLETE)' if complete?} #{full_name}"
+  end
+
+  def imprintable_train
+    imprintable_trains.first
   end
 
   # This is used for dispaying proofs
