@@ -11,6 +11,7 @@ class ImprintGroup < ActiveRecord::Base
 
   belongs_to :order
   has_many :imprints
+  has_one :imprintable_train, through: :imprints
   belongs_to :machine
 
   after_create :set_order_has_imprint_groups_flag
@@ -44,6 +45,9 @@ class ImprintGroup < ActiveRecord::Base
     end
     def method_missing(name, *args, &block)
       Imprint.send(name, *args, &block)
+    end
+    def train_public_activity_blacklist
+      []
     end
   end
 

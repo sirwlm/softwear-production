@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506165622) do
+ActiveRecord::Schema.define(version: 20160510192727) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -329,7 +329,6 @@ ActiveRecord::Schema.define(version: 20160506165622) do
     t.string   "mesh_type",       limit: 191
     t.string   "dimensions",      limit: 191
     t.string   "ink",             limit: 191
-    t.boolean  "primary"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
@@ -338,7 +337,6 @@ ActiveRecord::Schema.define(version: 20160506165622) do
   add_index "screen_requests", ["frame_type"], name: "index_screen_requests_on_frame_type", using: :btree
   add_index "screen_requests", ["ink"], name: "index_screen_requests_on_ink", using: :btree
   add_index "screen_requests", ["mesh_type"], name: "index_screen_requests_on_mesh_type", using: :btree
-  add_index "screen_requests", ["primary"], name: "index_screen_requests_on_primary", using: :btree
   add_index "screen_requests", ["screen_train_id"], name: "index_screen_requests_on_screen_train_id", using: :btree
 
   create_table "screen_trains", force: :cascade do |t|

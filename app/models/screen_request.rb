@@ -5,20 +5,12 @@ class ScreenRequest < ActiveRecord::Base
   validates :frame_type, presence: true, inclusion: { in: Screen::FRAME_TYPES }
   validates :mesh_type, presence: true, inclusion: { in: Screen::MESH_TYPES }
   validates :dimensions, presence: true, inclusion: { in: Screen::DIMENSIONS }
-  validates :ink, presence: true
+  validates :ink, presence: true, uniqueness: { scope: :screen_train_id }, if: :screen_train_id
 
-  before_save :there_can_only_be_one_primary
+  after_initialize -> (s) { s.frame_type ||= 'Roller'; s.dimensions ||= '21x33' }
 
   def name
-    n = "#{ink} #{mesh_type} - #{dimensions} - #{screen_train.try(:lpi) || '?'}lpi"
-    n = "#{n}*" if primary?
-    n 
-  end
-
-  private
-
-  def there_can_only_be_one_primary
-      self.screen_train.screen_requests.where(ink: self.ink).update_all(primary: false) if self.primary?
+    "#{ink} #{mesh_type} - #{dimensions} - #{screen_train.try(:lpi) || '?'}lpi"
   end
 
 end

@@ -44,7 +44,7 @@ feature 'Screen Features', js: true do
         expect(page).to have_content "Screen state was successfully updated"
       end
 
-      scenario 'can advance bad_prep state' do
+      scenario 'can advance bad_prep state', retry: 3 do
         scan_barcode('screen-id', s1.id)
         click_link 'Bad Prep'
         sleep 1.5
