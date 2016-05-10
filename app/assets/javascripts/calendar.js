@@ -58,12 +58,8 @@ function imprintCalendarOn(matcher, options, calendarAgenda) {
       })
 
       .done(function(eventObject) {
-        $(matcher).fullCalendar(
-          'removeEvents', eventObject.id
-        );
-        $(matcher).fullCalendar(
-          'renderEvent', eventObject, true
-        );
+        $(matcher).fullCalendar('removeEvents', eventObject.id);
+        $(matcher).fullCalendar('renderEvent', eventObject, true);
         window.noSpinner = false;
       })
 

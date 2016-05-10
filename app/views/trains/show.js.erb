@@ -20,11 +20,10 @@ wysihtmlInit();
 
 <% if local_assigns[:refresh] %>
   if (window.calendarMatcher) {
+    $(window.calendarMatcher).fullCalendar('removeEvents', <%= @object.event_id %>);
     $(window.calendarMatcher).fullCalendar(
-      'removeEvents', <%= @object.event_id %>
-    );
-    $(window.calendarMatcher).fullCalendar(
-      'renderEvent', JSON.parse("<%=j render(partial: 'machines/calendar_entry', locals: { event: @object }, formats: [:json]).html_safe %>")
+      'renderEvent',
+      JSON.parse("<%=j render(partial: 'machines/calendar_entry', locals: { event: @object }, formats: [:json]).html_safe %>")
     );
   }
 <% end %>

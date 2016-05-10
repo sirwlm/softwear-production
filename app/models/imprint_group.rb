@@ -11,7 +11,7 @@ class ImprintGroup < ActiveRecord::Base
 
   belongs_to :order
   has_many :imprints
-  has_one :imprintable_trains, through: :imprints
+  has_many :imprintable_trains, through: :imprints
   belongs_to :machine
 
   after_create :set_order_has_imprint_groups_flag
