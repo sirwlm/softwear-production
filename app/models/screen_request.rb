@@ -7,7 +7,7 @@ class ScreenRequest < ActiveRecord::Base
   validates :dimensions, presence: true, inclusion: { in: Screen::DIMENSIONS }
   validates :ink, presence: true, uniqueness: { scope: :screen_train_id }, if: :screen_train_id
 
-  after_initialize -> (s) { s.frame_type ||= 'Roller'; s.dimensions ||= '21x33' }
+  after_initialize -> (s) { s.frame_type ||= 'Roller'; s.dimensions ||= '23x31' }
 
   def name
     "#{ink} #{mesh_type} - #{dimensions} - #{screen_train.try(:lpi) || '?'}lpi"
