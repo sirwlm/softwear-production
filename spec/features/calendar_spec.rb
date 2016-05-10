@@ -11,7 +11,7 @@ feature 'Calendar', js: true do
     allow(Sunspot).to receive(:search) { |*args, &block| FakeSunspotSearch.new(*args, &block) }
   end
 
-  context 'as an administrator' do
+  context 'as an administrator', no_ci: true do
     include_context 'logged_in_as_admin'
 
     scenario 'A user can view imprints on the calendar' do
