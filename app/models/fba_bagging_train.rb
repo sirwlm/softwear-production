@@ -63,7 +63,7 @@ class FbaBaggingTrain < ActiveRecord::Base
   end
 
   def inventory_location
-    location = order.stage_for_fba_bagging_train.inventory_location
+    location = order.stage_for_fba_bagging_train.try(:inventory_location)
     return location.nil? ? "Location not set" : location
   end
 
