@@ -32,6 +32,12 @@ feature 'Orders' do
     expect(page).to have_content "An imprint"
   end
 
+  scenario 'When first visiting order/index it should default "Order Complete?" to "No"', js: true  do
+    visit orders_path
+   
+    expect(page).to have_content "No"
+  end
+
   scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true,
     js: true, story_676: true do
     job = Job.create(name: 'Test Job')
