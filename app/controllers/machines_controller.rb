@@ -32,7 +32,7 @@ class MachinesController < InheritedResources::Base
     elsif session[:show_machines] && session[:show_machines].respond_to?(:keys)
       machine_id = session[:show_machines].keys
     else
-      machine_id = nil
+      @calendar_events = [] and return
     end
 
     @calendar_events = Sunspot.search(*Schedulable.schedulable_classes) do

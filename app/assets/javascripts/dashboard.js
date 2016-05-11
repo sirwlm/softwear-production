@@ -64,6 +64,7 @@ $(document).ready(function() {
 
           success: function(data) {
             data.forEach(function(event) {
+              $('#calendar').fullCalendar('removeEvents', event.id);
               $('#calendar').fullCalendar('renderEvent', event);
             });
           },

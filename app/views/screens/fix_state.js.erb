@@ -1,0 +1,18 @@
+var onShown = function() {
+  select2Init($('#contentModal'));
+  $('#contentModal .submit-modal-form').click(function() {
+    $('#contentModal').find('form').submit();
+  });
+
+  $('#contentModal').off('show.bs.modal', onShown);
+}
+
+$('#contentModal').on('show.bs.modal', onShown);
+$('#contentModal .modal-body').html("<%=j render 'fix_bad_state' %>");
+$('#contentModal .modal-title').html('<span class="text-danger">Fixing Bad Screen State</span>');
+$('#contentModal .modal-footer').html(
+  '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+  "<button type='button' class='btn btn-danger submit-modal-form'>Submit</button>"
+);
+$('#contentModal').modal('show');
+$('#contentModalSaveChanges').hide();

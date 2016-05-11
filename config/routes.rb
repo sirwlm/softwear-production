@@ -71,6 +71,8 @@ SoftwearProduction::Application.routes.draw do
       get :lookup, action: :lookup
       get :status, action: :status
       get :fast_scan, action: :fast_scan
+      get :fix_state, action: :fix_state
+      post :fix_state, action: :force_transition
     end
   end
 
