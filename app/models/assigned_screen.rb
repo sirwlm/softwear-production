@@ -9,6 +9,7 @@ class AssignedScreen < ActiveRecord::Base
   validate :there_can_only_be_one_assigned_screen_per_color
   
   def name
+    return "No screen request" if screen_request.nil?
     n = "(#{screen_id}) #{screen_request.ink} #{screen.mesh_type} - #{screen.dimensions} #{screen.frame_type}"
     n = "#{n} (Position #{double_position})" unless double_position.blank?
     n 
