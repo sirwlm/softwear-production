@@ -150,6 +150,8 @@ feature 'Screen Features', js: true do
     end
 
     context 'fast scanning', story_546: true do
+      let!(:initial_state) { s1.state }
+
       before(:each) do
         visit fast_scan_screens_path
       end
@@ -189,6 +191,26 @@ feature 'Screen Features', js: true do
         # TODO: Ricky look into how to confirm field was reset
         scan_barcode('screen_id', s2.id)
         expect(page).to have_content "Hooray! Screen state was successfully updated"
+      end
+
+      scenario 'can fix bad screen state', bad_screen_state: true do
+        click_link "Fix bad screen state"
+        sleep 0.5
+
+        scan_barcode('bad_screen_id', s1.id)
+        sleep 0.5
+        select2 "in_production", from: 'What state should it be in?'
+        fill_in 'Which role(s) neglected to update the screen properly?', with: 'ricky'
+
+        click_button 'Submit'
+
+        expect(page).to have_content "Screen ##{s1.id}'s state has been adjusted"
+        expect(s1.reload.state).to eq 'in_production'
+        expect(s1.activities.last.parameters).to eq(
+          'responsible' => "ricky",
+          'state_from'  => initial_state,
+          'state_to'    => 'in_production'
+        )
       end
     end
 

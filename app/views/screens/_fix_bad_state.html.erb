@@ -1,0 +1,16 @@
+<%= form_tag fix_state_screens_path, method: :post do %>
+  <div class="form-group">
+    <%= label_tag :id, "Bad screen ID" %>
+    <%= text_field_tag :id, '', class: 'form-control', id: 'bad_screen_id', required: true, placeholder: "Scan here" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :state, "What state should it be in?" %>
+    <%= select_tag :state, options_for_select(Screen.state_machine.states.to_a.map(&:name)), required: true, id: 'screen_state', class: 'select2' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :responsible, "Which role(s) neglected to update the screen properly?" %>
+    <%= text_field_tag :responsible, '', class: 'form-control', required: true %>
+  </div>
+<% end %>

@@ -84,9 +84,11 @@ function wysihtmlInit() {
   });
 }
 
-function select2Init() {
+function select2Init(context) {
   if (isMobile) return;
-  $('.select2').each(function() {
+  if (context == undefined) context = $('body');
+
+  context.find('.select2').each(function() {
     var width = $(this).data('width');
     if (!width)
       width = '100%';
