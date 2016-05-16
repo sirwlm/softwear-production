@@ -1,9 +1,14 @@
 <h2>Screen Train Details</h2>
 
 <dl>
+  <dt>Job(s)</dt>
+  <% object.unique_jobs.each do |j| %>
+    <dd class="screen-train-imprints">CRM#<%=j.softwear_crm_id %> <%= j.crm.name %></dd>
+  <% end %>
   <dt>Imprint(s)</dt>
-  <dd class="screen-train-imprints"><%= object.imprints.map{|x| x.name }.join(", ")  %>
-  </dd>
+  <% object.imprints.each do |imprint| %>
+    <dd class="screen-train-imprints">CRM#<%= imprint.softwear_crm_id %> <%= imprint.name %></dd>
+  <% end %>
   <dt>Artwork Location</dt>
   <dd class="screen-train-artwork-location"><%= object.artwork_location %>
   </dd>

@@ -87,6 +87,22 @@ class ScreenTrain < ActiveRecord::Base
     super.blank? ? '45' : super
   end
 
+  def unique_jobs
+    unique_jobs = []
+    job_ids = self.imprints.flat_map{ |i| i.job_id }.uniq
+
+    job_ids.each do |j_id|
+      unique_jobs << Job.find(j_id)
+    end
+
+    unique_jobs
+  end
+
+  def self.order_id_and_name(train)
+    crm = train.order.crm
+    return "CRM##{crm.id} - #{crm.name}"
+  end
+
   def screen_inks
     screen_requests.group(:ink).map(&:ink)
   end
@@ -97,6 +113,14 @@ class ScreenTrain < ActiveRecord::Base
 
   def imprint_count 
     imprints.sum(:count)
+  end
+
+  def has_multiple_imprints?
+    imprints.count > 1
+  end
+
+  def has_different_jobs?
+    imprints.map{ |i| i.softwear_crm_id }.uniq.count > 1
   end
 
   def machines

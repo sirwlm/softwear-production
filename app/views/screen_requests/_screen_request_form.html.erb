@@ -1,22 +1,24 @@
-<div class="row clear clearfix">
-  <div class="col-sm-4">
-    <%= f.text_field :ink %>
+<div class="row">
+  <div class="col-sm-5">
+    <%= f.text_field :ink %> 
+  </div> 
+  <div class="col-sm-5">
+    <%= f.select :frame_type, Screen::FRAME_TYPES, {include_blank: true}, {class: 'select2' } %> 
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-2">
     <%= f.link_to_remove class: 'btn btn-danger' do %>
       <i class="glyphicon glyphicon-remove-circle"></i> Remove
     <% end %>
   </div>
 </div>
-<div class="row clear clearfix" style="border-bottom: solid 1px #ccc; margin-bottom: 5px;">
-  <div class="col-sm-3">
-    <%= f.select :frame_type, Screen::FRAME_TYPES, {include_blank: true}, {class: 'select2' } %>
+<div class="row" style="border-bottom: solid 1px #ccc; margin-bottom: 5px;">
+  <div class="col-sm-5">
+    <%= f.select :mesh_type, Screen::MESH_TYPES, {include_blank: true}, {class: 'select2' } %> 
   </div>
-  <div class="col-sm-3">
-    <%= f.select :mesh_type, Screen::MESH_TYPES, {include_blank: true}, {class: 'select2' } %>
-  </div>
-  <div class='col-sm-3'>
-    <%= f.select :dimensions,  Screen::DIMENSIONS, {include_blank: true}, {class: 'select2' } %>
+  <div class='col-sm-5'>
+    <%= f.select :dimensions,  Screen::DIMENSIONS, {include_blank: true}, {class: 'select2' } %> 
+  </div> 
+  <div class='col-sm-2'>
   </div>
 </div>
 

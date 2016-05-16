@@ -46,11 +46,15 @@ class ImprintableTrain < ActiveRecord::Base
     end
 
     success_event :partially_inventoried, params: { location: :text_field } do
-      transition [:ordered, :partially_inventoried] => :partially_inventoried
+      transition [:ordered, :partially_inventoried, :staged] => :partially_inventoried
     end
 
     success_event :inventoried, params: { location: :text_field } do
-      transition [:ordered, :partially_inventoried] => :inventoried
+      transition [:ordered, :partially_inventoried, :staged] => :inventoried
+    end
+
+    success_event :staged, params: { location: :text_field } do
+      transition [:staged, :ordered, :partially_inventoried, :inventoried] => :inventoried
     end
 
     success_event :resolved_changes, params: { solution: SOLUTIONS.keys.map { |k| [k.to_s.humanize, k] } } do

@@ -3,7 +3,7 @@ class FbaBaggingTrain < ActiveRecord::Base
   include Train
   include Schedulable
   include ColorUtils
-
+  
   tracked only: [:transition]
 
   belongs_to :order
@@ -24,33 +24,47 @@ class FbaBaggingTrain < ActiveRecord::Base
   train initial: :ready_to_bag, final: :bagged do
     after_transition on: :bagging_complete, do: :mark_completed_at
 
-    success_event :bagging_started do
+    success_event :bagging_started do 
       transition :ready_to_bag => :bagging_in_progress
     end
 
-    delay_event :delayed,
+    delay_event :delayed, 
       public_activity: {
         reason: :text_field
-      } do
+      } do 
       transition :bagging_in_progress => :delayed
     end
 
-    success_event :bagging_restarted do
+    success_event :bagging_restarted do 
       transition :delayed => :bagging_in_progress
     end
 
     success_event :bagging_complete do
       transition :bagging_in_progress => :bagged
     end
-
+ 
     state :bagging_started, type: :success
     state :delayed, type: :delay
     state :bagged, type: :success
 
   end
 
+  def printed?
+    production_trains_complete? ? "Yes" : "No"
+  end
+
+  def production_trains_complete?
+    train_statuses = order.production_trains.flat_map{ |t| t.state }.uniq
+    return (train_statuses.count == 1 && train_statuses.first == "complete")
+  end
+
   def display
     "#{'(COMPLETE) ' if completed?}FBA BAGGING: #{order.name}"
+  end
+
+  def inventory_location
+    location = order.stage_for_fba_bagging_train.try(:inventory_location)
+    return location.nil? ? "Location not set" : location
   end
 
   def calendar_color

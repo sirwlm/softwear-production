@@ -37,6 +37,7 @@ class Imprint < ActiveRecord::Base
   has_many :assigned_screens, through: :screen_train
   has_many :screens, through: :assigned_screens
   has_one :order, through: :job
+  has_one :imprintable_train, through: :job
 
   searchable do
     text :full_name, :description
@@ -53,6 +54,13 @@ class Imprint < ActiveRecord::Base
       !scheduled_at.nil?
     end
     integer :machine_id
+  end
+
+  def on_complete
+    if order.fba?
+      fba_train =  order.fba_bagging_train
+      fba_train.update_attributes(printed: fba_train.production_trains_complete?)
+    end 
   end
 
   def revolved

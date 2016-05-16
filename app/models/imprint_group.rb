@@ -11,6 +11,7 @@ class ImprintGroup < ActiveRecord::Base
 
   belongs_to :order
   has_many :imprints
+  has_many :imprintable_trains, through: :imprints
   belongs_to :machine
 
   after_create :set_order_has_imprint_groups_flag
@@ -45,6 +46,9 @@ class ImprintGroup < ActiveRecord::Base
     def method_missing(name, *args, &block)
       Imprint.send(name, *args, &block)
     end
+    def train_public_activity_blacklist
+      []
+    end
   end
 
   def full_name
@@ -57,6 +61,10 @@ class ImprintGroup < ActiveRecord::Base
 
   def display
     "#{'(COMPLETE)' if complete?} #{full_name}"
+  end
+
+  def imprintable_train
+    imprintable_trains.first
   end
 
   # This is used for dispaying proofs

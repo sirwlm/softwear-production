@@ -15,7 +15,7 @@
     </div>
     <div class="col-sm-2">
       <%= label_tag 'q[complete]', 'Complete?' %>
-      <%= select_tag 'q[complete]', options_for_select([[], ["Yes", true], ["No", false]], params[:q] ? params[:q][:complete] : ''), class: 'form-control' %>
+      <%= select_tag 'q[complete]', options_for_select([[], ["Yes", true], ["No", false]], params[:q].nil? ? ['No', false] : params[:q][:complete]), class: 'form-control' %>
     </div>
     <div class="col-sm-2">
       <%= label_tag 'q[scheduled]', 'Scheduled?' %>

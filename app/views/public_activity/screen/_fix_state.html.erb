@@ -1,0 +1,21 @@
+<div class="col-xs-12 train-public-activity-entry">
+  <hr />
+  <div class="col-xs-3">
+    <%= render 'public_activity/shared/editable_timestamp', activity: activity %>
+  </div>
+  <div class="col-xs-3">
+    <%= activity.owner.try(:email) || '??' %>
+  </div>
+  <div class="col-xs-2">
+    <span class='text-danger'>Bad State Fixed</span>
+  </div>
+
+  <div class='col-xs-4'>
+    <span class='text-danger'><%= activity.parameters['state_from'] %></span>
+    <i class='glyphicon glyphicon-arrow-right'></i>
+    <span class='text-success'><%= activity.parameters['state_to'] %></span>
+  </div>
+  <div class='col-xs-2'>
+    Role responsible: <%= activity.parameters['responsible'] %>
+  </div>
+</div>

@@ -22,12 +22,12 @@
     <div class='row'>
       <div class="col-sm-4">
         <%= label_tag 'q[state]', 'Pre Production Train State' %>
-        <%= select_tag 'q[state]', options_for_select(@train_states, params[:q] ? params[:q][:state] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
+        <%= select_tag 'q[state]', options_for_select(@train_states.uniq, params[:q] ? params[:q][:state] : ''), class: 'form-control select2', multiple: true, data: { width: '100%' }  %>
       </div>
 
       <div class="col-sm-3">
         <%= label_tag 'q[order_complete]', 'Order Complete?' %>
-        <%= select_tag 'q[order_complete]', options_for_select([['No', false], ['Yes', true], ['', '']], params[:q] ? params[:q][:order_complete] : ''), class: 'form-control select2', data: { width: '100%' }  %>
+        <%= select_tag 'q[order_complete]', options_for_select([['No', false], ['Yes', true], ['', '']], params[:q].nil? ? ['No', false] : params[:q][:order_complete]), class: 'form-control select2', data: { width: '100%' }  %>
       </div>
 
       <div class="col-sm-3">
