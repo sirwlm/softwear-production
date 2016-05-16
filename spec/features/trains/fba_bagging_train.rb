@@ -9,29 +9,33 @@ feature 'Fba Bagging Train' do
     given(:fba_bagging_train) { create(:fba_bagging_train, order_id: stage_for_fba.order.id) }
 
     context 'The fba_bagging_train has associated production_trains' do
-      scenario 'The production trains are not completed' do
-        visit show_train_path(:fba_bagging_train, fba_bagging_train)
-        sleep 1
-        
-        expect(page).to have_content("Printed")
-        expect(fba_bagging_train.printed?).to eq("No")
-        expect(page)
-        .to have_content(fba_bagging_train.order.production_trains.first.scheduled_at.strftime('%Y-%m-%d %I:%M%P'))
-      end
-
-      scenario 'The production trains are completed' do
-        expect(fba_bagging_train.printed?).to eq("No")
-
-        fba_bagging_train.order.production_trains.each do |pt|
-          pt.state = "complete"
-          pt.save
-          pt.reload
+      context 'The production trains are not all completed' do
+        scenario 'it is expected to not be printed' do
+          visit show_train_path(:fba_bagging_train, fba_bagging_train)
+          sleep 1
+          
+          expect(page).to have_content("Printed")
+          expect(fba_bagging_train.printed?).to eq("No")
+          expect(page)
+          .to have_content(fba_bagging_train.order.production_trains.first.scheduled_at.strftime('%Y-%m-%d %I:%M%P'))
         end
+      end
+      
+      context 'The production trains are all completed' do
+        scenario 'it is expected to be printed' do
+          expect(fba_bagging_train.printed?).to eq("No")
 
-        visit show_train_path(:fba_bagging_train, fba_bagging_train)
+          fba_bagging_train.order.production_trains.each do |pt|
+            pt.state = "complete"
+            pt.save
+            pt.reload
+          end
 
-        expect(fba_bagging_train.reload.printed?).to eq("Yes")
-        expect(page).to have_content(fba_bagging_train.reload.printed?)
+          visit show_train_path(:fba_bagging_train, fba_bagging_train)
+
+          expect(fba_bagging_train.reload.printed?).to eq("Yes")
+          expect(page).to have_content(fba_bagging_train.reload.printed?)
+        end
       end
     end
 
