@@ -347,6 +347,10 @@ module Train
     fields
   end
 
+  def display
+    try(:name) || 'Unknown train'
+  end
+
   def display_order_deadline
     if try(:order).try(:deadline).respond_to?(:strftime)
       order.deadline.strftime("%a, %b %d, %Y")
