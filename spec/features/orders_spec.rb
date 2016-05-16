@@ -38,6 +38,20 @@ feature 'Orders' do
     expect(page).to have_content "No"
   end
 
+  context 'When adding preproduction trains to orders' do
+    given!(:order) { create(:order) }
+    scenario 'I can add a CustomInkColorTrain', js: true do
+      visit order_path(order)
+      sleep 1
+      within("#order-pre-production .pre_production_trains") do
+        click_link("+")
+      end
+      select("CustomInkColorTrain", from: "train_class")
+      click_button("Create Train")
+      expect(page).to have_content "Custom Ink Color Train"
+    end
+  end
+  
   scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true,
     js: true, story_676: true do
     job = Job.create(name: 'Test Job')
