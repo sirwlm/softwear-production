@@ -1,3 +1,4 @@
+
 <% if current_user.role?('admin') %>
   <%= render 'custom_ink_color_trains/form', custom_ink_color_train: object %>
 <% else %>

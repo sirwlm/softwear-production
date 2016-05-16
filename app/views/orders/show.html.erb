@@ -34,7 +34,6 @@
         <% Train.each_train_of_type(:pre_production, @order) do |train| %>
           <%= train_entry(train) %>
         <% end %>
-
         <% unless Train.available_trains_of_type(:pre_production, @order).empty? %>
           <%= link_to_add_train(@order, :pre_production, "#order-pre-production") %>
         <% end %>
