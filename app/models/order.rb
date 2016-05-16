@@ -3,6 +3,7 @@ class Order < ActiveRecord::Base
   include TrainStation
 
   has_many :jobs,                        dependent: :destroy
+  has_many :custom_ink_color_trains,     dependent: :destroy
   has_many :screen_trains,               dependent: :destroy
   has_many :imprint_groups,              dependent: :destroy
   has_many :digitization_trains,         dependent: :destroy
