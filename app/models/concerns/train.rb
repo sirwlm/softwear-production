@@ -348,7 +348,11 @@ module Train
   end
 
   def display
-    try(:name) || 'Unknown train'
+    begin
+      super
+    rescue Exception => e
+      try(:name) || 'Unknown train'
+    end
   end
 
   def display_order_deadline

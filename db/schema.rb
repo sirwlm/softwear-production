@@ -70,7 +70,6 @@ ActiveRecord::Schema.define(version: 20160510192727) do
 
   create_table "custom_ink_color_trains", force: :cascade do |t|
     t.string   "state",          limit: 191
-    t.integer  "job_id",         limit: 4
     t.string   "pantone_color",  limit: 191
     t.string   "volume",         limit: 191
     t.datetime "created_at",                   null: false
@@ -112,13 +111,13 @@ ActiveRecord::Schema.define(version: 20160510192727) do
     t.datetime "scheduled_at"
     t.decimal  "estimated_time",                 precision: 10, scale: 2
     t.datetime "estimated_end_at"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.datetime "created_at",                                                              null: false
+    t.datetime "updated_at",                                                              null: false
     t.integer  "order_id",           limit: 4
     t.datetime "completed_at"
     t.string   "previous_state",     limit: 191
     t.string   "inventory_location", limit: 191
-    t.boolean  "printed"
+    t.boolean  "printed",                                                 default: false
   end
 
   create_table "fba_label_trains", force: :cascade do |t|
