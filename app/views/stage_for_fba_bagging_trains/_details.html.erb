@@ -1,4 +1,4 @@
 <dl>
   <dt>Location</dt>
-  <dd><%= stage_For_fba_bagging_train.inventory_location %></dd>
+  <dd><%= stage_for_fba_bagging_train.try(:inventory_location) || "Unknown" %></dd>
 </dl>
