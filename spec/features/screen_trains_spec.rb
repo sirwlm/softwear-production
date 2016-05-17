@@ -189,7 +189,7 @@ feature "ScreenTrains", type: :feature, js: true do
         expect(screen_train.state).to eq "pending_screens"
 
         #trainsition screen_train to assigned state
-        screen_train.assigned
+        screen_train.screens_assigned
         #now screen_train/screen states should be different
         expect(screen.reload.state).to eq "washed_out_and_drying"
         expect(screen_train.reload.state).to eq "complete"
