@@ -148,6 +148,59 @@ feature "ScreenTrains", type: :feature, js: true do
       end
     end
 
+    context 'Given a screen_train with pending_sep_assignment state and assigned_screens' do
+      context 'If an assigned_screen is in the "ready_to_expose" state' do
+        given!(:s) { create(:screen, state: "ready_to_expose") }
+        given!(:screen_request) { 
+          create(:screen_request,
+            mesh_type:        s.mesh_type,
+            frame_type:       s.frame_type,
+            dimensions:       s.dimensions,
+            screen_train_id:  screen_train.id
+                )} 
+        given!(:assigned_screen) { 
+          create(:assigned_screen,
+            screen_train_id: screen_train.id,
+            screen_request_id: screen_request.id
+                )}
+       
+        before :each do
+          screen_train.screens.each do |screen|
+            screen.state = "ready_to_expose"
+          end
+          screen_train.update_attribute(:state, :pending_sep_assignment)
+        end
+
+        scenario 'When assigning screen_train, it also transitions the screen(s) with "ready_to_expose" state' do
+         #visit order_path(order)
+         #first('a', text: 'Show Full Details').click
+         #sleep 2
+
+         #sleep 1
+         #within 'div.train-category-success' do
+         #  within 'div.well-sm' do
+         #    within("form[action='#{transition_train_path(:screen_train, screen_train, :assigned)}']") do
+         #      find("option[value='2']").click
+         #      click_button "Assigned"
+         #    end
+         #  end
+         #end
+          
+          screen = screen_train.screens.first
+
+          expect(screen.state).to eq "ready_to_expose"
+          expect(screen_train.state).to eq "pending_sep_assignment"
+
+          #trainsition screen_train to assigned state
+          screen_train.assigned
+          #now screen_train/screen states should be different
+          expect(screen.reload.state).to eq "washed_out_and_drying"
+          expect(screen_train.reload.state).to eq "pending_separation"
+          
+        end
+      end
+    end
+
     context 'given a screen train has all of the proof request data and all screens assigned' do 
 
       background { allow_any_instance_of(ScreenTrain).to receive(:proof_request_data_complete?).and_return(true) }
