@@ -344,7 +344,7 @@ feature 'Orders' do
       expect(imprint_1.reload.imprint_group_id).to be_nil
     end
 
-    scenario 'I can remove an imprint group, purging it of its imprints',  rm_imprint_group: true do
+    scenario 'I can remove an imprint group, purging it of its imprints', no_ci: true, rm_imprint_group: true do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id
 
