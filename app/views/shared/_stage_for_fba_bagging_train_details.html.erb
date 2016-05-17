@@ -1,5 +1,5 @@
 <% if current_user.role?('admin') %>
-<%= render 'stage_for_fba_bagging_trains/form', stage_for_fba_bagging_train: object %>
+  <%= render 'stage_for_fba_bagging_trains/form', stage_for_fba_bagging_train: object %>
 <% else %>
-<%= render 'stage_for_fba_bagging_trains/details', stage_for_fba_bagging_train: object %>
+  <%= render 'stage_for_fba_bagging_trains/details', stage_for_fba_bagging_train: object %>
 <% end %>
