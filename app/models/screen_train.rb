@@ -18,7 +18,7 @@ class ScreenTrain < ActiveRecord::Base
   has_many :jobs, through: :imprints
   has_many :screen_requests, -> { order(ink: :asc) },  dependent: :destroy
 
-  before_save :transition_screens, if: :was_assigned?
+  before_save :transition_screens, if: :screens_assigned?
 
   validates :order, presence: true
   validates :print_type, inclusion: { in: PRINT_TYPES }, unless: -> { self.print_type.blank? }
@@ -43,7 +43,7 @@ class ScreenTrain < ActiveRecord::Base
     end
 
     success_event :assigned,
-        params: { assigned_to_id: -> { [""] + User.all.map{|x| [x.full_name, x.id] } } } do
+        params: { assigned_to_id: -> { [""] + User.all.map{|x| [x.full_name, x.id] } } } do 
       transition :pending_sep_assignment => :pending_separation
     end
 
@@ -76,8 +76,8 @@ class ScreenTrain < ActiveRecord::Base
     state :complete, type: :success
   end
 
-  def was_assigned?
-    (state == "pending_separation" && state_changed?)
+  def screens_assigned?
+    (state_was == "pending_screens" && state == "complete")
   end
 
   def transition_screens
@@ -103,21 +103,16 @@ class ScreenTrain < ActiveRecord::Base
   def lpi
     super.blank? ? '45' : super
   end
-
+  
   def unique_jobs
     unique_jobs = []
-    job_ids = self.imprints.flat_map{ |i| i.job_id }.uniq
+    job_ids = imprints.flat_map{ |i| i.job_id }.uniq
 
-    job_ids.each do |j_id|
-      unique_jobs << Job.find(j_id)
+    job_ids.each do |id|
+      unique_jobs << Job.find(id)
     end
 
     unique_jobs
-  end
-
-  def self.order_id_and_name(train)
-    crm = train.order.crm
-    return "CRM##{crm.id} - #{crm.name}"
   end
 
   def screen_inks
@@ -130,14 +125,6 @@ class ScreenTrain < ActiveRecord::Base
 
   def imprint_count 
     imprints.sum(:count)
-  end
-
-  def has_multiple_imprints?
-    imprints.count > 1
-  end
-
-  def has_different_jobs?
-    imprints.map{ |i| i.softwear_crm_id }.uniq.count > 1
   end
 
   def machines
