@@ -1,0 +1,52 @@
+<dl>
+  <% if train.class.name == "ScreenTrain" %>
+      <br />
+      <dt>CRM Order</dt>
+      <dd class="screen-train-imprints"><%= ScreenTrain::order_id_and_name(train) rescue "**No CRM Order Found**" %> </dd>
+      <dt>CRM Job(s)</dt>
+      <% train.unique_jobs.each do |j| %>
+          <dd class="screen-train-imprints"><%= j.name %></dd>
+      <% end %>
+  <% end %>
+  <dt>Imprint(s)</dt>
+  <dd class="screen-train-imprints"><%= train.imprints.map{|x| x.name }.join(", ")  %>
+  </dd>
+  <dt>Artwork Location</dt>
+  <dd class="screen-train-artwork-location"><%= train.artwork_location %>
+  </dd>
+  <dt>Notes</dt>
+  <dd class="screen-train-notes"><%= train.notes %>
+  </dd>
+  <% unless (train.screen_requests.empty? || train.all_screens_assigned?) %>
+      <dt>Screen Requests
+      </dt>
+      <dd><%= train.screen_requests.map(&:name).join(", ") unless train.screen_requests.empty? %>
+      </dd>
+  <% else %>
+      <dt>Assigned Screens
+      </dt>
+      <dd><%= train.assigned_screens.map(&:name).join(", ") unless train.assigned_screens.empty? %>
+      </dd>
+  <% end %>
+  <% unless train.machines.empty? %>
+      <dt>Machine(s)</dt>
+      <dd class="screen-train-print-type"><%= train.machines.join(', ') %>
+  <% end %>
+</dl>
+<div class="row">
+  <dl class="col-xs-6">
+    <dt>Total Imprint Count</dt>
+    <dd class='screen-train-count'><%= train.imprint_count %>
+    </dd>
+    <dt>New Sep?</dt>
+    <dd class='screen-train-new-separation'><%= train.new_separation? ? 'yes' : 'no' %>
+    </dd>
+  </dl>
+  <dl class="col-xs-6">
+    <dt>Fba?</dt>
+    <dd class='screen-train-fba'><%= train.fba? ? 'yes' : 'no' %>
+    </dd>
+    </dd>
+    <dt>Print Type</dt>
+    <dd class="screen-train-print-type"><%= train.print_type %>
+  </dl>
