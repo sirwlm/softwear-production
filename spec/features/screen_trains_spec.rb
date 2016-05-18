@@ -149,51 +149,39 @@ feature "ScreenTrains", type: :feature, js: true do
     end
 
     context 'Given a screen_train with state of pending_screens' do 
-      given!(:s) { create(:screen, state: "ready_to_expose") }
+      given!(:screen) { create(:screen, state: "ready_to_expose") }
       given!(:screen_request) { 
         create(:screen_request,
-          mesh_type:        s.mesh_type,
-          frame_type:       s.frame_type,
-          dimensions:       s.dimensions,
+          mesh_type:        screen.mesh_type,
+          frame_type:       screen.frame_type,
+          dimensions:       screen.dimensions,
           screen_train_id:  screen_train.id
               )} 
-      given!(:assigned_screen) { 
-        create(:assigned_screen,
-          screen_train_id: screen_train.id,
-          screen_request_id: screen_request.id
-              )}
-     
+      
       before :each do
-        screen_train.screens.each do |screen|
-          screen.state = "ready_to_expose"
-        end
         screen_train.update_attribute(:state, :pending_screens)
       end
 
       scenario 'I can assign screens to the screen_train and it will transition screens to "washed_and_drying"' do
-       #capybara is being an ass and not clicking this stuff >.<
-       #visit order_path(order)
-       #first('a', text: 'Show Full Details').click
-       #sleep 2
+        visit order_path(order)
+        first('a', text: 'Show Full Details').click
+        sleep 1
+        within('div.screen_train-details') do
+          first('a').click
+        end
+        sleep 2 
+        click_link "Assign A Screen"
+        sleep 2
+        fill_in "Screen", with: screen.id 
+        sleep 1
 
-       #sleep 1
-       #within 'div.train-category-success' do
-       #  within 'div.well-sm' do
-       #    click_button "Screens Assigned"
-       #  end
-       #end
-        
-        screen = screen_train.screens.first
+        #make sure state is ready_to_expose from the beginning
+        expect(screen.state).to eq("ready_to_expose")
 
-        expect(screen.state).to eq "ready_to_expose"
-        expect(screen_train.state).to eq "pending_screens"
+        click_button "Update Screen train"
+        sleep 1
 
-        #trainsition screen_train to assigned state
-        screen_train.screens_assigned
-        #now screen_train/screen states should be different
-        expect(screen.reload.state).to eq "washed_out_and_drying"
-        expect(screen_train.reload.state).to eq "complete"
-        
+        expect(screen.reload.state).to eq("washed_out_and_drying")
       end
     end
 
