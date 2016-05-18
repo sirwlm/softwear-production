@@ -76,6 +76,11 @@ class ScreenTrain < ActiveRecord::Base
     state :complete, type: :success
   end
 
+  def self.order_id_and_name(train)
+    crm = train.order.crm
+    return "CRM##{crm.id} - #{crm.name}"
+  end
+
   def screens_assigned?
     assigned_screens.blank? ? false : true 
   end
