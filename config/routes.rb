@@ -11,6 +11,7 @@ SoftwearProduction::Application.routes.draw do
 
   get '/set-session-token', to: 'users#set_session_token', as: :set_session_token
   get '/clear-user-query-cache', to: 'users#clear_query_cache', as: :clear_user_query_cache
+  get '/sign_out', to: 'users#sign_out', as: :sign_out
 
   resources :machines do
     get :scheduled
