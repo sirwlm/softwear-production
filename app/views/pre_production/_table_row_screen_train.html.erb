@@ -14,10 +14,9 @@
         <dd class="screen-train-imprints"><%= ScreenTrain::order_id_and_name(train) rescue "**No CRM Order Found**" %> </dd>
         <dt>CRM Job(s)</dt>
         <% train.unique_jobs.each do |j| %>
-          <dd class="screen-train-imprints">CRM#<%= j.softwear_crm_id %></dd>
+          <dd class="screen-train-imprints"><%= j.name %></dd>
         <% end %>
       <% end %>
-      <br />
       <dt>Imprint(s)</dt>
       <dd class="screen-train-imprints"><%= train.imprints.map{|x| x.name }.join(", ")  %>
       </dd>

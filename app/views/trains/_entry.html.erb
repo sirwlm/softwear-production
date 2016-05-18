@@ -21,6 +21,10 @@
       <dt>State</dt>
       <dd class='<%= object.class.name.underscore %>_<%= object.id %>_current_state'><%= object.send("human_#{object.train_machine.attribute}_name") %></dd>
       <% if object.respond_to?(:new_separation) %> <!-- this object is a screen train -->
+      <dt>Imprint(s)</dt>
+        <% object.imprints.each do |imprint| %>
+          <dd class="screen-train-imprints">CRM#<%= imprint.softwear_crm_id %> <%= imprint.name %></dd>
+        <% end %>
         <dt>Job(s)</dt>
         <% object.unique_jobs.each do |j| %>
           <dd class="screen-train-imprints">CRM#<%= j.softwear_crm_id %> <%= j.name %></dd>
