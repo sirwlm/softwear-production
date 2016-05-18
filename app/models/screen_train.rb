@@ -76,17 +76,20 @@ class ScreenTrain < ActiveRecord::Base
     state :complete, type: :success
   end
 
+  def self.order_id_and_name(train)
+    crm = train.order.crm
+    return "CRM##{crm.id} - #{crm.name}"
+  end
+
   def screens_assigned?
-    (state_was == "pending_screens" && state == "complete")
+    assigned_screens.blank? ? false : true 
   end
 
   def transition_screens
-    unless screens.blank?
-      screens.each do |screen|
-        if screen.state == 'ready_to_expose'
-          screen.exposed
-          screen.save 
-        end
+    assigned_screens.each do |assigned|
+      if assigned.screen.state == 'ready_to_expose'
+        assigned.screen.exposed
+        assigned.screen.save 
       end
     end
   end
