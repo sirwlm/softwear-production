@@ -10,4 +10,15 @@
 
   <dt>Quantity</dt>
   <dd><%= fba_bagging_train.quantity %></dd>
+
+  <dt>Inventory Location</dt>
+  <dd><%= fba_bagging_train.inventory_location %></dd>
+
+  <dt>Printed</dt>
+  <dd><%= fba_bagging_train.printed? %></dd>
+
+  <dt>Imprint(s) Scheduled At</dt>
+  <% fba_bagging_train.order.production_trains.each do |imprint| %>
+      <dd class="screen-train-imprints"><%= imprint.name %> - <%= imprint.scheduled_at.strftime('%Y-%m-%d %I:%M%P') rescue "No Scheduled Time"%></dd>
+  <% end %>
 </dl>
