@@ -1,7 +1,7 @@
 <div class="col-xs-4">
   <div class='draggable-imprint panel panel-primary <%= object.model_name.element.dasherize %>-panel' data-imprint-id="<%= object.id %>">
     <div class="panel-heading">
-      <% if object.respond_to?(:name) %>
+      <% if object.respond_to?(:name) && (!object.class.name == "CustomInkColorTrain") %>
         <%= object.name %>
       <% else %>
         <%= object.model_name.element.humanize.titleize %>
@@ -20,6 +20,22 @@
     <dl>
       <dt>State</dt>
       <dd class='<%= object.class.name.underscore %>_<%= object.id %>_current_state'><%= object.send("human_#{object.train_machine.attribute}_name") %></dd>
+      <% if object.respond_to?(:new_separation) %> <!-- this object is a screen train -->
+      <dt>Imprint(s)</dt>
+        <% object.imprints.each do |imprint| %>
+          <dd class="screen-train-imprints">CRM#<%= imprint.softwear_crm_id %> <%= imprint.name %></dd>
+        <% end %>
+        <dt>Job(s)</dt>
+        <% object.unique_jobs.each do |j| %>
+          <dd class="screen-train-imprints">CRM#<%= j.softwear_crm_id %> <%= j.name %></dd>
+        <% end %>
+      <% end %>
+      <% if object.class == FbaBaggingTrain %>
+        <dt>Printed</dt>
+        <dd class="screen-train-imprints"><%= object.printed? %></dd>
+          <dt>Location</dt>
+          <dd class="screen-train-imprints"><%= object.inventory_location %></dd>
+      <% end %>
     </dl>
 
     <%= capture(&block) if local_assigns[:block] %>

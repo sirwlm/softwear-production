@@ -1,6 +1,7 @@
 <tr>
   <td><%= train.id %></td>
   <td><%= train.class.name.underscore.humanize %></td>
+  <td><%= train.scheduled_time.try(:strftime, '%a, %b %d, %Y ') rescue 'Not Set' %></td>
   <td>
     <% if train.order %>
       <%= link_to train.order.tagged_name(self), order_path(train.order) %>
@@ -8,6 +9,15 @@
       No order
     <% end %>
     <dl>
+      <% if train.class.name == "ScreenTrain" %>
+        <br />
+        <dt>CRM Order</dt>
+        <dd class="screen-train-imprints"><%= ScreenTrain::order_id_and_name(train) rescue "**No CRM Order Found**" %> </dd>
+        <dt>CRM Job(s)</dt>
+        <% train.unique_jobs.each do |j| %>
+          <dd class="screen-train-imprints"><%= j.name %></dd>
+        <% end %>
+      <% end %>
       <dt>Imprint(s)</dt>
       <dd class="screen-train-imprints"><%= train.imprints.map{|x| x.name }.join(", ")  %>
       </dd>
@@ -34,27 +44,27 @@
     <% end %>
     </dl>
     <div class="row">
-    <dl class="col-xs-6">
-      <dt>Total Imprint Count</dt>
-      <dd class='screen-train-count'><%= train.imprint_count %>
-      </dd>
-      <dt>New Sep?</dt>
-      <dd class='screen-train-new-separation'><%= train.new_separation? ? 'yes' : 'no' %>
-      </dd>
-    </dl>
-    <dl class="col-xs-6">
-      <dt>Fba?</dt>
-      <dd class='screen-train-fba'><%= train.fba? ? 'yes' : 'no' %>
-      </dd>
-      </dd>
-      <dt>Print Type</dt>
-      <dd class="screen-train-print-type"><%= train.print_type %>
-    </dl>
-  </div>
+      <dl class="col-xs-6">
+        <dt>Total Imprint Count</dt>
+        <dd class='screen-train-count'><%= train.imprint_count %>
+        </dd>
+        <dt>New Sep?</dt>
+        <dd class='screen-train-new-separation'><%= train.new_separation? ? 'yes' : 'no' %>
+        </dd>
+      </dl>
+      <dl class="col-xs-6">
+        <dt>Fba?</dt>
+        <dd class='screen-train-fba'><%= train.fba? ? 'yes' : 'no' %>
+        </dd>
+        </dd>
+        <dt>Print Type</dt>
+        <dd class="screen-train-print-type"><%= train.print_type %>
+      </dl>
+    </div>
   </td>
   <td><%= train.human_state_name %></td>
   <td><%= human_boolean train.order_complete? %></td>
-  <td><%= train.due_at.try(:strftime, '%a, %b %d, %Y ') rescue 'not set' %></td>
+  <td><%= train.due_at.try(:strftime, '%a, %b %d, %Y') rescue 'not set' %></td>
   <td><%= train.display_order_deadline %></td>
   <td><%= train.assigned_to.full_name rescue 'unassigned' %></td>
   <td>

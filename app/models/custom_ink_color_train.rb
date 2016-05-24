@@ -4,8 +4,7 @@ class CustomInkColorTrain < ActiveRecord::Base
 
   tracked only: [:transition]
 
-  belongs_to :job
-  has_one :order, through: :job
+  belongs_to :order
 
   train_type :pre_production
   train initial: :not_yet_requested, final: :mixed do

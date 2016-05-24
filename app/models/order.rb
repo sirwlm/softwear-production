@@ -3,6 +3,7 @@ class Order < ActiveRecord::Base
   include TrainStation
 
   has_many :jobs,                        dependent: :destroy
+  has_many :custom_ink_color_trains,     dependent: :destroy
   has_many :screen_trains,               dependent: :destroy
   has_many :imprint_groups,              dependent: :destroy
   has_many :digitization_trains,         dependent: :destroy
@@ -40,6 +41,11 @@ class Order < ActiveRecord::Base
 
   def just_canceled?
     canceled_changed? && canceled? && !canceled_was
+  end
+
+  def crm_job_and_name(proof)
+    job = self.jobs.where(softwear_crm_id: proof.job_id).first.crm
+    return "#{job.name} - CRM##{job.id}"
   end
 
   def full_name

@@ -1,0 +1,10 @@
+<dl>
+  <dt>Inventory Location</dt> <dd><%= stage_for_fba_bagging_train.inventory_location %></dd>
+</dl>
+
+<%= bootstrap_form_for stage_for_fba_bagging_train, remote: true do |f| %>
+   <%= f.text_field :inventory_location %>
+
+  <%= f.submit %>
+<% end %>
+

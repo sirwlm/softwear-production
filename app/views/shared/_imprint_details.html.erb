@@ -47,6 +47,11 @@
     </dd>
   <% end %>
 
+  <% if object.imprintable_train && object.imprintable_train.location.present? %>
+    <dt>Imprintables Location</dt>
+    <dd><%= object.imprintable_train.location %></dd>
+  <% end %>
+
   <dt>Count</dt>
   <dd><%= object.count %></dd>
   <% if object.try(:triloc_result) %>

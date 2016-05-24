@@ -18,6 +18,8 @@ class ScreenTrain < ActiveRecord::Base
   has_many :jobs, through: :imprints
   has_many :screen_requests, -> { order(ink: :asc) },  dependent: :destroy
 
+  before_save :transition_screens, if: :screens_assigned?
+
   validates :order, presence: true
   validates :print_type, inclusion: { in: PRINT_TYPES }, unless: -> { self.print_type.blank? }
   
@@ -41,7 +43,7 @@ class ScreenTrain < ActiveRecord::Base
     end
 
     success_event :assigned,
-        params: { assigned_to_id: -> { [""] + User.all.map{|x| [x.full_name, x.id] } } } do
+        params: { assigned_to_id: -> { [""] + User.all.map{|x| [x.full_name, x.id] } } } do 
       transition :pending_sep_assignment => :pending_separation
     end
 
@@ -74,6 +76,24 @@ class ScreenTrain < ActiveRecord::Base
     state :complete, type: :success
   end
 
+  def self.order_id_and_name(train)
+    crm = train.order.crm
+    return "CRM##{crm.id} - #{crm.name}"
+  end
+
+  def screens_assigned?
+    assigned_screens.blank? ? false : true 
+  end
+
+  def transition_screens
+    assigned_screens.each do |assigned|
+      if assigned.screen.state == 'ready_to_expose'
+        assigned.screen.exposed
+        assigned.screen.save 
+      end
+    end
+  end
+
   def proof_request_data_complete?
     return false if order.blank?
     return false if imprints.empty?
@@ -85,6 +105,17 @@ class ScreenTrain < ActiveRecord::Base
 
   def lpi
     super.blank? ? '45' : super
+  end
+  
+  def unique_jobs
+    unique_jobs = []
+    job_ids = imprints.flat_map{ |i| i.job_id }.uniq
+
+    job_ids.each do |id|
+      unique_jobs << Job.find(id)
+    end
+
+    unique_jobs
   end
 
   def screen_inks

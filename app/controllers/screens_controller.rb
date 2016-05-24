@@ -40,6 +40,27 @@ class ScreensController < InheritedResources::Base
     end
   end
 
+  def force_transition
+    @screen = Screen.find(params[:id])
+    @original_state = @screen.state
+    @new_state      = params[:state]
+
+    @screen.update_column :state, @new_state
+
+    @screen.create_activity(
+      action: :fix_state,
+      parameters: {
+        responsible: params[:responsible],
+        state_from:  @original_state,
+        state_to:   @new_state
+      },
+      owner: current_user
+    )
+
+    flash[:notice] = "Screen ##{@screen.id}'s state has been adjusted"
+    redirect_to action: :fast_scan
+  end
+
   private
 
   def load_screens_grouped_by_type

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503173946) do
+ActiveRecord::Schema.define(version: 20160510192727) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -70,7 +70,6 @@ ActiveRecord::Schema.define(version: 20160503173946) do
 
   create_table "custom_ink_color_trains", force: :cascade do |t|
     t.string   "state",          limit: 191
-    t.integer  "job_id",         limit: 4
     t.string   "pantone_color",  limit: 191
     t.string   "volume",         limit: 191
     t.datetime "created_at",                   null: false
@@ -78,7 +77,7 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.string   "previous_state", limit: 191
     t.string   "name",           limit: 191
     t.text     "notes",          limit: 65535
-    t.datetime "scheduled"
+    t.integer  "order_id",       limit: 4
   end
 
   create_table "digital_print_users", force: :cascade do |t|
@@ -103,7 +102,6 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.datetime "updated_at",                                   null: false
     t.integer  "crm_artwork_request_id",      limit: 4
     t.string   "previous_state",              limit: 191
-    t.datetime "scheduled"
   end
 
   create_table "fba_bagging_trains", force: :cascade do |t|
@@ -113,12 +111,13 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.datetime "scheduled_at"
     t.decimal  "estimated_time",                 precision: 10, scale: 2
     t.datetime "estimated_end_at"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.datetime "created_at",                                                              null: false
+    t.datetime "updated_at",                                                              null: false
     t.integer  "order_id",           limit: 4
     t.datetime "completed_at"
     t.string   "previous_state",     limit: 191
     t.string   "inventory_location", limit: 191
+    t.boolean  "printed",                                                 default: false
   end
 
   create_table "fba_label_trains", force: :cascade do |t|
@@ -127,7 +126,6 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.string   "previous_state", limit: 191
-    t.datetime "scheduled"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -168,7 +166,6 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.string   "location",              limit: 191
     t.datetime "expected_arrival_date"
     t.string   "previous_state",        limit: 191
-    t.datetime "scheduled"
   end
 
   create_table "imprints", force: :cascade do |t|
@@ -324,7 +321,6 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.string   "previous_state",       limit: 191
-    t.datetime "scheduled"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -337,7 +333,6 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.string   "mesh_type",       limit: 191
     t.string   "dimensions",      limit: 191
     t.string   "ink",             limit: 191
-    t.boolean  "primary"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
@@ -346,7 +341,6 @@ ActiveRecord::Schema.define(version: 20160503173946) do
   add_index "screen_requests", ["frame_type"], name: "index_screen_requests_on_frame_type", using: :btree
   add_index "screen_requests", ["ink"], name: "index_screen_requests_on_ink", using: :btree
   add_index "screen_requests", ["mesh_type"], name: "index_screen_requests_on_mesh_type", using: :btree
-  add_index "screen_requests", ["primary"], name: "index_screen_requests_on_primary", using: :btree
   add_index "screen_requests", ["screen_train_id"], name: "index_screen_requests_on_screen_train_id", using: :btree
 
   create_table "screen_trains", force: :cascade do |t|
@@ -367,7 +361,6 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.string   "lpi",                    limit: 191
     t.integer  "crm_artwork_request_id", limit: 4
     t.string   "previous_state",         limit: 191
-    t.datetime "scheduled"
   end
 
   add_index "screen_trains", ["artwork_location"], name: "index_screen_trains_on_artwork_location", using: :btree
@@ -411,6 +404,7 @@ ActiveRecord::Schema.define(version: 20160503173946) do
 
   create_table "stage_for_fba_bagging_trains", force: :cascade do |t|
     t.string   "state",              limit: 191
+    t.string   "location",           limit: 191
     t.integer  "order_id",           limit: 4
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
@@ -418,6 +412,7 @@ ActiveRecord::Schema.define(version: 20160503173946) do
     t.string   "inventory_location", limit: 191
   end
 
+  add_index "stage_for_fba_bagging_trains", ["location"], name: "index_stage_for_fba_bagging_trains_on_location", using: :btree
   add_index "stage_for_fba_bagging_trains", ["order_id"], name: "index_stage_for_fba_bagging_trains_on_order_id", using: :btree
   add_index "stage_for_fba_bagging_trains", ["state"], name: "index_stage_for_fba_bagging_trains_on_state", using: :btree
 

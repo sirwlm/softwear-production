@@ -49,12 +49,21 @@ class FbaBaggingTrain < ActiveRecord::Base
 
   end
 
+  def printed?
+    production_trains_complete? ? "Yes" : "No"
+  end
+
+  def production_trains_complete?
+    train_statuses = order.production_trains.flat_map{ |t| t.state }.uniq
+    return (train_statuses.count == 1 && train_statuses.first == "complete")
+  end
+
   def display
     "#{'(COMPLETE) ' if completed?}FBA BAGGING: #{order.name}"
   end
 
   def inventory_location
-    location = order.stage_for_fba_bagging_train.location
+    location = order.stage_for_fba_bagging_train.try(:inventory_location)
     return location.nil? ? "Location not set" : location
   end
 

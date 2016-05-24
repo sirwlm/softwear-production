@@ -148,6 +148,43 @@ feature "ScreenTrains", type: :feature, js: true do
       end
     end
 
+    context 'Given a screen_train with state of pending_screens' do 
+      given!(:screen) { create(:screen, state: "ready_to_expose") }
+      given!(:screen_request) { 
+        create(:screen_request,
+          mesh_type:        screen.mesh_type,
+          frame_type:       screen.frame_type,
+          dimensions:       screen.dimensions,
+          screen_train_id:  screen_train.id
+              )} 
+      
+      before :each do
+        screen_train.update_attribute(:state, :pending_screens)
+      end
+
+      scenario 'I can assign screens to the screen_train and it will transition screens to "washed_and_drying"' do
+        visit order_path(order)
+        first('a', text: 'Show Full Details').click
+        sleep 1
+        within('div.screen_train-details') do
+          first('a').click
+        end
+        sleep 2 
+        click_link "Assign A Screen"
+        sleep 2
+        fill_in "Screen", with: screen.id 
+        sleep 1
+
+        #make sure state is ready_to_expose from the beginning
+        expect(screen.state).to eq("ready_to_expose")
+
+        click_button "Update Screen train"
+        sleep 1
+
+        expect(screen.reload.state).to eq("washed_out_and_drying")
+      end
+    end
+
     context 'given a screen train has all of the proof request data and all screens assigned' do 
 
       background { allow_any_instance_of(ScreenTrain).to receive(:proof_request_data_complete?).and_return(true) }

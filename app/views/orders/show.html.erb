@@ -12,7 +12,7 @@
   </p>
 <% else %>
   <% begin %>
-    <%= render 'proofs', order: @order.crm %>
+    <%= render 'proofs', order: @order %>
   <% rescue StandardError => e %>
 
     <% Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (orders/show) ****\n#{e.class.name}: #{e.message}" %>
@@ -34,7 +34,6 @@
         <% Train.each_train_of_type(:pre_production, @order) do |train| %>
           <%= train_entry(train) %>
         <% end %>
-
         <% unless Train.available_trains_of_type(:pre_production, @order).empty? %>
           <%= link_to_add_train(@order, :pre_production, "#order-pre-production") %>
         <% end %>

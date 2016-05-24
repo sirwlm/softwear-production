@@ -28,7 +28,7 @@
           <td><%= train.class.name %></td>
           <td>
             <%= link_to train.order.tagged_name(self), order_path(train.order) rescue "No order" %><br/>
-            <%= render("dashboard/table_row_#{train.class.name.underscore}", train: train) rescue "No Details Configured" %>  
+            <%= render("dashboard/table_row_#{train.class.name.underscore}", train: train) rescue "No Partial Exists or Error Rendering Details" %>
           </td>
           <td><%= train.human_state_name %></td>
           <td><%= human_boolean train.order_complete?  %></td>

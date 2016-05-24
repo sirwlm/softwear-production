@@ -15,7 +15,7 @@ class StageForFbaBaggingTrain < ActiveRecord::Base
 
     success_event :staged, 
       params: {
-        location: :text_field
+        inventory_location: :text_field
       } do 
       transition :ready_to_stage => :staged
     end

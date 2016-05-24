@@ -2,6 +2,7 @@
 <tr>
   <td><%= train.id %></td>
   <td><%= train.class.name.underscore.humanize %></td>
+  <td><%= train.scheduled_time.try(:strftime, '%a, %b %d, %Y ') rescue 'Not Set' %></td>
   <td>
     <% if train.order.nil? %>
       No order

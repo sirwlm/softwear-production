@@ -32,6 +32,13 @@ feature 'Orders' do
     expect(page).to have_content "An imprint"
   end
 
+  scenario 'When first visiting order/index it should default "Order Complete?" to "No"', js: true  do
+    visit orders_path
+   
+    expect(page).to have_content "No"
+  end
+
+  
   scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true,
     js: true, story_676: true do
     job = Job.create(name: 'Test Job')
@@ -115,13 +122,18 @@ feature 'Orders' do
   end
 
   describe 'for an existing order', js: true, story_869: true do
-    given(:job) { create(:job) }
-    given(:order) { create(:order, jobs: [job]) }
+    given!(:job) { create(:job) }
+    given!(:order) { create(:order, jobs: [job]) }
 
     context 'and there is a matching crm order' do
-      given!(:crm_order) { create(:crm_order_with_proofs) }
+      given!(:crm_order) { create(:crm_order) }
+      given!(:crm_job) { create(:crm_job, order_id: crm_order.id) }
+      given!(:crm_proof) { create(:crm_proof, job_id: crm_job.id) }
     
       background do
+        crm_order.proofs = []
+        crm_order.proofs << crm_proof
+        crm_order.save!
         crm_order.proofs.first.artworks =[
           OpenStruct.new({
             path: Rails.root.join('spec/fixtures/images/capybara1.JPG'), 
@@ -130,6 +142,8 @@ feature 'Orders' do
         ]
         order.softwear_crm_id = crm_order.id
         order.save!
+        job.softwear_crm_id = crm_job.id
+        job.save!
       end
 
       scenario 'I can see the proofs from crm', story_864: true do
@@ -137,7 +151,14 @@ feature 'Orders' do
         
         expect(page).to have_content 'Status:'
       end
+
+      scenario 'I can see the CRM Job info with the proofs' do
+        visit order_path(order)
+
+        expect(page).to have_content "#{crm_job.name} - CRM##{job.softwear_crm_id}"
+      end
     end
+
 
     scenario 'I can add an embroidery print' do
       visit edit_order_path(order)
@@ -310,7 +331,7 @@ feature 'Orders' do
       expect(imprint_1.reload.imprint_group_id).to be_nil
     end
 
-    scenario 'I can remove an imprint group, purging it of its imprints',  rm_imprint_group: true do
+    scenario 'I can remove an imprint group, purging it of its imprints', no_ci: true, rm_imprint_group: true do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id
 

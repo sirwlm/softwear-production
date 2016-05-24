@@ -11,6 +11,7 @@ SoftwearProduction::Application.routes.draw do
 
   get '/set-session-token', to: 'users#set_session_token', as: :set_session_token
   get '/clear-user-query-cache', to: 'users#clear_query_cache', as: :clear_user_query_cache
+  get '/sign_out', to: 'users#sign_out', as: :sign_out
 
   resources :machines do
     get :scheduled
@@ -46,6 +47,7 @@ SoftwearProduction::Application.routes.draw do
   end
 
   resources :fba_bagging_trains, only: [:show, :update, :destroy]
+  resources :stage_for_fba_bagging_trains, only: [:show, :update, :destroy]
   resources :custom_ink_color_trains, only: [:show, :update, :destroy]
   resources :preproduction_notes_trains, only: [:show, :update]
   resources :shipment_trains, only: [:show, :update]
@@ -71,6 +73,8 @@ SoftwearProduction::Application.routes.draw do
       get :lookup, action: :lookup
       get :status, action: :status
       get :fast_scan, action: :fast_scan
+      get :fix_state, action: :fix_state
+      post :fix_state, action: :force_transition
     end
   end
 
@@ -94,11 +98,12 @@ SoftwearProduction::Application.routes.draw do
 
   namespace :api do
     resources :orders, :jobs, :imprints, :imprintable_trains, :imprint_groups
-    get    '/trains/:train_class',     to: 'trains#index'
-    get    '/trains/:train_class/:id', to: 'trains#show'
-    post   '/trains/:train_class',     to: 'trains#create'
-    put    '/trains/:train_class/:id', to: 'trains#update'
-    delete '/trains/:train_class/:id', to: 'trains#destroy'
+    get    '/trains/:train_class',            to: 'trains#index'
+    get    '/trains/:train_class/:id',        to: 'trains#show'
+    post   '/trains/:train_class',            to: 'trains#create'
+    put    '/trains/:train_class/:id',        to: 'trains#update'
+    delete '/trains/:train_class/:id',        to: 'trains#destroy'
+    patch  '/trains/:train_class/:id/:event', to: 'trains#transition'
   end
 
   authenticate :user do

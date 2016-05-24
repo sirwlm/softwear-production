@@ -44,7 +44,6 @@ class DashboardController < ApplicationController
         with(:order_deadline).greater_than(q[:order_deadline_after]) unless q[:order_deadline_after].blank?
         with(:order_deadline).less_than(q[:order_deadline_before]) unless q[:order_deadline_before].blank?
         with(:scheduled_at).less_than(q[:train_scheduled_at]) unless q[:train_scheduled_at].blank?
-        with(:scheduled_at).greater_than(q[:train_scheduled_at]) unless q[:train_scheduled_at].blank?
       else
         with :complete, false
       end

@@ -10,6 +10,7 @@
     <thead>
       <tr>
         <th>ID</th>
+        <th>Scheduled At</th>
         <th>Order</th>
         <th>Job</th>
         <th>Imprints</th>
@@ -23,6 +24,7 @@
       <% @imprintable_trains.each do |it| %>
         <tr>
           <td><%= it.id %></td>
+          <td><%= it.scheduled_time.try(:strftime, '%a, %b %d, %Y ') rescue "Not Set" %></td> 
           <td>
             <% if it.job.order %>
               <%= link_to it.job.order.tagged_name(self), order_path(it.job.order) %>
