@@ -43,7 +43,15 @@ class DashboardController < ApplicationController
         with(:order_complete, q[:order_complete] == 'true') unless q[:order_complete].blank?
         with(:order_deadline).greater_than(q[:order_deadline_after]) unless q[:order_deadline_after].blank?
         with(:order_deadline).less_than(q[:order_deadline_before]) unless q[:order_deadline_before].blank?
-        with(:scheduled_at).less_than(q[:train_scheduled_at]) unless q[:train_scheduled_at].blank?
+
+        unless q[:train_scheduled_at].blank?
+          sched_at_12am =  Time.zone.parse(q[:train_scheduled_at] + " 00:00")
+          sched_at_11pm = Time.zone.parse(q[:train_scheduled_at] + " 23:59")
+          
+          with(:scheduled_at).greater_than(sched_at_12am) 
+          with(:scheduled_at).less_than(sched_at_11pm) 
+        end
+
       else
         with :complete, false
       end
@@ -52,7 +60,6 @@ class DashboardController < ApplicationController
       paginate page: params[:page] || 1
     end
       .results
-
   end
 
   def post_production
