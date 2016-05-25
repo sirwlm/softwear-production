@@ -42,7 +42,7 @@ feature 'Generic Print Trains', print_spec: true, js: true do
       end
 
 
-      scenario "I can transition a print state to completion", story_909: true do
+      scenario "I can transition a print state to completion", tag: true, story_909: true do
         success_transition :approve
         success_transition :at_the_press
         success_transition :printing_complete
@@ -55,7 +55,7 @@ feature 'Generic Print Trains', print_spec: true, js: true do
         expect(imprint.completed_at).not_to be_nil
       end
 
-      scenario 'I can undo a transition', story_1098: true do
+      scenario 'I can undo a transition', story_1098: true, tag: true do
         success_transition :approve
         expect(page).to have_content 'Current State: Ready To Print'
         success_transition :at_the_press

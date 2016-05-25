@@ -42,6 +42,7 @@ feature 'Digital Prints', digital_print: true, js: true do
         end
         sleep(1)
         success_transition :approve
+        success_transition :schedule
         success_transition :preproduction_complete
         success_transition :final_test_print_printed
         success_transition :start_printing

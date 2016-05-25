@@ -19,8 +19,8 @@ class PreProductionController < ApplicationController
           sched_at_12am =  Time.zone.parse(q[:train_scheduled_at] + " 00:00")
           sched_at_11pm = Time.zone.parse(q[:train_scheduled_at] + " 23:59")
           
-          with(:scheduled_at).greater_than(sched_at_12am) 
-          with(:scheduled_at).less_than(sched_at_11pm) 
+          with(:train_scheduled_at).greater_than(sched_at_12am) 
+          with(:train_scheduled_at).less_than(sched_at_11pm) 
         end
       
       else

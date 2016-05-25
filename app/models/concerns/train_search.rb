@@ -19,7 +19,7 @@ module TrainSearch
         end
 
         time :order_deadline
-        time :scheduled_at
+        time :train_scheduled_at
 
         boolean :order_complete do
           self.order_complete?
@@ -52,7 +52,7 @@ module TrainSearch
     order.try(:deadline)
   end
 
-  def scheduled_at
+  def train_scheduled_at
     self.scheduled_time
   end
 

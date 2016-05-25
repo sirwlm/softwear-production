@@ -39,7 +39,7 @@ describe ImprintablesController do
           allow(other_train.imprints).to receive(:pluck) { |a| other_train.imprints.map(&a) }
         end
 
-        it 'can filter on imprints scheduled_at date' do
+        it 'can filter on imprints scheduled_at date', tag: true do
           get :index, q: { scheduled_at: 1.day.ago }
           expect(assigns[:imprintable_trains]).to eq [train]
         end
