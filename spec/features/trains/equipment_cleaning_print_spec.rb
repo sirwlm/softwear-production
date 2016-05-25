@@ -41,7 +41,6 @@ feature 'Equipment Cleaning Prints', equipment_cleaning_print: true, js: true do
         end
         sleep(1)
         success_transition :approve
-        success_transition :schedule
         success_transition :put_equipment_in_dryer
         success_transition :put_into_stink_chest
         success_transition :repacked_bag
