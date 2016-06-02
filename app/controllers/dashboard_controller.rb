@@ -33,6 +33,7 @@ class DashboardController < ApplicationController
   def pre_production
     initialize_train_classes(:pre_production) 
     q = params[:q]
+    
     @trains = Sunspot.search @train_classes do
       if q
         fulltext q[:text] unless q[:text].blank?
@@ -43,11 +44,11 @@ class DashboardController < ApplicationController
         with(:order_complete, q[:order_complete] == 'true') unless q[:order_complete].blank?
         with(:order_deadline).greater_than(q[:order_deadline_after]) unless q[:order_deadline_after].blank?
         with(:order_deadline).less_than(q[:order_deadline_before]) unless q[:order_deadline_before].blank?
-        with(:scheduled_at).less_than(q[:train_scheduled_at]) unless q[:train_scheduled_at].blank?
+        #with(:order_earliest_scheduled_at_date).equal_to(q[:train_scheduled_at]) unless q[:train_scheduled_at].blank?
+        with :train_scheduled_at, q[:train_scheduled_at] unless q[:train_scheduled_at].blank?
       else
         with :complete, false
       end
-
       order_by :due_at, :asc
       paginate page: params[:page] || 1
     end

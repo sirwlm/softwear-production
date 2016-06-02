@@ -14,7 +14,7 @@ class PreProductionController < ApplicationController
         with :class_name, q[:class_name] unless q[:class_name].blank?
         with :state, q[:state] unless q[:state].blank?
         with(:order_complete, q[:order_complete] == 'true') unless q[:order_complete].blank?
-        with(:scheduled_at).less_than(q[:train_scheduled_at]) unless q[:train_scheduled_at].blank?
+        with(:train_scheduled_at).equal_to(q[:train_scheduled_at]) unless q[:train_scheduled_at].blank?
       else
         with :complete, false
       end
