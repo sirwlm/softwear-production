@@ -29,7 +29,7 @@ feature 'Transfer Making Prints', transfer_making_print: true, js: true do
       expect(page).to have_css('dd', text: 'Transfer making print')
     end
 
-    context 'given an order with an imprint that is a transfer_making print'  do
+    context 'given an order with an imprint that is a transfer_making print', print: true  do
       given(:order) { create(:order, jobs: [ create(:job_with_transfer_making_print) ]) }
       given(:imprint) { order.jobs.first.imprints.first }
 
@@ -39,7 +39,7 @@ feature 'Transfer Making Prints', transfer_making_print: true, js: true do
         within("#imprint-#{imprint.id}") do
           click_link 'Show Full Details'
         end
-        sleep(1)
+        sleep 1
         success_transition :approve
         success_transition :preproduction_complete
         success_transition :final_test_print_printed

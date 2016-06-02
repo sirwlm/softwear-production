@@ -33,7 +33,7 @@ feature 'Screen Print Trains', js: true do
       given(:imprint) { order.jobs.first.imprints.first }
 
 
-      scenario "I can transition a print state to completion", story_909: true do
+      scenario "I can transition a print state to completion", story_909: true, tag: true do
         visit order_path(order)
         within("#imprint-#{imprint.id}") do
           click_link 'Show Full Details'
@@ -53,7 +53,7 @@ feature 'Screen Print Trains', js: true do
         expect(imprint.reload.complete?).to be_truthy
       end
 
-      scenario "I can postpone a screen print", story_1101: true do
+      scenario "I can postpone a screen print", story_1101: true, tag: true do
         visit order_path(order)
         within("#imprint-#{imprint.id}") do
           click_link 'Show Full Details'
@@ -71,7 +71,7 @@ feature 'Screen Print Trains', js: true do
           imprint.update_column(:state, :pending_rescheduling)
         end
 
-        scenario "I can reschedule a postponed screen print", story_1101: true do
+        scenario "I can reschedule a postponed screen print", story_1101: true, tag: true do
           visit order_path(order)
           within("#imprint-#{imprint.id}") do
             click_link 'Show Full Details'
