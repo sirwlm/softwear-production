@@ -1,0 +1,65 @@
+<%= render 'trains/shared/order', order: train.order %>
+
+<dl>
+  <dt>Job(s)</dt>
+  <% train.unique_jobs.each do |j| %>
+      <dd class="screen-train-imprints">CRM#<%=j.softwear_crm_id %> <%= j.crm.name %></dd>
+  <% end %>
+  <br />
+
+  <dt>Imprint(s)</dt>
+  <% train.imprints.each do |imprint| %>
+      <dd class="screen-train-imprints">
+        CRM#<%= imprint.softwear_crm_id %> <%= imprint.name %>
+      </dd>
+  <% end %>
+  <br />
+
+  <dt>Artwork Location</dt>
+  <dd class="screen-train-artwork-location">
+    <%= train.artwork_location %>
+  </dd>
+  <br />
+  <% unless (train.screen_requests.empty? || train.all_screens_assigned?) %>
+      <dt>Screen Requests
+      </dt>
+      <dd><%= train.screen_requests.map(&:name).join(", ") %>
+      </dd>
+  <% else %>
+      <dt>Assigned Screens
+      </dt>
+      <dd><%= train.assigned_screens.map(&:name).join(", ") %>
+      </dd>
+  <% end %>
+  <br />
+
+  <dt>Notes</dt>
+  <dd><%= train.notes %></dd>
+  <br />
+
+  <dt>Machine(s)</dt>
+  <dd class="screen-train-print-type"><%= train.machines.join(', ') %>
+</dl>
+
+<div class="row clear clearfix">
+  <dl class="col-xs-6">
+    <dt>Total Imprint Count</dt>
+    <dd class='screen-train-count'><%= train.imprint_count %>
+    </dd>
+    <dt>New Sep?</dt>
+    <dd class='screen-train-new-separation'><%= train.new_separation? ? 'yes' : 'no' %>
+    </dd>
+  </dl>
+  <dl class="col-xs-6">
+    <dt>Fba?</dt>
+    <dd class='screen-train-fba'><%= train.fba? ? 'yes' : 'no' %>
+    </dd>
+    </dd>
+    <dt>Print Type</dt>
+    <dd class="screen-train-print-type"><%= train.print_type %>
+  </dl>
+</div>
+
+<%= link_to edit_screen_train_path(train), class: 'btn btn-warning btn-sm', remote: true do %>
+    <i class='glyphicon glyphicon-pencil'></i>
+<% end %>

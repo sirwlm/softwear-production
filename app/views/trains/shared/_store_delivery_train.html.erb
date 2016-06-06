@@ -1,0 +1,8 @@
+<dl>
+  <dt>State</dt>
+  <dd><%= train.human_state_name %></dd>
+  <dt>Store</dt>
+  <dd><%= train.store_name %></dd>
+  <dt>Delivered By</dt>
+  <dd><%= train.delivered_by.full_name rescue "n/a" %></dd>
+</dl>

@@ -40,6 +40,10 @@ class TrainsController < ApplicationController
     else
       @title = @object.model_name.element.humanize
     end
+
+    if params[:new] == 'true'
+      render template: 'trains/shared/show'
+    end
   end
 
   def new

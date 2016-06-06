@@ -27,6 +27,7 @@
           <%= select_tag 'q[scheduled]', options_for_select([[], ["Yes", true], ["No", false]], params[:q] ? params[:q][:scheduled] : ''), class: 'form-control' %>
         </div>
       </div>
+      <br />
       <div class="row">
         <div class='col-xs-10 col-xs-offset-1'>
           <%= button_tag class: 'btn btn-success col-xs-12' do %>

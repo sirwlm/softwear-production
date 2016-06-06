@@ -1,0 +1,26 @@
+<%= bootstrap_destroy_button(train) %>
+
+<hr />
+<%= bootstrap_form_for train, remote: in_modal do |f| %>
+
+  <%= f.select :shipped_by_id, options_from_collection_for_select(User.all, :full_name, :id, f.train.shipped_by_id.to_i), include_blank: true %>
+  <%= f.text_field :carrier %>
+  <%= f.text_field :service %>
+  <%= f.text_field :tracking %>
+  <%= f.label :time_in_transit %>
+  <div class="input-group">
+    <%= f.text_field :time_in_transit, hide_label: true %>
+
+    <span class="input-group-addon">
+      days
+    </span>
+  </div>
+
+  <%= f.submit %>
+<% end %>
+
+<% if in_modal %>
+  <%= link_to 'Full view', show_train_path(train), class: 'btn btn-primary' %>
+<% else %>
+  <%= link_to 'Order', order_path(train.order), class: 'btn btn-primary' %>
+<% end %>

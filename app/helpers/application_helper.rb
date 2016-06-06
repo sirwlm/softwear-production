@@ -33,25 +33,25 @@ module ApplicationHelper
   end
 
   def bootstrap_show_button(record)
-    link_to(record, data: { toggle: 'tooltip' }, class: 'btn btn-xs btn-success', title: 'Show') do
+    link_to(record, data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-success', title: 'Show') do
       content_tag :i, '', class: 'glyphicon glyphicon-eye-open'
     end
   end
 
   def bootstrap_edit_button(record)
-    link_to(send("edit_#{record.class.model_name.to_s.underscore}_path", record), data: { toggle: 'tooltip' }, class: 'btn btn-xs btn-warning', title: 'Edit') do
+    link_to(send("edit_#{record.class.model_name.to_s.underscore}_path", record), data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-warning', title: 'Edit') do
       content_tag :i, '', class: 'glyphicon glyphicon-edit'
     end
   end
 
   def bootstrap_destroy_button(record)
-    link_to(record,  method: :delete, data: { confirm: 'Are you sure?', toggle: 'tooltip' }, class: 'btn btn-xs btn-danger', title: 'Destroy') do
+    link_to(record,  method: :delete, data: { confirm: 'Are you sure?', toggle: 'tooltip' }, class: 'btn btn-sm btn-danger', title: 'Destroy') do
       content_tag :i, '', class: 'glyphicon glyphicon-remove-circle'
     end
   end
 
   def bootstrap_show_train_button(train)
-    link_to('#', data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-success', title: 'Show') do
+    link_to(show_train_path(train, new: true), data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-success', title: 'Show', remote: :true) do
       content_tag :i, '', class: 'fa fa-eye'
     end
   end
@@ -115,6 +115,21 @@ module ApplicationHelper
     return 'warning' if train.train_state_type(train.state.to_sym) == :delay
     return 'danger' if train.train_state_type(train.state.to_sym) == :failure
     return 'info'
+  end
+
+  def pretty_train_state(tag, train)
+    content_tag tag, class: train_state_alert_class(train) do
+      content_tag :strong do
+        train.human_state_name
+      end
+    end
+  end
+
+  def train_state_alert_class(train)
+    return 'alert alert-success text-center' if train.try :complete?
+    return 'alert alert-warning text-center' if train.train_state_type(train.state.to_sym) == :delay
+    return 'alert alert-danger text-center' if train.train_state_type(train.state.to_sym) == :failure
+    return 'alert alert-info text-center'
   end
 
 end

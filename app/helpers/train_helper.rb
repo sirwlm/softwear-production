@@ -1,5 +1,5 @@
 module TrainHelper
-  
+
   def formatted_scheduled_time(time)
     time.strftime('%a, %b %d, %Y') unless time.nil?
   end
@@ -33,11 +33,13 @@ module TrainHelper
   def transition_train_path(object, event)
     super(object.class.name.underscore, object.id, event)
   end
+
   def new_train_path(object, type)
     super(object.class.name.underscore, object.id, type)
   end
-  def show_train_path(object)
-    super(object.class.name.underscore, object.id)
+
+  def show_train_path(object, options = {})
+    super(object.class.name.underscore, object.id, options)
   end
 
   def call_ignore_arity(lamb, *args)

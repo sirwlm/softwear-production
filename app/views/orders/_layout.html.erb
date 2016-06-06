@@ -3,12 +3,12 @@
 
     <div class="block-flat">
       <div class="header">
-        <div class="actions">
+        <div class="actions pull-right">
           <%= link_to orders_path, data: { toggle: 'tooltip'}, title: "List Orders" do %>
               <i class='glyphicon glyphicon-list'></i>
           <% end %>
 
-          <% if @order && controller.action_name != 'dashboard' %>
+          <% if @order && !@order.new_record? && controller.action_name != 'dashboard' %>
               <%= link_to dashboard_for_order_path, data: { toggle: 'tooltip'}, title: "Order Dashboard" do %>
                   <i class='glyphicon glyphicon-dashboard'></i>
               <% end %>

@@ -1,4 +1,4 @@
-<table class="table no-border">
+<table class="table table-striped">
   <tbody class="no-border-y">
   <tr>
     <td colspan="3">
@@ -6,17 +6,16 @@
     </td>
   </tr>
   <% Train.each_train_of_type(:pre_production, @order) do |train| %>
-      <tr class="<%= train_table_row_class(train) %>">
+      <tr>
         <td>
           Order #<%= @order.id %><br/>
           <%= train.model_name.element.humanize.titleize %>
         </td>
         <td>
-          <%= train.human_state_name %>
+            <%= pretty_train_state :div, train %>
         </td>
         <td>
           <%= bootstrap_show_train_button(train) %>
-          <%= bootstrap_edit_train_button(train) %>
         </td>
       </tr>
   <% end %>
@@ -27,32 +26,30 @@
         </td>
       </tr>
       <% Train.each_train_of_type(:pre_production, job) do |train| %>
-          <tr class="<%= train_table_row_class(train) %>">
+          <tr>
             <td>
               <%= job.name %><br/>
               <%= train.model_name.element.humanize.titleize %>
             </td>
             <td>
-              <%= train.human_state_name %>
+              <%= pretty_train_state :div, train %>
             </td>
             <td>
               <%= bootstrap_show_train_button(train) %>
-              <%= bootstrap_edit_train_button(train) %>
             </td>
           </tr>
       <% end %>
       <% job.imprints.each do |train| %>
-          <tr class="<%= train_table_row_class(train) %>">
+          <tr>
             <td>
               <%= job.name %><br/>
               <%= train.model_name.element.humanize.titleize %>
             </td>
             <td>
-              <%= train.human_state_name %>
+              <%= pretty_train_state :div, train %>
             </td>
             <td>
               <%= bootstrap_show_train_button(train) %>
-              <%= bootstrap_edit_train_button(train) %>
             </td>
           </tr>
       <% end %>
@@ -63,17 +60,16 @@
     </td>
   </tr>
   <% Train.each_train_of_type(:post_production, @order) do |train| %>
-      <tr class="<%= train_table_row_class(train) %>">
+      <tr>
         <td>
           Order #<%= @order.id %><br/>
           <%= train.model_name.element.humanize.titleize %>
         </td>
-        <td style="width: 200px;">
-          <%= train.human_state_name %>
+        <td>
+          <%= pretty_train_state :div, train %>
         </td>
         <td>
           <%= bootstrap_show_train_button(train) %>
-          <%= bootstrap_edit_train_button(train) %>
         </td>
       </tr>
   <% end %>

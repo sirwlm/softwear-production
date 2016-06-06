@@ -3,6 +3,7 @@
 <head>
   <title>SoftWEAR Production Manager</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= stylesheet_link_tag    'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <% unless current_view.nil? %>
     <%= javascript_tag { "window.isMobile = #{current_view =~ /Mobile/ ? 'true' : 'false'};" } %>

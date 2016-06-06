@@ -1,0 +1,11 @@
+<h2><%= @title %></h2>
+<div id="show_train_details">
+  <% begin %>
+    <%= render "trains/shared/#{@object.class.name.underscore}", train: @object %>
+  <% rescue %>
+    <div class="alert alert-danger">
+      <strong>No view is configured for this train.</strong><br />
+      Contact the devteam at devteam@annarbortees.com.
+    </div>
+  <% end %>
+</div>

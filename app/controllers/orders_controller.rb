@@ -2,7 +2,7 @@ class OrdersController < InheritedResources::Base
   custom_actions resource: :dashboard
 
   respond_to :html, :js
-  before_filter :assign_fluid_container, only: :show
+  before_filter :assign_fluid_container
 
   def index
     q = params[:q]

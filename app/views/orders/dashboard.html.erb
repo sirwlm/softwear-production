@@ -1,28 +1,27 @@
-<div class="row">
-  <div class="col-sm-7">
+<%= render layout: 'layout' do %>
+    <div class="row">
+      <div class="col-sm-7">
 
-    <h1>Order #<%= @order.id %>, <%= @order.full_name %></h1>
-
-    <div class="tab-container">
-      <ul class="nav nav-tabs flat-tabs">
-        <li class="active"><a href="#states" data-toggle="tab" aria-expanded="true">Train States</a></li>
-        <li class=""><a href="#metrics" data-toggle="tab" aria-expanded="false">Metrics</a></li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane cont fade active in" id="states">
-          <%= render 'orders/dashboard/states', order: @order %>
+        <div class="tab-container">
+          <ul class="nav nav-tabs flat-tabs">
+            <li class="active"><a href="#states" data-toggle="tab" aria-expanded="true">Train States</a></li>
+            <li class=""><a href="#metrics" data-toggle="tab" aria-expanded="false">Metrics</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane cont fade active in" id="states">
+              <%= render 'orders/dashboard/states', order: @order %>
+            </div>
+            <div class="tab-pane cont fade" id="metrics">
+              In Progress
+            </div>
+          </div>
         </div>
-        <div class="tab-pane cont fade" id="metrics">
-          <h2>Typography</h2>
+      </div>
+      <div class="col-sm-5" id="dashboard-extra">
+        <div id="show_train">
 
-          <p>This is just an example of content writen by <b>Jeff Hanneman</b>, as you can see it is a clean design with
-            large
-          </p>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-5" id="dashboard-extra">
+<% end %>
 
-  </div>
-</div>
