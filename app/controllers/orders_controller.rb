@@ -1,6 +1,5 @@
 class OrdersController < InheritedResources::Base
   custom_actions resource: :dashboard
-  # layout 'theme-flatdream/application', only: [:index, :dashboard]
 
   respond_to :html, :js
   before_filter :assign_fluid_container, only: :show
