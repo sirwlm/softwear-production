@@ -1,0 +1,49 @@
+<div class='row'>
+  <div class="col-xs-12">
+
+    <div class="block-flat">
+      <div class="header">
+        <div class="actions">
+          <%= link_to orders_path, data: { toggle: 'tooltip'}, title: "List Orders" do %>
+              <i class='glyphicon glyphicon-list'></i>
+          <% end %>
+
+          <% if @order && controller.action_name != 'dashboard' %>
+              <%= link_to dashboard_for_order_path, data: { toggle: 'tooltip'}, title: "Order Dashboard" do %>
+                  <i class='glyphicon glyphicon-dashboard'></i>
+              <% end %>
+          <% end %>
+
+          <% if @order && controller.action_name == 'edit' %>
+              <%= link_to order_path, data: { toggle: 'tooltip'}, title: "Show Order" do %>
+                  <i class='glyphicon glyphicon-eye-open'></i>
+              <% end %>
+          <% elsif @order && controller.action_name == 'show' %>
+              <%= link_to edit_order_path, data: { toggle: 'tooltip'}, title: "Edit Order" do %>
+                  <i class='glyphicon glyphicon-pencil'></i>
+              <% end %>
+              <%= link_to @order, method: :delete, data: { confirm: 'Are you sure?', toggle: 'tooltip'}, title: "Destroy Order" do %>
+                  <i class='glyphicon glyphicon-remove-circle'></i>
+              <% end %>
+          <% end %>
+          <% unless controller.action_name == 'new' %>
+              <%= link_to new_order_path, data: { toggle: 'tooltip'}, title: "New Order" do %>
+                  <i class='glyphicon glyphicon-plus'></i>
+              <% end %>
+          <% end %>
+          <% unless @order.nil? || @order.complete? == true %>
+              <%= link_to force_complete_order_path, data: { confirm: 'Are you sure you want to force complete this order?',
+                                                                                              toggle: 'tooltip'}, title: "Force Complete Order" do %>
+                  <i class='glyphicon glyphicon-ok'></i>
+              <% end %>
+          <% end %>
+        </div>
+        <h3><%= title rescue 'Orders'%> </h3>
+      </div>
+
+      <div class="content">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</div>

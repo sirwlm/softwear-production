@@ -1,5 +1,3 @@
-<h1 class="pull-left">New order</h1>
-<%= render 'nav' %>
-<br clear="all" />
-
-<%= render 'form', order: @order %>
+<%= render layout: 'layout', locals: { title: 'New Order' } do %>
+    <%= render 'form', order: @order %>
+<% end %>

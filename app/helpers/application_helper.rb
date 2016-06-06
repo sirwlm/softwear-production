@@ -89,4 +89,51 @@ module ApplicationHelper
   def current_view
     session[:current_view]
   end
+
+  def table_display_date(date)
+    datetime.strftime("%F") rescue 'Not Set'
+  end
+
+  def table_display_datetime(datetime)
+    datetime.strftime("%F %l:%M%P") rescue 'Not Set'
+  end
+
+  def flatdream_show_button(record)
+    link_to(record, data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-success', title: 'Show') do
+      content_tag :i, '', class: 'fa fa-eye'
+    end
+  end
+
+  def flatdream_edit_button(record)
+    link_to(send("edit_#{record.class.model_name.to_s.underscore}_path", record), data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-warning', title: 'Edit') do
+      content_tag :i, '', class: 'fa fa-pencil'
+    end
+  end
+
+
+  def flatdream_show_train_button(train)
+    link_to('#', data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-success', title: 'Show') do
+      content_tag :i, '', class: 'fa fa-eye'
+    end
+  end
+
+  def flatdream_edit_train_button(record)
+    link_to('#', data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-warning', title: 'Edit') do
+      content_tag :i, '', class: 'fa fa-pencil'
+    end
+  end
+
+  def flatdream_destroy_button(record)
+    link_to(record,  method: :delete, data: { confirm: 'Are you sure?', toggle: 'tooltip' }, class: 'btn btn-sm btn-danger', title: 'Destroy') do
+      content_tag :i, '', class: 'fa fa-times'
+    end
+  end
+
+  def train_table_row_class(train)
+    return 'success' if train.try :complete?
+    return 'warning' if train.train_state_type(train.state.to_sym) == :delay
+    return 'danger' if train.train_state_type(train.state.to_sym) == :failure
+    return 'info'
+  end
+
 end

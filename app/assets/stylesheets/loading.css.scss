@@ -1,0 +1,49 @@
+
+/** LOADING ANIMATION **/
+#loading{
+  margin: auto;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  z-index: 999999999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.spinner {
+  margin: 0 auto;
+  width: 36px;
+  height: 36px;
+  position: relative;
+}
+
+.spinner-box {
+  padding: 60px 30px;
+  width: 226px;
+  margin: 0 auto;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 1.0);
+}
+.cube1, .cube2 {
+  background-color: #1B1E24;
+  width: 7.5px;
+  height: 7.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: cubemove 2s infinite ease-in-out;
+  animation: cubemove 2s infinite ease-in-out;
+}
+.cube2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+.loading-inner{
+  position: absolute;
+  top: 50%;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+
+.margin-right-5 {
+  margin-right: 5px;
+}

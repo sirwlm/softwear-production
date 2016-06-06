@@ -1,4 +1,7 @@
 class OrdersController < InheritedResources::Base
+  custom_actions resource: :dashboard
+  # layout 'theme-flatdream/application', only: [:index, :dashboard]
+
   respond_to :html, :js
   before_filter :assign_fluid_container, only: :show
 
@@ -11,6 +14,7 @@ class OrdersController < InheritedResources::Base
         with(:earliest_scheduled_date).greater_than(q[:scheduled_start_at_after]) unless q[:scheduled_start_at_after].blank?
         with(:latest_scheduled_date).less_than(q[:scheduled_start_at_before])     unless q[:scheduled_start_at_before].blank?
         with :complete,  q[:complete]  == 'true' unless q[:complete].blank?
+        with :fba,  q[:fba]  == 'true' unless q[:fba].blank?
         with :scheduled, q[:scheduled] == 'true' unless q[:scheduled].blank?
 
         order_by :deadline, :desc

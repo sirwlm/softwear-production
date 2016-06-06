@@ -9,7 +9,13 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require dashboard
+ *= require imprint-drag-n-drop
+ *= require orders
+ *= require screens
+ *= require screen_trains
+ *= require train
+ *= require typeahead-fix
  *= require fullcalendar
  *= require rails_bootstrap_forms
  *= require jquery-ui
@@ -18,6 +24,7 @@
  *= require select2-bootstrap
  *= require jquery-tablesorter/theme.black-ice
  *= require editable/bootstrap-editable
+ *= require loading
  */
 
 @import "bootstrap-sprockets";
@@ -34,42 +41,6 @@ margin: 1em inherit;
   margin-bottom: 10px;
 }
 
-/** LOADING ANIMATION **/
-#loading{
-  margin: auto;
-  position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  z-index: 999999999;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.spinner {
-  margin: 0 auto;
-  width: 36px;
-  height: 36px;
-  position: relative;
-}
-
-.spinner-box {
-  padding: 60px 30px;
-  width: 226px;
-  margin: 0 auto;
-  border-radius: 6px;
-  background-color: rgba(255, 255, 255, 1.0);
-}
-.cube1, .cube2 {
-  background-color: #1B1E24;
-  width: 7.5px;
-  height: 7.5px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  -webkit-animation: cubemove 2s infinite ease-in-out;
-  animation: cubemove 2s infinite ease-in-out;
-}
-.cube2 {
-  -webkit-animation-delay: -1s;
-  animation-delay: -1s;
-}
 @-webkit-keyframes cubemove {
   25% { -webkit-transform: translateX(24px) rotate(-90deg) scale(0.5) }
   50% { -webkit-transform: translateX(24px) translateY(24px) rotate(-180deg) }
@@ -93,13 +64,6 @@ margin: 1em inherit;
             transform: rotate(-360deg);
             -webkit-transform: rotate(-360deg);
           }
-}
-.loading-inner{
-  position: absolute;
-  top: 50%;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
 }
 
 .margin-right-5 {

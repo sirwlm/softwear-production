@@ -23,6 +23,7 @@ SoftwearProduction::Application.routes.draw do
   resources :orders do
     member do
       get :force_complete, to: 'orders#force_complete', as: :force_complete
+      get :dashboard, to: 'orders#dashboard', as: :dashboard_for
     end
     resources :jobs do
       resources :imprints

@@ -17,7 +17,7 @@ class ImprintableTrain < ActiveRecord::Base
   has_many :imprints, through: :job
 
   searchable do
-        
+
     text :job_name, :imprint_names, :location
     string :order_imprint_state do
       order.try(:imprint_state)
@@ -78,6 +78,7 @@ class ImprintableTrain < ActiveRecord::Base
     end
 
     state :imprintable_changed, type: :delay
+    state :inventoried, type: :success
   end
 
   def solution=(s)

@@ -1,74 +1,70 @@
-<h1 class="pull-left">
-  <% if @order.fba? %><span class="label label-warning">FBA</span><% end %>
-  <%= @order.name %>
-</h1>
-<%= render 'nav' %>
-<br clear="all" />
-<h2>Deadline: <%= @order.try(:deadline).try(:strftime, '%F') %></h2>
-<div class="col-xs-12">
-<% if @order.softwear_crm_id.blank? %>
-  <p class="alert alert-danger">
-    Assign a SoftWEAR-CRM ID to this order to see proofs
-  </p>
-<% else %>
-  <% begin %>
-    <%= render 'proofs', order: @order %>
-  <% rescue StandardError => e %>
+<%= render layout: 'layout', locals: { title: @order.name } do %>
+    <h2>Deadline: <%= @order.try(:deadline).try(:strftime, '%F') %></h2>
+    <div class="col-xs-12">
+      <% if @order.softwear_crm_id.blank? %>
+          <p class="alert alert-danger">
+            Assign a SoftWEAR-CRM ID to this order to see proofs
+          </p>
+      <% else %>
+          <% begin %>
+              <%= render 'proofs', order: @order %>
+          <% rescue StandardError => e %>
 
-    <% Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (orders/show) ****\n#{e.class.name}: #{e.message}" %>
-    <% Rails.logger.error e.backtrace.join("\n") %>
+              <% Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (orders/show) ****\n#{e.class.name}: #{e.message}" %>
+              <% Rails.logger.error e.backtrace.join("\n") %>
 
-    <span class='text-danger'>There was an issue retrieving proof information from crm.</span>
-    <%= content_tag :code do %>
-      <%=j "#{e.class.name}: #{e.message}" %>
-    <% end %>
-  <% end %>
-<% end %>
-</div>
+              <span class='text-danger'>There was an issue retrieving proof information from crm.</span>
+              <%= content_tag :code do %>
+                  <%= j "#{e.class.name}: #{e.message}" %>
+              <% end %>
+          <% end %>
+      <% end %>
+    </div>
 
-<div class="col-xs-12">
-  <div id='order-pre-production' class='row clear-after'>
-    <div class='panel panel-default pre_production_trains'>
-      <div class="panel-heading">Order Pre Production</div>
-      <div class="panel-body">
-        <% Train.each_train_of_type(:pre_production, @order) do |train| %>
-          <%= train_entry(train) %>
-        <% end %>
-        <% unless Train.available_trains_of_type(:pre_production, @order).empty? %>
-          <%= link_to_add_train(@order, :pre_production, "#order-pre-production") %>
-        <% end %>
-        <div class='clearfix'></div>
+    <div class="col-xs-12">
+      <div id='order-pre-production' class='row clear-after'>
+        <div class='panel panel-default pre_production_trains'>
+          <div class="panel-heading">Order Pre Production</div>
+          <div class="panel-body">
+            <% Train.each_train_of_type(:pre_production, @order) do |train| %>
+                <%= train_entry(train) %>
+            <% end %>
+            <% unless Train.available_trains_of_type(:pre_production, @order).empty? %>
+                <%= link_to_add_train(@order, :pre_production, "#order-pre-production") %>
+            <% end %>
+            <div class='clearfix'></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class='row'>
-  <% if @order.has_imprint_groups? %>
-    <div class="col-xs-8 col-lg-8" id='jobs-panel'>
-      <%= render 'jobs', order: @order %>
+    <div class='row'>
+      <% if @order.has_imprint_groups? %>
+          <div class="col-xs-8 col-lg-8" id='jobs-panel'>
+            <%= render 'jobs', order: @order %>
+          </div>
+          <div class="col-xs-4 col-lg-4" id='imprint-groups-panel'>
+            <%= render 'imprint_groups', order: @order %>
+          </div>
+      <% else %>
+          <div class="col-xs-12">
+            <%= render 'jobs', order: @order %>
+          </div>
+      <% end %>
     </div>
-    <div class="col-xs-4 col-lg-4" id='imprint-groups-panel'>
-      <%= render 'imprint_groups', order: @order %>
+
+    <div class='clearfix'></div>
+
+    <div id='order-post-production' class='row'>
+      <div class='well clearfix clear-after post_production_trains'>
+        <h4>Order Post Production</h4>
+        <% Train.each_train_of_type(:post_production, @order) do |train| %>
+            <%= train_entry(train) %>
+        <% end %>
+
+        <% unless Train.available_trains_of_type(:post_production, @order).empty? %>
+            <%= link_to_add_train(@order, :post_production, "#order-post-production") %>
+        <% end %>
+      </div>
     </div>
-  <% else %>
-    <div class="col-xs-12">
-      <%= render 'jobs', order: @order %>
-    </div>
-  <% end %>
-</div>
-
-<div class='clearfix'></div>
-
-<div id='order-post-production' class='row'>
-  <div class='well clearfix clear-after post_production_trains'>
-    <h4>Order Post Production</h4>
-    <% Train.each_train_of_type(:post_production, @order) do |train| %>
-      <%= train_entry(train) %>
-    <% end %>
-
-    <% unless Train.available_trains_of_type(:post_production, @order).empty? %>
-      <%= link_to_add_train(@order, :post_production, "#order-post-production") %>
-    <% end %>
-  </div>
-</div>
+<% end %>

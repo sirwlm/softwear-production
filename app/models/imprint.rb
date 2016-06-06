@@ -60,7 +60,7 @@ class Imprint < ActiveRecord::Base
     if order.fba?
       fba_train =  order.fba_bagging_train
       fba_train.update_attributes(printed: fba_train.production_trains_complete?)
-    end 
+    end
   end
 
   def revolved
@@ -215,6 +215,10 @@ class Imprint < ActiveRecord::Base
     else
       imprint_group.activities
     end
+  end
+
+  def machine_name
+    machine.name rescue 'Not Assigned'
   end
 
 

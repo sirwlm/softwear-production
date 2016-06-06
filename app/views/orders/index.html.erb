@@ -1,46 +1,7 @@
-<h1 class="pull-left">Listing orders</h1>
-<%= render 'nav' %>
-<br clear="all" />
+<%= render layout: 'layout' do %>
+    <%= render 'search' %>
 
-<%= render 'search' %>
-
-<%= paginate @orders, theme: 'twitter-bootstrap-3' %>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Scheduled At</th>
-      <th>Deadline</th>
-      <th>Jobs</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @orders.each do |order| %>
-      <tr>
-        <td><%= link_to order.tagged_name(self), order %></td>
-        <td><%= order.earliest_scheduled_date.try(:strftime, '%c') || 'Not set' %></td>
-        <td><%= order.deadline.try(:strftime, '%c') || 'Not set' %></td>
-        <td>
-          <% order.jobs.each do |job| %>
-            <p><%= job.name %> (<%= job.imprints.size %> imprints)</p>
-          <% end %>
-        </td>
-        <td>
-          <%= bootstrap_show_button(order) %>
-          <%= bootstrap_edit_button(order) %>
-          <%= link_to force_complete_order_path(order), class: 'btn btn-warning btn-xs',
-            data: {confirm: 'Are you sure you want to force complete this order?', toggle: :tooltip,
-              title: 'Force Complete'} do %>
-            <i class='glyphicon glyphicon-ok'></i>
-          <% end %>
-          <%= bootstrap_destroy_button(order) %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= paginate @orders, theme: 'twitter-bootstrap-3' %>
+    <div id="order_list">
+      <%= render 'table', orders: @orders %>
+    </div>
+<% end %>

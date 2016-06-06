@@ -1,0 +1,81 @@
+<table class="table no-border">
+  <tbody class="no-border-y">
+  <tr>
+    <td colspan="3">
+      <strong>Order <%= order.name %></strong>
+    </td>
+  </tr>
+  <% Train.each_train_of_type(:pre_production, @order) do |train| %>
+      <tr class="<%= train_table_row_class(train) %>">
+        <td>
+          Order #<%= @order.id %><br/>
+          <%= train.model_name.element.humanize.titleize %>
+        </td>
+        <td>
+          <%= train.human_state_name %>
+        </td>
+        <td>
+          <%= flatdream_show_train_button(train) %>
+          <%= flatdream_edit_train_button(train) %>
+        </td>
+      </tr>
+  <% end %>
+  <% @order.jobs.each do |job| %>
+      <tr>
+        <td colspan="3">
+          <strong><%= job.name %></strong>
+        </td>
+      </tr>
+      <% Train.each_train_of_type(:pre_production, job) do |train| %>
+          <tr class="<%= train_table_row_class(train) %>">
+            <td>
+              <%= job.name %><br/>
+              <%= train.model_name.element.humanize.titleize %>
+            </td>
+            <td>
+              <%= train.human_state_name %>
+            </td>
+            <td>
+              <%= flatdream_show_train_button(train) %>
+              <%= flatdream_edit_train_button(train) %>
+            </td>
+          </tr>
+      <% end %>
+      <% job.imprints.each do |train| %>
+          <tr class="<%= train_table_row_class(train) %>">
+            <td>
+              <%= job.name %><br/>
+              <%= train.model_name.element.humanize.titleize %>
+            </td>
+            <td>
+              <%= train.human_state_name %>
+            </td>
+            <td>
+              <%= flatdream_show_train_button(train) %>
+              <%= flatdream_edit_train_button(train) %>
+            </td>
+          </tr>
+      <% end %>
+  <% end %>
+  <tr>
+    <td colspan="3">
+      <strong>Order <%= order.name %></strong>
+    </td>
+  </tr>
+  <% Train.each_train_of_type(:post_production, @order) do |train| %>
+      <tr class="<%= train_table_row_class(train) %>">
+        <td>
+          Order #<%= @order.id %><br/>
+          <%= train.model_name.element.humanize.titleize %>
+        </td>
+        <td style="width: 200px;">
+          <%= train.human_state_name %>
+        </td>
+        <td>
+          <%= flatdream_show_train_button(train) %>
+          <%= flatdream_edit_train_button(train) %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
