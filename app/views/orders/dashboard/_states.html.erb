@@ -1,8 +1,9 @@
+<br />
 <table class="table table-striped">
   <tbody class="no-border-y">
   <tr>
     <td colspan="3">
-      <strong>Order</strong>
+      <strong>Order Pre-production</strong>
     </td>
   </tr>
   <% Train.each_train_of_type(:pre_production, @order) do |train| %>
@@ -12,7 +13,7 @@
           <%= train.model_name.element.humanize.titleize %>
         </td>
         <td>
-            <%= pretty_train_state :div, train %>
+          <%= pretty_train_state :div, train %>
         </td>
         <td>
           <%= bootstrap_show_train_button(train) %>
@@ -22,7 +23,7 @@
   <% @order.jobs.each do |job| %>
       <tr>
         <td colspan="3">
-          <strong><%= job.name %></strong>
+          <strong>Pre-production For <%= job.name %></strong>
         </td>
       </tr>
       <% Train.each_train_of_type(:pre_production, job) do |train| %>
@@ -39,6 +40,11 @@
             </td>
           </tr>
       <% end %>
+      <tr>
+        <td colspan="3">
+          <strong>Imprints For <%= job.name %></strong>
+        </td>
+      </tr>
       <% job.imprints.each do |train| %>
           <tr>
             <td>
@@ -56,7 +62,7 @@
   <% end %>
   <tr>
     <td colspan="3">
-      <strong>Order <%= order.name %></strong>
+      <strong>Order Post Production Trains</strong>
     </td>
   </tr>
   <% Train.each_train_of_type(:post_production, @order) do |train| %>

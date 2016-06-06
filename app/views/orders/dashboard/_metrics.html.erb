@@ -1,0 +1,25 @@
+<br />
+<table class="table table-striped">
+  <% @order.jobs.each do |job| %>
+      <% job.imprints.each do |imprint| %>
+          <tr>
+            <th>
+              <%= link_to "Metrics for #{job.name} - #{imprint.name}", "#" %></strong>
+            </th>
+            <th>Metric</th>
+            <th>Value</th>
+          </tr>
+          <% imprint.metrics.each do |metric| %>
+              <tr>
+                <td colspan="2" class="text-right">
+                    <%= metric.name %>
+                </td>
+                <td>
+                  <%= format_metric metric %>
+                </td>
+              </tr>
+          <% end %>
+      <% end %>
+  <% end %>
+
+</table>
