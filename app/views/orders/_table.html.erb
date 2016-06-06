@@ -35,18 +35,18 @@
           <%= table_display_datetime order.deadline %>
         </td>
         <td>
-          <%= flatdream_show_button(order) %>
+          <%= bootstrap_show_button(order) %>
           <%= link_to dashboard_for_order_path(order), class: 'btn btn-primary btn-sm', data: { toggle: 'tooltip'}, title: "Order Dashboard" do %>
               <i class='fa fa-tachometer'></i>
           <% end %>
 
-          <%= flatdream_edit_button(order) %>
+          <%= bootstrap_edit_button(order) %>
           <%= link_to force_complete_order_path(order), class: 'btn btn-danger btn-sm',
                       data: {confirm: 'Are you sure you want to force complete this order?', toggle: :tooltip,
                              title: 'Force Complete'} do %>
               <i class='fa fa-check'></i>
           <% end %>
-          <%= flatdream_destroy_button(order) %>
+          <%= bootstrap_destroy_button(order) %>
         </td>
       </tr>
   <% end %>
