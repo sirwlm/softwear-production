@@ -10,6 +10,7 @@ class ScreenPrint < Imprint
 
     after_transition on: :print_complete, do: :mark_completed_at
     after_transition on: :postpone_order, do: :unschedule
+    after_transition on: :print_complete, do: :delay_generate_metrics
 
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
@@ -87,6 +88,15 @@ class ScreenPrint < Imprint
 
   def model_name
     Imprint.model_name
+  end
+
+  def delay_generate_metrics
+    delay.generate_metrics unless Rails.env.development?
+    generate_metrics if Rails.env.development?
+  end
+
+  def generate_metrics
+    self.create_metrics
   end
 
   private

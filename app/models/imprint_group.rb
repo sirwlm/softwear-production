@@ -51,16 +51,16 @@ class ImprintGroup < ActiveRecord::Base
     end
   end
 
-  def full_name
+  def full_name(join_char = ', ')
     if name.blank?
-      "#{order_deadline_day} #{order.full_name}: Group including #{imprint_names.join(', ')} (#{count})"
+      "#{order_deadline_day} #{order.full_name}: Group including #{imprint_names.join(join_char)} (#{count})"
     else
       "#{order_deadline_day} #{order.full_name} - Group #{name} (#{count})"
     end
   end
 
-  def display
-    "#{'(COMPLETE)' if complete?} #{full_name}"
+  def display(join_char = ', ')
+    "#{'(COMPLETE)' if complete?} #{full_name(join_char)}"
   end
 
   def imprintable_train
