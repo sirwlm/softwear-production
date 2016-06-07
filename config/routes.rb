@@ -15,6 +15,7 @@ SoftwearProduction::Application.routes.draw do
 
   resources :machines do
     get :scheduled
+    get :itinerary
     collection do
       get :calendar_events
     end
@@ -24,7 +25,9 @@ SoftwearProduction::Application.routes.draw do
     member do
       get :force_complete, to: 'orders#force_complete', as: :force_complete
       get :dashboard, to: 'orders#dashboard', as: :dashboard_for
+      get :imprint_groups, to: 'orders#imprint_groups', as: :imprint_groups
     end
+
     resources :jobs do
       resources :imprints
     end

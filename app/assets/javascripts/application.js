@@ -107,6 +107,18 @@ function trainMaskInit() {
     });
 }
 
+function initializeChevronSwap(){
+    $(".collapse-toggle").click(function(){
+        if($(this).find('i').hasClass('glyphicon-chevron-down')){
+            $(this).find('i').removeClass('glyphicon-chevron-down');
+            $(this).find('i').addClass('glyphicon-chevron-up');
+        } else {
+            $(this).find('i').removeClass('glyphicon-chevron-up');
+            $(this).find('i').addClass('glyphicon-chevron-down');
+        }
+    })
+}
+
 
 $( document ).ready(function() {
   datetimepickerInit();
@@ -114,6 +126,7 @@ $( document ).ready(function() {
   typeaheadInit();
   wysihtmlInit();
   trainMaskInit();
+  initializeChevronSwap();
   $(document).on('nested:fieldAdded', datetimepickerInit);
 
   $('.colorpicker').colorpicker()

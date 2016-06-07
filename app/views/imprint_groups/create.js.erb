@@ -1,3 +1,3 @@
-$('.imprint-groups-contaner').append(
-  "<div class='well imprint-group' id='imprint-group-<%= @imprint_group.id %>'><%=j render 'orders/imprint_group', imprint_group: @imprint_group %></div>"
+$('#imprint-groups-panel').append(
+  "<div id='imprint-group-<%=@imprint_group.id %>-container'><%=j render 'orders/imprint_groups/imprint_group', imprint_group: @imprint_group %></div>"
 );

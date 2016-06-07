@@ -39,18 +39,9 @@
     </div>
 
     <div class='row'>
-      <% if @order.has_imprint_groups? %>
-          <div class="col-xs-8 col-lg-8" id='jobs-panel'>
+      <div class="col-xs-12">
             <%= render 'jobs', order: @order %>
-          </div>
-          <div class="col-xs-4 col-lg-4" id='imprint-groups-panel'>
-            <%= render 'imprint_groups', order: @order %>
-          </div>
-      <% else %>
-          <div class="col-xs-12">
-            <%= render 'jobs', order: @order %>
-          </div>
-      <% end %>
+      </div>
     </div>
 
     <div class='clearfix'></div>

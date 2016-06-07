@@ -1,0 +1,49 @@
+
+<div class="panel panel-default" id="imprint-group-<%= imprint_group.id %>" class="imprint-group-panel">
+  <div class="panel-heading">
+    <div class="pull-right">
+      <%= link_to "#imprint-group-#{imprint_group.id}-panel-body",
+                  data: {toggle: 'collapse'}, class: 'collapse-toggle' do %>
+          <i class="glyphicon glyphicon-chevron-down"></i>
+      <% end %>
+    </div>
+    Imprint Group #<%= imprint_group.id %> - <%= imprint_group.name.blank? ? "Name Not Set" : imprint_group.name %>
+  </div>
+  <div class="panel-body collapse in" id="imprint-group-<%= imprint_group.id %>-panel-body">
+    <div class="row">
+      <div class="col-sm-8">
+
+        <div class='panel panel-success imprint-group-drop-zone' data-imprint-group-id='<%= imprint_group.id %>'>
+          <div class="panel-heading">Drop Imprints Below</div>
+          <div class="panel-body">
+            <ul>
+              <% imprint_group.imprints.each do |imprint| %>
+                  <li>
+                    <%= render 'orders/imprint_groups/imprint_group_entry', imprint: imprint %>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="text-right">
+          <%= link_to edit_imprint_group_path(imprint_group.id), remote: true, class: 'btn btn-warning edit-imprint-group' do %>
+              <i class="glyphicon glyphicon-pencil"></i>
+          <% end %>
+
+          <%= link_to imprint_group_path(imprint_group.id), remote: true, method: :delete,
+                      data: {confirm: 'Are you sure you want to delete this group?' },
+                      class: 'btn btn-danger remove-imprint-group' do %>
+              <i class="glyphicon glyphicon-remove"></i>
+          <% end %>
+
+        </div>
+        <br />
+
+        <%= render 'orders/imprint_groups/details', imprint_group: imprint_group %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<h4>#<%= job.id %> - <%= job.name %></h4>
+<ul>
+  <% job.imprints.each do |imprint| %>
+      <div id="imprint-<%= imprint.id %>-container">
+        <%= render 'orders/imprint_groups/imprint', imprint: imprint %>
+      </div>
+  <% end %>
+</ul>

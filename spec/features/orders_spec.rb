@@ -34,11 +34,11 @@ feature 'Orders' do
 
   scenario 'When first visiting order/index it should default "Order Complete?" to "No"', js: true  do
     visit orders_path
-   
+
     expect(page).to have_content "No"
   end
 
-  
+
   scenario 'I can edit an existing order (add/remove jobs and imprints)', plz: true,
     js: true, story_676: true do
     job = Job.create(name: 'Test Job')
@@ -129,14 +129,14 @@ feature 'Orders' do
       given!(:crm_order) { create(:crm_order) }
       given!(:crm_job) { create(:crm_job, order_id: crm_order.id) }
       given!(:crm_proof) { create(:crm_proof, job_id: crm_job.id) }
-    
+
       background do
         crm_order.proofs = []
         crm_order.proofs << crm_proof
         crm_order.save!
         crm_order.proofs.first.artworks =[
           OpenStruct.new({
-            path: Rails.root.join('spec/fixtures/images/capybara1.JPG'), 
+            path: Rails.root.join('spec/fixtures/images/capybara1.JPG'),
             thumbnail_path: Rails.root.join('spec/fixtures/images/capybara1.JPG')
           })
         ]
@@ -148,7 +148,7 @@ feature 'Orders' do
 
       scenario 'I can see the proofs from crm', story_864: true do
         visit order_path(order)
-        
+
         expect(page).to have_content 'Status:'
       end
 
@@ -275,17 +275,17 @@ feature 'Orders' do
       click_button 'Create Order'
       sleep 1
 
-      expect(page).to have_content 'Imprint Groups'
+      expect(page).to have_css '#order_imprint_groups_link'
       expect(Order.where(has_imprint_groups: true)).to exist
     end
 
     scenario 'I can add an imprint group to an order' do
-      visit order_path(order)
+      visit imprint_groups_order_path(order)
 
       find('.add-imprint-group').click
       sleep 1
-      within '.imprint-groups' do
-        expect(page).to have_content(/Group #\d/)
+      within '#imprint-groups-panel' do
+        expect(page).to have_content(/Imprint Group #\d/)
         expect(page).to have_content 'Drop Imprints Below'
         expect(ImprintGroup.where(order_id: order.id)).to exist
       end
@@ -294,19 +294,20 @@ feature 'Orders' do
     scenario 'I can drag an imprint onto an imprint group' do
       imprint_1; imprint_2; imprint_group
 
-      visit order_path(order)
+      visit imprint_groups_order_path(order)
 
-      find("#imprint-#{imprint_1.id} .draggable-imprint")
+      find("#imprint-#{imprint_1.id}-container .draggable-imprint")
         .drag_to(find("#imprint-group-#{imprint_group.id} .imprint-group-drop-zone"))
 
-      sleep 1
+      sleep 0.5
       expect(imprint_1.reload.imprint_group_id).to eq imprint_group.id
 
-      within '.imprint-group' do
+      within '#imprint-groups-panel' do
         expect(page).to have_content 'Imprint 1'
       end
-      within "#job-#{job_1.id}" do
-        expect(page).to have_content "(Group ##{imprint_group.id}) Imprint 1"
+
+      within("#imprint-#{imprint_1.id}-container") do
+        expect(page).to have_content("In Group ##{imprint_group.id}")
       end
     end
 
@@ -314,18 +315,18 @@ feature 'Orders' do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id, name: 'LeFiRsTiMpRiNt'
 
-      visit order_path(order)
+      visit imprint_groups_order_path(order)
 
-      within '.imprint-group' do
-        find('.remove-imprint-from-group').click
-        sleep 2
+
+      find("#imprint-group-entry-#{imprint_1.id} .remove-imprint-from-group").click
+      sleep 0.5
+
+      within("#imprint-group-#{imprint_group.id}") do
         expect(page).to_not have_content 'LeFiRsTiMpRiNt'
       end
-      sleep 1
 
-      within "#job-#{job_1.id}" do
-        expect(page).to have_content "LeFiRsTiMpRiNt"
-        expect(page).to_not have_content "(Group ##{imprint_group.id}) LeFiRsTiMpRiNt"
+      within("#imprint-#{imprint_1.id}-container") do
+        expect(page).to_not have_content("In Group ##{imprint_group.id}")
       end
 
       expect(imprint_1.reload.imprint_group_id).to be_nil
@@ -335,20 +336,21 @@ feature 'Orders' do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id
 
-      visit order_path(order)
-
-      within "#job-#{job_1.id}" do
-        expect(page).to have_content "(Group ##{imprint_group.id}) Imprint 1"
+      visit imprint_groups_order_path(order)
+      within("#imprint-#{imprint_1.id}-container") do
+        expect(page).to have_content("In Group ##{imprint_group.id}")
       end
 
-      find('.remove-imprint-group').click
-      sleep 1
-
-      within "#job-#{job_1.id}" do
-        expect(page).to have_content "Imprint 1"
-        expect(page).to_not have_content "(Group ##{imprint_group.id}) Imprint 1"
+      within("#imprint-group-#{imprint_group.id}") do
+        find('.remove-imprint-group').click
       end
+      sleep 0.2
+      page.driver.browser.switch_to.alert.accept
 
+      sleep 0.5
+      within("#imprint-#{imprint_1.id}-container") do
+        expect(page).to_not have_content("In Group ##{imprint_group.id}")
+      end
       expect(page).to_not have_selector "#imprint-group-#{imprint_group.id}"
     end
 
@@ -356,9 +358,9 @@ feature 'Orders' do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id
 
-      visit order_path(order)
+      visit imprint_groups_order_path(order)
 
-      within '.imprint-group' do
+      within "#imprint-group-#{imprint_group.id}" do
         find('.edit-imprint-group').click
       end
 
@@ -375,12 +377,12 @@ feature 'Orders' do
       expect(page).to have_content machine.name
     end
 
-    scenario "I can force complete an order which will advance all of it's associated trains to their complete state", story_970: true, pending: true do 
+    scenario "I can force complete an order which will advance all of it's associated trains to their complete state", story_970: true, pending: true do
       visit order_path(order)
       expect(false).to be_truthy
-      within("#order-nav") do 
+      within("#order-nav") do
         find("i.glyphicon-ok").click
-      end 
+      end
     end
   end
 end

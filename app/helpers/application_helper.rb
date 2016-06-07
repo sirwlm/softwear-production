@@ -132,4 +132,12 @@ module ApplicationHelper
     return 'alert alert-info text-center'
   end
 
+  def format_scheduled_at(object)
+    object.scheduled_at.strftime('%Y-%m-%d %I:%M%P') rescue "Not Scheduled"
+  end
+
+  def format_datetime_am_pm(datetime)
+    datetime.strftime('%Y-%m-%d %I:%M%P') rescue "Date not set"
+  end
+
 end

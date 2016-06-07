@@ -1,11 +1,9 @@
-$('#imprint-group-<%= @imprint_group.id %>').remove();
+$('#imprint-group-<%= @imprint_group.id %>').slideUp();
+
 <% @imprints.each do |imprint| %>
-  $('#imprint-<%= imprint.id %>').html(
-      "<%= js_train_entry(imprint) do %>
-          <%- imprint.reload -%>
-          <%= render 'shared/imprint_details', object: imprint %>
-        <% end -%>"
-  );
+    $('#imprint-<%= imprint.id %>-container').html(
+            "<%=j render 'orders/imprint_groups/imprint', imprint: imprint %>"
+    );
 <% end %>
 
 initializeDraggableImprints();

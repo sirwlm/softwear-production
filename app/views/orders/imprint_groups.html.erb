@@ -1,0 +1,24 @@
+<%= render layout: 'orders/layout', locals: {title: "Manage Imprint Groups for Order ##{@order.id} #{@order.name}"} do %>
+    <div class="col-xs-6">
+      <h3>Imprints</h3>
+      <ul>
+        <% @order.jobs.each do |job| %>
+           <%= render 'orders/imprint_groups/job', job: job %>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-xs-6">
+      <h3>Imprint Groups</h3>
+      <div id="imprint-groups-panel">
+        <% @order.imprint_groups.each do |imprint_group| %>
+            <div id="<%= "imprint-group-#{imprint_group.id}-container" %>">
+              <%= render 'orders/imprint_groups/imprint_group', imprint_group: imprint_group %>
+            </div>
+        <% end %>
+      </div>
+
+      <%= button_to order_imprint_groups_path(@order), method: :post, remote: true, class: 'btn btn-success add-imprint-group' do %>
+          <i class="glyphicon glyphicon-plus"></i> Add Imprint Group
+      <% end %>
+    </div>
+<% end %>

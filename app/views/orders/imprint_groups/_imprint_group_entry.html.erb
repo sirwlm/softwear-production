@@ -1,4 +1,4 @@
-<div class="well">
+<div class="well" id="imprint-group-entry-<%= imprint.id %>">
   <div class="pull-right">
   <%= form_for imprint, remote: true, method: :put, class: 'pull-right' do |f| %>
     <%= f.hidden_field :imprint_group_id, value: '' %>
@@ -6,5 +6,6 @@
   <% end %>
   </div>
 
-  <%= imprint.name %>
+  Job #<%= imprint.job.id %><br />
+  #<%= imprint.id %> - <%= imprint.name %>
 </div>

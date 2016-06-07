@@ -11,13 +11,12 @@ else {
   <%# Updating (changing group) from orders/show %>
 
   <% if @imprint.valid? %>
-    $('#imprint-<%= @imprint.id %>').html(
-        "<%= js_train_entry(@imprint) do %>
-              <%= render 'shared/imprint_details', object: @imprint %>
-          <% end -%>"
+    $('#imprint-<%= @imprint.id %>-container').html(
+      "<%=j render 'orders/imprint_groups/imprint', imprint: @imprint %>"
     );
-    $('#imprint-group-<%= imprint_group.id %>').html(
-      "<%=j render 'orders/imprint_group', imprint_group: imprint_group %>"
+
+    $('#imprint-group-<%= imprint_group.id %>-container').html(
+      "<%=j render 'orders/imprint_groups/imprint_group', imprint_group: imprint_group %>"
     );
 
     initializeDraggableImprints();

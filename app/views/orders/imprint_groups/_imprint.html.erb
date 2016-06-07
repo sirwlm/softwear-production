@@ -1,0 +1,6 @@
+<div class="alert alert-info draggable-imprint" data-imprint-id="<%= imprint.id %>">
+    #<%= imprint.id %> - <%= imprint.name %>
+    <% unless imprint.imprint_group.blank? %>
+        <span class="pull-right"> <strong>In Group #<%= imprint.imprint_group_id %></strong></span>
+    <% end %>
+</div>

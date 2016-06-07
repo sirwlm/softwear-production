@@ -1,0 +1,50 @@
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    <%= imprint_group.type.try(:underscore).try(:humanize) || 'Imprint' %>
+  </dd>
+
+  <% if imprint_group.type == 'ScreenPrint' %>
+      <dt>
+        Revolved?
+      </dt>
+      <dd>
+        <%= (imprint_group.revolved? ? 'Yes' : 'No') %>
+      </dd>
+  <% end %>
+
+  <dt>
+    Scheduled At
+  </dt>
+  <dd>
+    <%= format_scheduled_at imprint_group %>
+  </dd>
+  <dt>
+    Machine
+  </dt>
+  <dd>
+    <%= imprint_group.machine_name %>
+  </dd>
+  <dt>
+    Imprint Count
+  </dt>
+  <dd>
+    <%= imprint_group.count %>
+  </dd>
+  <dt>
+    Estimated Time
+  </dt>
+  <dd>
+    <%= pluralize(imprint_group.estimated_time, 'hour') %>
+  </dd>
+  <% if imprint_group.imprintable_train && imprint_group.imprintable_train.location.present? %>
+      <dt>
+        Imprintables Location
+      </dt>
+      <dd>
+        <%= imprint_group.imprintable_train.location %>
+      </dd>
+  <% end %>
+</dl>

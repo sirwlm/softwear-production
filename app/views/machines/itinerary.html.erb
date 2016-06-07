@@ -1,0 +1,52 @@
+<h1><%= @machine.name %> - Itinerary for <%= @date.strftime("%A, %B %e") %></h1>
+<div class="row">
+  <%= form_tag machine_itinerary_path(@machine), method: :get do %>
+  <div class="col-xs-6">
+    <%= text_field_tag :date, params[:date], class: 'form-control datepicker-standard' %>
+  </div>
+      <div class="col-xs-6">
+        <%= submit_tag "Look Up Itinerary", class: 'btn btn-primary' %>
+      </div>
+</div>
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+    <th>
+      Time
+    </th>
+    <th>
+      Order
+    </th>
+    <th>
+      Event
+    </th>
+    <th>
+      State
+    </th>
+    <th>
+      Metrics
+    </th>
+  </thead>
+  <tbody>
+  <% @itineary_events.each do |event| %>
+    <tr>
+      <td>
+        <%= format_scheduled_at event %>
+      </td>
+      <td>
+        <%= link_to event.order.name, order_path(event.order) if event.respond_to? :order %>
+      </td>
+      <td>
+        <%= event.display %>
+      </td>
+      <td>
+        <%= pretty_train_state :div, event %>
+      </td>
+      <td>
+        <%= render 'metrics/table', object: event %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

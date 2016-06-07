@@ -10,6 +10,6 @@ if (window.calendarMatcher != undefined) {
 else {
   <%# Updating from orders/show %>
 
-  $('#imprint-group-<%= @imprint_group.id %>').html("<%=j render 'orders/imprint_group', imprint_group: @imprint_group %>");
+  $('#imprint-group-<%= @imprint_group.id %>').html("<%=j render 'orders/imprint_groups/imprint_group', imprint_group: @imprint_group %>");
   $('#contentModal').modal('hide');
 }

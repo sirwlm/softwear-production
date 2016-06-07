@@ -1,5 +1,5 @@
 class OrdersController < InheritedResources::Base
-  custom_actions resource: :dashboard
+  custom_actions resource: [:dashboard, :imprint_groups]
 
   respond_to :html, :js
   before_filter :assign_fluid_container
