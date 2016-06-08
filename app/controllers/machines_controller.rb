@@ -1,7 +1,7 @@
 class MachinesController < InheritedResources::Base
   load_and_authorize_resource
   respond_to :json, :js, :html
-  before_filter :assign_fluid_container, only: [:show, :itinerary]
+  before_filter :assign_fluid_container, only: [:show, :agenda]
 
   def create
     create! do |success, failure|
@@ -43,7 +43,7 @@ class MachinesController < InheritedResources::Base
       .results
   end
 
-  def itinerary
+  def agenda
     time_start = (params[:date].nil? ? Date.today : Date.parse(params[:date]))
     time_end   = time_start + 1.day
 

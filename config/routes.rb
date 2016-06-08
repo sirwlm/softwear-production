@@ -15,7 +15,7 @@ SoftwearProduction::Application.routes.draw do
 
   resources :machines do
     get :scheduled
-    get :itinerary
+    get :agenda
     collection do
       get :calendar_events
     end

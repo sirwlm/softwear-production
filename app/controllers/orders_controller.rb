@@ -32,7 +32,9 @@ class OrdersController < InheritedResources::Base
     @jobs = Imprint.search do
       with :imprint_group_id, nil
       with :order_id, params[:id]
-      group :job_id
+      group :job_id do
+        limit 5000
+      end
       paginate page: 1, per_page: 5000
     end
 

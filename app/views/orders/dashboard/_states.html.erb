@@ -3,7 +3,7 @@
   <thead>
   <tr class="info">
     <th colspan="3">
-      Order
+      Order #<%= @order.id %>, CRM Order #<%= @order.softwear_crm_id %>
     </th>
   </tr>
   <tr>
@@ -31,10 +31,59 @@
 </table>
 
 <% @jobs.group(:job_id).groups.each do |group| %>
-    <b>Group Value </b> <%= pp group.value %> <br />
-    <% group.results.each do |result| %>
-        <b>Result <%= result.class %> <%= result.id %></b><br />
-    <% end %>
+    <% job = Job.find(group.value) %>
+
+    <table class="table table-striped">
+      <thead>
+      <tr class="info">
+        <th colspan="3">
+          Job #<%= job.id %>, CRM Job #<%= job.softwear_crm_id %>
+        </th>
+      </tr>
+      <tr>
+        <th colspan="3">
+          Pre Production Trains
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% Train.each_train_of_type(:pre_production, job) do |train| %>
+          <tr>
+            <td>
+              Order #<%= @order.id %>, CRM Order #<%= @order.softwear_crm_id %><br/>
+              Job #<%= job.id %>, CRM Job #<%= job.softwear_crm_id %><br/>
+              <%= train.model_name.element.humanize.titleize %>
+            </td>
+            <td style="width: 300px">
+              <%= pretty_train_state :div, train %>
+            </td>
+            <td style="width: 100px">
+              <%= bootstrap_show_train_button(train, false) %>
+            </td>
+          </tr>
+      <% end %>
+      <thead>
+      <tr>
+        <th colspan="3">
+          Production Trains
+        </th>
+      </tr>
+      <tbody>
+      <% group.results.each do |imprint| %>
+          <tr>
+            <td>
+              Order #<%= @order.id %>, CRM Order #<%= @order.softwear_crm_id %><br/>
+              <%= imprint.name %>
+            <td style="width: 300px">
+              <%= pretty_train_state :div, imprint %>
+            </td>
+            <td style="width: 100px">
+              <%= bootstrap_show_train_button(imprint, false) %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+      </table>
 <% end %>
 
 
@@ -100,7 +149,7 @@
       <thead>
       <tr class="info">
             <th colspan="3">
-              Order
+              Order #<%= @order.id %>, CRM Order #<%= @order.softwear_crm_id %>
             </th>
       </tr>
       <tr>

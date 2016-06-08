@@ -30,10 +30,10 @@
               </div>
               <div class="col-sm-6">
                 <ul class="multi-column-dropdown">
-                  <li><%= link_to 'Itineraries', "#" %></li>
+                  <li><%= link_to 'Agendas', "#" %></li>
                   <li class="divider"></li>
                   <% @machines.each do |machine| %>
-                      <li><%= link_to machine.name, machine_itinerary_path(machine) %></li>
+                      <li><%= link_to machine.name, machine_agenda_path(machine) %></li>
                   <% end %>
                 </ul>
               </div>
