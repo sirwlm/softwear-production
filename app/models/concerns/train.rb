@@ -263,109 +263,14 @@ module Train
     end
   end
 
-
-  #used for getting lowest scheduled_at date for imprints
-  #from the following trains: 
-  #["PreproductionNotes", "Imprintable", "CustomInkColor"]
-  #****these all have job_id****
-  def get_job_based_scheduled
-    job_lowest = job.imprints.order('scheduled_at desc').pluck(:scheduled_at).first unless job.nil?
-    order_lowest = order.imprints.order('scheduled_at desc').pluck(:scheduled_at).first unless order.nil?
-
-    if job.nil?
-      if order.nil?
-        return nil 
-      else
-        order_losest = order_lowest.nil? ? nil : order_lowest
-        return order_lowest
-      end
-    else
-      if order.nil?
-        job_lowest = job_lowest.nil? ? nil : job_lowest
-        return job_lowest
-      else
-        
-        if job_lowest.nil?
-          return nil
-        end
-
-        lowest = job_lowest > order_lowest ? order_lowest : job_lowest
-        return lowest
-      end
-    end
+  def order_earliest_scheduled_at
+    order.imprints.minimum(:scheduled_at) rescue nil
   end
 
-  #used for getting lowest scheduled_at date for imprints
-  #from the following trains: 
-  #["Screen", "Digitization", "FBALabel", "Ar3"]
-  #****these all have order_id****
-  def get_order_based_scheduled
-    lowest_job = ""
-    lowest_order = order.imprints.order('scheduled_at desc').pluck(:scheduled_at).first unless order.nil?
-
-    if order.nil?
-      return nil
-    else
-      if order.jobs.blank?
-        lowest_order = lowest_order.nil? ? nil : lowest_order.strftime
-        return lowest_order 
-      else
-        
-        order.jobs.each do |job|
-          if lowest_job.blank?
-            lowest_job = job.imprints.order('scheduled_at desc').pluck(:scheduled_at).first
-          else
-            new_lowest_job = job.imprints.order('scheduled_at desc').pluck(:scheduled_at).first
-            new_lowest_job = lowest_job if new_lowest_job.nil?
-            lowest_job = lowest_job > new_lowest_job ? new_lowest_job : lowest_job
-          end
-        end
-
-        if lowest_order.nil? && lowest_job.nil?
-          return nil  
-        end
-        
-        lowest = lowest_job > lowest_order ? lowest_order : lowest_job
-        return lowest
-      end
-    end
+  def order_earliest_scheduled_at_date
+    order_earliest_scheduled_at.strftime("%Y-%m-%d") rescue nil
   end
 
-  def earliest_scheduled(type)
-    case type 
-    when "PreproductionNotesTrain", "ImprintableTrain"
-      return get_job_based_scheduled#each have job_id
-    else
-      return get_order_based_scheduled#each have order_id
-    end
-  end
-
-  def scheduled_time
-    is_assigned = false
-    earliest_scheduled_at = ""
-    pre_prod_types = [
-      "PreproductionNotesTrain",
-      "ScreenTrain",
-      "FbaLabelTrain",
-      "Ar3Train",
-      "DigitizationTrain",
-      "ImprintableTrain",
-      "CustomInkColorTrain"
-    ]
-
-    pre_prod_types.each do |type|
-      unless is_assigned
-        is_assigned = true if self.class.to_s.include?(type)
-
-        if is_assigned
-          earliest_scheduled_at = earliest_scheduled(type)
-        end
-      end
-    end
-
-    earliest_scheduled_at = nil unless is_assigned
-    earliest_scheduled_at
-  end
   def train_machine
     self.class.train_machine
   end

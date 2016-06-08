@@ -24,10 +24,10 @@
     </thead>
     <tbody>
       <% @trains.each do |train| %>
-        <tr>
+        <trt>
           <td><%= train.id %></td>
           <td><%= train.class.name %></td>
-          <td><%= train.scheduled_time.try(:strftime, '%a, %b %d, %Y ') rescue 'Not Set' %></td>
+          <td><%= train.order_earliest_scheduled_at.try(:strftime, '%a, %b %d, %Y') rescue "Not Scheduled" %></td>
           <td>
             <%= link_to train.order.tagged_name(self), order_path(train.order) rescue "Order is nil" %><br/>
             <%= render("dashboard/table_row_#{train.class.name.underscore}", train: train) rescue "No Partial Exists or Error Rendering Details" %>

@@ -1,7 +1,7 @@
 <tr>
   <td><%= train.id %></td>
   <td><%= train.class.name.underscore.humanize %></td>
-  <td><%= train.scheduled_time.try(:strftime, '%a, %b %d, %Y ') rescue 'Not Set' %></td>
+  <td><%= train.order_earliest_scheduled_at.strftime('%a, %b %d, %Y') rescue 'Not Set' %></td>
   <td>
     <% if train.order %>
       <%= link_to train.order.tagged_name(self), order_path(train.order) %>
