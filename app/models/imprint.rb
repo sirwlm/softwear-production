@@ -41,19 +41,28 @@ class Imprint < ActiveRecord::Base
 
   searchable do
     text :full_name, :description
+
     integer :completed_by_id
+    integer :machine_id
+    integer :job_id
+    integer :imprint_group_id
+    integer :order_id do
+      order.id rescue nil
+    end
+
     string :imprint_group_or_imprint_id_str do
       imprint_group_or_imprint_id_str
     end
+
     boolean :complete  do
       completed?
     end
-    time :scheduled_at
-    time :completed_at
     boolean :scheduled do
       !scheduled_at.nil?
     end
-    integer :machine_id
+
+    time :scheduled_at
+    time :completed_at
   end
 
   def on_complete

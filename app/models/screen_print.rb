@@ -91,8 +91,8 @@ class ScreenPrint < Imprint
   end
 
   def delay_generate_metrics
-    delay.generate_metrics unless Rails.env.development?
-    generate_metrics if Rails.env.development?
+    delay.generate_metrics if Rails.env.production?
+    generate_metrics unless Rails.env.production?
   end
 
   def generate_metrics

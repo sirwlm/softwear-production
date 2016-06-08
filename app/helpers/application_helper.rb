@@ -50,8 +50,8 @@ module ApplicationHelper
     end
   end
 
-  def bootstrap_show_train_button(train)
-    link_to(show_train_path(train, new: true), data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-success', title: 'Show', remote: :true) do
+  def bootstrap_show_train_button(train, new = true)
+    link_to(show_train_path(train, new: new), data: { toggle: 'tooltip' }, class: 'btn btn-sm btn-success', title: 'Show', remote: :true) do
       content_tag :i, '', class: 'fa fa-eye'
     end
   end

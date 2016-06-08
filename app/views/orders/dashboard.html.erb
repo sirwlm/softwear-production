@@ -1,11 +1,10 @@
-<%= render layout: 'layout', locals: { title: @order.name } do %>
+<%= render layout: 'layout', locals: { title: "#{@order.deadline.strftime("%a %m/%d")} - #{@order.full_name}" } do %>
     <div class="row">
-      <div class="col-sm-7">
-
+      <div class="col-xs-12">
         <div class="tab-container">
           <ul class="nav nav-tabs flat-tabs">
             <li class="active"><a href="#states" data-toggle="tab" aria-expanded="true">Train States</a></li>
-            <li class=""><a href="#metrics" data-toggle="tab" aria-expanded="false">Metrics</a></li>
+            <!--<li class=""><a href="#metrics" data-toggle="tab" aria-expanded="false">Metrics</a></li>-->
           </ul>
           <div class="tab-content">
             <div class="tab-pane cont fade active in" id="states">
@@ -15,11 +14,6 @@
               <%= render 'orders/dashboard/metrics', order: @order %>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-sm-5" id="dashboard-extra">
-        <div id="show_train">
-
         </div>
       </div>
     </div>

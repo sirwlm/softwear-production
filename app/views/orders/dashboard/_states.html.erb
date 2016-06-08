@@ -1,81 +1,126 @@
 <br />
 <table class="table table-striped">
-  <tbody class="no-border-y">
-  <tr>
-    <td colspan="3">
-      <strong>Order Pre-production</strong>
-    </td>
+  <thead>
+  <tr class="info">
+    <th colspan="3">
+      Order
+    </th>
   </tr>
+  <tr>
+    <th colspan="3">
+      Pre-production
+    </th>
+  </tr>
+  </thead>
+  <tbody>
   <% Train.each_train_of_type(:pre_production, @order) do |train| %>
       <tr>
         <td>
           Order #<%= @order.id %><br/>
-          <%= train.model_name.element.humanize.titleize %>
+          <%= train.model_name.element.humanize.titleize %> #<%= train.id %>
         </td>
-        <td>
+        <td style="width: 300px">
           <%= pretty_train_state :div, train %>
         </td>
+        <td style="width: 100px">
+          <%= bootstrap_show_train_button(train, false) %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% @jobs.group(:job_id).groups.each do |group| %>
+    <b>Group Value </b> <%= pp group.value %> <br />
+    <% group.results.each do |result| %>
+        <b>Result <%= result.class %> <%= result.id %></b><br />
+    <% end %>
+<% end %>
+
+
+<% @imprint_groups.each do |imprint_group| %>
+    <table class="table table-striped">
+      <thead>
+      <tr class="info">
+        <th colspan="3">
+          Imprint Group #<%= imprint_group.id %><br />
+          <%= raw imprint_group.imprints.map { |x| "Imprint ##{x.id} - Job ##{x.job_id} - CRM Job ##{x.softwear_crm_id} -  #{x.job.name} - #{x.name}" }.join("<br />") %>
+        </th>
+      </tr>
+      <tr>
+        <th colspan="3">
+          Pre Production Trains
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% jobs = imprint_group.imprints.map(&:job) %>
+      <% jobs.each do |job| %>
+          <% Train.each_train_of_type(:pre_production, job) do |train| %>
+              <tr>
+                <td>
+                  Order #<%= @order.id %>, CRM Order #<%= @order.softwear_crm_id %><br/>
+                  Job #<%= job.id %>, CRM Job #<%= job.softwear_crm_id %><br/>
+                  <%= train.model_name.element.humanize.titleize %>
+                </td>
+                <td style="width: 300px">
+                  <%= pretty_train_state :div, train %>
+                </td>
+                <td style="width: 100px">
+                  <%= bootstrap_show_train_button(train, false) %>
+                </td>
+              </tr>
+          <% end %>
+      <% end %>
+      <thead>
+      <tr>
+        <th colspan="3">
+          Production Train
+        </th>
+      </tr>
+      <tbody>
+      <tr>
         <td>
-          <%= bootstrap_show_train_button(train) %>
+          Order #<%= @order.id %>, CRM Order #<%= @order.softwear_crm_id %><br/>
+          <%= imprint_group.type.titleize %><br />
+          <%= imprint_group.name %>
+        <td style="width: 300px">
+          <%= pretty_train_state :div, imprint_group %>
+        </td>
+        <td style="width: 100px">
+          <%= bootstrap_show_train_button(imprint_group, false) %>
         </td>
       </tr>
-  <% end %>
-  <% @order.jobs.each do |job| %>
+      </tbody>
+    </table>
+<% end %>
+
+
+  <table class="table table-striped">
+      <thead>
+      <tr class="info">
+            <th colspan="3">
+              Order
+            </th>
+      </tr>
       <tr>
-        <td colspan="3">
-          <strong>Pre-production For <%= job.name %></strong>
-        </td>
-      </tr>
-      <% Train.each_train_of_type(:pre_production, job) do |train| %>
-          <tr>
-            <td>
-              <%= job.name %><br/>
-              <%= train.model_name.element.humanize.titleize %>
-            </td>
-            <td>
-              <%= pretty_train_state :div, train %>
-            </td>
-            <td>
-              <%= bootstrap_show_train_button(train) %>
-            </td>
+        <th colspan="3">
+          Post Production Trains
+            </th>
           </tr>
-      <% end %>
-      <tr>
-        <td colspan="3">
-          <strong>Imprints For <%= job.name %></strong>
-        </td>
-      </tr>
-      <% job.imprints.each do |train| %>
-          <tr>
-            <td>
-              <%= job.name %><br/>
-              <%= train.model_name.element.humanize.titleize %>
-            </td>
-            <td>
-              <%= pretty_train_state :div, train %>
-            </td>
-            <td>
-              <%= bootstrap_show_train_button(train) %>
-            </td>
-          </tr>
-      <% end %>
-  <% end %>
-  <tr>
-    <td colspan="3">
-      <strong>Order Post Production Trains</strong>
-    </td>
-  </tr>
+      </thead>
+    <tbody>
   <% Train.each_train_of_type(:post_production, @order) do |train| %>
       <tr>
         <td>
           Order #<%= @order.id %><br/>
           <%= train.model_name.element.humanize.titleize %>
         </td>
-        <td>
+        <td style="width: 300px">
           <%= pretty_train_state :div, train %>
         </td>
-        <td>
-          <%= bootstrap_show_train_button(train) %>
+        <td style="width: 100px">
+          <%= bootstrap_show_train_button(train, false) %>
         </td>
       </tr>
   <% end %>

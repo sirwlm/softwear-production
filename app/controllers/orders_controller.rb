@@ -2,7 +2,7 @@ class OrdersController < InheritedResources::Base
   custom_actions resource: [:dashboard, :imprint_groups]
 
   respond_to :html, :js
-  before_filter :assign_fluid_container
+  before_filter :assign_fluid_container, except: [:new, :edit, :dashboard]
 
   def index
     q = params[:q]
@@ -25,6 +25,21 @@ class OrdersController < InheritedResources::Base
       paginate page: params[:page] || 1
     end
       .results
+  end
+
+  def dashboard
+    @order = Order.find(params[:id])
+    @jobs = Imprint.search do
+      with :imprint_group_id, nil
+      with :order_id, params[:id]
+      group :job_id
+      paginate page: 1, per_page: 5000
+    end
+
+    @imprint_groups = ImprintGroup.search do
+      with :order_id, params[:id]
+      paginate page: 1, per_page: 5000
+    end.results
   end
 
   def force_complete

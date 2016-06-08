@@ -27,6 +27,7 @@ class ImprintGroup < ActiveRecord::Base
     end
     integer :machine_id
     integer :completed_by_id
+    integer :order_id
   end
 
   def respond_to?(*args)
