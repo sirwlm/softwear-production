@@ -64,6 +64,4 @@ class ApplicationController < ActionController::Base
     @title += "SoftWEAR"
     @title
   end
-
-
 end

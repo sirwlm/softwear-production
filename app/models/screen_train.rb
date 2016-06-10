@@ -25,6 +25,8 @@ class ScreenTrain < ActiveRecord::Base
   
   accepts_nested_attributes_for :assigned_screens, allow_destroy: true
   accepts_nested_attributes_for :screen_requests, allow_destroy: true
+
+  attr_reader :just_assigned
  
   searchable do 
     text :artwork_location, :job_names, :imprint_names, :id
@@ -89,7 +91,7 @@ class ScreenTrain < ActiveRecord::Base
     assigned_screens.each do |assigned|
       if assigned.screen.state == 'ready_to_expose'
         assigned.screen.exposed
-        assigned.screen.save 
+        assigned.screen.just_assigned = true
       end
     end
   end

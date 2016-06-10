@@ -1,6 +1,5 @@
 class ScreenTrainsController < InheritedResources::Base
   respond_to :json, only: [:edit, :update]
-
   def edit
     edit! do |format|
       format.js
@@ -10,6 +9,9 @@ class ScreenTrainsController < InheritedResources::Base
   def update
     update! do |success, failure|
       success.js do
+
+        create_activity_for_screens
+
         flash[:success] = "Successfully updated"
         @object = @screen_train
         @title  = "Screen train (updated)"
@@ -36,4 +38,20 @@ class ScreenTrainsController < InheritedResources::Base
       ]
     )
   end
+
+  def create_activity_for_screens
+    
+    @screen_train.assigned_screens.map(&:screen).each do |screen|
+      if screen.just_assigned
+        screen.create_activity(
+          action: :transition,
+          parameters: {
+            event: screen.state, 
+            mesh_type: screen.mesh_type },
+          owner: @current_user
+          )
+      end
+    end
+  end
+
 end
