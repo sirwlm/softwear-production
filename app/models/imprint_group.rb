@@ -13,15 +13,15 @@ class ImprintGroup < ActiveRecord::Base
   has_many :imprints, inverse_of: :imprint_group
   has_many :imprintable_trains, through: :imprints
   belongs_to :rescheduled_from, class_name: 'ImprintGroup', inverse_of: :reschedules
-  has_many :reschedules, class_name: 'ImprintGroup', foreign_key: 'rescheduled_from_id', inverse_of: :reshceduled_from
+  has_many :reschedules, class_name: 'ImprintGroup', foreign_key: 'rescheduled_from_id', inverse_of: :rescheduled_from
   belongs_to :machine
 
   validate :no_circular_reference
+  validate :scheduling_cannot_be_changed, if: :print_has_started?
 
+  after_save :mark_original_rescheduled, if: :just_scheduled?
   after_create :set_order_has_imprint_groups_flag
   before_destroy :remove_imprints
-
-  alias_method :complete?, :completed?
 
   searchable do
     time :scheduled_at
@@ -65,7 +65,16 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def display(join_char = ', ')
-    "#{'(COMPLETE)' if complete?} #{full_name(join_char)}"
+    disp = []
+    if rescheduled_from_id.present?
+      disp << "(RESCHEDULE)"
+    elsif reschedules.any?
+      disp << "(RESCHEDULED)"
+    elsif complete?
+      disp << "(COMPLETE)"
+    end
+    disp << full_name(join_char)
+    disp.join(' ')
   end
 
   def imprintable_train
@@ -75,6 +84,8 @@ class ImprintGroup < ActiveRecord::Base
   def generate_rescheduled_group
     new_imprint_group = dup
     new_imprint_group.rescheduled_from_id = rescheduled_from_id || id
+    new_imprint_group.scheduled_at = nil
+
     new_imprint_group.save!
     new_imprint_group.imprints = imprints.map { |i| i.generate_rescheduled_imprint(false) }
     new_imprint_group
@@ -159,6 +170,26 @@ class ImprintGroup < ActiveRecord::Base
 
   def actual_time
     (completed_at - started_at)/60.0
+  end
+
+  def print_has_started?
+    if imprints.any?
+      %i(pending_rescheduling rescheduled complete printing).include? imprints.first.state.to_sym
+    end
+  end
+
+  def mark_original_rescheduled
+    if rescheduled_from_id.blank?
+      return
+    elsif rescheduled_from.blank?
+      raise "Imprint Group ##{id}'s `rescheduled_from` no longer exists"
+    end
+
+    rescheduled_from.imprints.each { |i| i.update_column :state, :rescheduled }
+    rescheduled_from.create_activity(
+      action:     :transition,
+      parameters: { event: 'rescheduled' }
+    )
   end
 
   private

@@ -6,6 +6,11 @@ feature 'Screen Print Trains', js: true do
     include_context 'logged_in_as_admin'
     let(:machine) { create(:machine) }
 
+    background :each do
+      # Use fake sunspot search
+      allow(Sunspot).to receive(:search) { |*args, &block| FakeSunspotSearch.new(*args, &block) }
+    end
+
     scenario "I can create an order with a screen print" do
       create_order(
         name: 'Test Order',
@@ -26,6 +31,81 @@ feature 'Screen Print Trains', js: true do
       )
       expect(page).to have_content('Order was successfully created')
       expect(page).to have_css('dd', text: 'Screen print')
+    end
+
+    context 'given an order with two jobs, each with a screen print, and a group of the imprint in each job', imprint_group: true do
+      given(:order) { create(:order, jobs: [create(:job_with_screen_print), create(:job_with_screen_print)]) }
+      given(:imprint_group) { order.imprint_groups.first }
+      given(:new_imprint_group) { imprint_group.reschedules.first }
+
+      background :each do
+        order.imprint_groups.create(
+          scheduled_at: Time.now,
+          machine_id: machine.id,
+          imprint_ids: order.imprint_ids
+        )
+      end
+
+      scenario 'I can advance the group to completion' do
+        visit dashboard_calendar_path
+        find('.select2-choices').click
+        find('.select2-result', text: machine.name).click
+        sleep 1.5
+
+        find('a.fc-event', text: imprint_group.name).click
+        wait_for_ajax
+        success_transition :approve
+        success_transition :start_setup
+        select_from_select2 ScreenPrint::TRILOC_RESULTS.first
+        success_transition :setup_complete
+        success_transition :print_started
+        success_transition :print_complete
+
+        within('.train-category-success') do
+          expect(page).to have_content('No actions available')
+        end
+
+        expect(imprint_group.reload.complete?).to eq true
+      end
+
+      context 'and complete' do
+        background :each do
+          imprint_group.imprints.each do |imprint|
+            imprint.update_column :state, :complete
+          end
+          imprint_group.reload
+        end
+
+        scenario 'I can reschedule the group', reschedule: true do
+          visit dashboard_calendar_path
+          find('.select2-choices').click
+          find('.select2-result', text: machine.name).click
+          sleep 1.5
+
+          find('a.fc-event', text: imprint_group.display).click
+          wait_for_ajax
+
+          within '.train-category-delay' do
+            fill_in 'public_activity_reason', with: 'too tired to print'
+          end
+          delay_transition :reschedule
+          wait_for_ajax
+          sleep 1
+
+          expect(new_imprint_group.imprints.map(&:state).uniq).to eq ['pending_approval']
+
+          visit dashboard_calendar_path
+
+          sleep 1
+          find('.unscheduled-imprint', text: new_imprint_group.display).drag_to find('tr', text: '7am')
+          wait_for_ajax
+          sleep 0.5
+
+          expect(new_imprint_group.reload.scheduled_at).to_not be_nil
+          expect(imprint_group.reload.state).to eq "rescheduled"
+          expect(imprint_group).to be_complete
+        end
+      end
     end
 
     context 'given an order with an imprint that is a screen print' do
@@ -89,9 +169,6 @@ feature 'Screen Print Trains', js: true do
 
           expect(new_imprint.job).to eq imprint.job
           expect(new_imprint.machine).to eq imprint.machine
-
-          # Use fake sunspot search
-          allow(Sunspot).to receive(:search) { |*args, &block| FakeSunspotSearch.new(*args, &block) }
         end
         
         scenario 'I can schedule the new imprint, transitioning the state of the old one to "rescheduled"' do

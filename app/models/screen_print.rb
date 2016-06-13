@@ -84,7 +84,7 @@ class ScreenPrint < Imprint
   end
 
   def complete?
-    super || state.to_sym == :rescheduled
+    super || %i(rescheduled pending_rescheduling).include?(state.to_sym)
   end
 
   def delay_generate_metrics
@@ -101,16 +101,6 @@ class ScreenPrint < Imprint
   end
 
   private
-
-  def scheduling_cannot_be_changed
-    if scheduled_at_changed? || estimated_time_changed?
-      errors.add(
-        :scheduled_at,
-        "cannot be changed once a print is started "\
-        "(instead, you should transition to complete and reschedule)"
-      )
-    end
-  end
 
   def transition_to_ready_to_print_if_just_scheduled
     if scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling

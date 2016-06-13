@@ -3,8 +3,14 @@
   This Imprint Requires Signoff
   </p>
 <% end %>
-<% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
-  <h4>(Group #<%= object.imprint_group.id %>) <%= object.name %></h4>
+<% if object.try(:part_of_group?) %>
+  <% if object.rescheduled_from_id? %>
+    <h4>(Reschedule) (Group #<%= object.imprint_group.rescheduled_from_id %>) <%= object.name %></h4>
+  <% else %>
+    <h4>(Group #<%= object.imprint_group.id %>) <%= object.name %></h4>
+  <% end %>
+<% elsif object.rescheduled_from_id %>
+  <h4>(Reschedule)</h4>
 <% end %>
 
 <dl>

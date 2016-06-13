@@ -128,4 +128,17 @@ module Schedulable
       update_attribute(:completed_at, Time.now)
     end
   end
+
+  protected
+
+  # Custom validation
+  def scheduling_cannot_be_changed
+    if scheduled_at_changed? || estimated_time_changed?
+      errors.add(
+        :scheduled_at,
+        "cannot be changed once a print is started "\
+        "(instead, you should transition to complete and reschedule)"
+      )
+    end
+  end
 end

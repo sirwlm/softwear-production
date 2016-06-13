@@ -31,7 +31,7 @@ class Imprint < ActiveRecord::Base
   before_save :synchronize_with_group, if: :part_of_group?
   before_save :set_completed_at_if_necessary
   after_commit :populate_group_fields
-  after_save :mark_original_rescheduled, if: :scheduled_at_changed?
+  after_save :mark_original_rescheduled, if: :just_scheduled?
 
   belongs_to :job
   belongs_to :imprint_group, inverse_of: :imprints
@@ -100,8 +100,11 @@ class Imprint < ActiveRecord::Base
   def display
     disp = []
     disp << "(UNAPPROVED)" unless approved?
-    disp << "(RESCHEDULED x#{reschedules.count})" if reschedules.any?
-    disp << "(COMPLETE)" if completed?
+    if reschedules.any?
+      disp << "(RESCHEDULED x#{reschedules.count})"
+    else
+      disp << "(COMPLETE)"
+    end
     disp << "(RESCHEDULE)" if rescheduled_from_id.present?
     disp << full_name
     disp.join(' ')
@@ -242,7 +245,7 @@ class Imprint < ActiveRecord::Base
     if part_of_group? && reschedule_group
       #
       # NOTE this is recursive in that #generate_rescheduled_group! calls #generate_rescheduled_imprint!
-      # ---- but with the parameter set to false (stopping an infinite loop).
+      # ---- but with the parameter set to false (stopping an infinite loop from happening).
       #
       new_group = imprint_group.generate_rescheduled_group
       return new_group.imprints.find { |i| i.rescheduled_from_id == id }
@@ -253,10 +256,13 @@ class Imprint < ActiveRecord::Base
     new_imprint.scheduled_at = nil
 
     if self.class.respond_to?(:train_machine)
-      new_imprint.state = self.class.train_machine.first_state
+      new_state = new_imprint.state = self.class.train_machine.first_state
     end
 
     new_imprint.save!
+    # For some reason, the state tends to revert after being saved
+    new_imprint.update_column :state, new_state if new_state
+
     new_imprint
   end
 
