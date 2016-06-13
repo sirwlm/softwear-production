@@ -102,7 +102,7 @@ class Imprint < ActiveRecord::Base
     disp << "(UNAPPROVED)" unless approved?
     if reschedules.any?
       disp << "(RESCHEDULED x#{reschedules.count})"
-    else
+    elsif complete?
       disp << "(COMPLETE)"
     end
     disp << "(RESCHEDULE)" if rescheduled_from_id.present?
@@ -243,7 +243,7 @@ class Imprint < ActiveRecord::Base
     new_imprint.rescheduled_from_id = rescheduled_from_id || id
     new_imprint.scheduled_at = nil
     new_imprint.completed_at = nil
-    new_imprint.completed_by = nil
+    new_imprint.completed_by_id = nil
 
     if self.class.respond_to?(:train_machine)
       new_state = new_imprint.state = self.class.train_machine.first_state

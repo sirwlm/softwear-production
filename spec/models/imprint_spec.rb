@@ -128,15 +128,15 @@ describe Imprint, imprint_spec: true, story_110: true do
     subject { create :imprint, name: 'Imprint Name', machine_id: nil, scheduled_at: nil }
 
     context 'when completed' do
-      before { allow(subject).to receive(:completed?).and_return true }
+      before { allow(subject).to receive(:complete?).and_return true }
 
       it 'equals (COMPLETE) name' do
-        expect(subject.display).to eq "(UNAPPROVED) #{subject.full_name}"
+        expect(subject.display).to eq "(UNAPPROVED) (COMPLETE) #{subject.full_name}"
       end
     end
 
     context 'when not completed' do
-      before { allow(subject).to receive(:completed?).and_return false }
+      before { allow(subject).to receive(:complete?).and_return false }
 
       it 'equals name' do
         expect(subject.display).to eq "(UNAPPROVED) #{subject.full_name}"

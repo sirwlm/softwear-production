@@ -86,7 +86,7 @@ class ImprintGroup < ActiveRecord::Base
     new_imprint_group.rescheduled_from_id = rescheduled_from_id || id
     new_imprint_group.scheduled_at = nil
     new_imprint_group.completed_at = nil
-    new_imprint_group.completed_by = nil
+    new_imprint_group.completed_by_id = nil
 
     new_imprint_group.save!
     new_imprint_group.imprints = imprints.map { |i| i.generate_rescheduled_imprint(false) }
