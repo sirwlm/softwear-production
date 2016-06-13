@@ -59,6 +59,8 @@ class Screen < ActiveRecord::Base
   validates :mesh_type, presence: true, unless: -> {"state == 'new'"}
   validates :id, uniqueness: true
 
+  attr_accessor :just_assigned
+
   after_initialize :assign_id
 
   state_machine :state do

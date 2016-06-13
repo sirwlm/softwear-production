@@ -63,8 +63,6 @@ feature "ScreenTrains", type: :feature, js: true do
           expect(page).to have_selector('button', text: 'Bad separation')
         end
         
-       # byebug 
-
        # success_transition :screens_assigned
          within('.train-category-delay') do
           expect(page).to have_selector('button', text: 'Bad separation')
@@ -148,7 +146,7 @@ feature "ScreenTrains", type: :feature, js: true do
       end
     end
 
-    context 'Given a screen_train with state of pending_screens' do 
+    context 'Given a screen_train with state of pending_screens', transition: true do 
       given!(:screen) { create(:screen, state: "ready_to_expose") }
       given!(:screen_request) { 
         create(:screen_request,
@@ -158,31 +156,40 @@ feature "ScreenTrains", type: :feature, js: true do
           screen_train_id:  screen_train.id
               )} 
       
-      before :each do
-        screen_train.update_attribute(:state, :pending_screens)
-      end
+      context 'Assigning a screen to the screen train' do
 
-      scenario 'I can assign screens to the screen_train and it will transition screens to "washed_and_drying"' do
-        visit order_path(order)
-        first('a', text: 'Show Full Details').click
-        sleep 1
-        within('div.screen_train-details') do
-          first('a').click
+        before :each do
+          PublicActivity.with_tracking do 
+            screen_train.update_attribute(:state, :pending_screens)
+            visit order_path(order)
+            first('a', text: 'Show Full Details').click
+            sleep 1
+            within('div.screen_train-details') do
+              first('a').click
+            end
+            sleep 2 
+            click_link "Assign A Screen"
+            sleep 2
+            fill_in "Screen", with: screen.id 
+            sleep 1
+
+            #make sure state is ready_to_expose from the beginning
+            expect(screen.state).to eq("ready_to_expose")
+
+            click_button "Update Screen train"
+            sleep 1
+          end
         end
-        sleep 2 
-        click_link "Assign A Screen"
-        sleep 2
-        fill_in "Screen", with: screen.id 
-        sleep 1
 
-        #make sure state is ready_to_expose from the beginning
-        expect(screen.state).to eq("ready_to_expose")
+        scenario 'will transition screen from "ready_to_expose" to "washed_and_drying"' do
+          expect(screen.reload.state).to eq("washed_out_and_drying")
+        end
 
-        click_button "Update Screen train"
-        sleep 1
-
-        expect(screen.reload.state).to eq("washed_out_and_drying")
+        scenario 'will add a public activity to the screen' do
+          expect(screen.reload.activities.map(&:key)).to include('screen.transition') 
+        end
       end
+
     end
 
     context 'given a screen train has all of the proof request data and all screens assigned' do 
