@@ -97,8 +97,28 @@ describe Imprint, imprint_spec: true, story_110: true do
     end
   end
 
+  describe '#generate_rescheduled_imprint', reschedule: true do
+    subject { create(:print, scheduled_at: '2014-01-01', estimated_time: 2.0, machine_id: create(:machine).id)}
+
+    it 'creates a new imprint with a rescheduled_from_id equal to self.id' do
+      new_imprint = subject.generate_rescheduled_imprint
+      expect(new_imprint).to be_persisted
+      expect(new_imprint.rescheduled_from.id).to eq subject.id
+      expect(new_imprint).to_not be_scheduled
+    end
+
+    context 'on an already rescheduled imprint' do
+      let!(:rescheduled_imprint) { subject.generate_rescheduled_imprint }
+
+      it 'creates a new imprint with reschedule_from_id equal to the original imprint ID' do
+        new_imprint = rescheduled_imprint.generate_rescheduled_imprint
+        expect(new_imprint.rescheduled_from_id).to eq subject.id
+      end
+    end
+  end
+
   describe '#estimated_end_at' do
-    let(:subject) { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine_id: create(:machine).id)}
+    subject { create(:imprint, scheduled_at: '2014-01-01', estimated_time: 2.0, machine_id: create(:machine).id)}
     it 'returns the time ' do
       expect(subject.estimated_end_at.strftime('%H:%M %Z')).to eq('02:00 EST')
     end

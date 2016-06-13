@@ -81,6 +81,10 @@ module Schedulable
     "#{self.class.table_name.singularize}-#{id}"
   end
 
+  def just_scheduled?
+    scheduled_at_was.nil? && scheduled_at_changed?
+  end
+
   def scheduled?
     !scheduled_at.blank?
   end

@@ -10,9 +10,13 @@ class ImprintGroup < ActiveRecord::Base
   tracked only: [:transition]
 
   belongs_to :order
-  has_many :imprints
+  has_many :imprints, inverse_of: :imprint_group
   has_many :imprintable_trains, through: :imprints
+  belongs_to :rescheduled_from, class_name: 'ImprintGroup', inverse_of: :reschedules
+  has_many :reschedules, class_name: 'ImprintGroup', foreign_key: 'rescheduled_from_id', inverse_of: :reshceduled_from
   belongs_to :machine
+
+  validate :no_circular_reference
 
   after_create :set_order_has_imprint_groups_flag
   before_destroy :remove_imprints
@@ -66,6 +70,14 @@ class ImprintGroup < ActiveRecord::Base
 
   def imprintable_train
     imprintable_trains.first
+  end
+
+  def generate_rescheduled_group
+    new_imprint_group = dup
+    new_imprint_group.rescheduled_from_id = rescheduled_from_id || id
+    new_imprint_group.save!
+    new_imprint_group.imprints = imprints.map { |i| i.generate_rescheduled_imprint(false) }
+    new_imprint_group
   end
 
   # This is used for dispaying proofs
@@ -151,6 +163,11 @@ class ImprintGroup < ActiveRecord::Base
 
   private
 
+  def no_circular_reference
+    if rescheduled_from_id.present? && rescheduled_from_id == id
+      errors.add(:rescheduled_from_id, "cannot be self")
+    end
+  end
 
   def get_completed_by_id_from_activities
     completion_activity.owner_id rescue nil

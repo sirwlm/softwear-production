@@ -3,6 +3,8 @@ class ScreenPrint < Imprint
 
   TRILOC_RESULTS = ['Success', 'Failure', 'Close', 'N/A']
 
+  validate :scheduling_cannot_be_changed, if: :print_has_started?
+
   before_save :transition_to_ready_to_print_if_just_scheduled
 
   train_type :production
@@ -11,6 +13,7 @@ class ScreenPrint < Imprint
     after_transition on: :print_complete, do: :mark_completed_at
     after_transition on: :postpone_order, do: :unschedule
     after_transition on: :print_complete, do: :delay_generate_metrics
+    after_transition on: :reschedule,     do: :generate_rescheduled_imprint
 
     success_event :approve do
       transition :pending_approval => :pending_scheduling, if: ->(i) { i.scheduled_at.nil? }
@@ -43,11 +46,9 @@ class ScreenPrint < Imprint
     end
 
     success_event :print_complete,
-      params: { completed_by_id: User.train_param } do
+        params: { completed_by_id: User.train_param } do
       transition :printing => :complete
     end
-
-
 
     delay_event :delayed,
                 public_activity: { reason: :text_field } do
@@ -58,13 +59,8 @@ class ScreenPrint < Imprint
       transition :printing => :print_delay
     end
 
-    failure_event :postpone_order,
-                public_activity: { reason: :text_field } do
-      transition [:pending_setup, :setting_up, :pending_print_start,
-                  :pending_production_manager_approval, :pending_print_start, :printing,
-                  :preproduction_delay, :setup_delay, :print_setup_delay, :manager_approval_delay,
-                  :print_delay
-                 ] => :pending_rescheduling
+    delay_event :reschedule, public_activity: { reason: :text_field } do
+      transition :complete => :pending_rescheduling
     end
 
     success_event :delay_resolved,
@@ -76,10 +72,7 @@ class ScreenPrint < Imprint
       transition :print_delay => :printing
     end
 
-    success_event :rescheduled,
-      params: { scheduled_at: :datetime_field } do
-      transition :pending_rescheduling => :pending_setup
-    end
+    state :rescheduled, type: :success
   end
 
   def self.model_name
@@ -88,6 +81,10 @@ class ScreenPrint < Imprint
 
   def model_name
     Imprint.model_name
+  end
+
+  def complete?
+    super || state.to_sym == :rescheduled
   end
 
   def delay_generate_metrics
@@ -99,13 +96,25 @@ class ScreenPrint < Imprint
     self.create_metrics
   end
 
+  def print_has_started?
+    %i(pending_rescheduling rescheduled complete printing).include? state.to_sym
+  end
+
   private
+
+  def scheduling_cannot_be_changed
+    if scheduled_at_changed? || estimated_time_changed?
+      errors.add(
+        :scheduled_at,
+        "cannot be changed once a print is started "\
+        "(instead, you should transition to complete and reschedule)"
+      )
+    end
+  end
 
   def transition_to_ready_to_print_if_just_scheduled
     if scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_scheduling
       self.approve
-    elsif scheduled_at_was.nil? && !scheduled_at.nil? && state.to_sym == :pending_rescheduling
-      self.rescheduled
     end
   end
 end
