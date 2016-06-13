@@ -124,18 +124,6 @@ class Imprint < ActiveRecord::Base
     machine.color
   end
 
-  def text_color
-    unless machine.blank?
-      return machine.color if completed? || !approved?
-    end
-
-    if intensity(calendar_color) > 300
-      'black'
-    else
-      'white'
-    end
-  end
-
   def border_color
     if !approved? || completed?
       return 'black'
@@ -254,6 +242,8 @@ class Imprint < ActiveRecord::Base
     new_imprint = dup
     new_imprint.rescheduled_from_id = rescheduled_from_id || id
     new_imprint.scheduled_at = nil
+    new_imprint.completed_at = nil
+    new_imprint.completed_by = nil
 
     if self.class.respond_to?(:train_machine)
       new_state = new_imprint.state = self.class.train_machine.first_state

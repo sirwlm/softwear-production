@@ -74,16 +74,6 @@ class FbaBaggingTrain < ActiveRecord::Base
     machine.color
   end
 
-  def text_color
-    return machine.color if machine && completed?
-
-    if intensity(calendar_color) > 300
-      '#4A4A1F'
-    else
-      '#FFFF5C'
-    end
-  end
-
   def old_completed_at
     # NOTE this assumes that the only transition is 'Bagged'
     activities.where("`activities`.`key` LIKE '%transition'").pluck(:created_at).first

@@ -85,6 +85,8 @@ class ImprintGroup < ActiveRecord::Base
     new_imprint_group = dup
     new_imprint_group.rescheduled_from_id = rescheduled_from_id || id
     new_imprint_group.scheduled_at = nil
+    new_imprint_group.completed_at = nil
+    new_imprint_group.completed_by = nil
 
     new_imprint_group.save!
     new_imprint_group.imprints = imprints.map { |i| i.generate_rescheduled_imprint(false) }
@@ -108,18 +110,6 @@ class ImprintGroup < ActiveRecord::Base
     machine.color
   end
 
-  def text_color
-    unless machine.blank?
-      return machine.color if completed?# || !approved?
-    end
-
-    if intensity(calendar_color) > 300
-      'black'
-    else
-      'white'
-    end
-  end
-
   def border_color
     return 'white'
   end
@@ -137,7 +127,7 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def count
-    imprints.pluck(:count).reduce(0, :+)
+    quantity || imprints.pluck(:count).reduce(0, :+)
   end
 
   def type

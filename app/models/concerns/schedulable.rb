@@ -106,7 +106,7 @@ module Schedulable
   end
 
   def text_color
-    'black'
+    color_str contrasting_color calendar_color
   end
 
   def border_color

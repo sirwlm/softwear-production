@@ -60,7 +60,18 @@
   <% end %>
 
   <dt>Count</dt>
-  <dd><%= object.count %></dd>
+  <dd>
+    <% if object.try(:part_of_group?) %>
+      <% if current_user.role?('admin') %>
+        <%= editable object.imprint_group, :quantity, value: object.imprint_group.quantity || object.imprint_group.count %>
+      <% else %>
+        <%= object.imprint_group.quantity || object.imprint_group.count %>
+      <% end %>
+    <% else %>
+      <%= object.count %>
+    <% end %>
+  </dd>
+
   <% if object.try(:triloc_result) %>
     <dt>Triloc</dt>
     <dd><%= object.triloc_result %></dd>
