@@ -47,7 +47,7 @@ class ScreenTrainsController < InheritedResources::Base
         screen.create_activity(
           action: :transition,
           parameters: {
-            event: "exposed" 
+            event: "exposed", 
             mesh_type: screen.mesh_type },
           owner: @current_user
           )
