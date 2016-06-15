@@ -1,6 +1,10 @@
 class User < Softwear::Auth::Model
   expire_query_cache_every 10.minutes
 
+  def self.separations_manager
+    all.find { |u| u.role? 'sep_manager' }
+  end
+
   def self.managers
     all.select do |user|
       user.role? 'manager'
@@ -19,6 +23,10 @@ class User < Softwear::Auth::Model
       users.unshift users.delete_at(first_index)
       users.map(&:for_select)
     end
+  end
+
+  def separations_manager?
+    role? 'sep_manager'
   end
 
   def for_select
