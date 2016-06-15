@@ -1,5 +1,6 @@
 ###################
-# The following methods are used in the transition action (* = required, - = optional):
+# The following methods are used in the transition action, and should be overriden in including classes:
+# (* = required, - = optional)
 #
 # * fetch_object           -> train record from params
 # * object_param           -> parameter name (i.e. "imprint") to get transition params from

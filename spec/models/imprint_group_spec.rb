@@ -40,6 +40,22 @@ describe ImprintGroup, story_768: true do
     end
   end
 
+  describe '#generate_rescheduled_group', reschedule: true do
+    let!(:job_1) { create(:job, name: 'first job') }
+    let!(:job_2) { create(:job, name: 'second job') }
+    let!(:imprint_1) { create(:print, name: 'imprint1', job: job_1) }
+    let!(:imprint_2) { create(:print, name: 'imprint2', job: job_2) }
+    subject { create(:imprint_group, imprints: [imprint_1, imprint_2])  }
+
+    it 'returns a new group with each of its imprints also new and rescheduled' do
+      rescheduled = subject.generate_rescheduled_group
+      expect(rescheduled.rescheduled_from).to eq subject
+      expect(rescheduled.imprints.size).to eq subject.imprints.size
+      expect(rescheduled.imprints[0].rescheduled_from).to eq subject.imprints[0]
+      expect(rescheduled.imprints[1].rescheduled_from).to eq subject.imprints[1]
+    end
+  end
+
   describe 'when an imprint is added' do
     let!(:job) { create(:job, name: 'second job') }
     let!(:machine) { create(:machine) }

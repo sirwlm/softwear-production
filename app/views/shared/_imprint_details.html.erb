@@ -1,15 +1,22 @@
-
 <% if object.require_manager_signoff? %>
   <p class="alert alert-warning flash-notice col-xs-12">
   This Imprint Requires Signoff
   </p>
 <% end %>
-<% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
-  <h4>(Group #<%= object.imprint_group.id %>) <%= object.name %></h4>
+<% if object.try(:part_of_group?) %>
+  <% if object.rescheduled_from_id? %>
+    <h4>(Reschedule) (Group #<%= object.imprint_group.rescheduled_from_id %>) <%= object.name %></h4>
+  <% else %>
+    <h4>(Group #<%= object.imprint_group.id %>) <%= object.name %></h4>
+  <% end %>
+<% elsif object.rescheduled_from_id %>
+  <h4>(Reschedule)</h4>
 <% end %>
+
 <dl>
   <dt>Description</dt>
   <dd><%= object.description %></dd>
+
   <% if object.scheduled? %>
       <dt>Scheduled At</dt>
       <% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
@@ -53,7 +60,18 @@
   <% end %>
 
   <dt>Count</dt>
-  <dd><%= object.count %></dd>
+  <dd>
+    <% if object.try(:part_of_group?) %>
+      <% if current_user.role?('admin') %>
+        <%= editable object.imprint_group, :quantity, value: object.imprint_group.quantity || object.imprint_group.count %>
+      <% else %>
+        <%= object.imprint_group.quantity || object.imprint_group.count %>
+      <% end %>
+    <% else %>
+      <%= object.count %>
+    <% end %>
+  </dd>
+
   <% if object.try(:triloc_result) %>
     <dt>Triloc</dt>
     <dd><%= object.triloc_result %></dd>

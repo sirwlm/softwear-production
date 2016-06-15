@@ -24,16 +24,20 @@ class Imprint < ActiveRecord::Base
   validates :name, :description, presence: true
   validates :count, presence: true, numericality: { greater_than: 0 }
   validates :type, presence: true
+  validate :no_circular_reference
 
   before_save :assign_estimated_end_at
   before_save :reset_state_when_type_changed
   before_save :synchronize_with_group, if: :part_of_group?
   before_save :set_completed_at_if_necessary
   after_commit :populate_group_fields
+  after_save :mark_original_rescheduled, if: :just_scheduled?
 
   belongs_to :job
-  belongs_to :imprint_group
+  belongs_to :imprint_group, inverse_of: :imprints
   belongs_to :screen_train
+  belongs_to :rescheduled_from, class_name: 'Imprint', inverse_of: :reschedules
+  has_many :reschedules, class_name: 'Imprint', foreign_key: 'rescheduled_from_id', inverse_of: :rescheduled_from
   has_many :assigned_screens, through: :screen_train
   has_many :screens, through: :assigned_screens
   has_one :order, through: :job
@@ -94,9 +98,16 @@ class Imprint < ActiveRecord::Base
   end
 
   def display
-    return "(UNAPPROVED) #{full_name}" unless approved?
-    return "(COMPLETE) #{full_name}" if completed?
-    full_name
+    disp = []
+    disp << "(UNAPPROVED)" unless approved?
+    if reschedules.any?
+      disp << "(RESCHEDULED x#{reschedules.count})"
+    elsif complete?
+      disp << "(COMPLETE)"
+    end
+    disp << "(RESCHEDULE)" if rescheduled_from_id.present?
+    disp << full_name
+    disp.join(' ')
   end
 
   def complete!(user)
@@ -111,18 +122,6 @@ class Imprint < ActiveRecord::Base
     return 'rgb(204, 204, 204)' if complete?
 
     machine.color
-  end
-
-  def text_color
-    unless machine.blank?
-      return machine.color if completed? || !approved?
-    end
-
-    if intensity(calendar_color) > 300
-      'black'
-    else
-      'white'
-    end
   end
 
   def border_color
@@ -230,11 +229,57 @@ class Imprint < ActiveRecord::Base
     machine.name rescue 'Not Assigned'
   end
 
+  def generate_rescheduled_imprint(reschedule_group = true)
+    if part_of_group? && reschedule_group
+      #
+      # NOTE this is recursive in that #generate_rescheduled_group! calls #generate_rescheduled_imprint!
+      # ---- but with the parameter set to false (stopping an infinite loop from happening).
+      #
+      new_group = imprint_group.generate_rescheduled_group
+      return new_group.imprints.find { |i| i.rescheduled_from_id == id }
+    end
+
+    new_imprint = dup
+    new_imprint.rescheduled_from_id = rescheduled_from_id || id
+    new_imprint.scheduled_at = nil
+    new_imprint.completed_at = nil
+    new_imprint.completed_by_id = nil
+
+    if self.class.respond_to?(:train_machine)
+      new_state = new_imprint.state = self.class.train_machine.first_state
+    end
+
+    new_imprint.save!
+    # For some reason, the state tends to revert after being saved
+    new_imprint.update_column :state, new_state if new_state
+
+    new_imprint
+  end
+
+  def mark_original_rescheduled
+    if rescheduled_from_id.blank?
+      return
+    elsif rescheduled_from.blank?
+      raise "Imprint ##{id}'s `rescheduled_from` no longer exists"
+    end
+
+    rescheduled_from.update_column :state, :rescheduled
+    rescheduled_from.create_activity(
+      action:     :transition,
+      parameters: { event: 'rescheduled' }
+    )
+  end
 
   private
 
   def schedule_conflict?
 
+  end
+
+  def no_circular_reference
+    if rescheduled_from_id.present? && rescheduled_from_id == id
+      errors.add(:rescheduled_from_id, "cannot be self")
+    end
   end
 
   def reset_state_when_type_changed

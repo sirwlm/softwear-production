@@ -64,6 +64,9 @@ function imprintCalendarOn(matcher, options, calendarAgenda) {
       })
 
       .fail(function() {
+        // NOTE: This can happen under two circumstances (that I've seen):
+        // --- 1) when the server returns 500 Internal Server Error (as you'd expect),
+        // --- 2) when the response body was not properly formatted JSON.
         alert("Something went wrong :(");
       });
     },

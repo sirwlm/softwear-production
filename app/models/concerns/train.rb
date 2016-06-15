@@ -207,7 +207,9 @@ module Train
       initial_state = args.last.try(:[], :initial)
 
       self.train_machine = StateMachines::Machine.find_or_create(self, *args)
-      train_machine.instance_eval { extend Train::StateMachine }
+      unless train_machine.singleton_class.included_modules.include?(Train::StateMachine)
+        train_machine.instance_eval { extend Train::StateMachine }
+      end
       train_machine.instance_eval(&block)
       train_machine.instance_eval(&default_train_events) if default_train_events
       train_machine.complete_state = final_state.to_sym if final_state
@@ -223,7 +225,7 @@ module Train
         do: :try_on_complete
       )
 
-      if defined? searchable
+      if respond_to?(:searchable)
         searchable do
           string :train_type
         end

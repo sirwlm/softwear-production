@@ -50,12 +50,17 @@ class ScreenTrain < ActiveRecord::Base
     end
 
     success_event :separated do 
+      transition :pending_separation => :pending_darkroom_submission, if: -> (s) { s.approver_signs_off }
       transition :pending_separation => :pending_approval
     end
 
     success_event :approved,
         params: { signed_off_by_id: -> { [""] + User.all.map{|x| [x.full_name, x.id] } } } do
-      transition :pending_approval => :pending_screens
+      transition :pending_approval => :pending_darkroom_submission
+    end
+
+    success_event :sent_to_darkroom do
+      transition :pending_darkroom_submission => :pending_screens
     end
 
     success_event :screens_assigned do 
@@ -134,6 +139,15 @@ class ScreenTrain < ActiveRecord::Base
 
   def machines
     imprints.map{|x| x.machine.name rescue nil }.uniq.compact
+  end
+
+  def approver_signs_off
+    if assigned_to && assigned_to.separations_manager?
+      self.signed_off_by_id = assigned_to_id
+      true
+    else
+      false
+    end
   end
 
   private

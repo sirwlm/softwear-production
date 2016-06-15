@@ -6,6 +6,11 @@ feature 'Screen Print Trains', js: true do
     include_context 'logged_in_as_admin'
     let(:machine) { create(:machine) }
 
+    background :each do
+      # Use fake sunspot search
+      allow(Sunspot).to receive(:search) { |*args, &block| FakeSunspotSearch.new(*args, &block) }
+    end
+
     scenario "I can create an order with a screen print" do
       create_order(
         name: 'Test Order',
@@ -26,6 +31,81 @@ feature 'Screen Print Trains', js: true do
       )
       expect(page).to have_content('Order was successfully created')
       expect(page).to have_css('dd', text: 'Screen print')
+    end
+
+    context 'given an order with two jobs, each with a screen print, and a group of the imprint in each job', imprint_group: true do
+      given(:order) { create(:order, jobs: [create(:job_with_screen_print), create(:job_with_screen_print)]) }
+      given(:imprint_group) { order.imprint_groups.first }
+      given(:new_imprint_group) { imprint_group.reschedules.first }
+
+      background :each do
+        order.imprint_groups.create(
+          scheduled_at: Time.now,
+          machine_id: machine.id,
+          imprint_ids: order.imprint_ids
+        )
+      end
+
+      scenario 'I can advance the group to completion' do
+        visit dashboard_calendar_path
+        find('.select2-choices').click
+        find('.select2-result', text: machine.name).click
+        sleep 1.5
+
+        find('a.fc-event', text: imprint_group.name).click
+        wait_for_ajax
+        success_transition :approve
+        success_transition :start_setup
+        select_from_select2 ScreenPrint::TRILOC_RESULTS.first
+        success_transition :setup_complete
+        success_transition :print_started
+        success_transition :print_complete
+
+        within('.train-category-success') do
+          expect(page).to have_content('No actions available')
+        end
+
+        expect(imprint_group.reload.complete?).to eq true
+      end
+
+      context 'and complete' do
+        background :each do
+          imprint_group.imprints.each do |imprint|
+            imprint.update_column :state, :complete
+          end
+          imprint_group.reload
+        end
+
+        scenario 'I can reschedule the group', reschedule: true do
+          visit dashboard_calendar_path
+          find('.select2-choices').click
+          find('.select2-result', text: machine.name).click
+          sleep 1.5
+
+          find('a.fc-event', text: imprint_group.display).click
+          wait_for_ajax
+
+          within '.train-category-delay' do
+            fill_in 'public_activity_reason', with: 'too tired to print'
+          end
+          delay_transition :reschedule
+          wait_for_ajax
+          sleep 1
+
+          expect(new_imprint_group.imprints.map(&:state).uniq).to eq ['pending_approval']
+
+          visit dashboard_calendar_path
+
+          sleep 1
+          find('.unscheduled-imprint', text: new_imprint_group.display).drag_to find('tr', text: '7am')
+          wait_for_ajax
+          sleep 0.5
+
+          expect(new_imprint_group.reload.scheduled_at).to_not be_nil
+          expect(imprint_group.reload.state).to eq "rescheduled"
+          expect(imprint_group).to be_complete
+        end
+      end
     end
 
     context 'given an order with an imprint that is a screen print' do
@@ -53,37 +133,71 @@ feature 'Screen Print Trains', js: true do
         expect(imprint.reload.complete?).to be_truthy
       end
 
-      scenario "I can postpone a screen print", story_1101: true, tag: true do
-        visit order_path(order)
-        within("#imprint-#{imprint.id}") do
-          click_link 'Show Full Details'
-        end
-        sleep(1)
-        success_transition :approve
-        failure_transition :postpone_order
-        expect(imprint.reload.scheduled_at).to be_nil
-        expect(imprint.reload.state.to_s).to eq('pending_rescheduling')
-      end
-
-      context 'that is postponed' do
-        before(:each) do
-          imprint.update_attribute(:scheduled_at, nil)
-          imprint.update_column(:state, :pending_rescheduling)
+      context 'being printed', reschedule: true, reschedule_feature: true do
+        background :each do
+          imprint.update_column :state, :printing
         end
 
-        scenario "I can reschedule a postponed screen print", story_1101: true, tag: true do
+        scenario 'I can mark a screen print as needing rescheduling' do
           visit order_path(order)
           within("#imprint-#{imprint.id}") do
             click_link 'Show Full Details'
           end
-          sleep(1)
-          within('.train-category-success') do
-            fill_in "imprint_scheduled_at", with: Time.now.strftime("%F %T")
-            find("#imprint_scheduled_at").native.send_keys(:enter)
+
+          sleep 1
+          success_transition :print_complete
+
+          within '.train-category-delay' do
+            fill_in 'public_activity_reason', with: 'too tired to print'
           end
-          success_transition :rescheduled
-          expect(imprint.reload.scheduled_at).to_not be_nil
-          expect(imprint.reload.state.to_s).to eq('pending_setup')
+          delay_transition :reschedule
+
+          expect(page).to_not have_css ".train-state-button", text: "Rescheduled"
+
+          expect(imprint.reload.reschedules.size).to eq 1
+          expect(imprint.state).to eq 'pending_rescheduling'
+        end
+      end
+
+      context 'that is rescheduled', reschedule: true, reschedule_feature: true, calendar_interaction: true do
+        given(:new_imprint) { imprint.generate_rescheduled_imprint }
+
+        background :each do
+          imprint.machine = machine
+          imprint.state = :pending_rescheduling
+          imprint.save!
+
+          expect(new_imprint.job).to eq imprint.job
+          expect(new_imprint.machine).to eq imprint.machine
+        end
+        
+        scenario 'I can schedule the new imprint, transitioning the state of the old one to "rescheduled"' do
+          expect(new_imprint.reload.scheduled_at).to be_nil
+          visit dashboard_calendar_path
+
+          find('.select2-choices').click
+          find('.select2-result', text: machine.name).click
+          sleep 1.5
+
+          find('.unscheduled-imprint', text: new_imprint.name).drag_to find('tr', text: '9am')
+          sleep 0.5
+
+          expect(new_imprint.reload.scheduled_at).to_not be_nil
+          expect(imprint.reload.state).to eq "rescheduled"
+          expect(imprint).to be_complete
+        end
+
+        scenario 'I cannot change its scheduled_at time' do
+          original_scheduled_at = imprint.reload.scheduled_at
+          visit dashboard_calendar_path
+          find('.select2-choices').click
+          find('.select2-result', text: machine.name).click
+          sleep 1.5
+
+          find('a', text: imprint.name).drag_to find('tr', text: '9am')
+          sleep 0.5
+
+          expect(imprint.reload.scheduled_at).to eq original_scheduled_at
         end
       end
 

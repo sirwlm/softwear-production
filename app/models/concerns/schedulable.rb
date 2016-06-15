@@ -81,6 +81,10 @@ module Schedulable
     "#{self.class.table_name.singularize}-#{id}"
   end
 
+  def just_scheduled?
+    scheduled_at_was.nil? && scheduled_at_changed?
+  end
+
   def scheduled?
     !scheduled_at.blank?
   end
@@ -102,7 +106,7 @@ module Schedulable
   end
 
   def text_color
-    'black'
+    color_str contrasting_color calendar_color
   end
 
   def border_color
@@ -122,6 +126,19 @@ module Schedulable
       end
     else
       update_attribute(:completed_at, Time.now)
+    end
+  end
+
+  protected
+
+  # Custom validation
+  def scheduling_cannot_be_changed
+    if scheduled_at_changed? || estimated_time_changed?
+      errors.add(
+        :scheduled_at,
+        "cannot be changed once a print is started "\
+        "(instead, you should transition to complete and reschedule)"
+      )
     end
   end
 end
