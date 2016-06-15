@@ -39,19 +39,19 @@ class ScreenTrainsController < InheritedResources::Base
     )
   end
 
+  #this is a method for creating an exposed activitiy if a screen
+  #was assigned to a screen train
   def create_activity_for_screens
-    
     @screen_train.assigned_screens.map(&:screen).each do |screen|
       if screen.just_assigned
         screen.create_activity(
           action: :transition,
           parameters: {
-            event: screen.state, 
+            event: "exposed" 
             mesh_type: screen.mesh_type },
           owner: @current_user
           )
       end
     end
   end
-
 end
