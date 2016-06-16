@@ -140,4 +140,9 @@ module ApplicationHelper
     datetime.strftime('%Y-%m-%d %I:%M%P') rescue "Date not set"
   end
 
+  def display_name_for_train_event_category(category)
+    return 'Failure or Needs Reschedule' if category.to_s == 'failure'
+    return  category.to_s.humanize
+  end
+
 end

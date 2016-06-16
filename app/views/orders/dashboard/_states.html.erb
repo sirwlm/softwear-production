@@ -72,6 +72,9 @@
       <% group.results.each do |imprint| %>
           <tr>
             <td>
+              <% if imprint.a_reschedule? %>
+                  <b>Reschedule</b><br />
+              <% end %>
               Order #<%= @order.id %>, CRM Order #<%= @order.softwear_crm_id %><br/>
               <%= imprint.name %>
             <td style="width: 300px">
@@ -130,6 +133,9 @@
       <tbody>
       <tr>
         <td>
+          <% if imprint_group.a_reschedule? %>
+              <b>Reschedule</b><br />
+          <% end %>
           Order #<%= @order.id %>, CRM Order #<%= @order.softwear_crm_id %><br/>
           <%= imprint_group.type.titleize %><br />
           <%= imprint_group.name %>

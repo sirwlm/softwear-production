@@ -35,7 +35,7 @@ module Schedulable
     end
     q
   end
-  
+
   def self.machineless_scope(context)
     if context.method_defined?(:imprint_group_id)
       context.where(machine_id: nil).where(imprint_group_id: nil)
@@ -127,6 +127,10 @@ module Schedulable
     else
       update_attribute(:completed_at, Time.now)
     end
+  end
+
+  def a_reschedule?
+    !rescheduled_from.blank?
   end
 
   protected
