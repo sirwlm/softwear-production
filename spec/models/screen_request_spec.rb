@@ -6,7 +6,8 @@ describe ScreenRequest, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of :screen_train }
+    # If it does validate screen train presence, you cannot create these along with a screen train.
+    it { is_expected.to_not validate_presence_of :screen_train }
     it { is_expected.to validate_presence_of :frame_type } 
     it { is_expected.to validate_presence_of :mesh_type }
     it { is_expected.to validate_presence_of :dimensions }
