@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160613182219) do
+ActiveRecord::Schema.define(version: 20160615164125) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -344,23 +344,25 @@ ActiveRecord::Schema.define(version: 20160613182219) do
   add_index "screen_requests", ["screen_train_id"], name: "index_screen_requests_on_screen_train_id", using: :btree
 
   create_table "screen_trains", force: :cascade do |t|
-    t.string   "state",                  limit: 191
-    t.integer  "order_id",               limit: 4
-    t.decimal  "separation_time",                         precision: 10, scale: 2
+    t.string   "state",                        limit: 191
+    t.integer  "order_id",                     limit: 4
+    t.decimal  "separation_time",                               precision: 10, scale: 2
     t.boolean  "new_separation"
     t.datetime "due_at"
-    t.integer  "signed_off_by_id",       limit: 4
-    t.integer  "assigned_to_id",         limit: 4
-    t.text     "notes",                  limit: 16777215
-    t.string   "garment_material",       limit: 191
-    t.string   "garment_weight",         limit: 191
-    t.string   "artwork_location",       limit: 191
-    t.string   "print_type",             limit: 191
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
-    t.string   "lpi",                    limit: 191
-    t.integer  "crm_artwork_request_id", limit: 4
-    t.string   "previous_state",         limit: 191
+    t.integer  "signed_off_by_id",             limit: 4
+    t.integer  "assigned_to_id",               limit: 4
+    t.text     "notes",                        limit: 16777215
+    t.string   "garment_material",             limit: 191
+    t.string   "garment_weight",               limit: 191
+    t.string   "artwork_location",             limit: 191
+    t.string   "print_type",                   limit: 191
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
+    t.string   "lpi",                          limit: 191
+    t.integer  "crm_artwork_request_id",       limit: 4
+    t.string   "previous_state",               limit: 191
+    t.integer  "fba_screen_train_template_id", limit: 4
+    t.integer  "separation_difficulty",        limit: 4
   end
 
   add_index "screen_trains", ["artwork_location"], name: "index_screen_trains_on_artwork_location", using: :btree

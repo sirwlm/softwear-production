@@ -1,6 +1,6 @@
 <%= render('shared/errors', record: screen_train) unless screen_train.errors.empty? %>
 
-<%= nested_form_for screen_train, role: 'form', builder: BootstrapForm::FormBuilder, remote: true  do |f| %>
+<%= nested_form_for screen_train, role: 'form', builder: BootstrapForm::FormBuilder, remote: true do |f| %>
   <div class="row clearfix clear">
     <div class="col-sm-4">
       <%= f.text_field :due_at, class: 'form-control datetimepicker-standard', value: screen_train.due_at, help: 'When does the separation need to be completed by' %>
@@ -10,6 +10,9 @@
     </div>
     <div class="col-sm-4">
       <%= f.select :assigned_to_id, User.all.map{|u| [u.full_name, u.id]}, {include_blank: true, label: 'Assign Sep To', help: 'Who will do this separation'}, class: 'select2' %>
+    </div>
+    <div class='col-sm-4'>
+      <%= f.select :separation_difficulty, options_for_select(ScreenTrain::DIFFICULTY.map { |k,v| [v,k] }, f.object.separation_difficulty || ScreenTrain::DIFFICULTY.key('Normal')), { label: "Difficulty" }, class: 'select2' %>
     </div>
   </div>
     <div class="row clearfix clear">

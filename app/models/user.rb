@@ -2,7 +2,7 @@ class User < Softwear::Auth::Model
   expire_query_cache_every 10.minutes
 
   def self.separations_manager
-    all.find { |u| u.role? 'sep_manager' }
+    of_role('sep_manager').first
   end
 
   def self.managers

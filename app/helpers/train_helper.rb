@@ -1,4 +1,13 @@
 module TrainHelper
+  def difficulty_label(diff)
+    if diff <= 3
+      "label-info"
+    elsif diff <= 6
+      "label-warning"
+    else
+      "label-danger"
+    end
+  end
 
   def formatted_scheduled_time(time)
     time.strftime('%a, %b %d, %Y') unless time.nil?

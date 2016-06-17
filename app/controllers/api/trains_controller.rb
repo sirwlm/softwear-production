@@ -18,6 +18,17 @@ module Api
       end
     end
 
+    def create
+      self.record = resource_class.create(train_params)
+
+      if record.valid?
+        headers['Location'] = resource_url(record.id)
+        render_json(status: 201).call
+      else
+        respond_to { |f| f.json(&render_errors) }
+      end
+    end
+
     protected
 
     def records
@@ -33,7 +44,7 @@ module Api
     end
 
     def record=(r)
-      super || @train || instance_variable_set("@#{params[:train_class].singularize}", r)
+      super || instance_variable_set("@#{params[:train_class].singularize}", r)
     end
 
     def resource_url(id = nil)
@@ -45,9 +56,24 @@ module Api
       @resource_class ||= params[:train_class].singularize.camelize.constantize
     end
 
+    def permitted_train_attributes
+      permitted_attributes.append(
+        imprint_ids: [],
+        screen_requests_attributes: [
+          :frame_type, :mesh_type, :dimensions,
+          :ink, :screen_train_id, :id,
+          :screen_train_id
+        ],
+        assigned_screens_attributes: [
+          :screen_request_id, :id, :screen_id,
+          :double_position
+        ]
+      )
+    end
+
     # For create calls
-    def permitted_params
-      params.permit('train' => permitted_attributes)
+    def train_params
+      params.require(params[:train_class].singularize).permit(permitted_train_attributes)
     end
 
     # ------------- Methods used by TransitionAction: ---------------

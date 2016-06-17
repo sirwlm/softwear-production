@@ -7,6 +7,12 @@ class ScreenTrain < ActiveRecord::Base
     "spot", "process", "simulated process"
   ]
 
+  DIFFICULTY = {
+    3 => 'Easy',
+    6 => 'Normal',
+    9 => 'Hard'
+  }
+
   tracked only: [:transition]
 
   belongs_to_user_called :assigned_to
@@ -18,10 +24,13 @@ class ScreenTrain < ActiveRecord::Base
   has_many :jobs, through: :imprints
   has_many :screen_requests, -> { order(ink: :asc) },  dependent: :destroy
 
+  before_validation :set_default_difficulty
   before_save :transition_screens, if: :screens_assigned?
+  before_create :assign_to_sep_manager, if: :fba_generated?
 
   validates :order, presence: true
   validates :print_type, inclusion: { in: PRINT_TYPES }, unless: -> { self.print_type.blank? }
+  validates :separation_difficulty, inclusion: { in: DIFFICULTY.keys }
   
   accepts_nested_attributes_for :assigned_screens, allow_destroy: true
   accepts_nested_attributes_for :screen_requests, allow_destroy: true
@@ -150,7 +159,20 @@ class ScreenTrain < ActiveRecord::Base
     end
   end
 
+  def fba_generated?
+    fba_screen_train_template_id?
+  end
+
+  def set_default_difficulty
+    return if separation_difficulty.present?
+    self.separation_difficulty = DIFFICULTY.key 'Normal'
+  end
+
   private
+
+  def assign_to_sep_manager
+    self.assigned_to_id = User.separations_manager.try(:id)
+  end
 
   def imprint_names
     imprints.pluck(:name).join(' ')

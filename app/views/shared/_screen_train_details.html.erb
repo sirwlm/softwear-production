@@ -29,6 +29,16 @@
     <dd class="screen-train-print-type"><%= object.machines.join(', ') %>
 </dl>
 
+<div class="clear clearfix">
+  <h4>
+    Separation Difficulty
+    <span class="label <%= difficulty_label object.separation_difficulty %>">
+      <%= ScreenTrain::DIFFICULTY[object.separation_difficulty] %>
+    </span>
+  </h4>
+</div>
+<hr />
+
 <div class="row clear clearfix">
 <dl class="col-xs-6">
   <dt>Total Imprint Count</dt>

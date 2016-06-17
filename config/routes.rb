@@ -102,6 +102,10 @@ SoftwearProduction::Application.routes.draw do
 
   namespace :api do
     resources :orders, :jobs, :imprints, :imprintable_trains, :imprint_groups
+
+    get '/constants',        to: 'constants#index'
+    get '/constants/*const', to: 'constants#show',  as: :constant
+
     get    '/trains/:train_class',            to: 'trains#index'
     get    '/trains/:train_class/:id',        to: 'trains#show'
     post   '/trains/:train_class',            to: 'trains#create'
