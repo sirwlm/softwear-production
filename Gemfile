@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'softwear-lib', '~> 1.7.11'
+gem 'softwear-lib', '~> 1.9.0'
 
 gem 'jbuilder', '~> 1.2'
 gem 'state_machines-activerecord'
