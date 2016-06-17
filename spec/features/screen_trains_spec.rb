@@ -154,7 +154,8 @@ feature "ScreenTrains", type: :feature, js: true do
           frame_type:       screen.frame_type,
           dimensions:       screen.dimensions,
           screen_train_id:  screen_train.id
-              )} 
+              )
+      } 
       
       context 'Assigning a screen to the screen train' do
 
@@ -166,10 +167,10 @@ feature "ScreenTrains", type: :feature, js: true do
             sleep 1
             within('div.screen_train-details') do
               first('a').click
+              sleep 3 
             end
-            sleep 2 
             click_link "Assign A Screen"
-            sleep 2
+            sleep 3
             fill_in "Screen", with: screen.id 
             sleep 1
 
@@ -192,7 +193,7 @@ feature "ScreenTrains", type: :feature, js: true do
 
     end
 
-    context 'given a screen train has all of the proof request data and all screens assigned' do 
+    context 'given a screen train has all of the proof request data and all screens assigned', failing_still: true do 
 
       background { allow_any_instance_of(ScreenTrain).to receive(:proof_request_data_complete?).and_return(true) }
       background { allow_any_instance_of(ScreenTrain).to receive(:all_screens_assigned?).and_return(true) }
@@ -210,6 +211,9 @@ feature "ScreenTrains", type: :feature, js: true do
           expect(page).to have_css('.alert-info', text: 'Pending Approval')
           select_from_select2 manager.full_name
           success_transition :approved
+          
+          expect(page).to have_css('.alert-info', text: 'Pending Darkroom Submission')
+          success_transition :sent_to_darkroom
           
           expect(page).to have_css('.alert-info', text: 'Pending Screens')
           success_transition :screens_assigned
@@ -245,10 +249,13 @@ feature "ScreenTrains", type: :feature, js: true do
           expect(page).to have_css('.alert-info', text: 'Pending Approval')
           select_from_select2 manager.full_name
           success_transition :approved
-          
+         
+          expect(page).to have_css('.alert-info', text: 'Pending Darkroom Submission')
+          success_transition :sent_to_darkroom
+
           expect(page).to have_css('.alert-info', text: 'Pending Screens')
           success_transition :screens_assigned
-
+          
           expect(page).to have_css('.alert-info', text: 'Complete')
           within('.train-category-success') do 
             expect(page).to have_no_selector('button')

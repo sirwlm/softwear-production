@@ -19,13 +19,42 @@
 
   <% if object.scheduled? %>
       <dt>Scheduled At</dt>
+      <dd>
       <% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
-        <dd><%= object.imprint_group.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= object.imprint_group.estimated_time %>hrs</dd>
+        <%= object.imprint_group.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>,
+        <% if current_user.role?('admin') && !object.imprint_group.print_has_started? %>
+          <%= editable object.imprint_group, :estimated_time, value: object.imprint_group.estimated_time %>hrs
+        <% else %>
+          <%= object.imprint_group.estimated_time %>hrs
+        <% end %>
       <% else %>
-        <dd><%= object.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>, <%= object.estimated_time %>hrs</dd>
+          <%= object.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>,
+          <% if current_user.role?('admin') %>
+              <%= editable object, :estimated_time %>hrs
+          <% else %>
+              <%= object.estimated_time %>hrs
+          <% end %>
       <% end %>
+
+      </dd>
   <% else %>
       <dt>Unscheduled</dt>
+      <dt>Estimated Time</dt>
+      <dd>
+        <% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
+            <% if current_user.role?('admin') && !object.imprint_group.print_has_started? %>
+                <%= editable object.imprint_group, :estimated_time, value: object.imprint_group.estimated_time %>hrs
+            <% else %>
+                <%= object.imprint_group.estimated_time %>hrs
+            <% end %>
+        <% else %>
+            <% if current_user.role?('admin') %>
+                <%= editable object, :estimated_time %>hrs
+            <% else %>
+                <%= object.estimated_time %>hrs
+            <% end %>
+        <% end %>
+      </dd>
   <% end %>
   <% if current_user.role?('admin') && object.respond_to?(:softwear_crm_id) %>
     <dt>SoftWEAR-CRM ID</dt>
@@ -68,7 +97,11 @@
         <%= object.imprint_group.quantity || object.imprint_group.count %>
       <% end %>
     <% else %>
-      <%= object.count %>
+        <% if current_user.role?('admin') %>
+            <%= editable object, :count %>
+        <% else %>
+            <%= object.count %>
+        <% end %>
     <% end %>
   </dd>
 

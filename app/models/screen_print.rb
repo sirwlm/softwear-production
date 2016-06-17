@@ -59,7 +59,7 @@ class ScreenPrint < Imprint
       transition :printing => :print_delay
     end
 
-    delay_event :reschedule, public_activity: { reason: :text_field } do
+    failure_event :reschedule, public_activity: { reason: :text_field } do
       transition :complete => :pending_rescheduling
     end
 
@@ -73,6 +73,7 @@ class ScreenPrint < Imprint
     end
 
     state :rescheduled, type: :success
+    state :pending_rescheduling, type: :delay
   end
 
   def self.model_name

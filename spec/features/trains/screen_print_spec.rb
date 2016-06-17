@@ -85,10 +85,11 @@ feature 'Screen Print Trains', js: true do
           find('a.fc-event', text: imprint_group.display).click
           wait_for_ajax
 
-          within '.train-category-delay' do
-            fill_in 'public_activity_reason', with: 'too tired to print'
+          within '.train-category-failure' do
+            fill_in "public_activity_reason", with: 'too tired to print'
           end
-          delay_transition :reschedule
+          sleep 1
+          failure_transition :reschedule
           wait_for_ajax
           sleep 1
 
@@ -147,10 +148,10 @@ feature 'Screen Print Trains', js: true do
           sleep 1
           success_transition :print_complete
 
-          within '.train-category-delay' do
+          within '.train-category-failure' do
             fill_in 'public_activity_reason', with: 'too tired to print'
           end
-          delay_transition :reschedule
+          failure_transition :reschedule
 
           expect(page).to_not have_css ".train-state-button", text: "Rescheduled"
 
