@@ -4,6 +4,20 @@ function reloadCalendar(calendar) {
 }
 
 function imprintCalendarOn(matcher, options, calendarAgenda) {
+  // HACK the remote:true on these links doesn't appear to actually execute
+  // the response script, but this does.
+  $(document).on('click', '.unscheduled-imprint-link', function() {
+    var self = $(this);
+
+    $.ajax({
+      url: self.prop('href'),
+      dataType: 'script'
+    });
+
+    // prevent default link behavior
+    return false;
+  });
+
   window.calendarMatcher = matcher;
 
   $(matcher).fullCalendar({

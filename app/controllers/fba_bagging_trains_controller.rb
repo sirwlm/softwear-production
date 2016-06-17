@@ -6,7 +6,7 @@ class FbaBaggingTrainsController < InheritedResources::Base
       format.js do
         @title = @fba_bagging_train.display
         @object = @fba_bagging_train
-        ren template: 'trains/show'
+        render template: 'trains/show'
       end
     end
   end
