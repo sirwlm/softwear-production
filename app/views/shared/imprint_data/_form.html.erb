@@ -1,0 +1,16 @@
+<%= bootstrap_form_for imprint, url: confirm_data_imprint_path(imprint.id), method: :post, remote: true do |f| %>
+    <%= f.text_field :confirmed_setup_time,
+                     help: "Calculated setup time was #{seconds_to_hours_minutes(imprint.calculated_setup_time)}",
+                     append: 'minutes',
+                     value: (imprint.confirmed_setup_time ||= seconds_to_minutes(imprint.calculated_setup_time)),
+                     required: true
+    %>
+    <%= f.text_field :confirmed_print_time,
+                     help: "Calculated print time was #{seconds_to_hours_minutes(imprint.calculated_print_time)} for #{imprint.count} imprints, or a rate of #{imprint.calculated_imprints_per_hour} imprints per hour",
+                     append: 'minutes',
+                     value: (imprint.confirmed_print_time ||= seconds_to_minutes(imprint.calculated_print_time)),
+                     required: true
+
+    %>
+    <%= f.submit "Confirm Print Data", class: 'btn btn-primary' %>
+<% end %>

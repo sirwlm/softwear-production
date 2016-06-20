@@ -10,6 +10,7 @@ class Imprint < ActiveRecord::Base
   include PublicActivity::Model
   include Schedulable
   include Metricable
+  include ImprintData
 
   tracked only: [:transition]
 

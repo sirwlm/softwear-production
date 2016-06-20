@@ -26,7 +26,7 @@
       State
     </th>
     <th>
-      Metrics
+      Print Data
     </th>
   </thead>
   <tbody>
@@ -41,7 +41,6 @@
                 Order #<%= event.order.id %>, CRM Order #<%= event.order.softwear_crm_id %><br />
                 <%= event.order.name %><br />
             <% end %>
-
         <% end %>
       </td>
       <td>
@@ -49,10 +48,23 @@
         <%= link_to display, calendar_url_for(event), remote: true %>
       </td>
       <td>
-        <%= pretty_train_state :div, event %>
+        <% if event.respond_to? :state %>
+            <%= pretty_train_state :div, event %>
+        <% end %>
       </td>
       <td>
-        <%= render 'metrics/table', object: event %>
+        <% if event.respond_to? :print_data_state %>
+            <% unless event.is_a? ImprintGroup %>
+            <div id="imprint_<%= event.id %>_print_data">
+              <%= event.print_data_state %><br />
+              <% if event.print_data_state == 'pending' %>
+                  <%= link_to "Confirm Imprint Data", data_imprint_path(event.id), remote: true  %>
+              <% elsif event.print_data_state == 'confirmed' %>
+                  <%= render 'shared/imprint_data/confirmed_data', event: event %>
+              <% end %>
+            </div>
+            <% end %>
+        <% end %>
       </td>
     </tr>
   <% end %>
