@@ -70,7 +70,6 @@ ActiveRecord::Schema.define(version: 20160617182051) do
 
   create_table "custom_ink_color_trains", force: :cascade do |t|
     t.string   "state",          limit: 191
-    t.integer  "job_id",         limit: 4
     t.string   "pantone_color",  limit: 191
     t.string   "volume",         limit: 191
     t.datetime "created_at",                   null: false
@@ -110,15 +109,14 @@ ActiveRecord::Schema.define(version: 20160617182051) do
     t.integer  "machine_id",       limit: 4
     t.integer  "completed_by_id",  limit: 4
     t.datetime "scheduled_at"
-    t.decimal  "estimated_time",                 precision: 10, scale: 2
+    t.decimal  "estimated_time",               precision: 10, scale: 2
     t.datetime "estimated_end_at"
-    t.datetime "created_at",                                                              null: false
-    t.datetime "updated_at",                                                              null: false
-    t.integer  "order_id",           limit: 4
+    t.datetime "created_at",                                                            null: false
+    t.datetime "updated_at",                                                            null: false
+    t.integer  "order_id",         limit: 4
     t.datetime "completed_at"
-    t.string   "previous_state",     limit: 191
-    t.string   "inventory_location", limit: 191
-    t.boolean  "printed",                                                 default: false
+    t.string   "previous_state",   limit: 191
+    t.boolean  "printed",                                               default: false
   end
 
   create_table "fba_label_trains", force: :cascade do |t|
@@ -155,8 +153,8 @@ ActiveRecord::Schema.define(version: 20160617182051) do
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
     t.datetime "started_at"
-    t.integer  "softwear_crm_id",         limit: 4
     t.string   "name",                    limit: 191
+    t.integer  "softwear_crm_id",         limit: 4
     t.integer  "rescheduled_from_id",     limit: 4
     t.integer  "quantity",                limit: 4
     t.string   "print_data_state",        limit: 191
@@ -279,11 +277,11 @@ ActiveRecord::Schema.define(version: 20160617182051) do
     t.string   "name",            limit: 191
     t.integer  "metricable_id",   limit: 4
     t.string   "metricable_type", limit: 191
-    t.integer  "value",           limit: 4
+    t.decimal  "value",                       precision: 10, scale: 2
     t.boolean  "valid_data"
     t.string   "invalid_reason",  limit: 191
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
   end
 
   add_index "metrics", ["metricable_id"], name: "index_metrics_on_metricable_id", using: :btree
@@ -401,6 +399,12 @@ ActiveRecord::Schema.define(version: 20160617182051) do
     t.datetime "updated_at"
   end
 
+  add_index "screens", ["deleted_at"], name: "index_screens_on_deleted_at", using: :btree
+  add_index "screens", ["dimensions"], name: "index_screens_on_dimensions", using: :btree
+  add_index "screens", ["frame_type"], name: "index_screens_on_frame_type", using: :btree
+  add_index "screens", ["mesh_type"], name: "index_screens_on_mesh_type", using: :btree
+  add_index "screens", ["state"], name: "index_screens_on_state", using: :btree
+
   create_table "shipment_trains", force: :cascade do |t|
     t.string   "state",                limit: 191
     t.integer  "shipped_by_id",        limit: 4
@@ -419,12 +423,11 @@ ActiveRecord::Schema.define(version: 20160617182051) do
   end
 
   create_table "stage_for_fba_bagging_trains", force: :cascade do |t|
-    t.string   "state",              limit: 191
-    t.integer  "order_id",           limit: 4
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "previous_state",     limit: 191
-    t.string   "inventory_location", limit: 191
+    t.string   "state",          limit: 191
+    t.integer  "order_id",       limit: 4
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "previous_state", limit: 191
   end
 
   add_index "stage_for_fba_bagging_trains", ["order_id"], name: "index_stage_for_fba_bagging_trains_on_order_id", using: :btree
