@@ -73,7 +73,12 @@ module Api
 
     # For create calls
     def train_params
-      params.require(params[:train_class].singularize).permit(permitted_train_attributes)
+      model_name = params[:train_class].singularize
+      if params[model_name].present?
+        params.require(model_name).permit(permitted_train_attributes)
+      else
+        params.require('train').permit(permitted_train_attributes)
+      end
     end
 
     # ------------- Methods used by TransitionAction: ---------------
