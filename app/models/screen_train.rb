@@ -165,7 +165,7 @@ class ScreenTrain < ActiveRecord::Base
 
   def set_default_difficulty
     return if separation_difficulty.present?
-    self.separation_difficulty = DIFFICULTY.key 'Normal'
+    self.separation_difficulty = DIFFICULTY.key 'Easy'
   end
 
   private

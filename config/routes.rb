@@ -33,6 +33,8 @@ SoftwearProduction::Application.routes.draw do
     end
     resources :imprint_groups, shallow: true do
       member do
+        get 'confirm_imprint_data', to: 'imprints#confirm_imprint_data', as: :data
+        post 'confirm_imprint_data', to: 'imprints#confirm_imprint_data', as: :confirm_data
         patch ':transition', to: 'imprint_groups#transition', as: :transition
       end
     end
@@ -40,6 +42,8 @@ SoftwearProduction::Application.routes.draw do
 
   resources :imprints, only: [:update] do
     member do
+      get 'confirm_imprint_data', to: 'imprints#confirm_imprint_data', as: :data
+      post 'confirm_imprint_data', to: 'imprints#confirm_imprint_data', as: :confirm_data
       patch ':transition', to: 'imprints#transition', as: :transition
     end
   end

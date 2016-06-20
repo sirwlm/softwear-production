@@ -27,4 +27,9 @@ module Metricable
     end
   end
 
+  def get_metric_value(metric_name)
+    metric = metrics.find_by(name: metric_name)
+    metric.value rescue nil
+  end
+
 end
