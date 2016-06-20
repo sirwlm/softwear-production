@@ -28,7 +28,7 @@ class ScreenTrainsController < InheritedResources::Base
       :due_at, :new_separation, :print_type, :notes,
       :artwork_location, :garment_material, :assigned_to_id,
       :garment_weight, :lpi, :separation_difficulty,
-      :imprint_ids: [], screen_requests_attributes: [
+      imprint_ids: [], screen_requests_attributes: [
         :frame_type, :mesh_type, :dimensions,
         :ink, :screen_train_id, :id, :_destroy
       ],
