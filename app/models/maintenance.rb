@@ -41,4 +41,8 @@ class Maintenance < ActiveRecord::Base
   def border_color
     nil
   end
+
+  def canceled?
+    false
+  end
 end

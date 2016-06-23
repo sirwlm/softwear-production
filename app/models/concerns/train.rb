@@ -228,6 +228,7 @@ module Train
       if respond_to?(:searchable)
         searchable do
           string :train_type
+          boolean(:canceled) { canceled? }
         end
       end
 
