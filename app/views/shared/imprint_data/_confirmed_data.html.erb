@@ -1,0 +1,9 @@
+<%= event.print_data_state %><br />
+<dl>
+  <dt>Confirmed Setup Time</dt>
+  <dd><%= seconds_to_hours_minutes event.confirmed_setup_time %></dd>
+  <dt>Confirmed Print Time</dt>
+  <dd><%= seconds_to_hours_minutes event.confirmed_print_time %></dd>
+  <dt>Confirmed Print Speed</dt>
+  <dd><%= event.confirmed_print_speed %>imprints/hr</dd>
+</dl>

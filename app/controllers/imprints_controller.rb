@@ -79,6 +79,16 @@ class ImprintsController < InheritedResources::Base
 
   end
 
+  def confirm_imprint_data
+    @imprint = Imprint.find(params[:id])
+    if request.post?
+      @imprint.confirmed_print_time = imprint_params[:confirmed_print_time].to_i * 60
+      @imprint.confirmed_setup_time = imprint_params[:confirmed_setup_time].to_i * 60
+      @imprint.confirm_data
+      @imprint.save
+    end
+  end
+
   private
 
   def valid_manager(id, password)
@@ -134,7 +144,8 @@ class ImprintsController < InheritedResources::Base
 
     params.require(:imprint).permit(
       :name, :description, :estimated_time, :scheduled_at, :machine_id, :completed_at, :job_id,
-      :type, :count, :require_manager_signoff, :imprint_group_id, :softwear_crm_id, :revolved
+      :type, :count, :require_manager_signoff, :imprint_group_id, :softwear_crm_id, :revolved,
+      :confirmed_print_time, :confirmed_setup_time
     )
   end
 

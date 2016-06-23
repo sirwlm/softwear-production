@@ -92,9 +92,26 @@ module ApplicationHelper
 
   def format_metric(metric)
     if metric.metric_type.timeframe?
-      Time.at(metric.value).utc.strftime("%khr %Mmin")
+      seconds_to_hours_minutes(metric.value)
     elsif metric.metric_type.count?
       pluralize(metric.value, 'times')
+    end
+  end
+
+  def seconds_to_hours_minutes(seconds)
+    begin
+      Time.at(seconds).utc.strftime("%khr %Mmin")
+    rescue Exception => e
+      "N/A"
+    end
+  end
+
+
+  def seconds_to_minutes(seconds)
+    begin
+      seconds / 60
+    rescue Exception => e
+      "N/A"
     end
   end
 
