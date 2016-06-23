@@ -111,7 +111,11 @@ class TrainsController < ApplicationController
         parameters: { from: @object.state, to: @object.previous_state },
         owner:      current_user
       )
-      @object.update_column :state, @object.previous_state
+      if @object.respond_to?(:all_event_targets)
+        @object.all_event_targets.each { |t| t.update_column :state, @object.previous_state }
+      else
+        @object.update_column :state, @object.previous_state
+      end
 
       begin; Sunspot.index(@object)
       rescue Sunspot::NoSetupError => _; end

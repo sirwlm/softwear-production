@@ -60,7 +60,7 @@ class ScreenPrint < Imprint
     end
 
     failure_event :reschedule, public_activity: { reason: :text_field } do
-      transition :complete => :pending_rescheduling
+      transition [:complete, :canceled] => :pending_rescheduling
     end
 
     success_event :delay_resolved,

@@ -195,7 +195,7 @@ module Train
     def self.default_train_events
       proc do
         failure_event :cancel do
-          transition any => :canceled
+          transition (any - :canceled) => :canceled
         end
 
         state :canceled, type: :failure
