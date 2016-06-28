@@ -53,6 +53,7 @@ class MachinesController < InheritedResources::Base
       with :scheduled_at, time_start..time_end
       with :machine_id, params[:machine_id] if params[:machine_id]
       order_by :scheduled_at, :asc
+      with :canceled, false
       paginate page: 1, per_page: 5000
     end.results
     @date = time_start
