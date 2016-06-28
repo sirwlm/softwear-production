@@ -80,7 +80,7 @@ class ImprintsController < InheritedResources::Base
   end
 
   def confirm_imprint_data
-    @imprint = Imprint.find(params[:id])
+    @imprint = params[:imprint_or_group].constantize.find(params[:id])
     if request.post?
       @imprint.confirmed_print_time = imprint_params[:confirmed_print_time].to_i * 60
       @imprint.confirmed_setup_time = imprint_params[:confirmed_setup_time].to_i * 60

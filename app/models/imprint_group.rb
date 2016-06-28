@@ -4,6 +4,7 @@ class ImprintGroup < ActiveRecord::Base
   include PublicActivity::Model
   include Schedulable
   include Metricable
+  include ImprintData
 
   self.crm_class = Crm::ArtworkRequest
 

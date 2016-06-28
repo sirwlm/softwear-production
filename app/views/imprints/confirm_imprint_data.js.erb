@@ -1,10 +1,10 @@
 <% if request.post? %>
     $('#contentModal').modal('hide');
-    $("#imprint_<%= @imprint.id %>_print_data").html("<%=j render('shared/imprint_data/confirmed_data', event: @imprint) %>");
+    $("#imprint_<%= @imprint.id %>_print_data").html("<%=j render('shared/imprint_data/confirmed_data', production_train: @imprint) %>");
 <% else %>
     try {
-        $('#contentModal .modal-title').html("<%=j @title %>");
-        $('#contentModal .modal-body').html("<%=j render('shared/imprint_data/form', imprint: @imprint) %>");
+        $('#contentModal .modal-title').html("<%=j "Confirm #{imprint_or_imprint_group(@imprint)} ##{@imprint.id} Production Data" %>");
+        $('#contentModal .modal-body').html("<%=j render('shared/imprint_data/form', production_train: @imprint) %>");
         $('#contentModal .modal-dialog').css('width', '90%');
         $('#contentModal').modal('show');
         $('#contentModalSaveChanges').hide();

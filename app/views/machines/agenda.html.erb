@@ -54,16 +54,14 @@
       </td>
       <td>
         <% if event.respond_to? :print_data_state %>
-            <% unless event.is_a? ImprintGroup %>
             <div id="imprint_<%= event.id %>_print_data">
-              <%= event.print_data_state %><br />
               <% if event.print_data_state == 'pending' %>
-                  <%= link_to "Confirm Imprint Data", data_imprint_path(event.id), remote: true  %>
+                  <%= event.print_data_state %><br />
+                  <%= link_to "Confirm Imprint Data", imprint_or_group_data_path(event.id, imprint_or_imprint_group(event)), remote: true  %>
               <% elsif event.print_data_state == 'confirmed' %>
-                  <%= render 'shared/imprint_data/confirmed_data', event: event %>
+                  <%= render 'shared/imprint_data/confirmed_data', production_train: event %>
               <% end %>
             </div>
-            <% end %>
         <% end %>
       </td>
     </tr>

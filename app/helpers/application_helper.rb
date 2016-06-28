@@ -162,4 +162,8 @@ module ApplicationHelper
     return  category.to_s.humanize
   end
 
+  def imprint_or_imprint_group(production_train)
+    return ImprintGroup if production_train.class == ImprintGroup
+    return Imprint
+  end
 end
