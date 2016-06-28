@@ -103,6 +103,10 @@ class ImprintGroup < ActiveRecord::Base
     imprints.first
   end
 
+  def all_event_targets
+    imprints
+  end
+
   def calendar_color
     return 'rgb(58, 135, 173)' if machine.blank?
     return 'rgb(204, 204, 204)' if complete?

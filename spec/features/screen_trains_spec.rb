@@ -166,7 +166,7 @@ feature "ScreenTrains", type: :feature, js: true do
             first('a', text: 'Show Full Details').click
             sleep 1
             within('div.screen_train-details') do
-              first('a').click
+              first('a').click 
               sleep 3 
             end
             click_link "Assign A Screen"
