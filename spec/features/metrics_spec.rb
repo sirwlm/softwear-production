@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "Metrics", type: :feature do
-  context 'as a logged in user', js: true, pending: true  do
+  context 'as a logged in user', js: true do
     include_context 'logged_in_as_user'
 
     given!(:machine) { create(:machine) }
@@ -22,11 +22,7 @@ feature "Metrics", type: :feature do
       )
     end
 
-    scenario 'I can set a print team for the day' do
-      # click a link somewhere
-      # select the "print team members" and assign their roles
-      # expect this to be saved in the session
-    end
+    scenario 'I can set a print team for the day'
 
     scenario 'I can confirm the data and teams for a screen print are exact', current: true do
       visit machine_agenda_path(machine.id)
@@ -39,7 +35,7 @@ feature "Metrics", type: :feature do
 
       expect 'Calculated print time was 1hr 30min, or a rate of ~100 imprints per hour'
       fill_in 'Confirmed print time', with: scheduled_imprint.calculated_print_time / 60
-      click_button 'Confirm Imprint Data'
+      click_button 'Confirm Print Data'
       sleep 1
       within "#imprint_#{scheduled_imprint.id}_print_data" do
         expect(page).to have_text 'Confirmed Print Time'

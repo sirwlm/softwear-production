@@ -31,7 +31,9 @@ module ImprintData
     private
 
     def calculated_and_confirmed_different?
-      calculated_print_time != confirmed_print_time || calculated_setup_time != confirmed_setup_time
+      #
+      !calculated_print_time.between?(confirmed_print_time - 60, confirmed_print_time + 60) ||
+        !calculated_setup_time.between?(confirmed_setup_time - 60, confirmed_print_time + 60)
     end
 
     def assign_confirmed_print_speed
