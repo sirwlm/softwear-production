@@ -63,7 +63,7 @@ feature "Metrics", type: :feature do
       # check that an activity was made, adjusting data
     end
 
-    scenario 'I can confirm the data and teams for an imprint group' do
+    scenario 'I can confirm the data and teams for an imprint group'
   end
 
   context 'as a logged in user with the admin role' do
