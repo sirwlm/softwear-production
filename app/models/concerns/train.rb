@@ -423,4 +423,8 @@ module Train
   def try_on_complete
     on_complete if respond_to?(:on_complete)
   end
+
+  def canceled
+    canceled?
+  end
 end
