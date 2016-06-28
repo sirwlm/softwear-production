@@ -27,6 +27,7 @@ class ScreenTrain < ActiveRecord::Base
   before_validation :set_default_difficulty
   before_save :transition_screens, if: :screens_assigned?
   before_create :assign_to_sep_manager, if: :fba_generated?
+  after_create :assign_due_at, if: :fba_generated?
 
   validates :order, presence: true
   validates :print_type, inclusion: { in: PRINT_TYPES }, unless: -> { self.print_type.blank? }
@@ -169,6 +170,11 @@ class ScreenTrain < ActiveRecord::Base
   end
 
   private
+
+  def assign_due_at
+    return unless due_at.blank?
+    update_column :due_at, order.deadline - 1.day
+  end
 
   def assign_to_sep_manager
     self.assigned_to_id = User.separations_manager.try(:id)
