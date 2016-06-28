@@ -1,6 +1,6 @@
 <div class="row">
   <%= form_tag machine_agenda_path(@machine), method: :get do %>
-      <div class="col-xs-6">
+      <div class="col-xs-4 col-sm-offset-2">
         <%= text_field_tag :date, params[:date], class: 'form-control datepicker-standard' %>
       </div>
       <div class="col-xs-6">
