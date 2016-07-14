@@ -3,7 +3,7 @@ class Screen < ActiveRecord::Base
 
   tracked only: [:transition]
 
-  INITIAL_STATES = %w(new broken ready_to_reclaim ready_to_coat ready_to_expose ready_to_tape in_production)
+  INITIAL_STATES = %w(new broken ready_to_reclaim ready_to_coat ready_to_expose in_production)
   MESH_TYPES = %w(24 80 110 110s 135s 140 150s 156 160 180s 196 200s 225s 230 280 305)
   FRAME_TYPES = %w(Roller Panel Static)
   DIMENSIONS = %w(23x31 25x36)
@@ -81,10 +81,6 @@ class Screen < ActiveRecord::Base
       transition :ready_to_expose => :washed_out_and_drying
     end
 
-    event :taped do
-      transition :ready_to_tape => :in_production
-    end
-
     event :removed_from_production do
       transition :in_production => :ready_to_reclaim
     end
@@ -92,7 +88,7 @@ class Screen < ActiveRecord::Base
     event :dryed do
       transition :reclaimed_and_drying => :ready_to_coat
       transition :coated_and_drying => :ready_to_expose
-      transition :washed_out_and_drying => :ready_to_tape
+      transition :washed_out_and_drying => :in_production
     end
 
     event :broke do
@@ -100,7 +96,7 @@ class Screen < ActiveRecord::Base
     end
 
     event :bad_prep do
-      transition [:reclaimed_and_drying, :ready_to_coat, :coated_and_drying, :ready_to_expose, :washed_out_and_drying, :ready_to_tape, :in_production] => :ready_to_reclaim
+      transition [:reclaimed_and_drying, :ready_to_coat, :coated_and_drying, :ready_to_expose, :washed_out_and_drying, :in_production] => :ready_to_reclaim
     end
   end
 
