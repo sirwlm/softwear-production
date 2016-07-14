@@ -3,9 +3,9 @@ lock '3.2.1'
 
 set :application, 'softwear-production'
 set :repo_url, 'git@github.com:annarbortees/softwear-production.git'
-set :rvm_ruby_version, 'ruby-2.1.1'
-set :rvm_ruby_string, 'ruby-2.1.1'
-set :rvm_task_ruby_version, 'ruby-2.1.1'
+set :rvm_ruby_version, 'rbx-2.5.2'
+set :rvm_ruby_string, 'rbx-2.5.2'
+set :rvm_task_ruby_version, 'ruby-2.1.2'
 set :no_reindex, true
 
 # Default branch is :master
