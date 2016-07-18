@@ -71,7 +71,7 @@ class ImprintGroup < ActiveRecord::Base
       disp << "(RESCHEDULE)"
     elsif reschedules.any?
       disp << "(RESCHEDULED)"
-    elsif complete?
+    elsif try(:complete?)
       disp << "(COMPLETE)"
     end
     disp << full_name(join_char)
