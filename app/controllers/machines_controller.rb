@@ -35,6 +35,15 @@ class MachinesController < InheritedResources::Base
       @calendar_events = [] and return
     end
 
+    @calendar_events = Schedulable.schedulable_classes.flat_map do |c|
+      c = c.where(scheduled_at: time_start..time_end)
+      c = c.where(machine_id: machine_id) if machine_id
+      c.to_a
+    end
+      .select { |e| !e.canceled? }
+
+    # TODO the sunspot search does not retrieve all schedulables for some reason
+=begin
     @calendar_events = Sunspot.search(*Schedulable.schedulable_classes) do
       with :scheduled_at, time_start..time_end
       with :machine_id, machine_id if machine_id
@@ -42,6 +51,7 @@ class MachinesController < InheritedResources::Base
       paginate page: 1, per_page: 5000
     end
       .results
+=end
   end
 
   def agenda
@@ -49,6 +59,17 @@ class MachinesController < InheritedResources::Base
     time_end   = time_start + 1.day
 
     @machine = Machine.find(params[:machine_id])
+
+    @itineary_events = Schedulable.schedulable_classes.flat_map do |c|
+      c = c.where(scheduled_at: time_start..time_end)
+      c = c.where(machine_id: params[:machine_id]) if params[:machine_id]
+      c.to_a
+    end
+      .select { |e| !e.canceled? }
+      .sort_by(&:scheduled_at)
+
+    # TODO the sunspot search does not retrieve all schedulables for some reason
+=begin
     @itineary_events = Sunspot.search(*Schedulable.schedulable_classes) do
       with :scheduled_at, time_start..time_end
       with :machine_id, params[:machine_id] if params[:machine_id]
@@ -56,6 +77,8 @@ class MachinesController < InheritedResources::Base
       with :canceled, false
       paginate page: 1, per_page: 5000
     end.results
+=end
+
     @date = time_start
   end
 
