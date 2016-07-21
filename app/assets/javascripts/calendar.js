@@ -20,20 +20,43 @@ function imprintCalendarOn(matcher, options, calendarAgenda) {
 
   window.calendarMatcher = matcher;
 
+  // Monkey patch ability to see events past 12AM next-day
+  $.fullCalendar.TimeGrid.prototype.computeDateTop = function(date, startOfDayDate) {
+    var startTime = moment.duration(date - startOfDayDate.clone().stripTime());
+
+    var cTT = this.computeTimeTop(startTime);
+
+    //If an event is at the start of minTime
+    if (startTime - this.minTime == 0) {
+      return cTT;
+    }
+
+    //If an event gets dragged past midnight
+    if (cTT == 0) {
+      cTT = this.computeTimeTop( 86400000 + startTime );
+    }
+
+    return cTT;
+  };
+
   $(matcher).fullCalendar({
     header: {
       left: 'prev,next today',
       center: 'title',
       right: 'agendaDay,agendaThreeDay,agendaWeek'
     },
-    height: 'auto',
+    height: window.useCalendarScrollBar ? null : 'auto',
     defaultView: calendarAgenda || 'agendaDay',
     events: options.events,
     editable: true,
     droppable: true,
     dragRevertDuration: 0,
+    minTime: '06:00:00',
+    maxTime: '1.06:00:00',
+    slotLabelInterval: '01:00:00',
     slotDuration: '00:15:00',
     snapDuration: '00:05:00',
+    nextDayThreshold: '01:00:00',
     allDaySlot: false,
 
     eventClick: function(event) {

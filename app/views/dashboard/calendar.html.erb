@@ -38,5 +38,9 @@
       </div>
   </div>
 
+  <% if current_user.default_view == 'Desktop' %>
+    <script>window.useCalendarScrollBar = true;</script>
+  <% end %>
+
   <div class='col-lg-9' id='calendar'></div>
 </div>
