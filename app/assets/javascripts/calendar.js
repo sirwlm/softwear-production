@@ -26,6 +26,7 @@ function imprintCalendarOn(matcher, options, calendarAgenda) {
       center: 'title',
       right: 'agendaDay,agendaThreeDay,agendaWeek'
     },
+    height: 'auto',
     defaultView: calendarAgenda || 'agendaDay',
     events: options.events,
     editable: true,

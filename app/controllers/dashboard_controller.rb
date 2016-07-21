@@ -29,11 +29,11 @@ class DashboardController < ApplicationController
 
     render json: { ok: true };
   end
-  
+
   def pre_production
     initialize_train_classes(:pre_production) 
     q = params[:q]
-    
+
     @trains = Sunspot.search @train_classes do
       if q
         fulltext q[:text] unless q[:text].blank?
