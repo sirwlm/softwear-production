@@ -1,7 +1,7 @@
 if (window.calendarMatcher != undefined) {
   <%# Updating from calendar view modal %>
 
-  <% if session[:show_machines].try(:keys).try(:include?, @imprint_group.machine_id.to_s) %>
+  <% if current_user.shown_machines.where(machine_id: @imprint_group.machine_id).exists? %>
     changeEventColor(window.calendarMatcher, "<%= @imprint_group.event_id %>", "<%= @imprint_group.calendar_color %>");
   <% else %>
     $(window.calendarMatcher).fullCalendar('removeEvents', <%= @imprint_group.event_id %>);

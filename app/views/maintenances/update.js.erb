@@ -1,5 +1,5 @@
 if (window.calendarMatcher != undefined) {
-  <% if session[:show_machines].try(:keys).try(:include?, @maintenance.machine_id.to_s) %>
+  <% if current_user.shown_machines.where(machine_id: @maintenance.machine_id).exists? %>
       changeEventColor(window.calendarMatcher, "<%= @maintenance.event_id %>", "<%= @maintenance.calendar_color %>", "<%= @maintenance.text_color %>", "<%= @maintenance.border_color %>");
   <% else %>
   $(window.calendarMatcher).fullCalendar('removeEvents', <%= @maintenance.event_id %>);

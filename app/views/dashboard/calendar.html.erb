@@ -6,7 +6,7 @@
         id: 'show-machines-select',
         style: 'width: 100%',
         data: {
-          initial: session[:show_machines].try(:to_a).try(:map) { |m| { id: m[0], text: m[1] } }
+          initial: current_user.shown_machines.includes(:machine).map { |s| { id: s.machine.id, text: s.machine.name } }
         }
       %>
     </div>
@@ -16,7 +16,7 @@
         <div class='event-receiver unscheduled-imprints machine-event-receiver's
              data-machine-id='<%= machine.id %>'s
              data-machine-name='<%= machine.name %>'s
-             <%= "style='display: none;'".html_safe unless session[:show_machines].try(:[], machine.id.to_s) %>>
+             <%= "style='display: none;'".html_safe unless current_user.shown_machines.where(machine_id: machine.id).exists? %>>
           <h4 align='center'><%= machine.name %></h4>
 
           <% Schedulable.all_unscheduled { |c| c.where(machine_id: machine.id) }.each do |event| %>

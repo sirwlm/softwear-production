@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714161608) do
+ActiveRecord::Schema.define(version: 20160721161359) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -417,6 +417,14 @@ ActiveRecord::Schema.define(version: 20160714161608) do
     t.integer  "created_by_id",        limit: 4
     t.integer  "softwear_crm_id",      limit: 4
   end
+
+  create_table "shown_machines", force: :cascade do |t|
+    t.integer "user_id",    limit: 4
+    t.integer "machine_id", limit: 4
+  end
+
+  add_index "shown_machines", ["machine_id"], name: "index_shown_machines_on_machine_id", using: :btree
+  add_index "shown_machines", ["user_id"], name: "index_shown_machines_on_user_id", using: :btree
 
   create_table "stage_for_fba_bagging_trains", force: :cascade do |t|
     t.string   "state",              limit: 191

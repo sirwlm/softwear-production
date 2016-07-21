@@ -29,8 +29,8 @@ class MachinesController < InheritedResources::Base
     time_end   = Time.parse(params[:end]) + 5.hours
     if params[:machine]
       machine_id = params[:machine]
-    elsif session[:show_machines] && session[:show_machines].respond_to?(:keys)
-      machine_id = session[:show_machines].keys
+    elsif current_user.shown_machines.any?
+      machine_id = current_user.shown_machines.pluck(:machine_id)
     else
       @calendar_events = [] and return
     end

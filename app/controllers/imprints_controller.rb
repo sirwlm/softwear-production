@@ -126,8 +126,8 @@ class ImprintsController < InheritedResources::Base
       if params[:machine]
         @calendar_entries = @calendar_entries.where(machine_id: params[:machine])
 
-      elsif session[:show_machines] && session[:show_machines].respond_to?(:keys)
-        @calendar_entries = @calendar_entries.where(machine_id: session[:show_machines].keys)
+      elsif current_user.shown_machines.any?
+        @calendar_entries = @calendar_entries.where(machine_id: current_user.shown_machines.pluck(:machine_id))
       end
     end
   end

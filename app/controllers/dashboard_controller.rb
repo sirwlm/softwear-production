@@ -18,16 +18,20 @@ class DashboardController < ApplicationController
   end
 
   def filter
-    session[:show_machines] ||= {}
+    query = {
+      user_id:    current_user.id,
+      machine_id: params[:id]
+    }
+
+    ok = true
 
     case params[:type]
-    when 'hide' then session[:show_machines].delete(params[:id])
-    when 'show'
-      machine = Machine.find(params[:id])
-      session[:show_machines][params[:id]] = machine.name
+    when 'hide' then ShownMachine.where(query).destroy_all
+    when 'show' then ShownMachine.find_or_create_by(query)
+    else ok = false
     end
 
-    render json: { ok: true };
+    render json: { ok: ok };
   end
 
   def pre_production

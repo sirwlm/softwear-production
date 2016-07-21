@@ -1,6 +1,8 @@
 class User < Softwear::Auth::Model
   expire_query_cache_every 10.minutes
 
+  has_many :shown_machines
+
   def self.separations_manager
     of_role('sep_manager').first
   end
