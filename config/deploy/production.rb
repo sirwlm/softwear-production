@@ -18,7 +18,7 @@
 set :branch, 'master'
 
 server '50.19.126.7',    user: 'ubuntu', roles: %w{web app redis} # , my_property: :my_value
-server '54.221.198.113', user: 'ubuntu', roles: %w{web app}
+server '54.221.198.113', user: 'ubuntu', roles: %w{web app db}
 server '54.197.100.175',  user: 'ubuntu', roles: %w{web} # , my_property: :my_value
 
 set :linked_files, fetch(:linked_files) + %w{config/sidekiq.yml}
