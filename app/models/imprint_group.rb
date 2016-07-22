@@ -152,10 +152,31 @@ class ImprintGroup < ActiveRecord::Base
   end
 
   def completed_by
-    return super unless completed_by_id.nil?
+    sup = super
+    return sup if sup
     return nil if completed_at.nil?
     update_column(:completed_by_id, get_completed_by_id_from_activities)
     super
+  end
+
+  def completed_by=(value)
+    return if value.is_a?(Array)
+    super
+  end
+
+  # We override update_attributes so that any special assignments handled by the underlying
+  # imprints gets covered.
+  def update_attributes(attributes)
+    imprint = imprints.first
+
+    attributes.each do |field, value|
+      assignment = "#{field}="
+
+      imprint.send(assignment, value) if imprint.respond_to?(assignment)
+      self.send(assignment, value)    if self.respond_to?(assignment)
+    end
+
+    imprint.save && self.save
   end
 
   def started_at
