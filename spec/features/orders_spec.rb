@@ -354,7 +354,7 @@ feature 'Orders' do
       expect(page).to_not have_selector "#imprint-group-#{imprint_group.id}"
     end
 
-    scenario 'I can edit an imprint group', edit_imprint_group: true, retry: 2 do
+    scenario 'I can edit an imprint group', edit_imprint_group: true, retry: (2 if ENV['CI'] == 'true') do
       imprint_1; imprint_2; imprint_group
       imprint_1.update_attributes! imprint_group_id: imprint_group.id
 

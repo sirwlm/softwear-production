@@ -230,6 +230,12 @@ class Imprint < ActiveRecord::Base
     machine.name rescue 'Not Assigned'
   end
 
+  # Don't allow setting the name to blank
+  def name=(n)
+    return if n.blank?
+    super
+  end
+
   def generate_rescheduled_imprint(reschedule_group = true)
     if part_of_group? && reschedule_group
       #
