@@ -3,7 +3,7 @@
   This Imprint Requires Signoff
   </p>
 <% end %>
-<% if object.try(:part_of_group?) %>
+<% if object.is_a?(ImprintGroup) %>
   <% if object.rescheduled_from_id? %>
     <h4>(Reschedule) (Group #<%= object.imprint_group.rescheduled_from_id %>) <%= object.name %></h4>
   <% else %>
@@ -20,7 +20,7 @@
   <% if object.scheduled? %>
       <dt>Scheduled At</dt>
       <dd>
-      <% if object.try(:part_of_group?) %>
+      <% if object.is_a?(ImprintGroup) %>
         <%= object.imprint_group.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>,
         <% if current_user.role?('admin') && !object.imprint_group.print_has_started? %>
           <%= editable object.imprint_group, :estimated_time, value: object.imprint_group.estimated_time %>hrs
@@ -41,7 +41,7 @@
       <dt>Unscheduled</dt>
       <dt>Estimated Time</dt>
       <dd>
-        <% if object.try(:part_of_group?) %>
+        <% if object.is_a?(ImprintGroup) %>
             <% if current_user.role?('admin') && !object.imprint_group.print_has_started? %>
                 <%= editable object.imprint_group, :estimated_time, value: object.imprint_group.estimated_time %>hrs
             <% else %>
@@ -90,7 +90,7 @@
 
   <dt>Count</dt>
   <dd>
-    <% if object.try(:part_of_group?) %>
+    <% if object.is_a?(ImprintGroup) %>
       <% if current_user.role?('admin') %>
         <%= editable object.imprint_group, :quantity, value: object.imprint_group.quantity || object.imprint_group.count %>
       <% else %>

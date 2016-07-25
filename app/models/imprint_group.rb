@@ -168,6 +168,10 @@ class ImprintGroup < ActiveRecord::Base
     super
   end
 
+  def imprint_group
+    self
+  end
+
   # We override update_attributes so that any special assignments handled by the underlying
   # imprints gets covered.
   def update_attributes(attributes)
