@@ -20,7 +20,7 @@
   <% if object.scheduled? %>
       <dt>Scheduled At</dt>
       <dd>
-      <% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
+      <% if object.try(:part_of_group?) %>
         <%= object.imprint_group.scheduled_at.strftime('%Y-%m-%d %I:%M%P') %>,
         <% if current_user.role?('admin') && !object.imprint_group.print_has_started? %>
           <%= editable object.imprint_group, :estimated_time, value: object.imprint_group.estimated_time %>hrs
@@ -41,7 +41,7 @@
       <dt>Unscheduled</dt>
       <dt>Estimated Time</dt>
       <dd>
-        <% if object.respond_to?(:part_of_group?) && object.part_of_group? %>
+        <% if object.try(:part_of_group?) %>
             <% if current_user.role?('admin') && !object.imprint_group.print_has_started? %>
                 <%= editable object.imprint_group, :estimated_time, value: object.imprint_group.estimated_time %>hrs
             <% else %>

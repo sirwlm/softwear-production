@@ -82,6 +82,10 @@ class ImprintGroup < ActiveRecord::Base
     imprintable_trains.first
   end
 
+  def part_of_group?
+    false
+  end
+
   def generate_rescheduled_group
     new_imprint_group = dup
     new_imprint_group.rescheduled_from_id = rescheduled_from_id || id

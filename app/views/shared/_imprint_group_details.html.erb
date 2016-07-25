@@ -1,1 +1,1 @@
-<%= render 'shared/imprint_details', object: object, in_modal: in_modal %>
+<%= render 'shared/imprint_details', object: object.is_a?(ImprintGroup) ? object.imprints.first : object, in_modal: in_modal %>
