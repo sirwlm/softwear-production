@@ -40,7 +40,7 @@ class MachinesController < InheritedResources::Base
       c = c.where(machine_id: machine_id) if machine_id
       c.to_a
     end
-      .select { |e| !e.canceled? }
+      .reject { |e| e.canceled? || e.try(:part_of_group?) }
 
     # TODO the sunspot search does not retrieve all schedulables for some reason
 =begin
@@ -65,7 +65,7 @@ class MachinesController < InheritedResources::Base
       c = c.where(machine_id: params[:machine_id]) if params[:machine_id]
       c.to_a
     end
-      .select { |e| !e.canceled? }
+      .reject { |e| e.canceled? || e.try(:part_of_group?) }
       .sort_by(&:scheduled_at)
 
     # TODO the sunspot search does not retrieve all schedulables for some reason
