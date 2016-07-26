@@ -94,6 +94,10 @@ class Imprint < ActiveRecord::Base
     !imprint_group_id.nil?
   end
 
+  def imprint_group?
+    !imprint_group_id.nil?
+  end
+
   def approved?
     state.to_sym != :pending_approval
   end

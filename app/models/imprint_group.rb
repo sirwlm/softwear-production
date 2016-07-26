@@ -82,8 +82,14 @@ class ImprintGroup < ActiveRecord::Base
     imprintable_trains.first
   end
 
+  # An imprint group is not "part of" a group
   def part_of_group?
     false
+  end
+
+  # This is a more general test to see if an imprint group is involved
+  def imprint_group?
+    true
   end
 
   def generate_rescheduled_group
