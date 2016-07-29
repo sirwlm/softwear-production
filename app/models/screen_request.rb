@@ -1,5 +1,6 @@
 class ScreenRequest < ActiveRecord::Base
   belongs_to :screen_train
+  has_many :imprints, through: :screen_train
 
   # With this validation, screen requests cannot be created alongside a new screen train.
   # validates :screen_train, presence: true
@@ -11,8 +12,17 @@ class ScreenRequest < ActiveRecord::Base
 
   after_initialize -> (s) { s.frame_type ||= 'Roller'; s.dimensions ||= '23x31' }
 
+  after_create :increment_imprint_screen_count
+  after_destroy :decrement_imprint_screen_count
+
   def name
     "#{ink} #{mesh_type} - #{dimensions} - #{screen_train.try(:lpi) || '?'}lpi"
   end
 
+  def increment_imprint_screen_count
+    imprints.each { |i| i.update_column :screen_count, (i.screen_count || 0) + 1 }
+  end
+  def decrement_imprint_screen_count
+    imprints.each { |i| i.update_column :screen_count, (i.screen_count || 0) - 1 }
+  end
 end

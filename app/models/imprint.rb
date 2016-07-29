@@ -40,6 +40,7 @@ class Imprint < ActiveRecord::Base
   belongs_to :rescheduled_from, class_name: 'Imprint', inverse_of: :reschedules
   has_many :reschedules, class_name: 'Imprint', foreign_key: 'rescheduled_from_id', inverse_of: :rescheduled_from
   has_many :assigned_screens, through: :screen_train
+  has_many :screen_requests, through: :screen_train
   has_many :screens, through: :assigned_screens
   has_one :order, through: :job
   has_one :imprintable_train, through: :job
@@ -162,7 +163,7 @@ class Imprint < ActiveRecord::Base
   end
 
   def full_name
-    "#{order_deadline_day} - #{job_name} - #{name} (#{count})"
+    "#{order_deadline_day} - #{job_name} - #{name} (#{count}) (#{screen_count || 0}-S)"
   end
 
   def order_deadline_day
