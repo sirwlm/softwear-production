@@ -1,4 +1,26 @@
 module ApplicationHelper
+  def by_order_deadline
+    get_order = lambda do |x|
+      x.try(:order) || x.try(:job).try(:order)
+    end
+
+    lambda do |a, b|
+      order_a = get_order[a]
+      order_b = get_order[b]
+
+      if order_a.nil?
+        next 0 if order_b.nil?
+        next 1
+      end
+      if order_b.nil?
+        next -1
+      end
+
+      next 0 if order_a.id == order_b.id
+
+      order_a.deadline <=> order_b.deadline
+    end
+  end
 
   def alert_class_from_flash_type(flash_type)
     return 'alert-danger' if flash_type == 'error' || flash_type == 'alert'

@@ -19,7 +19,7 @@
              <%= "style='display: none;'".html_safe unless current_user.shown_machines.where(machine_id: machine.id).exists? %>>
           <h4 align='center'><%= machine.name %></h4>
 
-          <% Schedulable.all_unscheduled { |c| c.where(machine_id: machine.id) }.each do |event| %>
+          <% Schedulable.all_unscheduled { |c| c.where(machine_id: machine.id) }.sort(&by_order_deadline).each do |event| %>
             <% next if event.try(:part_of_group?) %>
             <%= render 'machines/unscheduled_entry.html.erb', event: event %>
           <% end %>
@@ -30,7 +30,7 @@
         <div class='event-receiver unscheduled-imprints no-machine' data-no-machine='true'>
           <h4 align='center'>No Machine</h4>
 
-          <% Schedulable.all_unscheduled(&:machineless).each do |event| %>
+          <% Schedulable.all_unscheduled(&:machineless).sort(&by_order_deadline).each do |event| %>
             <% next if event.try(:part_of_group?) %>
             <%= render 'machines/unscheduled_entry.html.erb', event: event %>
           <% end %>
