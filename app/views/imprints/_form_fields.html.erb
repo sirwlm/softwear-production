@@ -20,6 +20,6 @@
 <% end %>
 
 <% unless imprint.new_record? %>
-  <%= f.select :job_id, Job.unscoped.collect{ |j| [j.full_name, j.id] }, { include_blank: 'Select Job' }, class: 'select2' %>
+  <%= f.select :job_id, (local_assigns[:jobs] || Job.unscoped).map{ |j| [j.full_name, j.id] }, { include_blank: 'Select Job' }, class: 'select2' %>
   <%= f.text_field :completed_at, class: 'datetimepicker-standard' %>
 <% end %>

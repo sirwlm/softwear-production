@@ -41,6 +41,7 @@ SoftwearProduction::Application.routes.draw do
   resources :imprints, only: [:update] do
     member do
       patch ':transition', to: 'imprints#transition', as: :transition
+      get :proof_info
     end
   end
 

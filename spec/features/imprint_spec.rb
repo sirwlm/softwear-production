@@ -50,6 +50,11 @@ feature 'Imprints' do
         print.update_attributes! softwear_crm_id: crm_imprint.id
       end
 
+      scenario 'I initially see "Loading proofs..." when viewing an imprint' do
+        visit show_train_path('print', print.id)
+        expect(page).to have_content "Loading proofs..."
+      end
+
       context 'with proofs', js: true, current: true do
         given!(:crm_imprint) { create(:crm_imprint_with_proofs) }
         background do
@@ -63,6 +68,7 @@ feature 'Imprints' do
 
           scenario 'an alert box tells me that they are rejected' do
             visit show_train_path('print', print.id)
+            sleep 10
             expect(page).to have_content "This proof was rejected."
           end
         end
@@ -70,6 +76,7 @@ feature 'Imprints' do
         context 'that are not approved' do
           scenario 'an alert box tells me that they are not yet approved' do
             visit show_train_path('print', print.id)
+            sleep 10
             expect(page).to have_content "This proof is not yet approved."
           end
         end
@@ -78,8 +85,9 @@ feature 'Imprints' do
       context 'without proofs' do
         given!(:crm_imprint) { create(:crm_imprint) }
 
-        scenario 'an alert box tells me there are no proofs' do
+        scenario 'an alert box tells me there are no proofs', js: true do
           visit show_train_path('print', print.id)
+          sleep 10
           expect(page).to have_content "There are no proofs associated with this imprint in SoftWEAR-CRM."
         end
       end

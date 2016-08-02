@@ -3,7 +3,7 @@
   </div>
   <div class="col-sm-10">
     <h3>Imprint<%= " (Part of group ##{f.object.imprint_group_id})" if f.object.part_of_group? %></h3>
-    <%= render 'imprints/form_fields', f: f, imprint: f.object %>
+    <%= render 'imprints/form_fields', f: f, imprint: f.object, jobs: f.object.order.try(:jobs) %>
     <%= f.link_to_remove "Remove Imprint", class: 'btn btn-danger' %>
   </div>
 </div>

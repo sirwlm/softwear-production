@@ -4,6 +4,7 @@
   <div class="col-sm-11">
     <h3>Job</h3>
     <%= f.text_field :name %>
+    <%= f.text_field :softwear_crm_id %>
     <div class='job-imprints'>
       <%= f.fields_for :imprints do |ff| %>
         <%= render 'imprint_fields', f: ff %>

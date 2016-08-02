@@ -89,6 +89,11 @@ class ImprintsController < InheritedResources::Base
     end
   end
 
+  # NOTE the imprint managed in this action is a CRM imprint.
+  def proof_info
+    @imprint = Crm::Imprint.find(params[:id])
+  end
+
   private
 
   def valid_manager(id, password)

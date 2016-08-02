@@ -1,0 +1,17 @@
+(function() {
+  var target = $(".crm-proof-info[data-crm-imprint-id='<%= @imprint.id %>']");
+
+  target.html(
+    <% begin %>
+      <%=raw %["#{j render 'imprints/artwork', imprint: @imprint}"] %>
+    <% rescue StandardError => e %>
+      <% Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (imprints/proof_info) ****\n#{e.class.name}: #{e.message}" %>
+      <% Rails.logger.error e.backtrace.join("\n") %>
+
+      "<div class='alert alert-danger'>" +
+        "<h4>There was an issue retrieving proof information from crm.</h4>" +
+        "<%= content_tag :pre do %><%=j %[#{e.class.name}: #{e.message}] %><% end %>" +
+      "</div>"
+    <% end %>
+  );
+})();

@@ -19,20 +19,16 @@
       <% if @object.respond_to?(:unique_crm_imprint_ids) %>
         <% @object.unique_crm_imprint_ids.each do |crm_imprint_id| %>
           <% unless crm_imprint_id.blank? %>
-            <% begin %>
-              <%= render 'imprints/artwork', imprint: Crm::Imprint.find(crm_imprint_id) %>
-            <% rescue StandardError => e %>
-
-              <% Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (imprints/_view) ****\n#{e.class.name}: #{e.message}" %>
-              <% Rails.logger.error e.backtrace.join("\n") %>
-                      <div class='alert alert-danger'>
-                        <h4>There was an issue retrieving proof information from crm.</h4>
-
-              <%= content_tag :code do %>
-                <%= "#{e.class.name}: #{e.message}" %>
-              <% end %>
-                      </div>
-            <% end %>
+            <div
+              class='crm-proof-info'
+              data-crm-imprint-id='<%= crm_imprint_id %>'
+            >
+              <div class='col-xs-12'>
+                <div class='panel panel-warning'>
+                  <div class='panel-heading'>Loading proofs...</div>
+                </div>
+              </div>
+            </div>
           <% end %>
         <% end %>
       <% end %>
