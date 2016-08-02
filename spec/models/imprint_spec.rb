@@ -74,7 +74,7 @@ describe Imprint, imprint_spec: true, story_110: true do
         print.update_column :state, :ready_to_print
         print.type = 'ScreenPrint'
         print.save!
-      
+
         expect(print.state.to_sym).to eq :pending_approval
       end
     end
@@ -217,8 +217,8 @@ describe Imprint, imprint_spec: true, story_110: true do
     let(:order) { create(:order, jobs: [create(:job)], deadline: '2015-06-29') }
     let(:imprint) { order.imprints.first }
 
-    it 'returns the contatenated deadline weekday, order, job, and imprint name and quantity' do
-      expect(imprint.full_name).to eq("#{imprint.order_deadline_day} - #{imprint.order_name} - #{imprint.job.name} - #{imprint.name} (#{imprint.count})")
+    it 'returns the contatenated deadline weekday, order, job, and imprint name, quantity, screen count' do
+      expect(imprint.full_name).to eq("#{imprint.order_deadline_day} - #{imprint.order_name} - #{imprint.job.name} - #{imprint.name} (#{imprint.count}) (0-S)")
     end
 
   end
