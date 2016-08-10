@@ -102,6 +102,7 @@ class ScreenTrain < ActiveRecord::Base
     assigned_screens.blank? ? false : true 
   end
 
+  
   def transition_screens
     assigned_screens.each do |assigned|
       if assigned.screen.state == 'ready_to_expose'
