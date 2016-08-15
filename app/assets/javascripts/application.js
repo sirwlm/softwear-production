@@ -137,7 +137,7 @@ function initializeChevronSwap(){
 }
 
 
-$( document ).ready(function() {
+$(document).ready(function() {
   datetimepickerInit();
   datepickerInit();
   typeaheadInit();

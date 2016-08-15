@@ -2,6 +2,9 @@ class DashboardController < ApplicationController
   before_filter :assign_fluid_container, only: [:calendar, :post_production, :pre_production]
 
   def index
+    if session[:current_view].nil?
+      session[:current_view] = current_user.default_view
+    end
   end
 
   def view
