@@ -1,8 +1,10 @@
 <h1 class="heading"><%= @machine.name %> Production Schedule</h1>
 <hr />
 <div class="row">
-  <div class="col-lg-3">
-    <% unless current_view == "Mobile" %>
+  <% if current_view == "Mobile" %>
+    <div class="col-lg-12" id='machine-calendar' data-machine="<%= @machine.id %>"></div>
+  <% else %>
+    <div class="col-lg-3">
       <div class="event-receiver unscheduled-imprints">
         <h4 align='center'>Ready to Schedule Imprints</h4>
 
@@ -11,8 +13,8 @@
         <% end %>
       
       </div>
-    <% end %>
-  </div>
-  <div class="col-lg-9" id='machine-calendar' data-machine="<%= @machine.id %>">
-  </div>
+    </div>
+    <div class="col-lg-9" id='machine-calendar' data-machine="<%= @machine.id %>">
+    </div>
+  <% end %>
 </div>
