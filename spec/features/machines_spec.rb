@@ -42,6 +42,12 @@ feature 'Machine Features', js: true, machine_spec: true, story_113: true do
       expect(page).to have_content "Error! You are not authorized to access this page."
     end
 
+    scenario 'A user can not view unscheduled imprints if in "Tablet Views"', tablet: true do
+      visit machine_path(machine)
+
+      byebug
+    end
+
     scenario 'A user can not edit a machine' do
       visit machines_path
       expect(page).not_to have_content "Edit"
