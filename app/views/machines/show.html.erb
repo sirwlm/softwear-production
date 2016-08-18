@@ -6,7 +6,7 @@
 
       <h4 align='center'>Ready to Schedule Imprints</h4>
 
-      <% Schedulable.all_unscheduled { |c| c.where(machine_id: @machine.id) }.each do |event| %>
+      <% Schedulable.all_unscheduled { |c| c.where(machine_id: @machine.id) }.sort(&by_order_deadline).each do |event| %>
         <%= render 'machines/unscheduled_entry.html.erb', event: event %>
       <% end %>
 
