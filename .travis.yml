@@ -11,7 +11,7 @@ before_install:
   - 'eval "$(ssh-agent -s)"'
   - ssh-add SoftWEAR-MockBot.pem travis_id_rsa
   - "ssh -T git@github.com || :"
-  - sudo apt-get install libmysql-ruby libmysqlclient-dev ruby-dev libappindicator1 
+  - sudo apt-get install libmysql-ruby libmysqlclient-dev ruby-dev libappindicator1 fonts-liberation 
   - gem update bundler
   - gem install eventmachine -v 1.0.3 --no-ri --no-rdoc
   - gem install softwear-lib --no-ri --no-rdoc
