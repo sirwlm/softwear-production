@@ -51,7 +51,7 @@ class Screen < ActiveRecord::Base
     'Bad Washout - stencil not completely washed out',
     'Bad Washout - stencil damaged'
     ]
-  
+
   has_many :assigned_screens
   has_many :imprints, through: :assigned_screens
 
@@ -110,12 +110,16 @@ class Screen < ActiveRecord::Base
       screens = Screen.where(state: state)
       screens.each do |screen|
         if Time.now - screen.updated_at > interval
-          screen.dryed
+          if screen.dryed
+            logger.info "Dried Screen ##{screen.id}"
+          else
+            logger.error "Failed to dry screen ##{screen.id}: #{screen.errors.full_messages.join(', ')}"
+          end
         end
       end
     end
   end
-  
+
   def current_imprints
     imprints.reject{ |x| x.complete? }
   end

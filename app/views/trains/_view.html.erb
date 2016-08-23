@@ -17,17 +17,11 @@
       <% end %>
 
       <% if @object.respond_to?(:unique_crm_imprint_ids) %>
+        <%= link_to "Load Proofs", proof_info_imprint_path(@object.unique_crm_imprint_ids.reject(&:blank?).to_json), remote: true, class: "btn btn-primary btn-lg" %>
+
         <% @object.unique_crm_imprint_ids.each do |crm_imprint_id| %>
           <% unless crm_imprint_id.blank? %>
-            <div
-              class='crm-proof-info'
-              data-crm-imprint-id='<%= crm_imprint_id %>'
-            >
-              <div class='col-xs-12'>
-                <div class='panel panel-warning'>
-                  <div class='panel-heading'>Loading proofs...</div>
-                </div>
-              </div>
+            <div class='crm-proof-info' data-crm-imprint-id='<%= crm_imprint_id %>'>
             </div>
           <% end %>
         <% end %>

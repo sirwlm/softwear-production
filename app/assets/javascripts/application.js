@@ -98,22 +98,6 @@ function select2Init(context) {
   });
 }
 
-function proofsInit(context) {
-  (context || $('body')).find('.crm-proof-info').each(function() {
-    var target = $(this);
-    var imprintId = target.data('crm-imprint-id');
-
-    var noSpinnerWas = window.noSpinner;
-
-    window.noSpinner = true;
-    $.ajax({
-      url:      "/imprints/"+imprintId+"/proof_info",
-      dataType: 'script',
-    });
-    window.noSpinner = false;
-  });
-}
-
 function trainMaskInit() {
     div = $('.train-categories-mask');
     div.hide();
@@ -149,7 +133,6 @@ $(document).ready(function() {
   $('.colorpicker').colorpicker()
   $('[data-toggle="tooltip"]').tooltip();
   select2Init();
-  proofsInit();
 
   $('.editable').editable();
 

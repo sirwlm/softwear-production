@@ -89,9 +89,15 @@ class ImprintsController < InheritedResources::Base
     end
   end
 
-  # NOTE the imprint managed in this action is a CRM imprint.
+  # NOTE the imprint IDs managed in this action is a CRM imprint.
   def proof_info
-    @imprint = Crm::Imprint.find(params[:id])
+    param = params[:id]
+
+    if param =~ /\A\[/ # if param starts with '[', it is a ruby array of integers, which can be interpreted as JSON.
+      @imprints = JSON.parse(param).map { |id| Crm::Imprint.find(id) }
+    else
+      @imprints = [Crm::Imprint.find(param)]
+    end
   end
 
   private
