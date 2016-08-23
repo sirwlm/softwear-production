@@ -1,9 +1,10 @@
+<% @imprints.each do |imprint| %>
 (function() {
-  var target = $(".crm-proof-info[data-crm-imprint-id='<%= @imprint.id %>']");
+  var target = $(".crm-proof-info[data-crm-imprint-id='<%= imprint.id %>']");
 
   target.html(
     <% begin %>
-      <%=raw %["#{j render 'imprints/artwork', imprint: @imprint}"] %>
+      <%=raw %["#{j render 'imprints/artwork', imprint: imprint}"] %>
     <% rescue StandardError => e %>
       <% Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (imprints/proof_info) ****\n#{e.class.name}: #{e.message}" %>
       <% Rails.logger.error e.backtrace.join("\n") %>
@@ -15,3 +16,4 @@
     <% end %>
   );
 })();
+<% end %>
