@@ -1,5 +1,6 @@
 <% # HACK in shared/_train_categories.html.erb, we pass in_modal as a parameter. Didn't want to pass it as a local all the way through. %>
 <% @in_modal = true %>
+
 try {
   $('#contentModal .modal-title').html("<%=j @title %>");
   $('#contentModal .modal-body').html("<%=j render('trains/view', object: @object, in_modal: true) %>");
@@ -13,7 +14,7 @@ try {
   select2Init();
   wysihtmlInit();
   $('#loading').fadeOut(10);
-  
+
   <% if current_user.role?('admin') %>
     $('.editable').editable({});
   <% end %>

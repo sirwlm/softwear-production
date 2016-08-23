@@ -46,11 +46,6 @@ class ImprintableTrain < ActiveRecord::Base
       transition :ready_to_order => :ordered
     end
 
-    success_event :date_changed, params: { expected_arrival_date: :date_field } do
-      transition :ordered => :ordered
-      transition :inventoried => :inventoried
-    end
-
     success_event :partially_inventoried, params: { location: :text_field } do
       transition [:ordered, :partially_inventoried, :staged] => :partially_inventoried
     end

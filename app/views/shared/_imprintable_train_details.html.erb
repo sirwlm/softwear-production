@@ -6,12 +6,13 @@
   <dd>CRM Job #<%= object.job.softwear_crm_id %></dd>
   <br />
   <% unless object.expected_arrival_date.blank? %>
+    <% date = object.expected_arrival_date.day.ordinalize %>
     <dt>Expected Arrival</dt>
-    <dd><%= object.expected_arrival_date.strftime("%m/%d/%Y") %></dd>
+    <dd><%= editable object, :expected_arrival_date, value: object.expected_arrival_date.strftime("%A %B #{date}, %Y"),  type: :date, id: "datetimepicker"%></dd>
   <% end %>
   <% unless object.location.blank? %>
     <dt>Location</dt>
-    <dd><%= object.location %></dd>
+    <dd><%= editable object, :location, type: :text %></dd>
   <% end %>
 </dl>
 <% if in_modal %>
