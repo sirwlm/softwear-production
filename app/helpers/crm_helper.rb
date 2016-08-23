@@ -3,6 +3,16 @@ module CrmHelper
     image_tag "#{path}", options
   end
 
+  def proof_status(proof)
+    begin
+      proof.state.humanize
+    rescue StandardError => e
+      Rails.logger.error "**** ERROR RETRIEVING PROOF INFORMATION (crm_helper.rb) ****\n#{e.class.name}: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      'bug_in_the_software_or_bad_data!'
+    end
+  end
+
   def proof_status_panel(proof)
     case (proof.state rescue 'bad')
     when 'not_ready'                   then 'panel-warning'

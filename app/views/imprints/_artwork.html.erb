@@ -4,7 +4,7 @@
   <% imprint.proofs.uniq(&:id).each do |proof| %>
     <div class='col-xs-12'>
       <div class='panel <%= proof_status_panel(proof) %>'>
-        <div class='panel-heading'>Proof Status: <strong><%= proof.status %></strong></div>
+        <div class='panel-heading'>Proof Status: <strong><%= proof_status(proof) %></strong></div>
         <div class='panel-body'>
         <% if proof.state.include?('rejected') %>
           <p class='alert alert-danger'>This proof was rejected.</p>
