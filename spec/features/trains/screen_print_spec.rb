@@ -54,9 +54,15 @@ feature 'Screen Print Trains', js: true do
 
         find('a.fc-event', text: imprint_group.name).click
         wait_for_ajax
+        
         success_transition :approve
         success_transition :start_setup
-        select_from_select2 ScreenPrint::TRILOC_RESULTS.first
+        sleep 1
+        within('div.train-category-success') do
+          sleep 7 
+          select_from_select2 ScreenPrint::TRILOC_RESULTS.first
+        end
+        sleep 1
         success_transition :setup_complete
         success_transition :print_started
         success_transition :print_complete

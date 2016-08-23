@@ -18,8 +18,6 @@
   <% when :text_field %>
     <%= send :text_field_tag, field_name, nil, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category} typeahead", data: { suggestions: TrainAutocomplete.suggestions_for(object, field_name) } %>
   
-  <% when :date_field %>
-    <%= send :datetime_select_tag, field_name, nil, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category}" %>
   <% else %>
     <%= send "#{it}_tag", field_name, nil, class: "form-control event-field-#{category} event-#{it.to_s.dasherize} #{it.to_s.dasherize}-#{category}" %>
 
