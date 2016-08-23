@@ -17,7 +17,7 @@
       <% end %>
 
       <% if @object.respond_to?(:unique_crm_imprint_ids) %>
-        <%= link_to "Load Proofs", proof_info_imprint_path(@object.unique_crm_imprint_ids.reject(&:blank?)), remote: true, class: "btn btn-primary btn-lg" %>
+        <%= link_to "Load Proofs", proof_info_imprint_path(@object.unique_crm_imprint_ids.reject(&:blank?).to_json), remote: true, class: "btn btn-primary btn-lg" %>
 
         <% @object.unique_crm_imprint_ids.each do |crm_imprint_id| %>
           <% unless crm_imprint_id.blank? %>
