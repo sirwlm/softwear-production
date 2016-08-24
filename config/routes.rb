@@ -61,6 +61,7 @@ SoftwearProduction::Application.routes.draw do
   resources :shipment_trains, only: [:show, :update]
   resources :digitization_trains, only: [:show, :update, :destroy]
   resources :ar3_trains, only: [:show, :update, :destroy]
+  resources :imprintable_trains, only: [:update]
 
   resources :api_settings
   resources :jobs

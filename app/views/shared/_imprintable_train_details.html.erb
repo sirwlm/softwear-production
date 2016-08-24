@@ -7,11 +7,18 @@
   <br />
   <% unless object.expected_arrival_date.blank? %>
     <dt>Expected Arrival</dt>
-    <dd><%= object.expected_arrival_date.strftime("%m/%d/%Y") %></dd>
+    <dd>
+      <%= editable object, :expected_arrival_date, 
+        url: imprintable_train_path(object),
+        value: object.expected_arrival_date.strftime("%m/%d/%Y"), 
+        type: :date, 
+        id: "expected-arrival-date"
+      %>
+    </dd>
   <% end %>
   <% unless object.location.blank? %>
     <dt>Location</dt>
-    <dd><%= object.location %></dd>
+    <dd><%= editable object, :location, type: :text %></dd>
   <% end %>
 </dl>
 <% if in_modal %>
