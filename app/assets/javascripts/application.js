@@ -133,8 +133,13 @@ $(document).ready(function() {
   $('.colorpicker').colorpicker()
   $('[data-toggle="tooltip"]').tooltip();
   select2Init();
-
-  $('.editable').editable();
-
+  
+  $('.editable').editable({
+       format: 'yyyy-mm-dd',    
+       viewformat: 'mm/dd/yyyy',    
+       datepicker: {
+         weekStart: 1 
+       }
+   });
 });
 

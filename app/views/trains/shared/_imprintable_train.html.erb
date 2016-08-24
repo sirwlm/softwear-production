@@ -1,5 +1,6 @@
 <h2>Details</h2>
 <dl>
+  <% byebug %>
   <dt>Order/Job</dt>
   <dd>#<%= train.order.id %> - <%= train.order.full_name %></dd>
   <dd>CRM Order #<%= train.order.softwear_crm_id %></dd>
@@ -7,11 +8,16 @@
   <br />
   <% unless train.expected_arrival_date.blank? %>
     <dt>Expected Arrival</dt>
-    <dd><%= train.expected_arrival_date.strftime("%m/%d/%Y") %></dd>
+    <dd><%= editable train, :expected_arrival_date,
+          url: imprintable_train_path(train),
+          value: train.expected_arrival_date.strftime("%m/%d/%Y"),
+          type: :date
+        %>
+    </dd>
   <% end %>
   <% unless train.location.blank? %>
     <dt>Location</dt>
-    <dd><%= train.location %></dd>
+    <dd><%= editable train, :location, type: :text %></dd>
   <% end %>
 </dl>
 <% if in_modal %>
