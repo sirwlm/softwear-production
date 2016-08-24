@@ -1,18 +1,20 @@
 <h1 class="heading"><%= @machine.name %> Production Schedule</h1>
 <hr />
 <div class="row">
-  <div class="col-lg-3">
-    <div class="event-receiver unscheduled-imprints">
+  <% if current_view == "Mobile" %>
+    <div class="col-lg-12" id='machine-calendar' data-machine="<%= @machine.id %>"></div>
+  <% else %>
+    <div class="col-lg-3">
+      <div class="event-receiver unscheduled-imprints">
+        <h4 align='center'>Ready to Schedule Imprints</h4>
 
-      <h4 align='center'>Ready to Schedule Imprints</h4>
-
-      <% Schedulable.all_unscheduled { |c| c.where(machine_id: @machine.id) }.sort(&by_order_deadline).each do |event| %>
-        <%= render 'machines/unscheduled_entry.html.erb', event: event %>
-      <% end %>
-
+        <% Schedulable.all_unscheduled { |c| c.where(machine_id: @machine.id) }.each do |event| %>
+          <%= render 'machines/unscheduled_entry.html.erb', event: event %>
+        <% end %>
+      
+      </div>
     </div>
-  </div>
-
-  <div class="col-lg-9" id='machine-calendar' data-machine="<%= @machine.id %>">
-  </div>
+    <div class="col-lg-9" id='machine-calendar' data-machine="<%= @machine.id %>">
+    </div>
+  <% end %>
 </div>

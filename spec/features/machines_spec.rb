@@ -36,10 +36,30 @@ feature 'Machine Features', js: true, machine_spec: true, story_113: true do
 
   context 'as a user' do 
     include_context 'logged_in_as_user'
-
+    
     scenario 'A user can not view a list of machines' do
       visit machines_path
       expect(page).to have_content "Error! You are not authorized to access this page."
+    end
+
+    scenario 'A user can not view unscheduled imprints if in "Tablet View"', tablet: true do
+      visit machine_path(machine)
+      sleep 1
+      
+      click_link "#{user.full_name}"
+      sleep 1
+      click_button "View Desktop Version"
+      sleep 1
+
+      expect(page).to have_content("Ready to Schedule Imprints")
+
+      click_link "#{user.full_name}"
+      sleep 1
+      click_button "View Mobile Version"
+      sleep 1
+
+      # page shouldn't have this text as it is 'Mobile' view now
+      expect(page).to_not have_content("Ready to Schedule Imprints")
     end
 
     scenario 'A user can not edit a machine' do
