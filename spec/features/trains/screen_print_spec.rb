@@ -58,10 +58,7 @@ feature 'Screen Print Trains', js: true do
         success_transition :approve
         success_transition :start_setup
         sleep 1
-        within('div.train-category-success') do
-          sleep 7 
-          select_from_select2 ScreenPrint::TRILOC_RESULTS.first
-        end
+        select_from_select2 ScreenPrint::TRILOC_RESULTS.first
         sleep 1
         success_transition :setup_complete
         success_transition :print_started
