@@ -71,6 +71,5 @@ feature 'Machine Features', js: true, machine_spec: true, story_113: true do
       visit machines_path
       expect(page).not_to have_content "Destroy"
     end
-
   end
 end

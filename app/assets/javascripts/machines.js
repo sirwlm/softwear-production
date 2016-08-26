@@ -32,14 +32,16 @@ $(document).ready(function() {
     var machine_id = path[2];
 
     setInterval(function(){
-      $.ajax({
-        url: Routes.machine_agenda_path,
-        data: { machine: { id: machine_id } },
-        dataType: "html",
-        method: 'get'
-      });
+      if (!mouseDown){
+        $.ajax({
+          url: Routes.machine_agenda_path(machine_id),
+          data: { machine: { id: machine_id } },
+          dataType: "html",
+          method: 'get'
+        });
+      }
     }, 
-    300000)
+    300000
+    )
   }
-
 });
