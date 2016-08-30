@@ -5,10 +5,8 @@ namespace :screens do
     Screen.dry_screens
   end
 
-  task fix_screen_activities: :environment do
-
-    test = true
-    
+  # CSV file should have activity_id/correct_owner_id headers
+  task fix_screen_wrong_user_activities: :environment do
     CSV.foreach([Rails.root, "ScreenReclaim_activity_fix.csv"].join('/'), headers: true) do |csv_obj|
       activity_id  = csv_obj['activity_id'].blank? ? nil : csv_obj['activity_id'].to_i
       new_owner_id = csv_obj['correct_owner_id'].blank? ? nil : csv_obj['correct_owner_id'].to_i
@@ -20,6 +18,16 @@ namespace :screens do
       next if activity.nil?
 
       activity.update(owner_id: new_owner_id)
+    end
+  end
+
+  task fix_bad_screen_activity_event: :environment do 
+    # will get all activities with "event"=>"washed_out_and_drying"
+    activities = PublicActivity::Activity.where("parameters like ?", '%"event"%"washed_out_and_drying"%')
+
+    activities.each do |activity|
+      activity.parameters["event"] = "exposed"
+      activity.save  
     end
   end
 end
