@@ -21,6 +21,22 @@ namespace :screens do
     end
   end
 
+  task fix_screen_activity_dates: :environment do
+    CSV.foreach([Rails.root, "reclaim_date_fix.csv"].join('/'), headers: true) do |csv_obj|
+      activity_id = csv_obj['id'].blank? ? nil : csv_obj['id'].to_i
+      new_time = csv_obj['created_at'].blank? ? nil : csv_obj['created_at']
+
+      next if activity_id.nil?
+      next if new_time.nil?
+
+      activity = PublicActivity::Activity.find(activity_id)
+
+      next if activity.nil?
+      
+      activity.update(created_at: new_time, updated_at: new_time)
+    end  
+  end
+
   task create_missing_screen_activities: :environment do
     index = 0
     
