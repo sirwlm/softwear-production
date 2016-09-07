@@ -71,7 +71,7 @@ feature 'Screen Features', js: true do
         end
       end
 
-      context 'can filter by a single field' do
+      context 'can filter by a single field', filter: true do
 
         scenario 'can filter by only Frame Type' do
           visit status_screens_path
