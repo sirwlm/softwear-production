@@ -128,7 +128,6 @@ module ApplicationHelper
     end
   end
 
-
   def seconds_to_minutes(seconds)
     begin
       seconds / 60

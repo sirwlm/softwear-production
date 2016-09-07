@@ -24,7 +24,7 @@
     </thead>
     <tbody>
       <% @trains.each do |train| %>
-        <trt>
+        <tr id="<%= train.class.name.underscore.dasherize %>-<%= train.id %>" >
           <td><%= train.id %></td>
           <td><%= train.class.name %></td>
           <td><%= train.order_earliest_scheduled_at.try(:strftime, '%a, %b %d, %Y') rescue "Not Scheduled" %></td>

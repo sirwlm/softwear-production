@@ -75,7 +75,7 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by only Frame Type' do
           visit status_screens_path
-          select2_tag("Panel", from: 'Frame Type')
+          select2 "Panel", from: 'Frame Type'
           click_button 'Filter'
           expect(page).to have_content('Panel')
           expect(page).not_to have_content('Roller')
@@ -83,7 +83,7 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by only Mesh Type' do
           visit status_screens_path
-          select2_tag("160", from: 'Mesh Type')
+          select2 "160", from: 'Mesh Type'
           click_button 'Filter'
           expect(page).to have_content('160')
           expect(page).not_to have_content('110')
@@ -91,7 +91,7 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by only Dimensions' do
           visit status_screens_path
-          select2_tag("25x36", from: 'Dimensions')
+          select2 "25x36", from: 'Dimensions'
           click_button 'Filter'
           expect(page).to have_content('25x36')
           expect(page).not_to have_content('23x31')
@@ -99,7 +99,7 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by only State' do
           visit status_screens_path
-          select2_tag("Ready to coat", from: 'State')
+          select2 "Ready to coat", from: 'State'
           click_button 'Filter'
           expect(page).to have_content('Ready To Coat')
           expect(page).not_to have_content('In Production')
@@ -110,8 +110,8 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by two frame types' do
           visit status_screens_path
-          select2_tag("Static", from: 'Frame Type')
-          select2_tag("Panel", from: 'Frame Type')
+          select2 "Static", from: 'Frame Type'
+          select2 "Panel", from: 'Frame Type'
           click_button 'Filter'
           expect(page).to have_content('Panel')
           expect(page).to have_content('Static')
@@ -121,8 +121,8 @@ feature 'Screen Features', js: true do
 
       scenario 'can filter and unfilter', current: true do
         visit status_screens_path
-        select2_tag("Static", from: 'Frame Type')
-        select2_tag("Roller", from: 'Frame Type')
+        select2 "Static", from: 'Frame Type'
+        select2 "Roller", from: 'Frame Type'
         click_button 'Filter'
         expect(page).to have_content('Roller')
         expect(page).to have_content('Static')
@@ -140,8 +140,8 @@ feature 'Screen Features', js: true do
         within(:xpath, "//table/tbody/tr[1]/td") do
           expect(page).to have_content('Roller')
         end
-        page.find('th.tablesorter-header').click
-        page.find('th.tablesorter-header').click
+        find('th.tablesorter-header').click
+        find('th.tablesorter-header').click
         sleep 0.5
         within(:xpath, "//table/tbody/tr[1]/td") do
           expect(page).to have_content('Static')
@@ -157,15 +157,15 @@ feature 'Screen Features', js: true do
       end
 
       scenario 'selecting an expected current state updates expected transitions' do
-        select2("coated_and_drying", from: 'Expected Current State')
+        select2 "coated_and_drying", from: 'Expected Current State'
         sleep 0.5
-        select2("dry", from: 'Expected Transition')
+        select2 "dry", from: 'Expected Transition'
       end
 
       scenario 'can advance a screen state' do
-        select2("in_production", from: 'Expected Current State')
+        select2 "in_production", from: 'Expected Current State'
         sleep 0.5
-        select2("removed_from_production", from: 'Expected Transition')
+        select2 "removed_from_production", from: 'Expected Transition'
         sleep 0.5
         scan_barcode('screen_id', s1.id)
         sleep 0.5
@@ -173,18 +173,18 @@ feature 'Screen Features', js: true do
       end
 
       scenario 'properly raises error upon invalid state change attempt' do
-        select2("new", from: 'Expected Current State')
+        select2 "new", from: 'Expected Current State'
         sleep 0.5
-        select2("broke", from: 'Expected Transition')
+        select2 "broke", from: 'Expected Transition'
         scan_barcode('screen_id', s1.id)
         sleep 0.5
         expect(page).to have_content "Screen was not in the expected state"
       end
 
       scenario 'can scan and advance two screens back to back without needing to click screen' do
-        select2("in_production", from: 'Expected Current State')
+        select2 "in_production", from: 'Expected Current State'
         sleep 0.5
-        select2("removed_from_production", from: 'Expected Transition')
+        select2 "removed_from_production", from: 'Expected Transition'
         sleep 0.5
         scan_barcode('screen_id', s1.id)
         sleep 4

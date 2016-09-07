@@ -26,4 +26,22 @@ $(document).ready(function() {
     30000
   );
 
+  
+  if(window.location.href.includes("agenda")){
+    var path = location.pathname.split('/');
+    var machine_id = path[2];
+
+    setInterval(function(){
+      if (!mouseDown){
+        $.ajax({
+          url: Routes.machine_agenda_path(machine_id),
+          data: { machine: { id: machine_id } },
+          dataType: "html",
+          method: 'get'
+        });
+      }
+    }, 
+    300000
+    )
+  }
 });

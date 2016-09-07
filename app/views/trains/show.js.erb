@@ -15,8 +15,14 @@ try {
   wysihtmlInit();
   $('#loading').fadeOut(10);
 
-  <% if current_user.role?('admin') %>
-    $('.editable').editable({});
+  <% if current_user.role?('admin') || (@object.class.name == "ImprintableTrain") %>
+    $('.editable').editable({
+       format: 'yyyy-mm-dd',    
+       viewformat: 'mm/dd/yyyy',    
+       datepicker: {
+         weekStart: 1 
+       }
+    });
   <% end %>
 
   <% if local_assigns[:refresh] %>
