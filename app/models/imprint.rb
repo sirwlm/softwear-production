@@ -71,6 +71,10 @@ class Imprint < ActiveRecord::Base
     time :completed_at
   end
 
+  def complete?
+    super || state == 'rescheduled'
+  end
+
   def on_complete
     if order.fba?
       fba_train =  order.fba_bagging_train
@@ -275,11 +279,13 @@ class Imprint < ActiveRecord::Base
       raise "Imprint ##{id}'s `rescheduled_from` no longer exists"
     end
 
-    rescheduled_from.update_column :state, :rescheduled
-    rescheduled_from.create_activity(
-      action:     :transition,
-      parameters: { event: 'rescheduled' }
-    )
+    if rescheduled_from.state != 'rescheduled'
+      rescheduled_from.update_column :state, :rescheduled
+      rescheduled_from.create_activity(
+        action:     :transition,
+        parameters: { event: 'rescheduled' }
+      )
+    end
   end
 
   private
