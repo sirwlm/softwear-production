@@ -22,6 +22,7 @@
           No actions available
         <% else %>
           <% train_events.each do |event| %>
+            <% next if event.to_s == 'cancel' %>
 
             <div class='well well-sm train-category'>
               <%= form_tag transition_train_path(object, event), remote: true, method: :patch do %>
