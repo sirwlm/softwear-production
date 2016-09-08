@@ -27,7 +27,7 @@ group :test do
   gem 'with_model'
   gem 'endpoint_stub', github: 'AnnArborTees/endpoint_stub', branch: 'develop'
   gem 'state_machines-activemodel'
-  gem 'capybara-select2', git: 'git://github.com/goodwill/capybara-select2'
+  gem 'capybara-select2'
   gem 'test_after_commit'
   gem 'fakeredis', :require => 'fakeredis/rspec'
 end

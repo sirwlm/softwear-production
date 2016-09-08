@@ -25,7 +25,8 @@ describe 'shared/_train_transitions.html.erb', story_735: true, type: :view do
   it 'renders a button for each event with a class for its category' do
     do_render object: object_first
     expect(rendered).to have_css '.btn.btn-success', count: 1
-    expect(rendered).to have_css '.btn.btn-failure', count: 2 # One from the object, then canceled (shared amongst all trains)
+    expect(rendered).to have_css '.btn.btn-failure', count: 1
+    #expect(rendered).to have_css '.btn.btn-failure', count: 2 # One from the object, then canceled (shared amongst all trains)
   end
 
   context 'when there are no events in a category' do
