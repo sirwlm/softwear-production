@@ -42,6 +42,6 @@ $(document).ready(function() {
       }
     }, 
     300000
-    )
+    );
   }
 });
