@@ -77,7 +77,7 @@ feature 'Screen Features', js: true do
           visit status_screens_path
           within(".frame-filter") do
             sleep 1
-            select2 "Panel", from: 'Frame Type'
+            select2("Panel", from: 'Frame Type')
           end
           click_button 'Filter'
           expect(page).to have_content('Panel')
@@ -88,7 +88,7 @@ feature 'Screen Features', js: true do
           visit status_screens_path
           within(".mesh-filter") do
             sleep 1
-            select2 "160", from: 'Mesh Type'
+            select2("160", from: 'Mesh Type')
           end
           click_button 'Filter'
           expect(page).to have_content('160')
@@ -99,7 +99,7 @@ feature 'Screen Features', js: true do
           visit status_screens_path
           within(".dimensions-filter") do
             sleep 1
-            select2 "25x36", from: 'Dimensions'
+            select2("25x36", from: 'Dimensions')
           end
           click_button 'Filter'
           expect(page).to have_content('25x36')
@@ -110,7 +110,7 @@ feature 'Screen Features', js: true do
           visit status_screens_path
           within(".state-filter") do
             sleep 1
-            select2 "Ready to coat", from: 'State'
+            select2("Ready to coat", from: 'State')
           end
           click_button 'Filter'
           expect(page).to have_content('Ready To Coat')
@@ -122,8 +122,12 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by two frame types' do
           visit status_screens_path
-          select2 "Static", from: 'Frame Type'
-          select2 "Panel", from: 'Frame Type'
+          within(".frame-filter") do
+            sleep 1
+            select2("Static", from: 'Frame Type')
+            sleep 1
+            select2("Panel", from: 'Frame Type')
+          end
           click_button 'Filter'
           expect(page).to have_content('Panel')
           expect(page).to have_content('Static')
@@ -133,8 +137,12 @@ feature 'Screen Features', js: true do
 
       scenario 'can filter and unfilter', current: true do
         visit status_screens_path
-        select2 "Static", from: 'Frame Type'
-        select2 "Roller", from: 'Frame Type'
+        within(".frame-filter") do
+          sleep 1
+          select2("Static", from: 'Frame Type')
+          sleep 1
+          select2("Roller", from: 'Frame Type')
+        end
         click_button 'Filter'
         expect(page).to have_content('Roller')
         expect(page).to have_content('Static')
