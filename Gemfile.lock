@@ -61,6 +61,14 @@ GIT
       thor (~> 0.14)
 
 GIT
+  remote: git://github.com/goodwill/capybara-select2
+  revision: 585192e4bb0db8d52e761ab68f08c17294806447
+  specs:
+    capybara-select2 (1.0.1)
+      capybara
+      rspec
+
+GIT
   remote: git://github.com/mperham/sidekiq.git
   revision: 98aa23e4aeb5cb073308c17114271124598d3524
   specs:
@@ -166,9 +174,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-select2 (1.0.1)
-      capybara
-      rspec
     capybara-webkit (1.6.0)
       capybara (>= 2.3.0, < 2.5.0)
       json
@@ -506,7 +511,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm!
   capybara (~> 2.4)
-  capybara-select2
+  capybara-select2!
   capybara-webkit
   coffee-rails (~> 4.0.0)
   database_cleaner (~> 1.0)
@@ -573,3 +578,6 @@ DEPENDENCIES
   whenever
   with_model
   x-editable-rails
+
+BUNDLED WITH
+   1.11.2
