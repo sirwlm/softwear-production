@@ -1,21 +1,21 @@
 <%= form_tag "#", id: 'screen-filters' do %>
     <div class="filters row">
-      <div class="col-xs-6 col-sm-3">
+      <div class="col-xs-6 col-sm-3 frame-filter">
         <%= label_tag 'frame-type', 'Frame Type' %><br />
         <%= select_tag 'frame-type', options_for_select(Screen::FRAME_TYPES), multiple: true, include_blank: true,
                        id: 'frame-type', class: 'js-screen-multiple-select' %>
       </div>
-      <div class="col-xs-6 col-sm-3">
+      <div class="col-xs-6 col-sm-3 dimensions-filter">
         <%= label_tag 'dimensions', 'Dimensions' %><br />
         <%= select_tag 'dimensions', options_for_select(Screen::DIMENSIONS), multiple: true, include_blank: true,
                        id: 'dimensions', class: 'js-screen-multiple-select' %>
       </div>
-      <div class="col-xs-6 col-sm-3">
+      <div class="col-xs-6 col-sm-3 mesh-filter">
         <%= label_tag 'mesh-type', 'Mesh Type' %><br />
         <%= select_tag 'mesh-type', options_for_select(Screen::MESH_TYPES), multiple: true, include_blank: true,
                        id: 'mesh-type', class: 'js-screen-multiple-select' %>
       </div>
-      <div class="col-xs-6 col-sm-3">
+      <div class="col-xs-6 col-sm-3 state-filter">
         <%= label_tag 'state', 'State' %><br />
         <%= select_tag 'state', options_for_select(Screen::INITIAL_STATES.map{|x| [x.humanize, x]}), multiple: true, include_blank: true,
                        id: 'state', class: 'js-screen-multiple-select' %>

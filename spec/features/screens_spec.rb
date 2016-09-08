@@ -75,7 +75,10 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by only Frame Type' do
           visit status_screens_path
-          select2 "Panel", from: 'Frame Type'
+          within(".frame-filter") do
+            sleep 1
+            select2 "Panel", from: 'Frame Type'
+          end
           click_button 'Filter'
           expect(page).to have_content('Panel')
           expect(page).not_to have_content('Roller')
@@ -83,7 +86,10 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by only Mesh Type' do
           visit status_screens_path
-          select2 "160", from: 'Mesh Type'
+          within(".mesh-filter") do
+            sleep 1
+            select2 "160", from: 'Mesh Type'
+          end
           click_button 'Filter'
           expect(page).to have_content('160')
           expect(page).not_to have_content('110')
@@ -91,7 +97,10 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by only Dimensions' do
           visit status_screens_path
-          select2 "25x36", from: 'Dimensions'
+          within(".dimensions-filter") do
+            sleep 1
+            select2 "25x36", from: 'Dimensions'
+          end
           click_button 'Filter'
           expect(page).to have_content('25x36')
           expect(page).not_to have_content('23x31')
@@ -99,7 +108,10 @@ feature 'Screen Features', js: true do
 
         scenario 'can filter by only State' do
           visit status_screens_path
-          select2 "Ready to coat", from: 'State'
+          within(".state-filter") do
+            sleep 1
+            select2 "Ready to coat", from: 'State'
+          end
           click_button 'Filter'
           expect(page).to have_content('Ready To Coat')
           expect(page).not_to have_content('In Production')
