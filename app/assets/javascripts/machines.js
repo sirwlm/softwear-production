@@ -27,7 +27,7 @@ $(document).ready(function() {
   );
 
   
-  if(window.location.href.includes("agenda")){
+/*  if(window.location.href.includes("agenda")){
     var path = location.pathname.split('/');
     var machine_id = path[2];
 
@@ -44,4 +44,5 @@ $(document).ready(function() {
     300000
     );
   }
+*/
 });
