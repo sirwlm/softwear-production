@@ -15,6 +15,11 @@ class DashboardController < ApplicationController
   end
 
   def calendar
+    if Rails.env.development? || Rails.env.test?
+      @calender_refresh_rate = 7500 
+    else
+      @calender_refresh_rate = 300000  
+    end
   end
 
   def filter
