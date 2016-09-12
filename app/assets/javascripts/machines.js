@@ -30,18 +30,17 @@ $(document).ready(function() {
   
   if($("#agenda").length > 0){
     if(location.pathname.includes("machine")){
-      var path = location.pathname.split('/');
-      var machine_id = path[2]; 
+      var path       = location.pathname.split('/');
+      var machine_id = path[2];
+      var searchDate = $("#date").val();
+
       setInterval(function(){
         if (!mouseDown){
           $.ajax({
              url: Routes.machine_agenda_path(machine_id),
-             data: { machine: { id: machine_id } },
-             dataType: "html",
+             data: { machine: { id: machine_id },  date: searchDate   },
+             dataType: "script",
              method: 'get',
-             success: function(data){
-              $("body").html(data); 
-             }
           });
         }
       },

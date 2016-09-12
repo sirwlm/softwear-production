@@ -56,8 +56,7 @@ class MachinesController < InheritedResources::Base
   end
 
   def agenda
-
-    time_start = (params[:date].nil? ? Date.today : Date.parse(params[:date]))
+    time_start = (params[:date].blank? ? Date.today : Date.parse(params[:date]))
     time_end   = time_start + 1.day
 
     @machine = Machine.find(params[:machine_id])
