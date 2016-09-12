@@ -2,7 +2,7 @@ class MachinesController < InheritedResources::Base
   load_and_authorize_resource
   respond_to :json, :js, :html
   before_filter :assign_fluid_container, only: [:show, :agenda]
-  before_action :assign_refresh_rate, only: [:show, :agenda]
+  before_action :assign_refresh_rate, only: [:show, :agenda, :calendar_events]
 
   def create
     create! do |success, failure|

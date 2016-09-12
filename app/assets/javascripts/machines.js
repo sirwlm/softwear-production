@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var refreshInterval = $("#agenda").data('refresh');
+  var refreshInterval = $(".refresh").data('refresh');
 
   function getMachineId() {
     if( $('#machine-calendar').length != 0) {
@@ -17,19 +17,18 @@ $(document).ready(function() {
       dropData: { machine_id: machineId }
     }, 'agendaThreeDay');
   }
-
-  /*setInterval(
+/*
+  setInterval(
     function() {
         window.noSpinner = true;
         if (!mouseDown) reloadCalendar('#machine-calendar');
         window.noSpinner = false;
     },
-    refreshInterval
+    300000
   );
-  */
+*/
   
-  if($("#agenda").length > 0){
-    if(location.pathname.includes("machine")){
+  if($("#agenda-refresh").length > 0){
       var path       = location.pathname.split('/');
       var machine_id = path[2];
       var searchDate = $("#date").val();
@@ -46,17 +45,17 @@ $(document).ready(function() {
       },
       refreshInterval
       );
-    }
-    else {
-      setInterval(function(){
-        window.noSpinner = true;
-        if(!mouseDown){
-          reloadCalendar('#machine-calendar');
-        }
-        window.noSpinner = false;
-      },
-      refreshInterval
-      );
-    }
+  }
+
+  if($("#calendar-refresh").length > 0){
+    setInterval(function(){
+      window.noSpinner = true;
+      if(!mouseDown){
+        reloadCalendar('#machine-calendar');
+      }
+      window.noSpinner = false;
+    },
+    refreshInterval
+    );
   }
 });

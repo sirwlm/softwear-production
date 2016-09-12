@@ -86,7 +86,7 @@ feature 'Machine Features', js: true, machine_spec: true, story_113: true do
       order.name = new_name
       order.save
 
-      sleep 7 
+      sleep 9 
       expect(page).to have_content "#{new_name}"
     end
   end

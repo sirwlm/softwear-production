@@ -6,7 +6,7 @@ function setPeriscopeChartsHeight() {
 
 
 $(document).ready(function() {
-  var refreshInterval = $("#agenda").data('refresh'); 
+  var refreshInterval = $(".refresh").data('refresh'); 
   setPeriscopeChartsHeight();
 
   $(document).mousedown(function() {
