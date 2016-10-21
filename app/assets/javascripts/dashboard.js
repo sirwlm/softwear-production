@@ -6,7 +6,8 @@ function setPeriscopeChartsHeight() {
 
 
 $(document).ready(function() {
-    setPeriscopeChartsHeight();
+  var refreshInterval = $(".refresh").data('refresh'); 
+  setPeriscopeChartsHeight();
 
   $(document).mousedown(function() {
     mouseDown = true;
@@ -109,7 +110,7 @@ $(document).ready(function() {
           reloadCalendar('#calendar');
         }
       },
-      300000
+      refreshInterval
     );
   }
 });

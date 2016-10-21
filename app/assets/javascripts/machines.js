@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  var refreshInterval = $(".refresh").data('refresh');
 
   function getMachineId() {
     if( $('#machine-calendar').length != 0) {
@@ -16,33 +17,45 @@ $(document).ready(function() {
       dropData: { machine_id: machineId }
     }, 'agendaThreeDay');
   }
-
+/*
   setInterval(
     function() {
         window.noSpinner = true;
         if (!mouseDown) reloadCalendar('#machine-calendar');
         window.noSpinner = false;
     },
-    30000
-  );
-
-  
-/*  if(window.location.href.includes("agenda")){
-    var path = location.pathname.split('/');
-    var machine_id = path[2];
-
-    setInterval(function(){
-      if (!mouseDown){
-        $.ajax({
-          url: Routes.machine_agenda_path(machine_id),
-          data: { machine: { id: machine_id } },
-          dataType: "html",
-          method: 'get'
-        });
-      }
-    }, 
     300000
+  );
+*/
+  
+  if($("#agenda-refresh").length > 0){
+      var path       = location.pathname.split('/');
+      var machine_id = path[2];
+      var searchDate = $("#date").val();
+
+      setInterval(function(){
+        if (!mouseDown){
+          $.ajax({
+             url: Routes.machine_agenda_path(machine_id),
+             data: { machine: { id: machine_id },  date: searchDate   },
+             dataType: "script",
+             method: 'get',
+          });
+        }
+      },
+      refreshInterval
+      );
+  }
+
+  if($("#calendar-refresh").length > 0){
+    setInterval(function(){
+      window.noSpinner = true;
+      if(!mouseDown){
+        reloadCalendar('#machine-calendar');
+      }
+      window.noSpinner = false;
+    },
+    refreshInterval
     );
   }
-*/
 });

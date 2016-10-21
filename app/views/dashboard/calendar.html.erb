@@ -1,16 +1,27 @@
-<div class='row'>
-  <div class='col-lg-3'>
+<div class='row refresh' id='calendar-refresh' data-refresh="<%= @calender_refresh_rate %>">
+  <% if current_view == "Mobile" %>
+      <div class='col-lg-3 margin-bottom-20px'>
+        <%= text_field_tag :show_machines, '',
+          id: 'show-machines-select',
+          style: 'width: 100%',
+          data: {
+            initial: current_user.shown_machines.includes(:machine).map { |s| { id: s.machine.id, text: s.machine.name } }
+          }
+        %>
+      </div>
+    <div class="col-lg-12" id="calendar"></div>
+  <% else %> 
+    <div class='col-lg-3'>
 
-    <div class='row margin-bottom-20px'>
-      <%= text_field_tag :show_machines, '',
-        id: 'show-machines-select',
-        style: 'width: 100%',
-        data: {
-          initial: current_user.shown_machines.includes(:machine).map { |s| { id: s.machine.id, text: s.machine.name } }
-        }
-      %>
-    </div>
-    <div clas='row'>
+      <div class='row margin-bottom-20px'>
+        <%= text_field_tag :show_machines, '',
+          id: 'show-machines-select',
+          style: 'width: 100%',
+          data: {
+            initial: current_user.shown_machines.includes(:machine).map { |s| { id: s.machine.id, text: s.machine.name } }
+          }
+        %>
+      </div>
 
       <% Machine.all.each do |machine| %>
         <div class='event-receiver unscheduled-imprints machine-event-receiver's
@@ -18,31 +29,27 @@
              data-machine-name='<%= machine.name %>'s
              <%= "style='display: none;'".html_safe unless current_user.shown_machines.where(machine_id: machine.id).exists? %>>
           <h4 align='center'><%= machine.name %></h4>
-
           <% Schedulable.all_unscheduled { |c| c.where(machine_id: machine.id) }.sort(&by_order_deadline).each do |event| %>
             <% next if event.try(:part_of_group?) %>
             <%= render 'machines/unscheduled_entry.html.erb', event: event %>
           <% end %>
-
         </div>
       <% end %>
 
         <div class='event-receiver unscheduled-imprints no-machine' data-no-machine='true'>
           <h4 align='center'>No Machine</h4>
-
           <% Schedulable.all_unscheduled(&:machineless).sort(&by_order_deadline).each do |event| %>
             <% next if event.try(:part_of_group?) %>
             <%= render 'machines/unscheduled_entry.html.erb', event: event %>
           <% end %>
 
         </div>
+    </div>
 
-      </div>
-  </div>
+    <% if current_user.default_view == 'Desktop' %>
+      <script>window.useCalendarScrollBar = true;</script>
+    <% end %>
 
-  <% if current_user.default_view == 'Desktop' %>
-    <script>window.useCalendarScrollBar = true;</script>
+    <div class='col-lg-9' id='calendar'></div>
   <% end %>
-
-  <div class='col-lg-9' id='calendar'></div>
 </div>

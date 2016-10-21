@@ -1,0 +1,60 @@
+<br />
+<h1><%= machine.name %> - Agenda for <%= date.strftime("%A, %B %e") %></h1>
+<br />
+<table class="table table-striped">
+  <thead>
+    <th>
+      Time
+    </th>
+    <th style="width: 400px">
+      Order
+    </th>
+    <th style="width: 400px">
+      Event
+    </th>
+    <th>
+      State
+    </th>
+    <th>
+      Print Data
+    </th>
+  </thead>
+  <tbody>
+  <% itineary_events.each do |event| %>
+    <tr>
+      <td>
+        <%= format_scheduled_at event %>
+      </td>
+      <td>
+        <% if event.respond_to? :order %>
+            <%= link_to dashboard_for_order_path(event.order), target: :_new do %>
+                Order #<%= event.order.id %>, CRM Order #<%= event.order.softwear_crm_id %><br />
+                <%= event.order.name %><br />
+            <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% display = raw(event.display("<br />")) rescue event.display %>
+        <%= link_to display, calendar_url_for(event), remote: true %>
+      </td>
+      <td>
+        <% if event.respond_to? :state %>
+            <%= pretty_train_state :div, event %>
+        <% end %>
+      </td>
+      <td>
+        <% if event.respond_to? :print_data_state %>
+            <div id="imprint_<%= event.id %>_print_data">
+              <% if event.print_data_state == 'pending' %>
+                  <%= event.print_data_state %><br />
+                  <%= link_to "Confirm Imprint Data", imprint_or_group_data_path(event.id, imprint_or_imprint_group(event)), remote: true  %>
+              <% elsif event.print_data_state == 'confirmed' %>
+                  <%= render 'shared/imprint_data/confirmed_data', production_train: event %>
+              <% end %>
+            </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

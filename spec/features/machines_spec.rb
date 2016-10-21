@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature 'Machine Features', js: true, machine_spec: true, story_113: true do
   given!(:machine) { create(:machine) }
-
+  given!(:order) { create(:order_with_print) }
 
   context 'as an administrator' do 
     include_context 'logged_in_as_admin'
@@ -70,6 +70,24 @@ feature 'Machine Features', js: true, machine_spec: true, story_113: true do
     scenario 'A user can not destroy a machine' do
       visit machines_path
       expect(page).not_to have_content "Destroy"
+    end
+
+    scenario 'A user can see an agenda refresh and see updated information', refresh: true do
+      order.imprints.each do |imprint|
+        imprint.machine_id = machine.id
+        imprint.save
+      end
+      order.save
+
+      visit machine_agenda_path(machine)
+      old_name = order.name
+      expect(page).to have_content "#{old_name}"
+      new_name = "This is the new name"
+      order.name = new_name
+      order.save
+
+      sleep 9 
+      expect(page).to have_content "#{new_name}"
     end
   end
 end

@@ -62,5 +62,23 @@ feature 'Calendar', js: true do
       expect(scheduled_imprint.reload.scheduled_at).to_not be_nil
       expect(page).to have_selector 'a', text: scheduled_imprint.name
     end
+
+    scenario 'A user can see the calender refresh and see changes on calender', refresh: true do
+      visit dashboard_calendar_path
+
+      find('.select2-choices').click
+      find('.select2-result', text: machine_1.name).click
+
+      old_name = scheduled_imprint.name
+      expect(page).to have_content "#{old_name}"
+      scheduled_imprint.name = "This is the new name"
+      scheduled_imprint.save
+      new_name = scheduled_imprint.reload.name
+
+      # sleep so that page can refresh
+      sleep 7.5 
+
+      expect(page).to have_content "#{new_name}"
+    end
   end
 end

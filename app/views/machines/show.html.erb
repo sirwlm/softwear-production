@@ -1,6 +1,6 @@
 <h1 class="heading"><%= @machine.name %> Production Schedule</h1>
 <hr />
-<div class="row">
+<div id="calendar-refresh" data-refresh="<%= @agenda_refresh_rate %>"  class="row refresh">
   <% if current_view == "Mobile" %>
     <div class="col-lg-12" id='machine-calendar' data-machine="<%= @machine.id %>"></div>
   <% else %>

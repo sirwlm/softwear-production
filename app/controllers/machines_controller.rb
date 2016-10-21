@@ -2,6 +2,7 @@ class MachinesController < InheritedResources::Base
   load_and_authorize_resource
   respond_to :json, :js, :html
   before_filter :assign_fluid_container, only: [:show, :agenda]
+  before_action :assign_refresh_rate, only: [:show, :agenda, :calendar_events]
 
   def create
     create! do |success, failure|
@@ -55,7 +56,7 @@ class MachinesController < InheritedResources::Base
   end
 
   def agenda
-    time_start = (params[:date].nil? ? Date.today : Date.parse(params[:date]))
+    time_start = (params[:date].blank? ? Date.today : Date.parse(params[:date]))
     time_end   = time_start + 1.day
 
     @machine = Machine.find(params[:machine_id])
@@ -88,4 +89,11 @@ class MachinesController < InheritedResources::Base
     params.require(:machine).permit(:name, :color)
   end
 
+  def assign_refresh_rate
+    if Rails.env.development? || Rails.env.test?
+      @agenda_refresh_rate = 7500
+    else
+      @agenda_refresh_rate = 300000
+    end
+  end
 end
