@@ -162,6 +162,7 @@ module Train
     cattr_accessor :train_public_activity_blacklist
     try :after_save, :touch_order
     try :after_validation, :update_previous_state, if: :state_changed?
+    try :after_destroy, :update_order_production_status
 
     try :scope, :dangling, -> { where dependent_field => nil }
     try :scope, :with_bad_state, -> { where.not train_machine.attribute => train_machine.states.map(&:name) }
@@ -383,6 +384,16 @@ module Train
     try(:order).try(:fba?)
   end
   alias_method :fba?, :fba
+
+  def update_order_completion_status
+    return if try(:order).nil?
+
+    if Rails.env.production?
+      Order.delay.update_crm_production_status(order.id)
+    else
+      order.update_crm_production_status!
+    end
+  end
 
   def touch_order
     return if try(:order).nil?
