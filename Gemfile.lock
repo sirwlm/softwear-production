@@ -573,6 +573,3 @@ DEPENDENCIES
   whenever
   with_model
   x-editable-rails
-
-BUNDLED WITH
-   1.11.2

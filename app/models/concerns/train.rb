@@ -162,7 +162,7 @@ module Train
     cattr_accessor :train_public_activity_blacklist
     try :after_save, :touch_order
     try :after_validation, :update_previous_state, if: :state_changed?
-    try :after_destroy, :update_order_production_status
+    try :after_destroy, :update_order_completion_status
 
     try :scope, :dangling, -> { where dependent_field => nil }
     try :scope, :with_bad_state, -> { where.not train_machine.attribute => train_machine.states.map(&:name) }
