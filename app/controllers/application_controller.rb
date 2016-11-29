@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
-  include Softwear::Lib::ControllerAuthentication
+  include Softwear::ErrorCatcher
+  include Softwear::Library::ControllerAuthentication
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -11,6 +12,7 @@ class ApplicationController < ActionController::Base
   add_flash_types :error
 
   helper Softwear::Auth::Helper
+  helper Softwear::EmailsHelper
   helper_method :xeditable?
 
   rescue_from CanCan::AccessDenied do |exception|

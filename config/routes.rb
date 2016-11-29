@@ -2,6 +2,7 @@ require 'sidekiq/web'
 
 SoftwearProduction::Application.routes.draw do
   mount ActsAsWarnable::Engine => '/'
+  mount Softwear::Engine => '/'
 
   root 'dashboard#index'
   get 'dashboard/index'

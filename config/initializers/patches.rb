@@ -1,1 +1,1 @@
-Softwear::Lib.fix_sort_argument_error_on_rubinius
+Softwear.fix_sort_argument_error_on_rubinius

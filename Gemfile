@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'softwear-lib', '~> 1.10.1'
+#gem 'softwear-lib', path: '~/r/softwear-lib'
+#gem 'softwear-lib', '~> 1.10.1'
+gem 'softwear', '~> 2.0.7'
 
 gem 'jbuilder', '~> 1.2'
 gem 'state_machines-activerecord'
@@ -57,7 +59,7 @@ gem 'cap-ec2', group: :development
 
 # === BEGIN SOFTWEAR LIB GEMS === #
 
-gem 'rails', '~> 4.2.3'
+gem 'rails', '>= 4.2.3'
 
 gem 'mysql2'
 gem 'sass-rails'

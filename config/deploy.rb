@@ -39,4 +39,4 @@ set :linked_files, %w{config/database.yml config/application.yml config/sunspot.
 # Default value for keep_releases is 5
 set :keep_releases, 10
 
-Softwear::Lib.capistrano(self)
+Softwear::Library.capistrano(self)

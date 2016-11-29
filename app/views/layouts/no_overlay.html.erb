@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SoftWEAR Production Manager</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= stylesheet_link_tag    'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <% unless current_view.nil? %>
+    <%= javascript_tag { "window.isMobile = #{current_view =~ /Mobile/ ? 'true' : 'false'};" } %>
+  <% end %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="hidden-print" id="loading" style="display: none">
+  <div class="loading-inner">
+    <div class="spinner-box text-center">
+      <div class="spinner">
+        <div class="cube1"></div>
+        <div class="cube2"></div>
+      </div>
+      <br />
+      <p>
+        Waiting For Response
+      </p>
+      <p class="small"><a href="#" class="hide-loading-spinner">Click To Hide</a></p>
+    </div>
+  </div>
+</div>
+<% unless current_user.nil? %>
+  <%= render 'shared/top_nav', current_user: current_user, current_view: @current_view %>
+<% end %>
+
+<div class="<%= layout_container_type(@container_type) %>">
+    <%= auth_server_error_banner %>
+    <% flash.each do |key, val| %>
+      <%= render 'shared/flash', key: key, val: val %>
+    <% end %>
+    <%= yield %>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h4 class="modal-title">Please set the modal title before invoking the content modal, you dirty animal.</h4>
+
+      </div>
+      <div class="modal-body"><div class="te"></div></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</body>
+</html>

@@ -1,5 +1,5 @@
 module Api
-  class ConstantsController < Softwear::Lib::ApiController
+  class ConstantsController < Softwear::Library::ApiController
     CONSTANTS = {
       'screen_train/print_types' => ScreenTrain::PRINT_TYPES,
       'screen_train/difficulty'  => ScreenTrain::DIFFICULTY,
