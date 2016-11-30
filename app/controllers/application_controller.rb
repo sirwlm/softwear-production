@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   add_flash_types :error
 
   helper Softwear::Auth::Helper
-  helper Softwear::EmailsHelper
+  helper Softwear::Auth::EmailsHelper
   helper_method :xeditable?
 
   rescue_from CanCan::AccessDenied do |exception|
