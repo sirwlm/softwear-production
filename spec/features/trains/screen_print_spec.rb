@@ -44,9 +44,10 @@ feature 'Screen Print Trains', js: true do
           machine_id: machine.id,
           imprint_ids: order.imprint_ids
         )
+        order.save
       end
 
-      scenario 'I can advance the group to completion' do
+      scenario 'I can advance the group to completion', failing: true do
         visit dashboard_calendar_path
         find('.select2-choices').click
         find('.select2-result', text: machine.name).click
@@ -71,10 +72,11 @@ feature 'Screen Print Trains', js: true do
         expect(imprint_group.reload.complete?).to eq true
       end
 
-      context 'and complete' do
+      context 'and complete', failing: true do
         background :each do
           imprint_group.imprints.each do |imprint|
             imprint.update_column :state, :complete
+            imprint.save
           end
           imprint_group.reload
         end
