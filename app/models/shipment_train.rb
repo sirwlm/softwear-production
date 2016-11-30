@@ -4,7 +4,7 @@ class ShipmentTrain < ActiveRecord::Base
   include TrainSearch
   include Softwear::Auth::BelongsToUser
   include CrmCounterpart
-  include Softwear::Library::Enqueue
+  include Softwear::Lib::Enqueue
 
   self.crm_class = Crm::Shipment
   

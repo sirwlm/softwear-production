@@ -1,5 +1,5 @@
 module Api
-  class OrdersController < Softwear::Library::ApiController
+  class OrdersController < Softwear::Lib::ApiController
 
     private
 

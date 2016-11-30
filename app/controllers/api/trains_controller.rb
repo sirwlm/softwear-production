@@ -1,5 +1,5 @@
 module Api
-  class TrainsController < Softwear::Library::ApiController
+  class TrainsController < Softwear::Lib::ApiController
     include TransitionAction
 
     def transition

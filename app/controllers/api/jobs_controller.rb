@@ -1,5 +1,5 @@
 module Api
-  class JobsController < Softwear::Library::ApiController
+  class JobsController < Softwear::Lib::ApiController
 
     private
 

@@ -1,5 +1,5 @@
 module Api
-  class ImprintGroupsController < Softwear::Library::ApiController
+  class ImprintGroupsController < Softwear::Lib::ApiController
     private
 
     def permitted_attributes
