@@ -4,7 +4,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'public_activity/testing'
-require 'softwear'
+require 'softwear/lib'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
