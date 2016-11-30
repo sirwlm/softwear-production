@@ -15,7 +15,7 @@ before_install:
   - gem update --system 2.6.1
   - gem update bundler
   - gem install eventmachine -v 1.0.3 --no-ri --no-rdoc
-  - gem install softwear --no-ri --no-rdoc
+  - gem install softwear-lib --no-ri --no-rdoc
   - wget http://chromedriver.storage.googleapis.com/2.11/chromedriver_linux64.zip
   - mkdir ~/chromedriver
   - unzip chromedriver_linux64.zip -d ~/chromedriver
