@@ -101,15 +101,20 @@ margin: 1em inherit;
   background-color: #f5f5f5;
 }
 
-.full-content-center{
+.full-content-center {
   width: 100%;
   max-width: 500px;
   margin: 5% auto;
   text-align: center;
 }
 
-.box-info{
+.box-info-error {
   background: #D3D3D3;
   position:relative;
   padding: 15px;
+  color: #5b5b5b;
+  margin-bottom: 20px;
+  -webkit-transition:All 0.4s ease;
+  -moz-transition:All 0.4s ease;
+  -o-transition:All 0.4s ease;
 }
