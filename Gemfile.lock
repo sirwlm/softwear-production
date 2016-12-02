@@ -278,7 +278,7 @@ GEM
     mime-types-data (3.2016.0521)
     mimemagic (0.3.0)
     mini_portile2 (2.1.0)
-    minitest (5.9.1)
+    minitest (5.10.1)
     momentjs-rails (2.9.0)
       railties (>= 3.1)
     multi_json (1.11.2)
@@ -415,7 +415,7 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
-    softwear-lib (2.0.4)
+    softwear-lib (2.0.5)
       activesupport (~> 4.2.5)
     sprockets (3.7.0)
       concurrent-ruby (~> 1.0)
@@ -559,7 +559,7 @@ DEPENDENCIES
   simple_token_authentication
   simplecov
   sinatra
-  softwear-lib (~> 2.0.4)
+  softwear-lib (~> 2.0.5)
   state_machines-activemodel
   state_machines-activerecord
   sunspot_matchers
