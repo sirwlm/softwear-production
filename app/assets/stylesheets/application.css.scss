@@ -26,6 +26,7 @@
  *= require editable/bootstrap-editable
  *= require loading
  *= require animate/animate
+ *= require softwear
  */
 
 @import "bootstrap-sprockets";
@@ -106,15 +107,4 @@ margin: 1em inherit;
   max-width: 500px;
   margin: 5% auto;
   text-align: center;
-}
-
-.box-info-error {
-  background: #D3D3D3;
-  position:relative;
-  padding: 15px;
-  color: #5b5b5b;
-  margin-bottom: 20px;
-  -webkit-transition:All 0.4s ease;
-  -moz-transition:All 0.4s ease;
-  -o-transition:All 0.4s ease;
 }
