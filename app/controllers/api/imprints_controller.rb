@@ -1,5 +1,5 @@
 module Api
-  class ImprintsController < Softwear::Lib::ApiController
+  class ImprintsController < Softwear::Library::ApiController
 
     private
 

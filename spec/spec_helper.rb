@@ -95,7 +95,7 @@ RSpec.configure do |config|
   end
 
   config.include FactoryGirl::Syntax::Methods
-  config.include Softwear::Lib::Spec
+  config.include Softwear::Library::Spec
   config.infer_spec_type_from_file_location!
 
   config.before do

@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 
 #gem 'softwear-lib', path: '~/r/softwear-lib'
-gem 'softwear-lib', '~> 1.10.3'
-#gem 'softwear', '~> 2.0.7'
-#gem 'softwear', path: '~/r/softwear'
+gem 'softwear-lib', '~> 2.0.9'
 
 gem 'jbuilder', '~> 1.2'
 gem 'state_machines-activerecord'
