@@ -47,7 +47,7 @@ feature 'Screen Print Trains', js: true do
         order.save
       end
 
-      scenario 'I can advance the group to completion', do
+      scenario 'I can advance the group to completion' do
         visit dashboard_calendar_path
         find('.select2-choices').click
         sleep 1.5
