@@ -47,7 +47,7 @@ feature 'Screen Print Trains', js: true do
         order.save
       end
 
-      scenario 'I can advance the group to completion', failing: true, retry: (3 if ci?) do
+      scenario 'I can advance the group to completion', failing: true do
         visit dashboard_calendar_path
         find('.select2-choices').click
         find('.select2-result', text: machine.name).click
@@ -81,7 +81,7 @@ feature 'Screen Print Trains', js: true do
           imprint_group.reload
         end
 
-        scenario 'I can reschedule the group', reschedule: true, retry: (3 if ci?) do
+        scenario 'I can reschedule the group', reschedule: true do
           visit dashboard_calendar_path
           find('.select2-choices').click
           find('.select2-result', text: machine.name).click
