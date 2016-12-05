@@ -510,6 +510,7 @@ DEPENDENCIES
   capybara-webkit
   coffee-rails (~> 4.0.0)
   database_cleaner (~> 1.0)
+  devise
   dumpsync!
   email_spec
   endpoint_stub!
