@@ -47,9 +47,10 @@ feature 'Screen Print Trains', js: true do
         order.save
       end
 
-      scenario 'I can advance the group to completion', no_ci: true, failing: true do
+      scenario 'I can advance the group to completion', do
         visit dashboard_calendar_path
         find('.select2-choices').click
+        sleep 1.5
         find('.select2-result', text: machine.name).click
         sleep 1.5
 
@@ -58,9 +59,7 @@ feature 'Screen Print Trains', js: true do
         
         success_transition :approve
         success_transition :start_setup
-        sleep 1
-        select_from_select2 ScreenPrint::TRILOC_RESULTS.first
-        sleep 1
+        sleep 1.5
         success_transition :setup_complete
         success_transition :print_started
         success_transition :print_complete
@@ -72,7 +71,7 @@ feature 'Screen Print Trains', js: true do
         expect(imprint_group.reload.complete?).to eq true
       end
 
-      context 'and complete', failing: true do
+      context 'and complete' do
         background :each do
           imprint_group.imprints.each do |imprint|
             imprint.update_column :state, :complete
@@ -81,7 +80,7 @@ feature 'Screen Print Trains', js: true do
           imprint_group.reload
         end
 
-        scenario 'I can reschedule the group', no_ci: true, reschedule: true do
+        scenario 'I can reschedule the group', reschedule: true do
           visit dashboard_calendar_path
           find('.select2-choices').click
           find('.select2-result', text: machine.name).click
