@@ -1,4 +1,4 @@
-require 'softwear/lib/capistrano'
+require 'softwear/library/capistrano'
 lock '3.2.1'
 
 set :application, 'softwear-production'
