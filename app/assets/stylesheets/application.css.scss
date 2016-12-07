@@ -8,7 +8,9 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require softwear
  *= require_self
+ *= require_tree .
  *= require dashboard
  *= require imprint-drag-n-drop
  *= require orders
@@ -25,7 +27,6 @@
  *= require jquery-tablesorter/theme.black-ice
  *= require editable/bootstrap-editable
  *= require loading
- *= require softwear
  *= require animate/animate
  */
 
