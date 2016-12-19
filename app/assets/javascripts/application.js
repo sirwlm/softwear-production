@@ -120,6 +120,23 @@ function initializeChevronSwap(){
     })
 }
 
+function initializeLaserCheckbox(){
+
+  $('.uses-laser').on('change', function(){
+    var stitches = $('.stitch-count-num').val();
+    var laser    = $('.laser-stitch').val();
+    
+    if(this.checked){
+      $('.laser-stitch-count').removeAttr('hidden');
+      $('.stitch-count').val(stitches - laser);
+    }
+    else{
+      $('.laser-stitch-count').attr('hidden', true);
+    } 
+
+    $('.laser-stitch').attr('disabled', !this.checked);
+  });
+}
 
 $(document).ready(function() {
   datetimepickerInit();
@@ -128,6 +145,7 @@ $(document).ready(function() {
   wysihtmlInit();
   trainMaskInit();
   initializeChevronSwap();
+  initializeLaserCheckbox();
   $(document).on('nested:fieldAdded', datetimepickerInit);
 
   $('.colorpicker').colorpicker()

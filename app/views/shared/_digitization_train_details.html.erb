@@ -3,9 +3,26 @@
 <hr />
 <%= bootstrap_form_for object, remote: in_modal do |f| %>
   <%= f.text_area :notes %>
+  
+  <%= f.number_field :stitch_count, class: 'stitch-count-num' %>
+  <%= f.check_box :uses_laser, class: "uses-laser" %>
+  <%= f.number_field :laser_stitch_count, class: "laser-stitch", disabled: !object.uses_laser %>
 
   <%= f.submit %>
 <% end %>
+
+<div class="laser-stitch-count" <%= !object.uses_laser ? "hidden='true'" : "" %>>
+  <% stitch = object.stitch_count || 0 %>
+  <% laser  = object.laser_stitch_count || 0 %>
+  <br />
+  <div class="col-sm-12 alert alert-info">
+    <div class="col-xs-12">
+      <h3><strong>Non-Laser Stitch Count: </strong></h3>
+      <h1 class="stitch-count"><strong><%= stitch - laser %></strong></h1>
+    </div>
+  </div>
+  <br />
+</div>
 
 <% if in_modal %>
   <%= link_to 'Full view', show_train_path(object), class: 'btn btn-primary' %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160729210043) do
+ActiveRecord::Schema.define(version: 20161219203912) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -102,6 +102,9 @@ ActiveRecord::Schema.define(version: 20160729210043) do
     t.datetime "updated_at",                                   null: false
     t.integer  "crm_artwork_request_id",      limit: 4
     t.string   "previous_state",              limit: 191
+    t.integer  "stitch_count",                limit: 4
+    t.boolean  "uses_laser"
+    t.integer  "laser_stitch_count",          limit: 4
   end
 
   create_table "fba_bagging_trains", force: :cascade do |t|

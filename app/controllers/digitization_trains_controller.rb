@@ -10,13 +10,13 @@ class DigitizationTrainsController < InheritedResources::Base
       end
 
       success.js do
-        flash[:notice] = "Updated notes"
+        flash[:notice] = "Updated Digitization Train"
 
         render template: 'trains/show'
       end
 
       success.html do
-        flash[:notice] = "Updated notes"
+        flash[:notice] = "Updated Digitization Train"
 
         redirect_to show_train_path(
           :digitization_train,
@@ -43,7 +43,7 @@ class DigitizationTrainsController < InheritedResources::Base
 
   def digitization_train_params
     params.require(:digitization_train).permit(
-      [:notes]
+      :notes, :stitch_count, :uses_laser, :laser_stitch_count
     )
   end
 end

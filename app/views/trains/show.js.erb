@@ -11,8 +11,9 @@ try {
   datetimepickerInit();
   datepickerInit();
   typeaheadInit();
-  select2Init();
+  initializeLaserCheckbox();
   wysihtmlInit();
+  select2Init();
   $('#loading').fadeOut(10);
 
   <% if current_user.role?('admin') || (@object.class.name == "ImprintableTrain") %>
