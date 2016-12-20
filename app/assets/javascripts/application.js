@@ -121,14 +121,18 @@ function initializeChevronSwap(){
 }
 
 function initializeLaserCheckbox(){
+  var stitches = null;
+  var laser = null;
+  var total = null;
 
   $('.uses-laser').on('change', function(){
-    var stitches = $('.stitch-count-num').val();
-    var laser    = $('.laser-stitch').val();
-    
+    stitches = getStitchCount('.stitch-count-num');
+    laser    = getStitchCount('.laser-stitch');
+    total    = getNonLaserStitches(stitches, laser);
+   
     if(this.checked){
       $('.laser-stitch-count').removeAttr('hidden');
-      $('.stitch-count').val(stitches - laser);
+      $('.stitch-count').html(total);
     }
     else{
       $('.laser-stitch-count').attr('hidden', true);
@@ -136,6 +140,33 @@ function initializeLaserCheckbox(){
 
     $('.laser-stitch').attr('disabled', !this.checked);
   });
+
+  $('.laser-stitch').on('input', function(){
+    stitches = getStitchCount('.stitch-count-num');
+    laser    = getStitchCount('.laser-stitch');
+    total    = getNonLaserStitches(stitches, laser);
+    
+    $('.stitch-count').html(total);
+  });
+}
+
+function getStitchCount(stitchType){
+  var count = $(stitchType).val();
+  if(count == ""){
+    count = 0;
+  }
+
+  return count;
+}
+
+function getNonLaserStitches(stitches, laser){
+  var total = stitches - laser;
+
+  if(total < 0){
+    total = 0;
+  }
+
+  return total;
 }
 
 $(document).ready(function() {
@@ -146,11 +177,11 @@ $(document).ready(function() {
   trainMaskInit();
   initializeChevronSwap();
   initializeLaserCheckbox();
+  select2Init();
   $(document).on('nested:fieldAdded', datetimepickerInit);
 
   $('.colorpicker').colorpicker()
   $('[data-toggle="tooltip"]').tooltip();
-  select2Init();
   
   $('.editable').editable({
        format: 'yyyy-mm-dd',    
