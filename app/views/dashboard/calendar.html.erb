@@ -36,14 +36,13 @@
         </div>
       <% end %>
 
-        <div class='event-receiver unscheduled-imprints no-machine' data-no-machine='true'>
-          <h4 align='center'>No Machine</h4>
-          <% Schedulable.all_unscheduled(&:machineless).sort(&by_order_deadline).each do |event| %>
-            <% next if event.try(:part_of_group?) %>
-            <%= render 'machines/unscheduled_entry.html.erb', event: event %>
-          <% end %>
-
-        </div>
+      <div class='event-receiver unscheduled-imprints no-machine' data-no-machine='true'>
+        <h4 align='center'>No Machine</h4>
+        <% Schedulable.all_unscheduled(&:machineless).sort(&by_order_deadline).each do |event| %>
+          <% next if event.try(:part_of_group?) %>
+          <%= render 'machines/unscheduled_entry.html.erb', event: event %>
+        <% end %>
+      </div>
     </div>
 
     <% if current_user.default_view == 'Desktop' %>

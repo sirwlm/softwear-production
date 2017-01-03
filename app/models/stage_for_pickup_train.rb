@@ -26,7 +26,7 @@ class StageForPickupTrain < ActiveRecord::Base
   end
 
   def due_at
-    order.deadline
+    order.try(:deadline)
   end
 
 end

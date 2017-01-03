@@ -1,9 +1,8 @@
 var mouseDown = false;
 
 function setPeriscopeChartsHeight() {
-    $("#periscope_charts").css('height', document['body'].offsetHeight + 'px');
+  $("#periscope_charts").css('height', document['body'].offsetHeight + 'px');
 }
-
 
 $(document).ready(function() {
   var refreshInterval = $(".refresh").data('refresh'); 
@@ -33,6 +32,7 @@ $(document).ready(function() {
     imprintCalendarOn('#calendar', {
       events: Routes.calendar_events_machines_path(),
     });
+
 
     var tags = [];
     $('.machine-event-receiver').each(function() {
@@ -103,14 +103,5 @@ $(document).ready(function() {
       }
       else return;
     });
-
-    setInterval(
-      function() {
-        if (!mouseDown) {
-          reloadCalendar('#calendar');
-        }
-      },
-      refreshInterval
-    );
   }
 });

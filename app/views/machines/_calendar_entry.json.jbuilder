@@ -9,3 +9,4 @@ json.color       event.calendar_color
 json.textColor   event.text_color
 json.machine_id  event.machine_id
 json.type        event.class.table_name.singularize
+json.editable    !event.completed?

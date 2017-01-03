@@ -42,7 +42,7 @@ class MachinesController < InheritedResources::Base
       c.to_a
     end
       .reject { |e| e.canceled? || e.try(:part_of_group?) }
-
+    
     # TODO the sunspot search does not retrieve all schedulables for some reason
 =begin
     @calendar_events = Sunspot.search(*Schedulable.schedulable_classes) do

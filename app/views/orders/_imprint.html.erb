@@ -4,13 +4,13 @@
       <%= imprint.name %>
     </div>
     <div class="panel-body">
-    <dl>
-      <dt>State</dt>
-      <dd><%= imprint.state.humanize %></dd>
-    </dl>
+      <dl>
+        <dt>State</dt>
+        <dd><%= imprint.state.humanize %></dd>
+      </dl>
 
-    <%= render 'shared/imprint_details', object: imprint %>
-    <p>
+      <%= render 'shared/imprint_details', object: imprint %>
+      <p>
       <%= link_to "Show Full Details", show_train_path(imprint), class: 'btn btn-primary' %>
       </p>
     </div>
