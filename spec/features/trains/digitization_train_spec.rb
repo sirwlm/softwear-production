@@ -25,6 +25,13 @@ feature 'Digitization Trains', digitization_spec: true, js: true do
         fill_in "Laser stitch count", with: 10
         expect(page).to have_content "Non-Laser Stitch Count"
         expect(page).to have_content "#{100 - 10}"
+
+        click_button "Update Digitization train"
+
+        sleep 2
+
+        expect(digitization_train.reload.stitch_count).to eq(100)
+        expect(digitization_train.laser_stitch_count).to eq(10)
       end
     end
   end
