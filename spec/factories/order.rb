@@ -8,5 +8,9 @@ FactoryGirl.define do
       jobs { [create(:job_with_print)] } 
     end
 
+    factory :order_with_emb_print do
+      jobs { [create(:job_with_embroidery_print)] }
+    end
+
   end
 end

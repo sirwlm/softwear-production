@@ -62,6 +62,7 @@ class DashboardController < ApplicationController
       paginate page: params[:page] || 1
     end
       .results
+
   end
 
   def post_production
